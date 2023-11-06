@@ -2,22 +2,28 @@ import { Box, Stack, Typography } from '@mui/material';
 import { nanoid } from 'nanoid';
 import React from 'react';
 
-import { formatMoney } from '@/lib';
-import { AllProductsQuery } from '@/lib/graphql';
+import { formatMoney, generateSizes } from '@/lib';
+import { PaginatedProductsQuery } from '@/lib/graphql';
 
 import { CloudImage } from '.';
 
 type IProduct = NonNullable<
-  NonNullable<NonNullable<AllProductsQuery>['allProducts']>['0']
+  NonNullable<NonNullable<PaginatedProductsQuery>['products']>['0']
 >;
 interface IProductCardProps extends IProduct {}
-export const ProductCard = ({ photo, name, price }: IProductCardProps) => {
-  const imageURL = photo?.image?.publicUrlTransformed;
+export const ProductCard = ({ image, name, price }: IProductCardProps) => {
+  const imageURL = image?.image?.publicUrlTransformed;
   return (
     <Stack>
       {imageURL && name && (
         <Box position="relative" width="100%" height={300}>
-          <CloudImage src={imageURL} fill alt={name} quality={50} />
+          <CloudImage
+            src={imageURL}
+            fill
+            alt={name}
+            quality={50}
+            sizes={generateSizes({ xs: 6, md: 3 })}
+          />
         </Box>
       )}
       <Stack

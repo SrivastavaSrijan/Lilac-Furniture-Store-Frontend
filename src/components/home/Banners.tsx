@@ -1,4 +1,5 @@
 import { Box, Stack, Typography } from '@mui/material';
+import { nanoid } from 'nanoid';
 import React from 'react';
 
 import { useAllBannersQuery } from '@/lib/graphql';
@@ -15,12 +16,12 @@ export const Banners = (_props: IBannersProps) => {
 
   return (
     <Carousel disablePadding>
-      {(data?.allBanners ?? []).map((banner) => {
+      {(data?.banners ?? []).map((banner) => {
         if (!banner) return <></>;
-        const { id, title, subtitle, photo } = banner;
-        const { publicUrlTransformed: bannerImage = null } = photo ?? {};
+        const { title, subtitle, image } = banner;
+        const { publicUrlTransformed: bannerImage = null } = image ?? {};
         return (
-          <Stack key={id} position="relative">
+          <Stack key={nanoid()} position="relative">
             {bannerImage && (
               <Box
                 position="relative"
@@ -32,6 +33,7 @@ export const Banners = (_props: IBannersProps) => {
                   src={bannerImage}
                   sizes="100vw"
                   quality={70}
+                  priority
                   alt={banner?.title ?? 'Image'}
                   style={{ objectFit: 'cover' }}
                 />

@@ -1,12 +1,11 @@
 query AllBanners {
-  allBanners {
-    id
-    title
-    subtitle
-    description
-    photo {
+  banners {
+    head
+    href
+    image {
       publicUrlTransformed
     }
+    subtitle
+    title
   }
 }
-

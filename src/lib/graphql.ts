@@ -35,131 +35,130 @@ export type Scalars = {
 
 export type AuthenticatedItem = User;
 
-/**  A keystone list  */
 export type Banner = {
   __typename?: 'Banner';
-  description?: Maybe<Scalars['String']['output']>;
+  head?: Maybe<Scalars['String']['output']>;
   href?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
-  photo?: Maybe<CloudinaryImage_File>;
+  image?: Maybe<CloudinaryImage_File>;
   subtitle?: Maybe<Scalars['String']['output']>;
   title?: Maybe<Scalars['String']['output']>;
 };
 
 export type BannerCreateInput = {
-  description?: InputMaybe<Scalars['String']['input']>;
+  head?: InputMaybe<Scalars['String']['input']>;
   href?: InputMaybe<Scalars['String']['input']>;
-  photo?: InputMaybe<Scalars['Upload']['input']>;
+  image?: InputMaybe<Scalars['Upload']['input']>;
   subtitle?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type BannerOrderByInput = {
+  head?: InputMaybe<OrderDirection>;
+  href?: InputMaybe<OrderDirection>;
+  id?: InputMaybe<OrderDirection>;
+  subtitle?: InputMaybe<OrderDirection>;
+  title?: InputMaybe<OrderDirection>;
+};
+
+export type BannerUpdateArgs = {
+  data: BannerUpdateInput;
+  where: BannerWhereUniqueInput;
+};
+
 export type BannerUpdateInput = {
-  description?: InputMaybe<Scalars['String']['input']>;
+  head?: InputMaybe<Scalars['String']['input']>;
   href?: InputMaybe<Scalars['String']['input']>;
-  photo?: InputMaybe<Scalars['Upload']['input']>;
+  image?: InputMaybe<Scalars['Upload']['input']>;
   subtitle?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type BannerWhereInput = {
-  AND?: InputMaybe<Array<InputMaybe<BannerWhereInput>>>;
-  OR?: InputMaybe<Array<InputMaybe<BannerWhereInput>>>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  description_contains?: InputMaybe<Scalars['String']['input']>;
-  description_contains_i?: InputMaybe<Scalars['String']['input']>;
-  description_ends_with?: InputMaybe<Scalars['String']['input']>;
-  description_ends_with_i?: InputMaybe<Scalars['String']['input']>;
-  description_i?: InputMaybe<Scalars['String']['input']>;
-  description_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  description_not?: InputMaybe<Scalars['String']['input']>;
-  description_not_contains?: InputMaybe<Scalars['String']['input']>;
-  description_not_contains_i?: InputMaybe<Scalars['String']['input']>;
-  description_not_ends_with?: InputMaybe<Scalars['String']['input']>;
-  description_not_ends_with_i?: InputMaybe<Scalars['String']['input']>;
-  description_not_i?: InputMaybe<Scalars['String']['input']>;
-  description_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['String']['input']>>
-  >;
-  description_not_starts_with?: InputMaybe<Scalars['String']['input']>;
-  description_not_starts_with_i?: InputMaybe<Scalars['String']['input']>;
-  description_starts_with?: InputMaybe<Scalars['String']['input']>;
-  description_starts_with_i?: InputMaybe<Scalars['String']['input']>;
-  href?: InputMaybe<Scalars['String']['input']>;
-  href_contains?: InputMaybe<Scalars['String']['input']>;
-  href_contains_i?: InputMaybe<Scalars['String']['input']>;
-  href_ends_with?: InputMaybe<Scalars['String']['input']>;
-  href_ends_with_i?: InputMaybe<Scalars['String']['input']>;
-  href_i?: InputMaybe<Scalars['String']['input']>;
-  href_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  href_not?: InputMaybe<Scalars['String']['input']>;
-  href_not_contains?: InputMaybe<Scalars['String']['input']>;
-  href_not_contains_i?: InputMaybe<Scalars['String']['input']>;
-  href_not_ends_with?: InputMaybe<Scalars['String']['input']>;
-  href_not_ends_with_i?: InputMaybe<Scalars['String']['input']>;
-  href_not_i?: InputMaybe<Scalars['String']['input']>;
-  href_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  href_not_starts_with?: InputMaybe<Scalars['String']['input']>;
-  href_not_starts_with_i?: InputMaybe<Scalars['String']['input']>;
-  href_starts_with?: InputMaybe<Scalars['String']['input']>;
-  href_starts_with_i?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['ID']['input']>;
-  id_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  id_not?: InputMaybe<Scalars['ID']['input']>;
-  id_not_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  photo?: InputMaybe<Scalars['String']['input']>;
-  photo_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  photo_not?: InputMaybe<Scalars['String']['input']>;
-  photo_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  subtitle?: InputMaybe<Scalars['String']['input']>;
-  subtitle_contains?: InputMaybe<Scalars['String']['input']>;
-  subtitle_contains_i?: InputMaybe<Scalars['String']['input']>;
-  subtitle_ends_with?: InputMaybe<Scalars['String']['input']>;
-  subtitle_ends_with_i?: InputMaybe<Scalars['String']['input']>;
-  subtitle_i?: InputMaybe<Scalars['String']['input']>;
-  subtitle_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  subtitle_not?: InputMaybe<Scalars['String']['input']>;
-  subtitle_not_contains?: InputMaybe<Scalars['String']['input']>;
-  subtitle_not_contains_i?: InputMaybe<Scalars['String']['input']>;
-  subtitle_not_ends_with?: InputMaybe<Scalars['String']['input']>;
-  subtitle_not_ends_with_i?: InputMaybe<Scalars['String']['input']>;
-  subtitle_not_i?: InputMaybe<Scalars['String']['input']>;
-  subtitle_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  subtitle_not_starts_with?: InputMaybe<Scalars['String']['input']>;
-  subtitle_not_starts_with_i?: InputMaybe<Scalars['String']['input']>;
-  subtitle_starts_with?: InputMaybe<Scalars['String']['input']>;
-  subtitle_starts_with_i?: InputMaybe<Scalars['String']['input']>;
-  title?: InputMaybe<Scalars['String']['input']>;
-  title_contains?: InputMaybe<Scalars['String']['input']>;
-  title_contains_i?: InputMaybe<Scalars['String']['input']>;
-  title_ends_with?: InputMaybe<Scalars['String']['input']>;
-  title_ends_with_i?: InputMaybe<Scalars['String']['input']>;
-  title_i?: InputMaybe<Scalars['String']['input']>;
-  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  title_not?: InputMaybe<Scalars['String']['input']>;
-  title_not_contains?: InputMaybe<Scalars['String']['input']>;
-  title_not_contains_i?: InputMaybe<Scalars['String']['input']>;
-  title_not_ends_with?: InputMaybe<Scalars['String']['input']>;
-  title_not_ends_with_i?: InputMaybe<Scalars['String']['input']>;
-  title_not_i?: InputMaybe<Scalars['String']['input']>;
-  title_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  title_not_starts_with?: InputMaybe<Scalars['String']['input']>;
-  title_not_starts_with_i?: InputMaybe<Scalars['String']['input']>;
-  title_starts_with?: InputMaybe<Scalars['String']['input']>;
-  title_starts_with_i?: InputMaybe<Scalars['String']['input']>;
+  AND?: InputMaybe<Array<BannerWhereInput>>;
+  NOT?: InputMaybe<Array<BannerWhereInput>>;
+  OR?: InputMaybe<Array<BannerWhereInput>>;
+  head?: InputMaybe<StringFilter>;
+  href?: InputMaybe<StringFilter>;
+  id?: InputMaybe<IdFilter>;
+  subtitle?: InputMaybe<StringFilter>;
+  title?: InputMaybe<StringFilter>;
 };
 
 export type BannerWhereUniqueInput = {
-  id: Scalars['ID']['input'];
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
-export type BannersCreateInput = {
-  data?: InputMaybe<BannerCreateInput>;
+export type Category = {
+  __typename?: 'Category';
+  description?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  image?: Maybe<CloudinaryImage_File>;
+  name?: Maybe<Scalars['String']['output']>;
+  products?: Maybe<Array<Product>>;
+  productsCount?: Maybe<Scalars['Int']['output']>;
 };
 
-export type BannersUpdateInput = {
-  data?: InputMaybe<BannerUpdateInput>;
-  id: Scalars['ID']['input'];
+export type CategoryProductsArgs = {
+  cursor?: InputMaybe<ProductWhereUniqueInput>;
+  orderBy?: Array<ProductOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: ProductWhereInput;
+};
+
+export type CategoryProductsCountArgs = {
+  where?: ProductWhereInput;
+};
+
+export type CategoryCreateInput = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['Upload']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  products?: InputMaybe<ProductRelateToManyForCreateInput>;
+};
+
+export type CategoryOrderByInput = {
+  description?: InputMaybe<OrderDirection>;
+  id?: InputMaybe<OrderDirection>;
+  name?: InputMaybe<OrderDirection>;
+};
+
+export type CategoryRelateToOneForCreateInput = {
+  connect?: InputMaybe<CategoryWhereUniqueInput>;
+  create?: InputMaybe<CategoryCreateInput>;
+};
+
+export type CategoryRelateToOneForUpdateInput = {
+  connect?: InputMaybe<CategoryWhereUniqueInput>;
+  create?: InputMaybe<CategoryCreateInput>;
+  disconnect?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type CategoryUpdateArgs = {
+  data: CategoryUpdateInput;
+  where: CategoryWhereUniqueInput;
+};
+
+export type CategoryUpdateInput = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['Upload']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  products?: InputMaybe<ProductRelateToManyForUpdateInput>;
+};
+
+export type CategoryWhereInput = {
+  AND?: InputMaybe<Array<CategoryWhereInput>>;
+  NOT?: InputMaybe<Array<CategoryWhereInput>>;
+  OR?: InputMaybe<Array<CategoryWhereInput>>;
+  description?: InputMaybe<StringFilter>;
+  id?: InputMaybe<IdFilter>;
+  name?: InputMaybe<StringFilter>;
+  products?: InputMaybe<ProductManyRelationFilter>;
+};
+
+export type CategoryWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 /**
@@ -187,7 +186,7 @@ export type CloudinaryImageFormat = {
   opacity?: InputMaybe<Scalars['String']['input']>;
   overlay?: InputMaybe<Scalars['String']['input']>;
   page?: InputMaybe<Scalars['String']['input']>;
-  /**  Rewrites the filename to be this pretty string. Do not include `/` or `.`  */
+  /**  Rewrites the filename to be this pretty string. Do not include `/` or `.` */
   prettyName?: InputMaybe<Scalars['String']['input']>;
   quality?: InputMaybe<Scalars['String']['input']>;
   radius?: InputMaybe<Scalars['String']['input']>;
@@ -206,7 +205,6 @@ export type CloudinaryImage_File = {
   id?: Maybe<Scalars['ID']['output']>;
   mimetype?: Maybe<Scalars['String']['output']>;
   originalFilename?: Maybe<Scalars['String']['output']>;
-  path?: Maybe<Scalars['String']['output']>;
   publicUrl?: Maybe<Scalars['String']['output']>;
   publicUrlTransformed?: Maybe<Scalars['String']['output']>;
 };
@@ -221,10 +219,30 @@ export type CreateInitialUserInput = {
   password?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type IdFilter = {
+  equals?: InputMaybe<Scalars['ID']['input']>;
+  gt?: InputMaybe<Scalars['ID']['input']>;
+  gte?: InputMaybe<Scalars['ID']['input']>;
+  in?: InputMaybe<Array<Scalars['ID']['input']>>;
+  lt?: InputMaybe<Scalars['ID']['input']>;
+  lte?: InputMaybe<Scalars['ID']['input']>;
+  not?: InputMaybe<IdFilter>;
+  notIn?: InputMaybe<Array<Scalars['ID']['input']>>;
+};
+
+export type IntNullableFilter = {
+  equals?: InputMaybe<Scalars['Int']['input']>;
+  gt?: InputMaybe<Scalars['Int']['input']>;
+  gte?: InputMaybe<Scalars['Int']['input']>;
+  in?: InputMaybe<Array<Scalars['Int']['input']>>;
+  lt?: InputMaybe<Scalars['Int']['input']>;
+  lte?: InputMaybe<Scalars['Int']['input']>;
+  not?: InputMaybe<IntNullableFilter>;
+  notIn?: InputMaybe<Array<Scalars['Int']['input']>>;
+};
+
 export type KeystoneAdminMeta = {
   __typename?: 'KeystoneAdminMeta';
-  enableSessionItem: Scalars['Boolean']['output'];
-  enableSignout: Scalars['Boolean']['output'];
   list?: Maybe<KeystoneAdminUiListMeta>;
   lists: Array<KeystoneAdminUiListMeta>;
 };
@@ -233,21 +251,32 @@ export type KeystoneAdminMetaListArgs = {
   key: Scalars['String']['input'];
 };
 
+export type KeystoneAdminUiFieldGroupMeta = {
+  __typename?: 'KeystoneAdminUIFieldGroupMeta';
+  description?: Maybe<Scalars['String']['output']>;
+  fields: Array<KeystoneAdminUiFieldMeta>;
+  label: Scalars['String']['output'];
+};
+
 export type KeystoneAdminUiFieldMeta = {
   __typename?: 'KeystoneAdminUIFieldMeta';
   createView: KeystoneAdminUiFieldMetaCreateView;
-  customViewsHash?: Maybe<Scalars['String']['output']>;
+  customViewsIndex?: Maybe<Scalars['Int']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
   fieldMeta?: Maybe<Scalars['JSON']['output']>;
+  isFilterable: Scalars['Boolean']['output'];
+  isNonNull?: Maybe<Array<KeystoneAdminUiFieldMetaIsNonNull>>;
   isOrderable: Scalars['Boolean']['output'];
   itemView?: Maybe<KeystoneAdminUiFieldMetaItemView>;
   label: Scalars['String']['output'];
   listView: KeystoneAdminUiFieldMetaListView;
   path: Scalars['String']['output'];
-  viewsHash: Scalars['String']['output'];
+  search?: Maybe<QueryMode>;
+  viewsIndex: Scalars['Int']['output'];
 };
 
 export type KeystoneAdminUiFieldMetaItemViewArgs = {
-  id: Scalars['ID']['input'];
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type KeystoneAdminUiFieldMetaCreateView = {
@@ -260,15 +289,27 @@ export enum KeystoneAdminUiFieldMetaCreateViewFieldMode {
   Hidden = 'hidden',
 }
 
+export enum KeystoneAdminUiFieldMetaIsNonNull {
+  Create = 'create',
+  Read = 'read',
+  Update = 'update',
+}
+
 export type KeystoneAdminUiFieldMetaItemView = {
   __typename?: 'KeystoneAdminUIFieldMetaItemView';
-  fieldMode: KeystoneAdminUiFieldMetaItemViewFieldMode;
+  fieldMode?: Maybe<KeystoneAdminUiFieldMetaItemViewFieldMode>;
+  fieldPosition?: Maybe<KeystoneAdminUiFieldMetaItemViewFieldPosition>;
 };
 
 export enum KeystoneAdminUiFieldMetaItemViewFieldMode {
   Edit = 'edit',
   Hidden = 'hidden',
   Read = 'read',
+}
+
+export enum KeystoneAdminUiFieldMetaItemViewFieldPosition {
+  Form = 'form',
+  Sidebar = 'sidebar',
 }
 
 export type KeystoneAdminUiFieldMetaListView = {
@@ -285,11 +326,13 @@ export type KeystoneAdminUiListMeta = {
   __typename?: 'KeystoneAdminUIListMeta';
   description?: Maybe<Scalars['String']['output']>;
   fields: Array<KeystoneAdminUiFieldMeta>;
+  groups: Array<KeystoneAdminUiFieldGroupMeta>;
   hideCreate: Scalars['Boolean']['output'];
   hideDelete: Scalars['Boolean']['output'];
   initialColumns: Array<Scalars['String']['output']>;
   initialSort?: Maybe<KeystoneAdminUiSort>;
   isHidden: Scalars['Boolean']['output'];
+  isSingleton: Scalars['Boolean']['output'];
   itemQueryName: Scalars['String']['output'];
   key: Scalars['String']['output'];
   label: Scalars['String']['output'];
@@ -319,56 +362,38 @@ export type KeystoneMeta = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  authenticateUserWithPassword: UserAuthenticationWithPasswordResult;
-  /**  Create a single Banner item.  */
+  authenticateUserWithPassword?: Maybe<UserAuthenticationWithPasswordResult>;
   createBanner?: Maybe<Banner>;
-  /**  Create multiple Banner items.  */
   createBanners?: Maybe<Array<Maybe<Banner>>>;
+  createCategories?: Maybe<Array<Maybe<Category>>>;
+  createCategory?: Maybe<Category>;
   createInitialUser: UserAuthenticationWithPasswordSuccess;
-  /**  Create a single Product item.  */
   createProduct?: Maybe<Product>;
-  /**  Create a single ProductImage item.  */
   createProductImage?: Maybe<ProductImage>;
-  /**  Create multiple ProductImage items.  */
   createProductImages?: Maybe<Array<Maybe<ProductImage>>>;
-  /**  Create multiple Product items.  */
   createProducts?: Maybe<Array<Maybe<Product>>>;
-  /**  Create a single User item.  */
   createUser?: Maybe<User>;
-  /**  Create multiple User items.  */
   createUsers?: Maybe<Array<Maybe<User>>>;
-  /**  Delete a single Banner item by ID.  */
   deleteBanner?: Maybe<Banner>;
-  /**  Delete multiple Banner items by ID.  */
   deleteBanners?: Maybe<Array<Maybe<Banner>>>;
-  /**  Delete a single Product item by ID.  */
+  deleteCategories?: Maybe<Array<Maybe<Category>>>;
+  deleteCategory?: Maybe<Category>;
   deleteProduct?: Maybe<Product>;
-  /**  Delete a single ProductImage item by ID.  */
   deleteProductImage?: Maybe<ProductImage>;
-  /**  Delete multiple ProductImage items by ID.  */
   deleteProductImages?: Maybe<Array<Maybe<ProductImage>>>;
-  /**  Delete multiple Product items by ID.  */
   deleteProducts?: Maybe<Array<Maybe<Product>>>;
-  /**  Delete a single User item by ID.  */
   deleteUser?: Maybe<User>;
-  /**  Delete multiple User items by ID.  */
   deleteUsers?: Maybe<Array<Maybe<User>>>;
   endSession: Scalars['Boolean']['output'];
-  /**  Update a single Banner item by ID.  */
   updateBanner?: Maybe<Banner>;
-  /**  Update multiple Banner items by ID.  */
   updateBanners?: Maybe<Array<Maybe<Banner>>>;
-  /**  Update a single Product item by ID.  */
+  updateCategories?: Maybe<Array<Maybe<Category>>>;
+  updateCategory?: Maybe<Category>;
   updateProduct?: Maybe<Product>;
-  /**  Update a single ProductImage item by ID.  */
   updateProductImage?: Maybe<ProductImage>;
-  /**  Update multiple ProductImage items by ID.  */
   updateProductImages?: Maybe<Array<Maybe<ProductImage>>>;
-  /**  Update multiple Product items by ID.  */
   updateProducts?: Maybe<Array<Maybe<Product>>>;
-  /**  Update a single User item by ID.  */
   updateUser?: Maybe<User>;
-  /**  Update multiple User items by ID.  */
   updateUsers?: Maybe<Array<Maybe<User>>>;
 };
 
@@ -378,11 +403,19 @@ export type MutationAuthenticateUserWithPasswordArgs = {
 };
 
 export type MutationCreateBannerArgs = {
-  data?: InputMaybe<BannerCreateInput>;
+  data: BannerCreateInput;
 };
 
 export type MutationCreateBannersArgs = {
-  data?: InputMaybe<Array<InputMaybe<BannersCreateInput>>>;
+  data: Array<BannerCreateInput>;
+};
+
+export type MutationCreateCategoriesArgs = {
+  data: Array<CategoryCreateInput>;
+};
+
+export type MutationCreateCategoryArgs = {
+  data: CategoryCreateInput;
 };
 
 export type MutationCreateInitialUserArgs = {
@@ -390,125 +423,164 @@ export type MutationCreateInitialUserArgs = {
 };
 
 export type MutationCreateProductArgs = {
-  data?: InputMaybe<ProductCreateInput>;
+  data: ProductCreateInput;
 };
 
 export type MutationCreateProductImageArgs = {
-  data?: InputMaybe<ProductImageCreateInput>;
+  data: ProductImageCreateInput;
 };
 
 export type MutationCreateProductImagesArgs = {
-  data?: InputMaybe<Array<InputMaybe<ProductImagesCreateInput>>>;
+  data: Array<ProductImageCreateInput>;
 };
 
 export type MutationCreateProductsArgs = {
-  data?: InputMaybe<Array<InputMaybe<ProductsCreateInput>>>;
+  data: Array<ProductCreateInput>;
 };
 
 export type MutationCreateUserArgs = {
-  data?: InputMaybe<UserCreateInput>;
+  data: UserCreateInput;
 };
 
 export type MutationCreateUsersArgs = {
-  data?: InputMaybe<Array<InputMaybe<UsersCreateInput>>>;
+  data: Array<UserCreateInput>;
 };
 
 export type MutationDeleteBannerArgs = {
-  id: Scalars['ID']['input'];
+  where: BannerWhereUniqueInput;
 };
 
 export type MutationDeleteBannersArgs = {
-  ids?: InputMaybe<Array<Scalars['ID']['input']>>;
+  where: Array<BannerWhereUniqueInput>;
+};
+
+export type MutationDeleteCategoriesArgs = {
+  where: Array<CategoryWhereUniqueInput>;
+};
+
+export type MutationDeleteCategoryArgs = {
+  where: CategoryWhereUniqueInput;
 };
 
 export type MutationDeleteProductArgs = {
-  id: Scalars['ID']['input'];
+  where: ProductWhereUniqueInput;
 };
 
 export type MutationDeleteProductImageArgs = {
-  id: Scalars['ID']['input'];
+  where: ProductImageWhereUniqueInput;
 };
 
 export type MutationDeleteProductImagesArgs = {
-  ids?: InputMaybe<Array<Scalars['ID']['input']>>;
+  where: Array<ProductImageWhereUniqueInput>;
 };
 
 export type MutationDeleteProductsArgs = {
-  ids?: InputMaybe<Array<Scalars['ID']['input']>>;
+  where: Array<ProductWhereUniqueInput>;
 };
 
 export type MutationDeleteUserArgs = {
-  id: Scalars['ID']['input'];
+  where: UserWhereUniqueInput;
 };
 
 export type MutationDeleteUsersArgs = {
-  ids?: InputMaybe<Array<Scalars['ID']['input']>>;
+  where: Array<UserWhereUniqueInput>;
 };
 
 export type MutationUpdateBannerArgs = {
-  data?: InputMaybe<BannerUpdateInput>;
-  id: Scalars['ID']['input'];
+  data: BannerUpdateInput;
+  where: BannerWhereUniqueInput;
 };
 
 export type MutationUpdateBannersArgs = {
-  data?: InputMaybe<Array<InputMaybe<BannersUpdateInput>>>;
+  data: Array<BannerUpdateArgs>;
+};
+
+export type MutationUpdateCategoriesArgs = {
+  data: Array<CategoryUpdateArgs>;
+};
+
+export type MutationUpdateCategoryArgs = {
+  data: CategoryUpdateInput;
+  where: CategoryWhereUniqueInput;
 };
 
 export type MutationUpdateProductArgs = {
-  data?: InputMaybe<ProductUpdateInput>;
-  id: Scalars['ID']['input'];
+  data: ProductUpdateInput;
+  where: ProductWhereUniqueInput;
 };
 
 export type MutationUpdateProductImageArgs = {
-  data?: InputMaybe<ProductImageUpdateInput>;
-  id: Scalars['ID']['input'];
+  data: ProductImageUpdateInput;
+  where: ProductImageWhereUniqueInput;
 };
 
 export type MutationUpdateProductImagesArgs = {
-  data?: InputMaybe<Array<InputMaybe<ProductImagesUpdateInput>>>;
+  data: Array<ProductImageUpdateArgs>;
 };
 
 export type MutationUpdateProductsArgs = {
-  data?: InputMaybe<Array<InputMaybe<ProductsUpdateInput>>>;
+  data: Array<ProductUpdateArgs>;
 };
 
 export type MutationUpdateUserArgs = {
-  data?: InputMaybe<UserUpdateInput>;
-  id: Scalars['ID']['input'];
+  data: UserUpdateInput;
+  where: UserWhereUniqueInput;
 };
 
 export type MutationUpdateUsersArgs = {
-  data?: InputMaybe<Array<InputMaybe<UsersUpdateInput>>>;
+  data: Array<UserUpdateArgs>;
 };
 
-export enum PasswordAuthErrorCode {
-  Failure = 'FAILURE',
-  IdentityNotFound = 'IDENTITY_NOT_FOUND',
-  MultipleIdentityMatches = 'MULTIPLE_IDENTITY_MATCHES',
-  SecretMismatch = 'SECRET_MISMATCH',
-  SecretNotSet = 'SECRET_NOT_SET',
+export type NestedStringFilter = {
+  contains?: InputMaybe<Scalars['String']['input']>;
+  endsWith?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
+  gt?: InputMaybe<Scalars['String']['input']>;
+  gte?: InputMaybe<Scalars['String']['input']>;
+  in?: InputMaybe<Array<Scalars['String']['input']>>;
+  lt?: InputMaybe<Scalars['String']['input']>;
+  lte?: InputMaybe<Scalars['String']['input']>;
+  not?: InputMaybe<NestedStringFilter>;
+  notIn?: InputMaybe<Array<Scalars['String']['input']>>;
+  startsWith?: InputMaybe<Scalars['String']['input']>;
+};
+
+export enum OrderDirection {
+  Asc = 'asc',
+  Desc = 'desc',
 }
 
-/**  A keystone list  */
+export type PasswordFilter = {
+  isSet: Scalars['Boolean']['input'];
+};
+
+export type PasswordState = {
+  __typename?: 'PasswordState';
+  isSet: Scalars['Boolean']['output'];
+};
+
 export type Product = {
   __typename?: 'Product';
+  category?: Maybe<Category>;
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
+  image?: Maybe<ProductImage>;
+  meta?: Maybe<Scalars['JSON']['output']>;
   name?: Maybe<Scalars['String']['output']>;
-  photo?: Maybe<ProductImage>;
   price?: Maybe<Scalars['Int']['output']>;
   status?: Maybe<Scalars['String']['output']>;
 };
 
 export type ProductCreateInput = {
+  category?: InputMaybe<CategoryRelateToOneForCreateInput>;
   description?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<ProductImageRelateToOneForCreateInput>;
+  meta?: InputMaybe<Scalars['JSON']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  photo?: InputMaybe<ProductImageRelateToOneInput>;
   price?: InputMaybe<Scalars['Int']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
 };
 
-/**  A keystone list  */
 export type ProductImage = {
   __typename?: 'ProductImage';
   alt?: Maybe<Scalars['String']['output']>;
@@ -520,215 +592,169 @@ export type ProductImage = {
 export type ProductImageCreateInput = {
   alt?: InputMaybe<Scalars['String']['input']>;
   image?: InputMaybe<Scalars['Upload']['input']>;
-  product?: InputMaybe<ProductRelateToOneInput>;
+  product?: InputMaybe<ProductRelateToOneForCreateInput>;
 };
 
-export type ProductImageRelateToOneInput = {
+export type ProductImageOrderByInput = {
+  alt?: InputMaybe<OrderDirection>;
+  id?: InputMaybe<OrderDirection>;
+};
+
+export type ProductImageRelateToOneForCreateInput = {
   connect?: InputMaybe<ProductImageWhereUniqueInput>;
   create?: InputMaybe<ProductImageCreateInput>;
-  disconnect?: InputMaybe<ProductImageWhereUniqueInput>;
-  disconnectAll?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type ProductImageRelateToOneForUpdateInput = {
+  connect?: InputMaybe<ProductImageWhereUniqueInput>;
+  create?: InputMaybe<ProductImageCreateInput>;
+  disconnect?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type ProductImageUpdateArgs = {
+  data: ProductImageUpdateInput;
+  where: ProductImageWhereUniqueInput;
 };
 
 export type ProductImageUpdateInput = {
   alt?: InputMaybe<Scalars['String']['input']>;
   image?: InputMaybe<Scalars['Upload']['input']>;
-  product?: InputMaybe<ProductRelateToOneInput>;
+  product?: InputMaybe<ProductRelateToOneForUpdateInput>;
 };
 
 export type ProductImageWhereInput = {
-  AND?: InputMaybe<Array<InputMaybe<ProductImageWhereInput>>>;
-  OR?: InputMaybe<Array<InputMaybe<ProductImageWhereInput>>>;
-  alt?: InputMaybe<Scalars['String']['input']>;
-  alt_contains?: InputMaybe<Scalars['String']['input']>;
-  alt_contains_i?: InputMaybe<Scalars['String']['input']>;
-  alt_ends_with?: InputMaybe<Scalars['String']['input']>;
-  alt_ends_with_i?: InputMaybe<Scalars['String']['input']>;
-  alt_i?: InputMaybe<Scalars['String']['input']>;
-  alt_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  alt_not?: InputMaybe<Scalars['String']['input']>;
-  alt_not_contains?: InputMaybe<Scalars['String']['input']>;
-  alt_not_contains_i?: InputMaybe<Scalars['String']['input']>;
-  alt_not_ends_with?: InputMaybe<Scalars['String']['input']>;
-  alt_not_ends_with_i?: InputMaybe<Scalars['String']['input']>;
-  alt_not_i?: InputMaybe<Scalars['String']['input']>;
-  alt_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  alt_not_starts_with?: InputMaybe<Scalars['String']['input']>;
-  alt_not_starts_with_i?: InputMaybe<Scalars['String']['input']>;
-  alt_starts_with?: InputMaybe<Scalars['String']['input']>;
-  alt_starts_with_i?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['ID']['input']>;
-  id_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  id_not?: InputMaybe<Scalars['ID']['input']>;
-  id_not_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  image?: InputMaybe<Scalars['String']['input']>;
-  image_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  image_not?: InputMaybe<Scalars['String']['input']>;
-  image_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  AND?: InputMaybe<Array<ProductImageWhereInput>>;
+  NOT?: InputMaybe<Array<ProductImageWhereInput>>;
+  OR?: InputMaybe<Array<ProductImageWhereInput>>;
+  alt?: InputMaybe<StringFilter>;
+  id?: InputMaybe<IdFilter>;
   product?: InputMaybe<ProductWhereInput>;
-  product_is_null?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type ProductImageWhereUniqueInput = {
-  id: Scalars['ID']['input'];
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
-export type ProductImagesCreateInput = {
-  data?: InputMaybe<ProductImageCreateInput>;
+export type ProductManyRelationFilter = {
+  every?: InputMaybe<ProductWhereInput>;
+  none?: InputMaybe<ProductWhereInput>;
+  some?: InputMaybe<ProductWhereInput>;
 };
 
-export type ProductImagesUpdateInput = {
-  data?: InputMaybe<ProductImageUpdateInput>;
-  id: Scalars['ID']['input'];
+export type ProductOrderByInput = {
+  description?: InputMaybe<OrderDirection>;
+  id?: InputMaybe<OrderDirection>;
+  name?: InputMaybe<OrderDirection>;
+  price?: InputMaybe<OrderDirection>;
+  status?: InputMaybe<OrderDirection>;
 };
 
-export type ProductRelateToOneInput = {
+export type ProductRelateToManyForCreateInput = {
+  connect?: InputMaybe<Array<ProductWhereUniqueInput>>;
+  create?: InputMaybe<Array<ProductCreateInput>>;
+};
+
+export type ProductRelateToManyForUpdateInput = {
+  connect?: InputMaybe<Array<ProductWhereUniqueInput>>;
+  create?: InputMaybe<Array<ProductCreateInput>>;
+  disconnect?: InputMaybe<Array<ProductWhereUniqueInput>>;
+  set?: InputMaybe<Array<ProductWhereUniqueInput>>;
+};
+
+export type ProductRelateToOneForCreateInput = {
   connect?: InputMaybe<ProductWhereUniqueInput>;
   create?: InputMaybe<ProductCreateInput>;
-  disconnect?: InputMaybe<ProductWhereUniqueInput>;
-  disconnectAll?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type ProductRelateToOneForUpdateInput = {
+  connect?: InputMaybe<ProductWhereUniqueInput>;
+  create?: InputMaybe<ProductCreateInput>;
+  disconnect?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type ProductUpdateArgs = {
+  data: ProductUpdateInput;
+  where: ProductWhereUniqueInput;
 };
 
 export type ProductUpdateInput = {
+  category?: InputMaybe<CategoryRelateToOneForUpdateInput>;
   description?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<ProductImageRelateToOneForUpdateInput>;
+  meta?: InputMaybe<Scalars['JSON']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  photo?: InputMaybe<ProductImageRelateToOneInput>;
   price?: InputMaybe<Scalars['Int']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ProductWhereInput = {
-  AND?: InputMaybe<Array<InputMaybe<ProductWhereInput>>>;
-  OR?: InputMaybe<Array<InputMaybe<ProductWhereInput>>>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  description_contains?: InputMaybe<Scalars['String']['input']>;
-  description_contains_i?: InputMaybe<Scalars['String']['input']>;
-  description_ends_with?: InputMaybe<Scalars['String']['input']>;
-  description_ends_with_i?: InputMaybe<Scalars['String']['input']>;
-  description_i?: InputMaybe<Scalars['String']['input']>;
-  description_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  description_not?: InputMaybe<Scalars['String']['input']>;
-  description_not_contains?: InputMaybe<Scalars['String']['input']>;
-  description_not_contains_i?: InputMaybe<Scalars['String']['input']>;
-  description_not_ends_with?: InputMaybe<Scalars['String']['input']>;
-  description_not_ends_with_i?: InputMaybe<Scalars['String']['input']>;
-  description_not_i?: InputMaybe<Scalars['String']['input']>;
-  description_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['String']['input']>>
-  >;
-  description_not_starts_with?: InputMaybe<Scalars['String']['input']>;
-  description_not_starts_with_i?: InputMaybe<Scalars['String']['input']>;
-  description_starts_with?: InputMaybe<Scalars['String']['input']>;
-  description_starts_with_i?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['ID']['input']>;
-  id_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  id_not?: InputMaybe<Scalars['ID']['input']>;
-  id_not_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  name_contains?: InputMaybe<Scalars['String']['input']>;
-  name_contains_i?: InputMaybe<Scalars['String']['input']>;
-  name_ends_with?: InputMaybe<Scalars['String']['input']>;
-  name_ends_with_i?: InputMaybe<Scalars['String']['input']>;
-  name_i?: InputMaybe<Scalars['String']['input']>;
-  name_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  name_not?: InputMaybe<Scalars['String']['input']>;
-  name_not_contains?: InputMaybe<Scalars['String']['input']>;
-  name_not_contains_i?: InputMaybe<Scalars['String']['input']>;
-  name_not_ends_with?: InputMaybe<Scalars['String']['input']>;
-  name_not_ends_with_i?: InputMaybe<Scalars['String']['input']>;
-  name_not_i?: InputMaybe<Scalars['String']['input']>;
-  name_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  name_not_starts_with?: InputMaybe<Scalars['String']['input']>;
-  name_not_starts_with_i?: InputMaybe<Scalars['String']['input']>;
-  name_starts_with?: InputMaybe<Scalars['String']['input']>;
-  name_starts_with_i?: InputMaybe<Scalars['String']['input']>;
-  photo?: InputMaybe<ProductImageWhereInput>;
-  photo_is_null?: InputMaybe<Scalars['Boolean']['input']>;
-  price?: InputMaybe<Scalars['Int']['input']>;
-  price_gt?: InputMaybe<Scalars['Int']['input']>;
-  price_gte?: InputMaybe<Scalars['Int']['input']>;
-  price_in?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
-  price_lt?: InputMaybe<Scalars['Int']['input']>;
-  price_lte?: InputMaybe<Scalars['Int']['input']>;
-  price_not?: InputMaybe<Scalars['Int']['input']>;
-  price_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
-  status?: InputMaybe<Scalars['String']['input']>;
-  status_contains?: InputMaybe<Scalars['String']['input']>;
-  status_contains_i?: InputMaybe<Scalars['String']['input']>;
-  status_ends_with?: InputMaybe<Scalars['String']['input']>;
-  status_ends_with_i?: InputMaybe<Scalars['String']['input']>;
-  status_i?: InputMaybe<Scalars['String']['input']>;
-  status_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  status_not?: InputMaybe<Scalars['String']['input']>;
-  status_not_contains?: InputMaybe<Scalars['String']['input']>;
-  status_not_contains_i?: InputMaybe<Scalars['String']['input']>;
-  status_not_ends_with?: InputMaybe<Scalars['String']['input']>;
-  status_not_ends_with_i?: InputMaybe<Scalars['String']['input']>;
-  status_not_i?: InputMaybe<Scalars['String']['input']>;
-  status_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  status_not_starts_with?: InputMaybe<Scalars['String']['input']>;
-  status_not_starts_with_i?: InputMaybe<Scalars['String']['input']>;
-  status_starts_with?: InputMaybe<Scalars['String']['input']>;
-  status_starts_with_i?: InputMaybe<Scalars['String']['input']>;
+  AND?: InputMaybe<Array<ProductWhereInput>>;
+  NOT?: InputMaybe<Array<ProductWhereInput>>;
+  OR?: InputMaybe<Array<ProductWhereInput>>;
+  category?: InputMaybe<CategoryWhereInput>;
+  description?: InputMaybe<StringFilter>;
+  id?: InputMaybe<IdFilter>;
+  image?: InputMaybe<ProductImageWhereInput>;
+  name?: InputMaybe<StringFilter>;
+  price?: InputMaybe<IntNullableFilter>;
+  status?: InputMaybe<StringNullableFilter>;
 };
 
 export type ProductWhereUniqueInput = {
-  id: Scalars['ID']['input'];
-};
-
-export type ProductsCreateInput = {
-  data?: InputMaybe<ProductCreateInput>;
-};
-
-export type ProductsUpdateInput = {
-  data?: InputMaybe<ProductUpdateInput>;
-  id: Scalars['ID']['input'];
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type Query = {
   __typename?: 'Query';
-  /**  Search for the Banner item with the matching ID.  */
-  Banner?: Maybe<Banner>;
-  /**  Search for the Product item with the matching ID.  */
-  Product?: Maybe<Product>;
-  /**  Search for the ProductImage item with the matching ID.  */
-  ProductImage?: Maybe<ProductImage>;
-  /**  Search for the User item with the matching ID.  */
-  User?: Maybe<User>;
-  /**  Retrieve the meta-data for the Banner list.  */
-  _BannersMeta?: Maybe<_ListMeta>;
-  /**  Retrieve the meta-data for the ProductImage list.  */
-  _ProductImagesMeta?: Maybe<_ListMeta>;
-  /**  Retrieve the meta-data for the Product list.  */
-  _ProductsMeta?: Maybe<_ListMeta>;
-  /**  Retrieve the meta-data for the User list.  */
-  _UsersMeta?: Maybe<_ListMeta>;
-  /**  Perform a meta-query on all Banner items which match the where clause.  */
-  _allBannersMeta?: Maybe<_QueryMeta>;
-  /**  Perform a meta-query on all ProductImage items which match the where clause.  */
-  _allProductImagesMeta?: Maybe<_QueryMeta>;
-  /**  Perform a meta-query on all Product items which match the where clause.  */
-  _allProductsMeta?: Maybe<_QueryMeta>;
-  /**  Perform a meta-query on all User items which match the where clause.  */
-  _allUsersMeta?: Maybe<_QueryMeta>;
-  /**  Retrieve the meta-data for all lists.  */
-  _ksListsMeta?: Maybe<Array<Maybe<_ListMeta>>>;
-  /**  Search for all Banner items which match the where clause.  */
-  allBanners?: Maybe<Array<Maybe<Banner>>>;
-  /**  Search for all ProductImage items which match the where clause.  */
-  allProductImages?: Maybe<Array<Maybe<ProductImage>>>;
-  /**  Search for all Product items which match the where clause.  */
-  allProducts?: Maybe<Array<Maybe<Product>>>;
-  /**  Search for all User items which match the where clause.  */
-  allUsers?: Maybe<Array<Maybe<User>>>;
-  /** The version of the Keystone application serving this API. */
-  appVersion?: Maybe<Scalars['String']['output']>;
   authenticatedItem?: Maybe<AuthenticatedItem>;
+  banner?: Maybe<Banner>;
+  banners?: Maybe<Array<Banner>>;
+  bannersCount?: Maybe<Scalars['Int']['output']>;
+  categories?: Maybe<Array<Category>>;
+  categoriesCount?: Maybe<Scalars['Int']['output']>;
+  category?: Maybe<Category>;
   keystone: KeystoneMeta;
+  product?: Maybe<Product>;
+  productImage?: Maybe<ProductImage>;
+  productImages?: Maybe<Array<ProductImage>>;
+  productImagesCount?: Maybe<Scalars['Int']['output']>;
+  products?: Maybe<Array<Product>>;
+  productsCount?: Maybe<Scalars['Int']['output']>;
+  user?: Maybe<User>;
+  users?: Maybe<Array<User>>;
+  usersCount?: Maybe<Scalars['Int']['output']>;
 };
 
 export type QueryBannerArgs = {
   where: BannerWhereUniqueInput;
+};
+
+export type QueryBannersArgs = {
+  cursor?: InputMaybe<BannerWhereUniqueInput>;
+  orderBy?: Array<BannerOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: BannerWhereInput;
+};
+
+export type QueryBannersCountArgs = {
+  where?: BannerWhereInput;
+};
+
+export type QueryCategoriesArgs = {
+  cursor?: InputMaybe<CategoryWhereUniqueInput>;
+  orderBy?: Array<CategoryOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: CategoryWhereInput;
+};
+
+export type QueryCategoriesCountArgs = {
+  where?: CategoryWhereInput;
+};
+
+export type QueryCategoryArgs = {
+  where: CategoryWhereUniqueInput;
 };
 
 export type QueryProductArgs = {
@@ -739,158 +765,91 @@ export type QueryProductImageArgs = {
   where: ProductImageWhereUniqueInput;
 };
 
+export type QueryProductImagesArgs = {
+  cursor?: InputMaybe<ProductImageWhereUniqueInput>;
+  orderBy?: Array<ProductImageOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: ProductImageWhereInput;
+};
+
+export type QueryProductImagesCountArgs = {
+  where?: ProductImageWhereInput;
+};
+
+export type QueryProductsArgs = {
+  cursor?: InputMaybe<ProductWhereUniqueInput>;
+  orderBy?: Array<ProductOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: ProductWhereInput;
+};
+
+export type QueryProductsCountArgs = {
+  where?: ProductWhereInput;
+};
+
 export type QueryUserArgs = {
   where: UserWhereUniqueInput;
 };
 
-export type Query_AllBannersMetaArgs = {
-  first?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Scalars['String']['input']>;
-  search?: InputMaybe<Scalars['String']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  sortBy?: InputMaybe<Array<SortBannersBy>>;
-  where?: InputMaybe<BannerWhereInput>;
+export type QueryUsersArgs = {
+  cursor?: InputMaybe<UserWhereUniqueInput>;
+  orderBy?: Array<UserOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: UserWhereInput;
 };
 
-export type Query_AllProductImagesMetaArgs = {
-  first?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Scalars['String']['input']>;
-  search?: InputMaybe<Scalars['String']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  sortBy?: InputMaybe<Array<SortProductImagesBy>>;
-  where?: InputMaybe<ProductImageWhereInput>;
+export type QueryUsersCountArgs = {
+  where?: UserWhereInput;
 };
 
-export type Query_AllProductsMetaArgs = {
-  first?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Scalars['String']['input']>;
-  search?: InputMaybe<Scalars['String']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  sortBy?: InputMaybe<Array<SortProductsBy>>;
-  where?: InputMaybe<ProductWhereInput>;
-};
-
-export type Query_AllUsersMetaArgs = {
-  first?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Scalars['String']['input']>;
-  search?: InputMaybe<Scalars['String']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  sortBy?: InputMaybe<Array<SortUsersBy>>;
-  where?: InputMaybe<UserWhereInput>;
-};
-
-export type Query_KsListsMetaArgs = {
-  where?: InputMaybe<_KsListsMetaInput>;
-};
-
-export type QueryAllBannersArgs = {
-  first?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Scalars['String']['input']>;
-  search?: InputMaybe<Scalars['String']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  sortBy?: InputMaybe<Array<SortBannersBy>>;
-  where?: InputMaybe<BannerWhereInput>;
-};
-
-export type QueryAllProductImagesArgs = {
-  first?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Scalars['String']['input']>;
-  search?: InputMaybe<Scalars['String']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  sortBy?: InputMaybe<Array<SortProductImagesBy>>;
-  where?: InputMaybe<ProductImageWhereInput>;
-};
-
-export type QueryAllProductsArgs = {
-  first?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Scalars['String']['input']>;
-  search?: InputMaybe<Scalars['String']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  sortBy?: InputMaybe<Array<SortProductsBy>>;
-  where?: InputMaybe<ProductWhereInput>;
-};
-
-export type QueryAllUsersArgs = {
-  first?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Scalars['String']['input']>;
-  search?: InputMaybe<Scalars['String']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  sortBy?: InputMaybe<Array<SortUsersBy>>;
-  where?: InputMaybe<UserWhereInput>;
-};
-
-export enum SortBannersBy {
-  DescriptionAsc = 'description_ASC',
-  DescriptionDesc = 'description_DESC',
-  HrefAsc = 'href_ASC',
-  HrefDesc = 'href_DESC',
-  IdAsc = 'id_ASC',
-  IdDesc = 'id_DESC',
-  SubtitleAsc = 'subtitle_ASC',
-  SubtitleDesc = 'subtitle_DESC',
-  TitleAsc = 'title_ASC',
-  TitleDesc = 'title_DESC',
+export enum QueryMode {
+  Default = 'default',
+  Insensitive = 'insensitive',
 }
 
-export enum SortProductImagesBy {
-  AltAsc = 'alt_ASC',
-  AltDesc = 'alt_DESC',
-  IdAsc = 'id_ASC',
-  IdDesc = 'id_DESC',
-  ProductAsc = 'product_ASC',
-  ProductDesc = 'product_DESC',
-}
+export type StringFilter = {
+  contains?: InputMaybe<Scalars['String']['input']>;
+  endsWith?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
+  gt?: InputMaybe<Scalars['String']['input']>;
+  gte?: InputMaybe<Scalars['String']['input']>;
+  in?: InputMaybe<Array<Scalars['String']['input']>>;
+  lt?: InputMaybe<Scalars['String']['input']>;
+  lte?: InputMaybe<Scalars['String']['input']>;
+  mode?: InputMaybe<QueryMode>;
+  not?: InputMaybe<NestedStringFilter>;
+  notIn?: InputMaybe<Array<Scalars['String']['input']>>;
+  startsWith?: InputMaybe<Scalars['String']['input']>;
+};
 
-export enum SortProductsBy {
-  DescriptionAsc = 'description_ASC',
-  DescriptionDesc = 'description_DESC',
-  IdAsc = 'id_ASC',
-  IdDesc = 'id_DESC',
-  NameAsc = 'name_ASC',
-  NameDesc = 'name_DESC',
-  PhotoAsc = 'photo_ASC',
-  PhotoDesc = 'photo_DESC',
-  PriceAsc = 'price_ASC',
-  PriceDesc = 'price_DESC',
-  StatusAsc = 'status_ASC',
-  StatusDesc = 'status_DESC',
-}
+export type StringNullableFilter = {
+  contains?: InputMaybe<Scalars['String']['input']>;
+  endsWith?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
+  gt?: InputMaybe<Scalars['String']['input']>;
+  gte?: InputMaybe<Scalars['String']['input']>;
+  in?: InputMaybe<Array<Scalars['String']['input']>>;
+  lt?: InputMaybe<Scalars['String']['input']>;
+  lte?: InputMaybe<Scalars['String']['input']>;
+  mode?: InputMaybe<QueryMode>;
+  not?: InputMaybe<StringNullableFilter>;
+  notIn?: InputMaybe<Array<Scalars['String']['input']>>;
+  startsWith?: InputMaybe<Scalars['String']['input']>;
+};
 
-export enum SortUsersBy {
-  EmailAsc = 'email_ASC',
-  EmailDesc = 'email_DESC',
-  IdAsc = 'id_ASC',
-  IdDesc = 'id_DESC',
-  MagicAuthIssuedAtAsc = 'magicAuthIssuedAt_ASC',
-  MagicAuthIssuedAtDesc = 'magicAuthIssuedAt_DESC',
-  MagicAuthRedeemedAtAsc = 'magicAuthRedeemedAt_ASC',
-  MagicAuthRedeemedAtDesc = 'magicAuthRedeemedAt_DESC',
-  NameAsc = 'name_ASC',
-  NameDesc = 'name_DESC',
-  PasswordResetIssuedAtAsc = 'passwordResetIssuedAt_ASC',
-  PasswordResetIssuedAtDesc = 'passwordResetIssuedAt_DESC',
-  PasswordResetRedeemedAtAsc = 'passwordResetRedeemedAt_ASC',
-  PasswordResetRedeemedAtDesc = 'passwordResetRedeemedAt_DESC',
-}
-
-/**  A keystone list  */
 export type User = {
   __typename?: 'User';
   email?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
-  magicAuthIssuedAt?: Maybe<Scalars['String']['output']>;
-  magicAuthRedeemedAt?: Maybe<Scalars['String']['output']>;
-  magicAuthToken_is_set?: Maybe<Scalars['Boolean']['output']>;
   name?: Maybe<Scalars['String']['output']>;
-  passwordResetIssuedAt?: Maybe<Scalars['String']['output']>;
-  passwordResetRedeemedAt?: Maybe<Scalars['String']['output']>;
-  passwordResetToken_is_set?: Maybe<Scalars['Boolean']['output']>;
-  password_is_set?: Maybe<Scalars['Boolean']['output']>;
+  password?: Maybe<PasswordState>;
 };
 
 export type UserAuthenticationWithPasswordFailure = {
   __typename?: 'UserAuthenticationWithPasswordFailure';
-  code: PasswordAuthErrorCode;
   message: Scalars['String']['output'];
 };
 
@@ -906,347 +865,91 @@ export type UserAuthenticationWithPasswordSuccess = {
 
 export type UserCreateInput = {
   email?: InputMaybe<Scalars['String']['input']>;
-  magicAuthIssuedAt?: InputMaybe<Scalars['String']['input']>;
-  magicAuthRedeemedAt?: InputMaybe<Scalars['String']['input']>;
-  magicAuthToken?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
-  passwordResetIssuedAt?: InputMaybe<Scalars['String']['input']>;
-  passwordResetRedeemedAt?: InputMaybe<Scalars['String']['input']>;
-  passwordResetToken?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UserOrderByInput = {
+  email?: InputMaybe<OrderDirection>;
+  id?: InputMaybe<OrderDirection>;
+  name?: InputMaybe<OrderDirection>;
+};
+
+export type UserUpdateArgs = {
+  data: UserUpdateInput;
+  where: UserWhereUniqueInput;
 };
 
 export type UserUpdateInput = {
   email?: InputMaybe<Scalars['String']['input']>;
-  magicAuthIssuedAt?: InputMaybe<Scalars['String']['input']>;
-  magicAuthRedeemedAt?: InputMaybe<Scalars['String']['input']>;
-  magicAuthToken?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
-  passwordResetIssuedAt?: InputMaybe<Scalars['String']['input']>;
-  passwordResetRedeemedAt?: InputMaybe<Scalars['String']['input']>;
-  passwordResetToken?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserWhereInput = {
-  AND?: InputMaybe<Array<InputMaybe<UserWhereInput>>>;
-  OR?: InputMaybe<Array<InputMaybe<UserWhereInput>>>;
-  email?: InputMaybe<Scalars['String']['input']>;
-  email_contains?: InputMaybe<Scalars['String']['input']>;
-  email_contains_i?: InputMaybe<Scalars['String']['input']>;
-  email_ends_with?: InputMaybe<Scalars['String']['input']>;
-  email_ends_with_i?: InputMaybe<Scalars['String']['input']>;
-  email_i?: InputMaybe<Scalars['String']['input']>;
-  email_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  email_not?: InputMaybe<Scalars['String']['input']>;
-  email_not_contains?: InputMaybe<Scalars['String']['input']>;
-  email_not_contains_i?: InputMaybe<Scalars['String']['input']>;
-  email_not_ends_with?: InputMaybe<Scalars['String']['input']>;
-  email_not_ends_with_i?: InputMaybe<Scalars['String']['input']>;
-  email_not_i?: InputMaybe<Scalars['String']['input']>;
-  email_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  email_not_starts_with?: InputMaybe<Scalars['String']['input']>;
-  email_not_starts_with_i?: InputMaybe<Scalars['String']['input']>;
-  email_starts_with?: InputMaybe<Scalars['String']['input']>;
-  email_starts_with_i?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['ID']['input']>;
-  id_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  id_not?: InputMaybe<Scalars['ID']['input']>;
-  id_not_in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  magicAuthIssuedAt?: InputMaybe<Scalars['String']['input']>;
-  magicAuthIssuedAt_gt?: InputMaybe<Scalars['String']['input']>;
-  magicAuthIssuedAt_gte?: InputMaybe<Scalars['String']['input']>;
-  magicAuthIssuedAt_in?: InputMaybe<
-    Array<InputMaybe<Scalars['String']['input']>>
-  >;
-  magicAuthIssuedAt_lt?: InputMaybe<Scalars['String']['input']>;
-  magicAuthIssuedAt_lte?: InputMaybe<Scalars['String']['input']>;
-  magicAuthIssuedAt_not?: InputMaybe<Scalars['String']['input']>;
-  magicAuthIssuedAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['String']['input']>>
-  >;
-  magicAuthRedeemedAt?: InputMaybe<Scalars['String']['input']>;
-  magicAuthRedeemedAt_gt?: InputMaybe<Scalars['String']['input']>;
-  magicAuthRedeemedAt_gte?: InputMaybe<Scalars['String']['input']>;
-  magicAuthRedeemedAt_in?: InputMaybe<
-    Array<InputMaybe<Scalars['String']['input']>>
-  >;
-  magicAuthRedeemedAt_lt?: InputMaybe<Scalars['String']['input']>;
-  magicAuthRedeemedAt_lte?: InputMaybe<Scalars['String']['input']>;
-  magicAuthRedeemedAt_not?: InputMaybe<Scalars['String']['input']>;
-  magicAuthRedeemedAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['String']['input']>>
-  >;
-  magicAuthToken_is_set?: InputMaybe<Scalars['Boolean']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  name_contains?: InputMaybe<Scalars['String']['input']>;
-  name_contains_i?: InputMaybe<Scalars['String']['input']>;
-  name_ends_with?: InputMaybe<Scalars['String']['input']>;
-  name_ends_with_i?: InputMaybe<Scalars['String']['input']>;
-  name_i?: InputMaybe<Scalars['String']['input']>;
-  name_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  name_not?: InputMaybe<Scalars['String']['input']>;
-  name_not_contains?: InputMaybe<Scalars['String']['input']>;
-  name_not_contains_i?: InputMaybe<Scalars['String']['input']>;
-  name_not_ends_with?: InputMaybe<Scalars['String']['input']>;
-  name_not_ends_with_i?: InputMaybe<Scalars['String']['input']>;
-  name_not_i?: InputMaybe<Scalars['String']['input']>;
-  name_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  name_not_starts_with?: InputMaybe<Scalars['String']['input']>;
-  name_not_starts_with_i?: InputMaybe<Scalars['String']['input']>;
-  name_starts_with?: InputMaybe<Scalars['String']['input']>;
-  name_starts_with_i?: InputMaybe<Scalars['String']['input']>;
-  passwordResetIssuedAt?: InputMaybe<Scalars['String']['input']>;
-  passwordResetIssuedAt_gt?: InputMaybe<Scalars['String']['input']>;
-  passwordResetIssuedAt_gte?: InputMaybe<Scalars['String']['input']>;
-  passwordResetIssuedAt_in?: InputMaybe<
-    Array<InputMaybe<Scalars['String']['input']>>
-  >;
-  passwordResetIssuedAt_lt?: InputMaybe<Scalars['String']['input']>;
-  passwordResetIssuedAt_lte?: InputMaybe<Scalars['String']['input']>;
-  passwordResetIssuedAt_not?: InputMaybe<Scalars['String']['input']>;
-  passwordResetIssuedAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['String']['input']>>
-  >;
-  passwordResetRedeemedAt?: InputMaybe<Scalars['String']['input']>;
-  passwordResetRedeemedAt_gt?: InputMaybe<Scalars['String']['input']>;
-  passwordResetRedeemedAt_gte?: InputMaybe<Scalars['String']['input']>;
-  passwordResetRedeemedAt_in?: InputMaybe<
-    Array<InputMaybe<Scalars['String']['input']>>
-  >;
-  passwordResetRedeemedAt_lt?: InputMaybe<Scalars['String']['input']>;
-  passwordResetRedeemedAt_lte?: InputMaybe<Scalars['String']['input']>;
-  passwordResetRedeemedAt_not?: InputMaybe<Scalars['String']['input']>;
-  passwordResetRedeemedAt_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['String']['input']>>
-  >;
-  passwordResetToken_is_set?: InputMaybe<Scalars['Boolean']['input']>;
-  password_is_set?: InputMaybe<Scalars['Boolean']['input']>;
+  AND?: InputMaybe<Array<UserWhereInput>>;
+  NOT?: InputMaybe<Array<UserWhereInput>>;
+  OR?: InputMaybe<Array<UserWhereInput>>;
+  email?: InputMaybe<StringFilter>;
+  id?: InputMaybe<IdFilter>;
+  name?: InputMaybe<StringFilter>;
+  password?: InputMaybe<PasswordFilter>;
 };
 
 export type UserWhereUniqueInput = {
-  id: Scalars['ID']['input'];
-};
-
-export type UsersCreateInput = {
-  data?: InputMaybe<UserCreateInput>;
-};
-
-export type UsersUpdateInput = {
-  data?: InputMaybe<UserUpdateInput>;
-  id: Scalars['ID']['input'];
-};
-
-export type _ListAccess = {
-  __typename?: '_ListAccess';
-  /**
-   * Access Control settings for the currently logged in (or anonymous)
-   * user when performing 'auth' operations.
-   */
-  auth?: Maybe<Scalars['JSON']['output']>;
-  /**
-   * Access Control settings for the currently logged in (or anonymous)
-   * user when performing 'create' operations.
-   * NOTE: 'create' can only return a Boolean.
-   * It is not possible to specify a declarative Where clause for this
-   * operation
-   */
-  create?: Maybe<Scalars['Boolean']['output']>;
-  /**
-   * Access Control settings for the currently logged in (or anonymous)
-   * user when performing 'delete' operations.
-   */
-  delete?: Maybe<Scalars['JSON']['output']>;
-  /**
-   * Access Control settings for the currently logged in (or anonymous)
-   * user when performing 'read' operations.
-   */
-  read?: Maybe<Scalars['JSON']['output']>;
-  /**
-   * Access Control settings for the currently logged in (or anonymous)
-   * user when performing 'update' operations.
-   */
-  update?: Maybe<Scalars['JSON']['output']>;
-};
-
-export type _ListInputTypes = {
-  __typename?: '_ListInputTypes';
-  /** Create mutation input type name */
-  createInput?: Maybe<Scalars['String']['output']>;
-  /** Create many mutation input type name */
-  createManyInput?: Maybe<Scalars['String']['output']>;
-  /** Update mutation name input */
-  updateInput?: Maybe<Scalars['String']['output']>;
-  /** Update many mutation name input */
-  updateManyInput?: Maybe<Scalars['String']['output']>;
-  /** Input type for matching multiple items */
-  whereInput?: Maybe<Scalars['String']['output']>;
-  /** Input type for matching a unique item */
-  whereUniqueInput?: Maybe<Scalars['String']['output']>;
-};
-
-export type _ListMeta = {
-  __typename?: '_ListMeta';
-  /** Access control configuration for the currently authenticated request */
-  access?: Maybe<_ListAccess>;
-  /** The list's user-facing description */
-  description?: Maybe<Scalars['String']['output']>;
-  /** The Keystone list key */
-  key?: Maybe<Scalars['String']['output']>;
-  /** The list's display name in the Admin UI */
-  label?: Maybe<Scalars['String']['output']>;
-  /**
-   * The Keystone List name
-   * @deprecated Use `key` instead
-   */
-  name?: Maybe<Scalars['String']['output']>;
-  /** The list's data path */
-  path?: Maybe<Scalars['String']['output']>;
-  /** The list's plural display name */
-  plural?: Maybe<Scalars['String']['output']>;
-  /** Information on the generated GraphQL schema */
-  schema?: Maybe<_ListSchema>;
-  /** The list's singular display name */
-  singular?: Maybe<Scalars['String']['output']>;
-};
-
-export type _ListMutations = {
-  __typename?: '_ListMutations';
-  /** Create mutation name */
-  create?: Maybe<Scalars['String']['output']>;
-  /** Create many mutation name */
-  createMany?: Maybe<Scalars['String']['output']>;
-  /** Delete mutation name */
-  delete?: Maybe<Scalars['String']['output']>;
-  /** Delete many mutation name */
-  deleteMany?: Maybe<Scalars['String']['output']>;
-  /** Update mutation name */
-  update?: Maybe<Scalars['String']['output']>;
-  /** Update many mutation name */
-  updateMany?: Maybe<Scalars['String']['output']>;
-};
-
-export type _ListQueries = {
-  __typename?: '_ListQueries';
-  /** Single-item query name */
-  item?: Maybe<Scalars['String']['output']>;
-  /** All-items query name */
-  list?: Maybe<Scalars['String']['output']>;
-  /** List metadata query name */
-  meta?: Maybe<Scalars['String']['output']>;
-};
-
-export type _ListSchema = {
-  __typename?: '_ListSchema';
-  /** Information about fields defined on this list */
-  fields?: Maybe<Array<Maybe<_ListSchemaFields>>>;
-  /** Top-level GraphQL input types */
-  inputTypes?: Maybe<_ListInputTypes>;
-  /** Top-level GraphQL mutation names */
-  mutations?: Maybe<_ListMutations>;
-  /**
-   * Top level GraphQL query names which either return this type, or
-   * provide aggregate information about this type
-   */
-  queries?: Maybe<_ListQueries>;
-  /**
-   * Information about fields on other types which return this type, or
-   * provide aggregate information about this type
-   */
-  relatedFields?: Maybe<Array<Maybe<_ListSchemaRelatedFields>>>;
-  /** The typename as used in GraphQL queries */
-  type?: Maybe<Scalars['String']['output']>;
-};
-
-export type _ListSchemaFieldsArgs = {
-  where?: InputMaybe<_ListSchemaFieldsInput>;
-};
-
-export type _ListSchemaFields = {
-  __typename?: '_ListSchemaFields';
-  /**
-   * The name of the field in its list
-   * @deprecated Use `path` instead
-   */
-  name?: Maybe<Scalars['String']['output']>;
-  /** The path of the field in its list */
-  path?: Maybe<Scalars['String']['output']>;
-  /** The field type (ie, Checkbox, Text, etc) */
-  type?: Maybe<Scalars['String']['output']>;
-};
-
-export type _ListSchemaFieldsInput = {
-  type?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type _ListSchemaRelatedFields = {
-  __typename?: '_ListSchemaRelatedFields';
-  /** A list of GraphQL field names */
-  fields?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** The typename as used in GraphQL queries */
-  type?: Maybe<Scalars['String']['output']>;
-};
-
-export type _QueryMeta = {
-  __typename?: '_QueryMeta';
-  count?: Maybe<Scalars['Int']['output']>;
-};
-
-export type _KsListsMetaInput = {
-  /** Whether this is an auxiliary helper list */
-  auxiliary?: InputMaybe<Scalars['Boolean']['input']>;
-  key?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type AllBannersQueryVariables = Exact<{ [key: string]: never }>;
 
 export type AllBannersQuery = {
   __typename?: 'Query';
-  allBanners?: Array<{
+  banners?: Array<{
     __typename?: 'Banner';
-    id: string;
-    title?: string | null;
+    head?: string | null;
+    href?: string | null;
     subtitle?: string | null;
-    description?: string | null;
-    photo?: {
+    title?: string | null;
+    image?: {
       __typename?: 'CloudinaryImage_File';
       publicUrlTransformed?: string | null;
     } | null;
-  } | null> | null;
+  }> | null;
 };
 
-export type AllProductsQueryVariables = Exact<{
+export type PaginatedProductsQueryVariables = Exact<{
   offset?: InputMaybe<Scalars['Int']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
-export type AllProductsQuery = {
+export type PaginatedProductsQuery = {
   __typename?: 'Query';
-  allProducts?: Array<{
+  products?: Array<{
     __typename?: 'Product';
     name?: string | null;
+    meta?: any | null;
     price?: number | null;
-    description?: string | null;
-    photo?: {
+    image?: {
       __typename?: 'ProductImage';
       image?: {
         __typename?: 'CloudinaryImage_File';
         publicUrlTransformed?: string | null;
       } | null;
     } | null;
-  } | null> | null;
+  }> | null;
 };
 
 export const AllBannersDocument = gql`
   query AllBanners {
-    allBanners {
-      id
-      title
-      subtitle
-      description
-      photo {
+    banners {
+      head
+      href
+      image {
         publicUrlTransformed
       }
+      subtitle
+      title
     }
   }
 `;
@@ -1313,82 +1016,84 @@ export type AllBannersQueryResult = Apollo.QueryResult<
   AllBannersQuery,
   AllBannersQueryVariables
 >;
-export const AllProductsDocument = gql`
-  query AllProducts($offset: Int, $limit: Int) {
-    allProducts(skip: $offset, first: $limit) {
-      name
-      price
-      description
-      photo {
+export const PaginatedProductsDocument = gql`
+  query PaginatedProducts($offset: Int, $limit: Int) {
+    products(skip: $offset, take: $limit) {
+      image {
         image {
           publicUrlTransformed
         }
       }
+      name
+      meta
+      price
     }
   }
 `;
 
 /**
- * __useAllProductsQuery__
+ * __usePaginatedProductsQuery__
  *
- * To run a query within a React component, call `useAllProductsQuery` and pass it any options that fit your needs.
- * When your component renders, `useAllProductsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `usePaginatedProductsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePaginatedProductsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useAllProductsQuery({
+ * const { data, loading, error } = usePaginatedProductsQuery({
  *   variables: {
  *      offset: // value for 'offset'
  *      limit: // value for 'limit'
  *   },
  * });
  */
-export function useAllProductsQuery(
+export function usePaginatedProductsQuery(
   baseOptions?: Apollo.QueryHookOptions<
-    AllProductsQuery,
-    AllProductsQueryVariables
+    PaginatedProductsQuery,
+    PaginatedProductsQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<AllProductsQuery, AllProductsQueryVariables>(
-    AllProductsDocument,
-    options,
-  );
+  return Apollo.useQuery<
+    PaginatedProductsQuery,
+    PaginatedProductsQueryVariables
+  >(PaginatedProductsDocument, options);
 }
-export function useAllProductsLazyQuery(
+export function usePaginatedProductsLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    AllProductsQuery,
-    AllProductsQueryVariables
+    PaginatedProductsQuery,
+    PaginatedProductsQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<AllProductsQuery, AllProductsQueryVariables>(
-    AllProductsDocument,
-    options,
-  );
+  return Apollo.useLazyQuery<
+    PaginatedProductsQuery,
+    PaginatedProductsQueryVariables
+  >(PaginatedProductsDocument, options);
 }
-export function useAllProductsSuspenseQuery(
+export function usePaginatedProductsSuspenseQuery(
   baseOptions?: Apollo.SuspenseQueryHookOptions<
-    AllProductsQuery,
-    AllProductsQueryVariables
+    PaginatedProductsQuery,
+    PaginatedProductsQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<AllProductsQuery, AllProductsQueryVariables>(
-    AllProductsDocument,
-    options,
-  );
+  return Apollo.useSuspenseQuery<
+    PaginatedProductsQuery,
+    PaginatedProductsQueryVariables
+  >(PaginatedProductsDocument, options);
 }
-export type AllProductsQueryHookResult = ReturnType<typeof useAllProductsQuery>;
-export type AllProductsLazyQueryHookResult = ReturnType<
-  typeof useAllProductsLazyQuery
+export type PaginatedProductsQueryHookResult = ReturnType<
+  typeof usePaginatedProductsQuery
 >;
-export type AllProductsSuspenseQueryHookResult = ReturnType<
-  typeof useAllProductsSuspenseQuery
+export type PaginatedProductsLazyQueryHookResult = ReturnType<
+  typeof usePaginatedProductsLazyQuery
 >;
-export type AllProductsQueryResult = Apollo.QueryResult<
-  AllProductsQuery,
-  AllProductsQueryVariables
+export type PaginatedProductsSuspenseQueryHookResult = ReturnType<
+  typeof usePaginatedProductsSuspenseQuery
+>;
+export type PaginatedProductsQueryResult = Apollo.QueryResult<
+  PaginatedProductsQuery,
+  PaginatedProductsQueryVariables
 >;

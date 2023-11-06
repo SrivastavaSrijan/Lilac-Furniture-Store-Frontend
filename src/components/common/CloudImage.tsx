@@ -1,7 +1,17 @@
 import { CldImage, CldImageProps } from 'next-cloudinary';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+
+// Use a map to store the fetched blur data URLs.
+const blurDataURLCache = new Map();
 
 const getDynamicBlurDataUrl = async (url: string) => {
+  // Check if we have a cached value.
+  if (blurDataURLCache.has(url)) {
+    return blurDataURLCache.get(url);
+  }
+
+  // ... rest of your code to fetch the blurDataURL ...
+
   const params = [
     'f_auto',
     'c_fill', // Fill the space, maintaining aspect ratio
@@ -31,21 +41,24 @@ const getDynamicBlurDataUrl = async (url: string) => {
       ? Buffer.from(str).toString('base64')
       : window.btoa(str);
 
-  return `data:image/svg+xml;base64,${toBase64(blurSvg)}`;
+  const data = `data:image/svg+xml;base64,${toBase64(blurSvg)}`;
+  // Cache the fetched result.
+  blurDataURLCache.set(url, data);
+  return data;
 };
 
 interface ICloudImageProps extends CldImageProps {}
 export const CloudImage = (props: ICloudImageProps) => {
   const [blurDataURL, setBlurDataURL] = useState<string | null>(null);
 
+  const updateBlurDataURL = useCallback(async () => {
+    const blurDataURLData = await getDynamicBlurDataUrl(props.src);
+    setBlurDataURL(blurDataURLData);
+  }, [props.src]);
+
   useEffect(() => {
-    const modify = async () => {
-      const { src } = props;
-      const blurDataURLData = await getDynamicBlurDataUrl(src);
-      setBlurDataURL(blurDataURLData);
-    };
-    modify();
-  }, [props]);
+    updateBlurDataURL();
+  }, [updateBlurDataURL]);
 
   return (
     <CldImage

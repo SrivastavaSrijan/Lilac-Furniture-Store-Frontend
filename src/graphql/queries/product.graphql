@@ -1,12 +1,12 @@
-query AllProducts($offset: Int, $limit: Int) {
-	allProducts(skip:$offset, first:$ limit) {
-    name
-    price
-    description
-    photo {
+query PaginatedProducts($offset: Int, $limit: Int) {
+  products(skip: $offset, take: $limit) {
+    image {
       image {
         publicUrlTransformed
       }
     }
+    name
+    meta
+    price
   }
 }
