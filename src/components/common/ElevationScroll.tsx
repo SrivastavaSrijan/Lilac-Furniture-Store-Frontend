@@ -17,6 +17,6 @@ export const ElevationScroll = ({
   });
 
   return cloneElement(children, {
-    elevation: trigger && !disableElevation ? 4 : 0,
+    elevation: trigger && !disableElevation ? 8 : 2,
   });
 };

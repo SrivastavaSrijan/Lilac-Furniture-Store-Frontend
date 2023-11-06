@@ -17,9 +17,14 @@ const AutoPlaySwipeableViews = autoPlay(bindKeyboard(SwipeableViews));
 interface ICarouselProps {
   children: JSX.Element[];
   slideSx?: SxProps;
+  disablePadding?: boolean;
 }
 
-export const Carousel = ({ children, slideSx = {} }: ICarouselProps) => {
+export const Carousel = ({
+  children,
+  slideSx = {},
+  disablePadding = false,
+}: ICarouselProps) => {
   const [activeStep, setActiveStep] = useState(0);
   const [shouldAutoplay, setAutoplay] = useState(true);
 
@@ -62,7 +67,7 @@ export const Carousel = ({ children, slideSx = {} }: ICarouselProps) => {
       <Stack
         sx={{
           '[aria-colindex]': {
-            px: { xs: 2, md: 5 },
+            px: disablePadding ? {} : { xs: 2, md: 5 },
           },
           '[aria-colindex="0"]': {
             pl: 0,
@@ -77,7 +82,7 @@ export const Carousel = ({ children, slideSx = {} }: ICarouselProps) => {
           enableMouseEvents
           aria-colindex={activeStep}
           aria-colcount={children.length}
-          slideStyle={{ padding: 8 }}
+          slideStyle={{ padding: disablePadding ? 0 : 8 }}
         >
           {children.map((child) => (
             <Box height="100%" width="100%" key={child.key} sx={{ ...slideSx }}>
@@ -98,6 +103,7 @@ export const Carousel = ({ children, slideSx = {} }: ICarouselProps) => {
                 color="primary"
                 onClick={handleNext}
                 disabled={activeStep === children.length - 1}
+                sx={{ visibility: 'hidden' }}
               >
                 <KeyboardArrowRight />
               </IconButton>
@@ -108,6 +114,7 @@ export const Carousel = ({ children, slideSx = {} }: ICarouselProps) => {
                 onClick={handleBack}
                 disabled={activeStep === 0}
                 color="primary"
+                sx={{ visibility: 'hidden' }}
               >
                 <KeyboardArrowLeft />
               </IconButton>

@@ -1,0 +1,9 @@
+@for $i from 1 through 10 { // Change the range (1 through 10) as needed
+  .clamp-#{$i} {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: #{$i}; /* Use the loop variable for the number of lines to show */
+    line-clamp: #{$i};
+    -webkit-box-orient: vertical;
+  }
+}

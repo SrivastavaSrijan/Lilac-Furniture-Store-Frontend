@@ -7,7 +7,7 @@ import {
   responsiveFontSizes,
   tabScrollButtonClasses,
 } from '@mui/material';
-import { Playfair_Display, Source_Sans_3 } from 'next/font/google';
+import { EB_Garamond, Source_Sans_3 } from 'next/font/google';
 
 const FONT_BODY = Source_Sans_3({
   subsets: ['latin'],
@@ -16,7 +16,7 @@ const FONT_BODY = Source_Sans_3({
 export const { className: poppinsClassName } = FONT_BODY;
 export const TEXT_PRIMARY = FONT_BODY.style.fontFamily;
 
-const FONT_HEADINGS = Playfair_Display({
+const FONT_HEADINGS = EB_Garamond({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700', '800'],
 });
@@ -31,6 +31,10 @@ const themeColors = {
     paper: '#fbfefb',
     main: '#fff',
   },
+  text: {
+    secondary: '#ffffff',
+    primary: '#333333',
+  },
   common: {
     white: '#FFFFFF',
     black: '#333333',
@@ -42,9 +46,9 @@ const themeColors = {
     contrastText: '#FFFFFF', // White for maximum contrast
   },
   secondary: {
-    light: '#BAA6C1', // A softer, grey-infused lilac that pairs well with blues
-    main: '#8E6294', // Original muted lilac
-    dark: '#65475A', // A darker shade of lilac for depth
+    light: '#F5F3F6', // A softer, grey-infused lilac that pairs well with blues
+    main: '#65475A', // Original muted lilac
+    dark: '#3D182F', // A darker shade of lilac for depth
     contrastText: '#FFFFFF', // White to stand out against the darker lilac
   },
   error: {
@@ -76,6 +80,7 @@ const themeColors = {
 const THEME = {
   palette: themeColors,
   typography: {
+    fontSize: 12,
     fontFamily: TEXT_PRIMARY,
     button: {
       textTransform: 'none' as const,
@@ -90,7 +95,7 @@ const THEME = {
     },
     h1: {
       fontSize: '4.5rem',
-      lineHeight: computeUnitlessLineHeight(72, 90).toString(),
+      lineHeight: computeUnitlessLineHeight(72, 86).toString(),
       letterSpacing: '-0.02em', // -2%
       fontFamily: TEXT_SECONDARY,
     },
@@ -109,12 +114,14 @@ const THEME = {
     },
     h4: {
       fontSize: '2.25rem',
+      fontWeight: 500,
       lineHeight: computeUnitlessLineHeight(36, 44).toString(),
       letterSpacing: '-0.02em',
       fontFamily: TEXT_SECONDARY,
     },
     h5: {
       fontSize: '1.5rem',
+      fontWeight: 500,
       lineHeight: computeUnitlessLineHeight(24, 32).toString(),
       fontFamily: TEXT_SECONDARY,
     },
@@ -125,17 +132,17 @@ const THEME = {
     },
     subtitle1: {
       fontSize: '1.25rem',
-      lineHeight: computeUnitlessLineHeight(20, 30).toString(),
+      lineHeight: computeUnitlessLineHeight(20, 24).toString(),
       fontFamily: TEXT_PRIMARY,
     },
     subtitle2: {
       fontSize: '1.125rem',
-      lineHeight: computeUnitlessLineHeight(18, 28).toString(),
+      lineHeight: computeUnitlessLineHeight(18, 22).toString(),
       fontFamily: TEXT_PRIMARY,
     },
     body1: {
       fontSize: '0.875rem',
-      lineHeight: computeUnitlessLineHeight(16, 24).toString(),
+      lineHeight: computeUnitlessLineHeight(16, 20).toString(),
       fontFamily: TEXT_PRIMARY,
       '@media (min-width:600px)': {
         fontSize: '1rem',

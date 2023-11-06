@@ -21,16 +21,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { KeyboardEvent, MouseEvent, useState } from 'react';
 
-import {
-  AppConfig,
-  AssetsConfig,
-  NavbarConstants,
-} from '@/constants/constants';
+import { AppConfig, AssetsConfig, NavbarConstants } from '@/constants';
 
 import { ElevationScroll } from './ElevationScroll';
 
 interface INavbarProps {}
-export const Navbar = (props: INavbarProps) => {
+export const Navbar = (_props: INavbarProps) => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -71,7 +67,7 @@ export const Navbar = (props: INavbarProps) => {
       {NavbarConstants.pages.map((page) => (
         <Link passHref href={page} key={nanoid()}>
           <Button key={page} onClick={handleDrawerToggle(false)}>
-            {page}
+            <Typography>{page}</Typography>
           </Button>
         </Link>
       ))}
@@ -79,18 +75,22 @@ export const Navbar = (props: INavbarProps) => {
   );
 
   const ActionIcons = (
-    <Stack direction="row" gap={{ xs: 1.5, md: 2 }}>
-      <IconButton color="primary">
-        <SearchOutlined />
+    <Stack direction="row" gap={{ xs: 1, md: 3 }}>
+      <IconButton color="primary" size="large">
+        <SearchOutlined fontSize="inherit" />
       </IconButton>
-      <IconButton color="primary" onClick={handleToggle(!anchorElUser)}>
-        <PermIdentityOutlined />
+      <IconButton
+        color="primary"
+        onClick={handleToggle(!anchorElUser)}
+        size="large"
+      >
+        <PermIdentityOutlined fontSize="inherit" />
       </IconButton>
-      <IconButton color="primary">
-        <ShoppingCartOutlined />
+      <IconButton color="primary" size="large">
+        <ShoppingCartOutlined fontSize="inherit" />
       </IconButton>
-      <IconButton color="primary">
-        <FavoriteOutlined />
+      <IconButton color="primary" size="large">
+        <FavoriteOutlined fontSize="inherit" />
       </IconButton>
     </Stack>
   );
@@ -102,7 +102,7 @@ export const Navbar = (props: INavbarProps) => {
       flexGrow={1}
       alignItems="center"
     >
-      <Logo size={72} />
+      <Logo size={48} />
       <Box flexGrow={1} />
       {Links}
       <Box flexGrow={1} />
@@ -148,7 +148,7 @@ export const Navbar = (props: INavbarProps) => {
       <AppBar
         position="sticky"
         color="inherit"
-        sx={{ bgcolor: 'background.paper', py: { xs: 1, md: 2 } }}
+        sx={{ bgcolor: 'background.paper', py: { xs: 1, md: 1 } }}
         elevation={0}
       >
         <Container maxWidth="md" disableGutters>

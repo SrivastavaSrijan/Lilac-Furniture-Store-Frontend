@@ -1,0 +1,12 @@
+query AllProducts($offset: Int, $limit: Int) {
+	allProducts(skip:$offset, first:$ limit) {
+    name
+    price
+    description
+    photo {
+      image {
+        publicUrlTransformed
+      }
+    }
+  }
+}

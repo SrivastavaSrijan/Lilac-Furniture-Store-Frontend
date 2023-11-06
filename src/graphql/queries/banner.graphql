@@ -1,0 +1,12 @@
+query AllBanners {
+  allBanners {
+    id
+    title
+    subtitle
+    description
+    photo {
+      publicUrlTransformed
+    }
+  }
+}
+

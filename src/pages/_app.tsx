@@ -1,13 +1,14 @@
+import '@/styles/global.scss';
+
 import { ApolloProvider } from '@apollo/client';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import { Box, CssBaseline, ThemeProvider } from '@mui/material';
 import Head from 'next/head';
 
 import { Page } from '@/components/common';
-import { AssetsConfig } from '@/constants/constants';
-import { useApollo } from '@/lib';
+import { AssetsConfig } from '@/constants';
+import { createEmotionCache, useApollo } from '@/lib';
 import { poppinsClassName, theme } from '@/styles/theme';
-import { createEmotionCache } from '@/utils/common.utils';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
