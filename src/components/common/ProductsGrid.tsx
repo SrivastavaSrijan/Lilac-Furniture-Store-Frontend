@@ -11,7 +11,7 @@ interface IProductsGridProps {
 }
 export const ProductsGrid = ({ limit }: IProductsGridProps) => {
   const [expanded, setExpanded] = useState(false);
-  const { data, fetchMore } = usePaginatedProductsQuery({
+  const { data } = usePaginatedProductsQuery({
     variables: {
       offset: 0,
       limit,

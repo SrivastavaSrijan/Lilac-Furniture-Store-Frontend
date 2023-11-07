@@ -80,69 +80,50 @@ const themeColors = {
 const THEME = {
   palette: themeColors,
   typography: {
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: TEXT_PRIMARY,
     button: {
       textTransform: 'none' as const,
       fontWeight: 500,
     },
-    poster: {
-      fontSize: '5rem',
-      component: 'h1',
-      lineHeight: computeUnitlessLineHeight(90, 108).toString(),
-      letterSpacing: '-0.02em', // -2%
-      fontFamily: TEXT_SECONDARY,
-    },
     h1: {
-      fontSize: '4.5rem',
-      lineHeight: computeUnitlessLineHeight(72, 86).toString(),
-      letterSpacing: '-0.02em', // -2%
+      fontSize: '4rem',
       fontFamily: TEXT_SECONDARY,
     },
     h2: {
       fontSize: '3.75rem',
-      lineHeight: computeUnitlessLineHeight(60, 72).toString(),
-      letterSpacing: '-0.02em',
       fontFamily: TEXT_SECONDARY,
     },
     h3: {
       fontSize: '3rem',
       fontWeight: 500,
-      lineHeight: computeUnitlessLineHeight(48, 60).toString(),
-      letterSpacing: '-0.02em',
       fontFamily: TEXT_SECONDARY,
     },
     h4: {
       fontSize: '2.25rem',
       fontWeight: 500,
-      lineHeight: computeUnitlessLineHeight(36, 44).toString(),
-      letterSpacing: '-0.02em',
       fontFamily: TEXT_SECONDARY,
     },
     h5: {
       fontSize: '1.5rem',
       fontWeight: 500,
-      lineHeight: computeUnitlessLineHeight(24, 32).toString(),
       fontFamily: TEXT_SECONDARY,
     },
     h6: {
       fontSize: '1rem',
-      lineHeight: computeUnitlessLineHeight(16, 22).toString(),
       fontFamily: TEXT_SECONDARY,
     },
     subtitle1: {
       fontSize: '1.25rem',
-      lineHeight: computeUnitlessLineHeight(20, 24).toString(),
+
       fontFamily: TEXT_PRIMARY,
     },
     subtitle2: {
       fontSize: '1.125rem',
-      lineHeight: computeUnitlessLineHeight(18, 22).toString(),
       fontFamily: TEXT_PRIMARY,
     },
     body1: {
       fontSize: '0.875rem',
-      lineHeight: computeUnitlessLineHeight(16, 20).toString(),
       fontFamily: TEXT_PRIMARY,
       '@media (min-width:600px)': {
         fontSize: '1rem',
@@ -150,12 +131,10 @@ const THEME = {
     },
     body2: {
       fontSize: '0.875rem',
-      lineHeight: computeUnitlessLineHeight(14, 20).toString(),
       fontFamily: TEXT_PRIMARY,
     },
     caption: {
       fontSize: '0.75rem',
-      lineHeight: computeUnitlessLineHeight(12, 18).toString(),
       fontFamily: TEXT_PRIMARY,
     },
   },

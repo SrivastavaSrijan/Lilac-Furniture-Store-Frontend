@@ -27,6 +27,12 @@ export const AppConfig = {
     index: {
       title: 'Home Page',
     },
+    category: {
+      path: '/category/[id].tsx',
+    },
+    products: {
+      path: '/products/[id].tsx',
+    },
     default: {
       description:
         'Discover timeless elegance and modern comfort at Lilac, your destination for mid-century modern furniture. Explore a curated collection of beautifully crafted pieces that blend pastel sophistication with a touch of nostalgia. Redefine your living spaces with our exquisite designs. Welcome to Lilac, where classic meets contemporary.',

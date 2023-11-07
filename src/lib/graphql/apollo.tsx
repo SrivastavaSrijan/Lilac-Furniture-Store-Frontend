@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import {
   ApolloClient,
+  ApolloProvider,
   from,
   HttpLink,
   InMemoryCache,
@@ -8,7 +9,10 @@ import {
 } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
 import merge from 'deepmerge';
+import { IncomingMessage } from 'http';
 import { isEqual } from 'lodash';
+import { NextPage } from 'next';
+import { NextApiRequestCookies } from 'next/dist/server/api-utils';
 import { useMemo } from 'react';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
@@ -33,19 +37,28 @@ const httpLink = new HttpLink({
   },
 });
 
-function createApolloClient() {
+export const getApolloClient = (
+  ctx?: ApolloClientContext,
+  initialState?: NormalizedCacheObject,
+) => {
+  if (ctx && ctx.req) {
+    // const { req } = ctx;
+    // TODO: Do something with the cookies here, maybe add a header for authentication
+    // req.cookies;
+  }
+  const cache = new InMemoryCache({ typePolicies: {} }).restore(
+    initialState || {},
+  );
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
     connectToDevTools: process.env.NODE_ENV !== 'production',
     link: from([errorLink, httpLink]),
-    cache: new InMemoryCache({
-      typePolicies: {},
-    }),
+    cache,
   });
-}
+};
 
 export function initializeApollo(initialState = null) {
-  const newApolloClient = apolloClient ?? createApolloClient();
+  const newApolloClient = apolloClient ?? getApolloClient();
 
   // If your page has Next.js data fetching methods that use Apollo Client, the initial state
   // gets hydrated here
@@ -89,3 +102,18 @@ export function useApollo(pageProps: any) {
   const store = useMemo(() => initializeApollo(state), [state]);
   return store;
 }
+
+export type ApolloClientContext = {
+  req?: IncomingMessage & {
+    cookies: NextApiRequestCookies;
+  };
+};
+
+// eslint-disable-next-line react/display-name
+export const withApollo = (Comp: NextPage) => (props: any) => {
+  return (
+    <ApolloProvider client={getApolloClient(undefined, props.apolloState)}>
+      <Comp />
+    </ApolloProvider>
+  );
+};

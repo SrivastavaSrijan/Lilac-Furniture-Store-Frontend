@@ -1,24 +1,19 @@
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import { nanoid } from 'nanoid';
 import React from 'react';
 
-import { useAllBannersQuery } from '@/lib/graphql';
+import { AllBannersQuery } from '@/lib/graphql';
 
 import { Carousel, CloudImage } from '../common';
 
-const BannerHeight = { xs: 300, md: 500 };
-interface IBannersProps {}
-export const Banners = (_props: IBannersProps) => {
-  const { data, loading, error } = useAllBannersQuery();
-
-  if (loading) return <Typography>Loading...</Typography>;
-  if (error) return <Typography>Error: {error.message}</Typography>;
-
+const BannerHeight = { xs: 300, md: 700 };
+interface IBannersProps extends AllBannersQuery {}
+export const Banners = ({ banners }: IBannersProps) => {
   return (
     <Carousel disablePadding>
-      {(data?.banners ?? []).map((banner) => {
+      {(banners ?? []).map((banner) => {
         if (!banner) return <></>;
-        const { title, subtitle, image } = banner;
+        const { title, subtitle, image, href } = banner;
         const { publicUrlTransformed: bannerImage = null } = image ?? {};
         return (
           <Stack key={nanoid()} position="relative">
@@ -51,19 +46,30 @@ export const Banners = (_props: IBannersProps) => {
                 color: '#fff',
               }}
               p={{ xs: 1, md: 2 }}
-              gap={{ xs: 1, md: 1.5 }}
               width={{ xs: 340, md: 500 }}
+              minHeight={{ xs: 300, md: 400 }}
             >
-              <Typography
-                variant="h1"
-                color="secondary.main"
-                className="clamp-3"
+              <Stack
+                justifyContent="flex-start"
+                alignItems="flex-start"
+                gap={{ xs: 2, md: 2 }}
               >
-                {title}
-              </Typography>
-              <Typography variant="subtitle2" color="common.black">
-                {subtitle}
-              </Typography>
+                <Typography
+                  variant="h1"
+                  color="secondary.main"
+                  className="clamp-3"
+                >
+                  {title}
+                </Typography>
+                <Typography variant="subtitle1" color="common.black">
+                  {subtitle}
+                </Typography>
+                {href && (
+                  <Button href={href} sx={{ mt: 1.5 }}>
+                    Learn More
+                  </Button>
+                )}
+              </Stack>
             </Stack>
           </Stack>
         );

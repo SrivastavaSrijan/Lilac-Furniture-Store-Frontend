@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 
@@ -918,6 +919,19 @@ export type AllBannersQuery = {
   }> | null;
 };
 
+export type AllCategoriesQueryVariables = Exact<{
+  take?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type AllCategoriesQuery = {
+  __typename?: 'Query';
+  categories?: Array<{
+    __typename?: 'Category';
+    name?: string | null;
+    products?: Array<{ __typename?: 'Product'; id: string }> | null;
+  }> | null;
+};
+
 export type PaginatedProductsQueryVariables = Exact<{
   offset?: InputMaybe<Scalars['Int']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -930,6 +944,29 @@ export type PaginatedProductsQuery = {
     name?: string | null;
     meta?: any | null;
     price?: number | null;
+    image?: {
+      __typename?: 'ProductImage';
+      image?: {
+        __typename?: 'CloudinaryImage_File';
+        publicUrlTransformed?: string | null;
+      } | null;
+    } | null;
+  }> | null;
+};
+
+export type ProductsWhereQueryVariables = Exact<{
+  where: ProductWhereInput;
+  includeDesc?: InputMaybe<Scalars['Boolean']['input']>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type ProductsWhereQuery = {
+  __typename?: 'Query';
+  products?: Array<{
+    __typename?: 'Product';
+    name?: string | null;
+    id: string;
+    description?: string | null;
     image?: {
       __typename?: 'ProductImage';
       image?: {
@@ -1016,6 +1053,82 @@ export type AllBannersQueryResult = Apollo.QueryResult<
   AllBannersQuery,
   AllBannersQueryVariables
 >;
+export const AllCategoriesDocument = gql`
+  query AllCategories($take: Int) {
+    categories(take: $take) {
+      name
+      products {
+        id
+      }
+    }
+  }
+`;
+
+/**
+ * __useAllCategoriesQuery__
+ *
+ * To run a query within a React component, call `useAllCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllCategoriesQuery({
+ *   variables: {
+ *      take: // value for 'take'
+ *   },
+ * });
+ */
+export function useAllCategoriesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    AllCategoriesQuery,
+    AllCategoriesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<AllCategoriesQuery, AllCategoriesQueryVariables>(
+    AllCategoriesDocument,
+    options,
+  );
+}
+export function useAllCategoriesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    AllCategoriesQuery,
+    AllCategoriesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<AllCategoriesQuery, AllCategoriesQueryVariables>(
+    AllCategoriesDocument,
+    options,
+  );
+}
+export function useAllCategoriesSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    AllCategoriesQuery,
+    AllCategoriesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    AllCategoriesQuery,
+    AllCategoriesQueryVariables
+  >(AllCategoriesDocument, options);
+}
+export type AllCategoriesQueryHookResult = ReturnType<
+  typeof useAllCategoriesQuery
+>;
+export type AllCategoriesLazyQueryHookResult = ReturnType<
+  typeof useAllCategoriesLazyQuery
+>;
+export type AllCategoriesSuspenseQueryHookResult = ReturnType<
+  typeof useAllCategoriesSuspenseQuery
+>;
+export type AllCategoriesQueryResult = Apollo.QueryResult<
+  AllCategoriesQuery,
+  AllCategoriesQueryVariables
+>;
 export const PaginatedProductsDocument = gql`
   query PaginatedProducts($offset: Int, $limit: Int) {
     products(skip: $offset, take: $limit) {
@@ -1096,4 +1209,90 @@ export type PaginatedProductsSuspenseQueryHookResult = ReturnType<
 export type PaginatedProductsQueryResult = Apollo.QueryResult<
   PaginatedProductsQuery,
   PaginatedProductsQueryVariables
+>;
+export const ProductsWhereDocument = gql`
+  query ProductsWhere(
+    $where: ProductWhereInput!
+    $includeDesc: Boolean = false
+    $take: Int
+  ) {
+    products(where: $where, take: $take) {
+      name
+      id
+      image {
+        image {
+          publicUrlTransformed
+        }
+      }
+      description @include(if: $includeDesc)
+    }
+  }
+`;
+
+/**
+ * __useProductsWhereQuery__
+ *
+ * To run a query within a React component, call `useProductsWhereQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProductsWhereQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProductsWhereQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *      includeDesc: // value for 'includeDesc'
+ *      take: // value for 'take'
+ *   },
+ * });
+ */
+export function useProductsWhereQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    ProductsWhereQuery,
+    ProductsWhereQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<ProductsWhereQuery, ProductsWhereQueryVariables>(
+    ProductsWhereDocument,
+    options,
+  );
+}
+export function useProductsWhereLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ProductsWhereQuery,
+    ProductsWhereQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<ProductsWhereQuery, ProductsWhereQueryVariables>(
+    ProductsWhereDocument,
+    options,
+  );
+}
+export function useProductsWhereSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    ProductsWhereQuery,
+    ProductsWhereQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    ProductsWhereQuery,
+    ProductsWhereQueryVariables
+  >(ProductsWhereDocument, options);
+}
+export type ProductsWhereQueryHookResult = ReturnType<
+  typeof useProductsWhereQuery
+>;
+export type ProductsWhereLazyQueryHookResult = ReturnType<
+  typeof useProductsWhereLazyQuery
+>;
+export type ProductsWhereSuspenseQueryHookResult = ReturnType<
+  typeof useProductsWhereSuspenseQuery
+>;
+export type ProductsWhereQueryResult = Apollo.QueryResult<
+  ProductsWhereQuery,
+  ProductsWhereQueryVariables
 >;

@@ -1,0 +1,25 @@
+query PaginatedProducts($offset: Int, $limit: Int) {
+  products(skip: $offset, take: $limit) {
+    image {
+      image {
+        publicUrlTransformed
+      }
+    }
+    name
+    meta
+    price
+  }
+}
+
+query ProductsWhere($where: ProductWhereInput!, $includeDesc: Boolean = false, $take: Int) {
+  products(where: $where, take: $take) {
+    name,
+    id,
+    image {
+      image {
+        publicUrlTransformed
+      }
+    }
+    description @include(if: $includeDesc)
+  }
+}
