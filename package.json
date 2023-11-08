@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "codegen": "graphql-codegen --config codegen.yml && next lint --fix",
+    "codegen": "graphql-codegen --config codegen.yml",
+    "postcodegen": "next lint --fix; node post-codegen.js  && next lint --fix",
     "watch:graphql": "chokidar 'src/lib/graphql/**/*.graphql' -c 'npm run codegen'",
     "dev": "concurrently \"yarn devs\" \"yarn watch:graphql\""
   },
@@ -23,6 +24,7 @@
     "apollo-upload-client": "^18.0.1",
     "deepmerge": "^4.3.1",
     "framer-motion": "^10.16.4",
+    "glob": "^10.3.10",
     "graphql": "^16.8.1",
     "lodash": "^4.17.21",
     "nanoid": "^5.0.2",

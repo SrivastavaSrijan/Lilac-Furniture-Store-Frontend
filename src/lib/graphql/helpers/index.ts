@@ -1,3 +1,6 @@
+/* eslint-disable import/no-duplicates */
+/* eslint-disable react/display-name */
+/* eslint-disable @typescript-eslint/naming-convention */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 
@@ -1092,7 +1095,7 @@ export function usePaginatedProductsQuery(
   return Apollo.useQuery<
     PaginatedProductsQuery,
     PaginatedProductsQueryVariables
-  >(PaginatedProductsDocument, options);
+  >(PaginatedProductsDocument, options as any);
 }
 export function usePaginatedProductsLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
@@ -1104,7 +1107,7 @@ export function usePaginatedProductsLazyQuery(
   return Apollo.useLazyQuery<
     PaginatedProductsQuery,
     PaginatedProductsQueryVariables
-  >(PaginatedProductsDocument, options);
+  >(PaginatedProductsDocument, options as any);
 }
 export function usePaginatedProductsSuspenseQuery(
   baseOptions?: Apollo.SuspenseQueryHookOptions<
@@ -1116,7 +1119,7 @@ export function usePaginatedProductsSuspenseQuery(
   return Apollo.useSuspenseQuery<
     PaginatedProductsQuery,
     PaginatedProductsQueryVariables
-  >(PaginatedProductsDocument, options);
+  >(PaginatedProductsDocument, options as any);
 }
 export type PaginatedProductsQueryHookResult = ReturnType<
   typeof usePaginatedProductsQuery
@@ -1202,7 +1205,7 @@ export function useProductsWhereSuspenseQuery(
   return Apollo.useSuspenseQuery<
     ProductsWhereQuery,
     ProductsWhereQueryVariables
-  >(ProductsWhereDocument, options);
+  >(ProductsWhereDocument, options as any);
 }
 export type ProductsWhereQueryHookResult = ReturnType<
   typeof useProductsWhereQuery

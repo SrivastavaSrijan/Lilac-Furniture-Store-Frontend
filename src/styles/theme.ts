@@ -22,10 +22,6 @@ const FONT_HEADINGS = EB_Garamond({
 });
 export const TEXT_SECONDARY = FONT_HEADINGS.style.fontFamily;
 
-// Calculate unitless line height
-const computeUnitlessLineHeight = (fontSize: number, lineHeightPx: number) => {
-  return lineHeightPx / fontSize;
-};
 const themeColors = {
   background: {
     paper: '#fbfefb',

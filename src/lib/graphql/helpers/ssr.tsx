@@ -1,3 +1,6 @@
+/* eslint-disable import/no-duplicates */
+/* eslint-disable react/display-name */
+/* eslint-disable @typescript-eslint/naming-convention */
 import { QueryHookOptions, useQuery } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 import { NextPage } from 'next';
@@ -36,7 +39,7 @@ export const useHome = (
 ) => {
   const router = useRouter();
   const options = optionsFunc ? optionsFunc(router) : {};
-  return useQuery(Operations.HomePageDocument, options);
+  return useQuery(Operations.HomePageDocument, options as any);
 };
 export type PageHomeComp = React.FC<{
   data?: Types.HomePageQuery;
@@ -52,7 +55,10 @@ export const withPageHome =
   (props) => {
     const router = useRouter();
     const options = optionsFunc ? optionsFunc(router) : {};
-    const { data, error } = useQuery(Operations.HomePageDocument, options);
+    const { data, error } = useQuery(
+      Operations.HomePageDocument,
+      options as any,
+    );
     return <WrappedComponent {...props} data={data} error={error} />;
   };
 export const ssrHome = {
@@ -94,7 +100,7 @@ export const usePaginatedProducts = (
 ) => {
   const router = useRouter();
   const options = optionsFunc ? optionsFunc(router) : {};
-  return useQuery(Operations.PaginatedProductsDocument, options);
+  return useQuery(Operations.PaginatedProductsDocument, options as any);
 };
 export type PagePaginatedProductsComp = React.FC<{
   data?: Types.PaginatedProductsQuery;
@@ -158,7 +164,7 @@ export const useProductsWhere = (
 ) => {
   const router = useRouter();
   const options = optionsFunc ? optionsFunc(router) : {};
-  return useQuery(Operations.ProductsWhereDocument, options);
+  return useQuery(Operations.ProductsWhereDocument, options as any);
 };
 export type PageProductsWhereComp = React.FC<{
   data?: Types.ProductsWhereQuery;
@@ -177,7 +183,10 @@ export const withPageProductsWhere =
   (props) => {
     const router = useRouter();
     const options = optionsFunc ? optionsFunc(router) : {};
-    const { data, error } = useQuery(Operations.ProductsWhereDocument, options);
+    const { data, error } = useQuery(
+      Operations.ProductsWhereDocument,
+      options as any,
+    );
     return <WrappedComponent {...props} data={data} error={error} />;
   };
 export const ssrProductsWhere = {
