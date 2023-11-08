@@ -1,4 +1,4 @@
-query HomePage($take: Int) {
+query HomePage($take: Int, $skip: Int) {
   banners {
     head
     href
@@ -8,7 +8,7 @@ query HomePage($take: Int) {
     subtitle
     title
   }
-  categories(take: $take) {
+  categories(take: $take, skip: $skip) {
     name 
     products {
       id

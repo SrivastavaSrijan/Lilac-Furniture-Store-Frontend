@@ -30,3 +30,6 @@ export const generateSizes = (sizes: { xs: number; md: number }) => {
 export const generateMockArray = (size: number): null[] => {
   return Array.from(new Array(size)).fill(null);
 };
+
+// eslint-disable-next-line no-promise-executor-return
+export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));

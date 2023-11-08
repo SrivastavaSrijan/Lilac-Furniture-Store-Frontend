@@ -1,8 +1,16 @@
-import { Button, Collapse, Grid, Stack, Typography } from '@mui/material';
+import {
+  Button,
+  CircularProgress,
+  Collapse,
+  Grid,
+  Stack,
+  Typography,
+} from '@mui/material';
+import { concat } from 'lodash';
 import { nanoid } from 'nanoid';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-import { generateMockArray } from '@/lib';
+import { generateMockArray, sleep } from '@/lib';
 import { IProduct, usePaginatedProductsQuery } from '@/lib/graphql';
 
 import { ProductCard } from './ProductCard';
@@ -12,13 +20,63 @@ interface IProductsGridProps {
 }
 
 export const ProductsGrid = ({ limit }: IProductsGridProps) => {
-  const [expanded, setExpanded] = useState(false);
-  const { data, loading } = usePaginatedProductsQuery({
+  const [cursor, setCursor] = useState(limit);
+  const [dataArray, setDataArray] = useState<IProduct[]>([]);
+  const [isFetchingMore, setIsFetchingMore] = useState(false);
+  const { data, loading, fetchMore } = usePaginatedProductsQuery({
     variables: {
       offset: 0,
       limit,
     },
   });
+
+  const ref = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    if (!loading && data?.products) {
+      // Append new products to the existing list
+      setDataArray(data.products);
+    }
+  }, [data, loading]);
+
+  const handleFetchMore = async () => {
+    setIsFetchingMore(true);
+    setTimeout(() => {
+      ref?.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+    await sleep(2000);
+    await fetchMore({
+      variables: { offset: cursor, limit },
+      updateQuery: (previousResult, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return previousResult;
+        return {
+          __typename: previousResult.__typename,
+          products: concat(
+            previousResult?.products ?? [],
+            fetchMoreResult?.products ?? [],
+          ),
+        };
+      },
+    });
+    setIsFetchingMore(false);
+  };
+
+  // Prepare the product cards or skeletons
+  const productCards = dataArray.map((product: IProduct) => (
+    <Grid item key={nanoid()} xs={6} md={3}>
+      <ProductCard {...product} />
+    </Grid>
+  ));
+
+  // Append skeletons to the end if more items are being fetched
+  const skeletons = isFetchingMore
+    ? generateMockArray(limit).map((_, index) => (
+        <Grid item key={`skeleton-${index}`} xs={6} md={3}>
+          <ProductCard />
+        </Grid>
+      ))
+    : null;
+
   return (
     <Stack gap={{ xs: 2, md: 3 }}>
       <Stack
@@ -32,21 +90,20 @@ export const ProductsGrid = ({ limit }: IProductsGridProps) => {
           Commodo sint voluptate labore excepteur
         </Typography>
       </Stack>
-      <Collapse collapsedSize="70vh" in={expanded}>
+      <Collapse in={cursor !== limit} collapsedSize="80vh">
         <Grid container spacing={{ xs: 2, md: 3 }}>
-          {(!loading ? data?.products : generateMockArray(9))?.map(
-            (val: IProduct | null) => (
-              <Grid item key={nanoid()} xs={6} md={3}>
-                <ProductCard {...val} />
-              </Grid>
-            ),
-          )}
+          {productCards}
+          {skeletons}
         </Grid>
       </Collapse>
-
       <Button
         variant="outlined"
-        onClick={() => setExpanded(!expanded)}
+        onClick={() => {
+          setCursor((oldLimit) => oldLimit + limit);
+          handleFetchMore();
+        }}
+        ref={ref}
+        endIcon={isFetchingMore ? <CircularProgress size={12} /> : undefined}
         sx={{ mx: 'auto' }}
       >
         Show more

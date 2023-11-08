@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 import React from 'react';
 
-import { AppConfig } from '@/constants';
+import { AppConfig, AssetsConfig } from '@/constants';
 
 interface ISEOProps {
   title: string;
@@ -26,7 +26,7 @@ export const SEO = ({
         description,
         images: [
           {
-            url,
+            url: AssetsConfig.brand.preview,
             alt: title,
           },
         ],

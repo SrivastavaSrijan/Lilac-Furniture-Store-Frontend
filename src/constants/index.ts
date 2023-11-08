@@ -13,7 +13,7 @@ export const AssetsConfig = {
       return `${this.root}/logo.png`;
     },
     get preview() {
-      return `${this.root}/preview.png`;
+      return `${this.root}/preview.jpg`;
     },
     get favicon() {
       return `${this.root}/favicon.ico`;

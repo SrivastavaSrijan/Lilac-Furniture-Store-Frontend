@@ -906,6 +906,7 @@ export type UserWhereUniqueInput = {
 
 export type HomePageQueryVariables = Exact<{
   take?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 export type HomePageQuery = {
@@ -974,7 +975,7 @@ export type ProductsWhereQuery = {
 };
 
 export const HomePageDocument = gql`
-  query HomePage($take: Int) {
+  query HomePage($take: Int, $skip: Int) {
     banners {
       head
       href
@@ -984,7 +985,7 @@ export const HomePageDocument = gql`
       subtitle
       title
     }
-    categories(take: $take) {
+    categories(take: $take, skip: $skip) {
       name
       products {
         id
@@ -1006,6 +1007,7 @@ export const HomePageDocument = gql`
  * const { data, loading, error } = useHomePageQuery({
  *   variables: {
  *      take: // value for 'take'
+ *      skip: // value for 'skip'
  *   },
  * });
  */

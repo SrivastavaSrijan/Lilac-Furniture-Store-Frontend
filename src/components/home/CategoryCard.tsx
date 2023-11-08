@@ -1,4 +1,5 @@
-import { Grid, Skeleton, Stack, Typography } from '@mui/material';
+import { ArrowForward } from '@mui/icons-material';
+import { Button, Grid, Skeleton, Stack, Typography } from '@mui/material';
 import { chunk, kebabCase, map } from 'lodash';
 import { nanoid } from 'nanoid';
 import Link from 'next/link';
@@ -28,9 +29,9 @@ export const CategoryCard = ({ name, products }: ICategoryCardProps) => {
 
   if (!name) return <></>;
   return (
-    <Link href={path} as={path.replace('[id].tsx', kebabCase(name))}>
+    <Stack>
       <Stack gap={{ xs: 1, md: 1 }}>
-        <Stack sx={{ clipPath: 'inset(10px 10px 10px 10px round 4px)' }}>
+        <Stack sx={{ clipPath: 'inset(8px 8px 8px 8px round 8px)' }}>
           {chunk(!loading ? data?.products : generateMockArray(3), COLUMN).map(
             (page, index) => (
               <Grid container key={index}>
@@ -63,10 +64,21 @@ export const CategoryCard = ({ name, products }: ICategoryCardProps) => {
             ),
           )}
         </Stack>
-        <Typography textAlign="center" variant="body1" fontWeight={600}>
-          {name}
-        </Typography>
+        <Stack px={1} my={-0.5}>
+          <Button
+            variant="outlined"
+            color="primary"
+            endIcon={<ArrowForward fontSize="small" />}
+            fullWidth
+          >
+            <Link href={path} as={path.replace('[id].tsx', kebabCase(name))}>
+              <Typography textAlign="center" variant="h6" fontWeight={600}>
+                {name}
+              </Typography>
+            </Link>
+          </Button>
+        </Stack>
       </Stack>
-    </Link>
+    </Stack>
   );
 };

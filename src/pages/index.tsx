@@ -7,8 +7,15 @@ import { AppConfig } from '@/constants';
 import { withApollo } from '@/lib';
 import { PageHomeComp, ssrHome } from '@/lib/graphql';
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  return ssrHome.getServerPage({ variables: { take: 3 } }, context);
+export const getStaticProps: GetServerSideProps = async (context) => {
+  const props = await ssrHome.getServerPage(
+    { variables: { take: 3, skip: 3 } },
+    context,
+  );
+  return {
+    ...props,
+    revalidate: 9000,
+  };
 };
 
 const Home: PageHomeComp = ({ data }) => {
@@ -30,5 +37,5 @@ const Home: PageHomeComp = ({ data }) => {
   );
 };
 export default withApollo(
-  ssrHome.withPage(() => ({ variables: { take: 3 } }))(Home),
+  ssrHome.withPage(() => ({ variables: { take: 3, skip: 3 } }))(Home),
 );
