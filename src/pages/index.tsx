@@ -7,15 +7,8 @@ import { AppConfig } from '@/constants';
 import { withApollo } from '@/lib';
 import { PageHomeComp, ssrHome } from '@/lib/graphql';
 
-export const getStaticProps: GetServerSideProps = async (context) => {
-  const props = await ssrHome.getServerPage(
-    { variables: { take: 3, skip: 3 } },
-    context,
-  );
-  return {
-    ...props,
-    revalidate: 9000,
-  };
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  return ssrHome.getServerPage({ variables: { take: 3, skip: 3 } }, context);
 };
 
 const Home: PageHomeComp = ({ data }) => {
