@@ -34,10 +34,11 @@ const httpLink = new HttpLink({
   credentials: 'include', // Needed for cookies, if used
   headers: {
     'content-type': 'application/json', // Set content type
+    accept: 'application/json', // Set content type
     // Add any other headers that the backend requires
   },
   fetchOptions: {
-    mode: 'no-cors', // To allow handling CORS
+    mode: 'cors', // To allow handling CORS
   },
 });
 
