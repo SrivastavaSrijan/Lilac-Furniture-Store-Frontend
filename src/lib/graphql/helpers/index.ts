@@ -963,6 +963,7 @@ export type ProductsWhereQuery = {
     __typename?: 'Product';
     name?: string | null;
     id: string;
+    meta?: any | null;
     description?: string | null;
     image?: {
       __typename?: 'ProductImage';
@@ -1145,6 +1146,7 @@ export const ProductsWhereDocument = gql`
     products(where: $where, take: $take) {
       name
       id
+      meta
       image {
         image {
           publicUrlTransformed

@@ -3,10 +3,15 @@
 /* eslint-disable react/display-name */
 import { GraphQLNestedProperty } from '@/lib';
 
-import { HomePageQuery, PaginatedProductsQuery } from '.';
+import { HomePageQuery, PaginatedProductsQuery, ProductsWhereQuery } from '.';
 
 export type IProduct = GraphQLNestedProperty<
   PaginatedProductsQuery,
+  'products'
+>;
+
+export type IProductWhere = GraphQLNestedProperty<
+  ProductsWhereQuery,
   'products'
 >;
 

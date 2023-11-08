@@ -1,73 +1,58 @@
 import {
+  Cancel,
   FavoriteOutlined,
   ShareOutlined,
   ShoppingCartOutlined,
+  VisibilityOutlined,
 } from '@mui/icons-material';
-import {
-  Box,
-  Button,
-  IconButton,
-  Skeleton,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Box, Button, IconButton, Skeleton, Stack } from '@mui/material';
 import { motion } from 'framer-motion';
-import { kebabCase } from 'lodash';
-import { nanoid } from 'nanoid';
-import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 
-import { AppConfig } from '@/constants';
-import { formatMoney, generateSizes } from '@/lib';
+import { generateSizes } from '@/lib';
 import { IProduct } from '@/lib/graphql';
 
 import { CloudImage } from '.';
+import { ProductMeta } from './ProductMeta';
 
-// Define the variants for the animation of the overlay
-const overlayVariants = {
-  initial: {
-    opacity: 0,
-    scale: 0.95,
-  },
-  animate: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 0.5,
-    },
-  },
-  exit: {
-    opacity: 0,
-    scale: 0.95,
-    transition: {
-      duration: 0.3,
-    },
-  },
-};
-const { path } = AppConfig.pages.products;
 interface IProductCardProps extends IProduct {}
-export const ProductCard = ({
-  image,
-  name,
-  price,
-  meta,
-}: IProductCardProps) => {
+export const ProductCard = (props: IProductCardProps) => {
+  const { image, name } = props;
   const imageURL = image?.image?.publicUrlTransformed;
+  const [show, setShow] = useState(false);
   return (
-    <Link href={path} as={path.replace('[id].tsx', kebabCase(name || '...'))}>
+    <Stack>
       <Stack>
         <Box position="relative" width="100%" height={300}>
+          <Stack
+            height={36}
+            width="100%"
+            justifyContent="center"
+            alignItems="flex-end"
+            position="absolute"
+            zIndex={2}
+          >
+            <IconButton
+              onClick={() => setShow(!show)}
+              size="small"
+              color="secondary"
+            >
+              {!show ? (
+                <VisibilityOutlined htmlColor="white" sx={{ fontSize: 18 }} />
+              ) : (
+                <Cancel htmlColor="white" sx={{ fontSize: 18 }} />
+              )}
+            </IconButton>
+          </Stack>
           <motion.div
-            initial={{ opacity: 0 }}
-            animate="animate"
-            exit="exit"
-            whileHover={{ opacity: 1 }}
+            exit={{ opacity: 0, zIndex: -2 }}
+            animate={show ? { opacity: 1, zIndex: 1 } : { opacity: 0 }}
             style={{
               backdropFilter: 'blur(0.5rem) brightness(50%)',
               position: 'absolute',
               height: '100%',
               width: '100%',
-              zIndex: 2,
+              zIndex: 1,
             }}
           >
             <Stack
@@ -76,6 +61,7 @@ export const ProductCard = ({
               alignItems="center"
               flex={1}
               gap={{ xs: 1, md: 2 }}
+              px={{ xs: 1, md: 1 }}
             >
               <Button
                 variant="contained"
@@ -107,32 +93,8 @@ export const ProductCard = ({
             </Skeleton>
           )}
         </Box>
-        <Stack
-          pt={1}
-          pb={{ xs: 1.5, md: 2 }}
-          px={{ xs: 1, md: 1.5 }}
-          gap={0.25}
-          bgcolor="secondary.light"
-        >
-          <Typography key={nanoid()} variant="body1" fontWeight={600}>
-            {name || <Skeleton width="10ch" />}
-          </Typography>
-          <Typography fontWeight={300} variant="caption">
-            {meta ? `by ${meta?.company}` : <Skeleton width="8ch" />}
-          </Typography>
-          <Typography fontWeight={300} variant="body2">
-            {meta ? (
-              `${meta?.type},${meta?.material}`
-            ) : (
-              <>
-                <Skeleton width="6ch" /> <Skeleton width="8ch" />
-              </>
-            )}
-          </Typography>
-
-          <Typography variant="body2">{formatMoney(price)}</Typography>
-        </Stack>
+        <ProductMeta {...props} />
       </Stack>
-    </Link>
+    </Stack>
   );
 };
