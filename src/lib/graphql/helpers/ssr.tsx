@@ -1,5 +1,3 @@
-/* eslint-disable import/no-duplicates */
-/* eslint-disable react/display-name */
 import { QueryHookOptions, useQuery } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 import { NextPage } from 'next';
@@ -10,15 +8,15 @@ import { ApolloClientContext, getApolloClient } from '../apollo';
 import * as Types from './index';
 import * as Operations from './index';
 
-export async function getServerPageAllBanners(
-  options: Omit<Apollo.QueryOptions<Types.AllBannersQueryVariables>, 'query'>,
+export async function getServerPageHome(
+  options: Omit<Apollo.QueryOptions<Types.HomePageQueryVariables>, 'query'>,
   ctx: ApolloClientContext,
 ) {
   const apolloClient = getApolloClient(ctx);
 
-  const data = await apolloClient.query<Types.AllBannersQuery>({
+  const data = await apolloClient.query<Types.HomePageQuery>({
     ...options,
-    query: Operations.AllBannersDocument,
+    query: Operations.HomePageDocument,
   });
 
   const apolloState = apolloClient.cache.extract();
@@ -31,106 +29,36 @@ export async function getServerPageAllBanners(
     },
   };
 }
-export const useAllBanners = (
+export const useHome = (
   optionsFunc?: (
     router: NextRouter,
-  ) => QueryHookOptions<Types.AllBannersQuery, Types.AllBannersQueryVariables>,
+  ) => QueryHookOptions<Types.HomePageQuery, Types.HomePageQueryVariables>,
 ) => {
   const router = useRouter();
   const options = optionsFunc ? optionsFunc(router) : {};
-  return useQuery(Operations.AllBannersDocument, options as any);
+  return useQuery(Operations.HomePageDocument, options);
 };
-export type PageAllBannersComp = React.FC<{
-  data?: Types.AllBannersQuery;
+export type PageHomeComp = React.FC<{
+  data?: Types.HomePageQuery;
   error?: Apollo.ApolloError;
 }>;
-export const withPageAllBanners =
+export const withPageHome =
   (
     optionsFunc?: (
       router: NextRouter,
-    ) => QueryHookOptions<
-      Types.AllBannersQuery,
-      Types.AllBannersQueryVariables
-    >,
+    ) => QueryHookOptions<Types.HomePageQuery, Types.HomePageQueryVariables>,
   ) =>
-  (WrappedComponent: PageAllBannersComp): NextPage =>
+  (WrappedComponent: PageHomeComp): NextPage =>
   (props) => {
     const router = useRouter();
     const options = optionsFunc ? optionsFunc(router) : {};
-    const { data, error } = useQuery(
-      Operations.AllBannersDocument,
-      options as any,
-    );
+    const { data, error } = useQuery(Operations.HomePageDocument, options);
     return <WrappedComponent {...props} data={data} error={error} />;
   };
-export const ssrAllBanners = {
-  getServerPage: getServerPageAllBanners,
-  withPage: withPageAllBanners,
-  usePage: useAllBanners,
-};
-export async function getServerPageAllCategories(
-  options: Omit<
-    Apollo.QueryOptions<Types.AllCategoriesQueryVariables>,
-    'query'
-  >,
-  ctx: ApolloClientContext,
-) {
-  const apolloClient = getApolloClient(ctx);
-
-  const data = await apolloClient.query<Types.AllCategoriesQuery>({
-    ...options,
-    query: Operations.AllCategoriesDocument,
-  });
-
-  const apolloState = apolloClient.cache.extract();
-
-  return {
-    props: {
-      apolloState,
-      data: data?.data,
-      error: data?.error ?? data?.errors ?? null,
-    },
-  };
-}
-export const useAllCategories = (
-  optionsFunc?: (
-    router: NextRouter,
-  ) => QueryHookOptions<
-    Types.AllCategoriesQuery,
-    Types.AllCategoriesQueryVariables
-  >,
-) => {
-  const router = useRouter();
-  const options = optionsFunc ? optionsFunc(router) : {};
-  return useQuery(Operations.AllCategoriesDocument, options as any);
-};
-export type PageAllCategoriesComp = React.FC<{
-  data?: Types.AllCategoriesQuery;
-  error?: Apollo.ApolloError;
-}>;
-export const withPageAllCategories =
-  (
-    optionsFunc?: (
-      router: NextRouter,
-    ) => QueryHookOptions<
-      Types.AllCategoriesQuery,
-      Types.AllCategoriesQueryVariables
-    >,
-  ) =>
-  (WrappedComponent: PageAllCategoriesComp): NextPage =>
-  (props) => {
-    const router = useRouter();
-    const options = optionsFunc ? optionsFunc(router) : {};
-    const { data, error } = useQuery(
-      Operations.AllCategoriesDocument,
-      options as any,
-    );
-    return <WrappedComponent {...props} data={data} error={error} />;
-  };
-export const ssrAllCategories = {
-  getServerPage: getServerPageAllCategories,
-  withPage: withPageAllCategories,
-  usePage: useAllCategories,
+export const ssrHome = {
+  getServerPage: getServerPageHome,
+  withPage: withPageHome,
+  usePage: useHome,
 };
 export async function getServerPagePaginatedProducts(
   options: Omit<
@@ -166,7 +94,7 @@ export const usePaginatedProducts = (
 ) => {
   const router = useRouter();
   const options = optionsFunc ? optionsFunc(router) : {};
-  return useQuery(Operations.PaginatedProductsDocument, options as any);
+  return useQuery(Operations.PaginatedProductsDocument, options);
 };
 export type PagePaginatedProductsComp = React.FC<{
   data?: Types.PaginatedProductsQuery;
@@ -230,7 +158,7 @@ export const useProductsWhere = (
 ) => {
   const router = useRouter();
   const options = optionsFunc ? optionsFunc(router) : {};
-  return useQuery(Operations.ProductsWhereDocument, options as any);
+  return useQuery(Operations.ProductsWhereDocument, options);
 };
 export type PageProductsWhereComp = React.FC<{
   data?: Types.ProductsWhereQuery;
@@ -249,10 +177,7 @@ export const withPageProductsWhere =
   (props) => {
     const router = useRouter();
     const options = optionsFunc ? optionsFunc(router) : {};
-    const { data, error } = useQuery(
-      Operations.ProductsWhereDocument,
-      options as any,
-    );
+    const { data, error } = useQuery(Operations.ProductsWhereDocument, options);
     return <WrappedComponent {...props} data={data} error={error} />;
   };
 export const ssrProductsWhere = {

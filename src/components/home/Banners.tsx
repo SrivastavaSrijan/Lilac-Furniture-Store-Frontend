@@ -2,12 +2,17 @@ import { Box, Button, Stack, Typography } from '@mui/material';
 import { nanoid } from 'nanoid';
 import React from 'react';
 
-import { AllBannersQuery } from '@/lib/graphql';
+import { HomePageQuery } from '@/lib/graphql';
 
 import { Carousel, CloudImage } from '../common';
 
-const BannerHeight = { xs: 300, md: 700 };
-interface IBannersProps extends AllBannersQuery {}
+const BannerHeight = { xs: 500, md: 700 };
+const BoxWidth = { xs: 340, md: 500 };
+const BoxHeight = {
+  xs: BannerHeight.xs - 300,
+  md: BannerHeight.md - 250,
+};
+interface IBannersProps extends Pick<HomePageQuery, 'banners'> {}
 export const Banners = ({ banners }: IBannersProps) => {
   return (
     <Carousel disablePadding>
@@ -18,11 +23,7 @@ export const Banners = ({ banners }: IBannersProps) => {
         return (
           <Stack key={nanoid()} position="relative">
             {bannerImage && (
-              <Box
-                position="relative"
-                width="100%"
-                height={{ xs: BannerHeight.xs, md: BannerHeight.md }}
-              >
+              <Box position="relative" width="100%" height={BannerHeight}>
                 <CloudImage
                   fill
                   src={bannerImage}
@@ -39,34 +40,45 @@ export const Banners = ({ banners }: IBannersProps) => {
                 bgcolor: 'secondary.light',
                 position: 'absolute',
                 bottom: {
-                  xs: `calc(50% - ${BannerHeight.xs / 4}px)`,
-                  md: `calc(50% - ${BannerHeight.md / 3}px)`,
+                  xs: `calc(75% - ${BoxHeight.xs / 2}px)`,
+                  md: `calc(50% - ${BoxHeight.md / 2}px)`,
                 },
-                left: 'calc(70% - 250px)',
+                left: {
+                  xs: `calc(50% - ${BoxWidth.xs / 2}px)`,
+                  md: `calc(70% - ${BoxWidth.md / 2}px)`,
+                },
                 color: '#fff',
               }}
-              p={{ xs: 1, md: 2 }}
-              width={{ xs: 340, md: 500 }}
-              minHeight={{ xs: 300, md: 400 }}
+              py={{ xs: 2, md: 3 }}
+              px={{ xs: 2, md: 2 }}
+              width={BoxWidth}
+              height={BoxHeight}
             >
               <Stack
+                height="100%"
                 justifyContent="flex-start"
                 alignItems="flex-start"
-                gap={{ xs: 2, md: 2 }}
+                gap={{ xs: 1, md: 2 }}
               >
-                <Typography
-                  variant="h1"
-                  color="secondary.main"
-                  className="clamp-3"
-                >
+                <Typography variant="h1" color="secondary.main">
                   {title}
                 </Typography>
-                <Typography variant="subtitle1" color="common.black">
+                <Typography
+                  variant="subtitle1"
+                  color="common.black"
+                  className="clamp-3"
+                >
                   {subtitle}
                 </Typography>
+                <Box flexGrow={1} />
                 {href && (
-                  <Button href={href} sx={{ mt: 1.5 }}>
-                    Learn More
+                  <Button href={href} variant="outlined">
+                    <Typography
+                      sx={{ typography: { xs: 'caption', md: 'subtitle1' } }}
+                      color="common.black"
+                    >
+                      Learn More
+                    </Typography>
                   </Button>
                 )}
               </Stack>

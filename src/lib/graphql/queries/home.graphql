@@ -1,4 +1,4 @@
-query AllBanners {
+query HomePage($take: Int) {
   banners {
     head
     href
@@ -7,5 +7,11 @@ query AllBanners {
     }
     subtitle
     title
+  }
+  categories(take: $take) {
+    name 
+    products {
+      id
+    }
   }
 }

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 
@@ -902,9 +901,11 @@ export type UserWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
 };
 
-export type AllBannersQueryVariables = Exact<{ [key: string]: never }>;
+export type HomePageQueryVariables = Exact<{
+  take?: InputMaybe<Scalars['Int']['input']>;
+}>;
 
-export type AllBannersQuery = {
+export type HomePageQuery = {
   __typename?: 'Query';
   banners?: Array<{
     __typename?: 'Banner';
@@ -917,14 +918,6 @@ export type AllBannersQuery = {
       publicUrlTransformed?: string | null;
     } | null;
   }> | null;
-};
-
-export type AllCategoriesQueryVariables = Exact<{
-  take?: InputMaybe<Scalars['Int']['input']>;
-}>;
-
-export type AllCategoriesQuery = {
-  __typename?: 'Query';
   categories?: Array<{
     __typename?: 'Category';
     name?: string | null;
@@ -977,8 +970,8 @@ export type ProductsWhereQuery = {
   }> | null;
 };
 
-export const AllBannersDocument = gql`
-  query AllBanners {
+export const HomePageDocument = gql`
+  query HomePage($take: Int) {
     banners {
       head
       href
@@ -988,73 +981,6 @@ export const AllBannersDocument = gql`
       subtitle
       title
     }
-  }
-`;
-
-/**
- * __useAllBannersQuery__
- *
- * To run a query within a React component, call `useAllBannersQuery` and pass it any options that fit your needs.
- * When your component renders, `useAllBannersQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useAllBannersQuery({
- *   variables: {
- *   },
- * });
- */
-export function useAllBannersQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    AllBannersQuery,
-    AllBannersQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<AllBannersQuery, AllBannersQueryVariables>(
-    AllBannersDocument,
-    options,
-  );
-}
-export function useAllBannersLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    AllBannersQuery,
-    AllBannersQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<AllBannersQuery, AllBannersQueryVariables>(
-    AllBannersDocument,
-    options,
-  );
-}
-export function useAllBannersSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    AllBannersQuery,
-    AllBannersQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<AllBannersQuery, AllBannersQueryVariables>(
-    AllBannersDocument,
-    options,
-  );
-}
-export type AllBannersQueryHookResult = ReturnType<typeof useAllBannersQuery>;
-export type AllBannersLazyQueryHookResult = ReturnType<
-  typeof useAllBannersLazyQuery
->;
-export type AllBannersSuspenseQueryHookResult = ReturnType<
-  typeof useAllBannersSuspenseQuery
->;
-export type AllBannersQueryResult = Apollo.QueryResult<
-  AllBannersQuery,
-  AllBannersQueryVariables
->;
-export const AllCategoriesDocument = gql`
-  query AllCategories($take: Int) {
     categories(take: $take) {
       name
       products {
@@ -1065,69 +991,64 @@ export const AllCategoriesDocument = gql`
 `;
 
 /**
- * __useAllCategoriesQuery__
+ * __useHomePageQuery__
  *
- * To run a query within a React component, call `useAllCategoriesQuery` and pass it any options that fit your needs.
- * When your component renders, `useAllCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useHomePageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHomePageQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useAllCategoriesQuery({
+ * const { data, loading, error } = useHomePageQuery({
  *   variables: {
  *      take: // value for 'take'
  *   },
  * });
  */
-export function useAllCategoriesQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    AllCategoriesQuery,
-    AllCategoriesQueryVariables
-  >,
+export function useHomePageQuery(
+  baseOptions?: Apollo.QueryHookOptions<HomePageQuery, HomePageQueryVariables>,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<AllCategoriesQuery, AllCategoriesQueryVariables>(
-    AllCategoriesDocument,
+  return Apollo.useQuery<HomePageQuery, HomePageQueryVariables>(
+    HomePageDocument,
     options,
   );
 }
-export function useAllCategoriesLazyQuery(
+export function useHomePageLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    AllCategoriesQuery,
-    AllCategoriesQueryVariables
+    HomePageQuery,
+    HomePageQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<AllCategoriesQuery, AllCategoriesQueryVariables>(
-    AllCategoriesDocument,
+  return Apollo.useLazyQuery<HomePageQuery, HomePageQueryVariables>(
+    HomePageDocument,
     options,
   );
 }
-export function useAllCategoriesSuspenseQuery(
+export function useHomePageSuspenseQuery(
   baseOptions?: Apollo.SuspenseQueryHookOptions<
-    AllCategoriesQuery,
-    AllCategoriesQueryVariables
+    HomePageQuery,
+    HomePageQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    AllCategoriesQuery,
-    AllCategoriesQueryVariables
-  >(AllCategoriesDocument, options);
+  return Apollo.useSuspenseQuery<HomePageQuery, HomePageQueryVariables>(
+    HomePageDocument,
+    options,
+  );
 }
-export type AllCategoriesQueryHookResult = ReturnType<
-  typeof useAllCategoriesQuery
+export type HomePageQueryHookResult = ReturnType<typeof useHomePageQuery>;
+export type HomePageLazyQueryHookResult = ReturnType<
+  typeof useHomePageLazyQuery
 >;
-export type AllCategoriesLazyQueryHookResult = ReturnType<
-  typeof useAllCategoriesLazyQuery
+export type HomePageSuspenseQueryHookResult = ReturnType<
+  typeof useHomePageSuspenseQuery
 >;
-export type AllCategoriesSuspenseQueryHookResult = ReturnType<
-  typeof useAllCategoriesSuspenseQuery
->;
-export type AllCategoriesQueryResult = Apollo.QueryResult<
-  AllCategoriesQuery,
-  AllCategoriesQueryVariables
+export type HomePageQueryResult = Apollo.QueryResult<
+  HomePageQuery,
+  HomePageQueryVariables
 >;
 export const PaginatedProductsDocument = gql`
   query PaginatedProducts($offset: Int, $limit: Int) {

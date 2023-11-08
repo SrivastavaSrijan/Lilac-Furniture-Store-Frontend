@@ -5,29 +5,30 @@ import { ProductsGrid, SEO } from '@/components/common';
 import { Banners, CategoriesGrid } from '@/components/home';
 import { AppConfig } from '@/constants';
 import { withApollo } from '@/lib';
-import { PageAllBannersComp, ssrAllBanners } from '@/lib/graphql';
+import { PageHomeComp, ssrHome } from '@/lib/graphql';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  return ssrAllBanners.getServerPage({}, context);
+  return ssrHome.getServerPage({ variables: { take: 3 } }, context);
 };
 
-const Home: PageAllBannersComp = () => {
-  const { data } = ssrAllBanners.usePage();
+const Home: PageHomeComp = ({ data }) => {
   return (
     <Stack>
       <SEO title={AppConfig.pages.index.title} />
-      <Banners {...data} />
+      <Banners banners={data?.banners ?? []} />
       <Container maxWidth="md">
         <Stack
           px={{ xs: 1, md: 0 }}
           gap={{ xs: 6, md: 8 }}
           py={{ xs: 6, md: 8 }}
         >
-          <CategoriesGrid />
+          <CategoriesGrid categories={data?.categories ?? []} />
           <ProductsGrid limit={12} />
         </Stack>
       </Container>
     </Stack>
   );
 };
-export default withApollo(Home);
+export default withApollo(
+  ssrHome.withPage(() => ({ variables: { take: 3 } }))(Home),
+);

@@ -21,7 +21,12 @@ export const generateSizes = (sizes: { xs: number; md: number }) => {
   };
   return (Object.entries(sizes) as Entries<typeof sizes>)
     .map(
-      ([key, value]) => `(min-width: ${breakpointMap[key]}px) ${100 / value}vw`,
+      ([key, value]) =>
+        `(min-width: ${breakpointMap[key]}px) ${100 / (12 / value)}vw`,
     )
     .join(', ');
+};
+
+export const generateMockArray = (size: number): null[] => {
+  return Array.from(new Array(size)).fill(null);
 };

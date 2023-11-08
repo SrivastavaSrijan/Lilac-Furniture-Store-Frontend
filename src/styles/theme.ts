@@ -88,53 +88,64 @@ const THEME = {
     },
     h1: {
       fontSize: '4rem',
+      lineHeight: 1.1, // Tight for large headings
       fontFamily: TEXT_SECONDARY,
     },
     h2: {
       fontSize: '3.75rem',
+      lineHeight: 1.1,
       fontFamily: TEXT_SECONDARY,
     },
     h3: {
       fontSize: '3rem',
+      lineHeight: 1.2,
       fontWeight: 500,
       fontFamily: TEXT_SECONDARY,
     },
     h4: {
       fontSize: '2.25rem',
+      lineHeight: 1.2,
       fontWeight: 500,
       fontFamily: TEXT_SECONDARY,
     },
     h5: {
       fontSize: '1.5rem',
+      lineHeight: 1.3, // Slightly looser for medium headings
       fontWeight: 500,
       fontFamily: TEXT_SECONDARY,
     },
     h6: {
       fontSize: '1rem',
+      lineHeight: 1.4, // Standard for text
       fontFamily: TEXT_SECONDARY,
     },
     subtitle1: {
       fontSize: '1.25rem',
-
+      lineHeight: 1.4,
       fontFamily: TEXT_PRIMARY,
     },
     subtitle2: {
       fontSize: '1.125rem',
+      lineHeight: 1.4,
       fontFamily: TEXT_PRIMARY,
     },
     body1: {
       fontSize: '0.875rem',
+      lineHeight: 1.5, // More generous for body text to improve readability
       fontFamily: TEXT_PRIMARY,
       '@media (min-width:600px)': {
         fontSize: '1rem',
+        lineHeight: 1.5, // Maintain line height for readability at larger sizes
       },
     },
     body2: {
       fontSize: '0.875rem',
+      lineHeight: 1.5,
       fontFamily: TEXT_PRIMARY,
     },
     caption: {
       fontSize: '0.75rem',
+      lineHeight: 1.6, // Most generous to ensure legibility at small sizes
       fontFamily: TEXT_PRIMARY,
     },
   },

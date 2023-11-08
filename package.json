@@ -4,13 +4,13 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "dev": "source $HOME/.nvm/nvm.sh; nvm use;nvm use && clear && next dev -p 7777",
+    "devs": "source $HOME/.nvm/nvm.sh; nvm use;nvm use && clear && next dev -p 7777",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "codegen": "graphql-codegen --config codegen.yml && next lint --fix",
-    "watch:graphql": "chokidar 'src/graphql/**/*.graphql' -c 'npm run codegen'",
-    "dev:watch": "concurrently \"yarn dev\" \"yarn watch:graphql\""
+    "watch:graphql": "chokidar 'src/lib/graphql/**/*.graphql' -c 'npm run codegen'",
+    "dev": "concurrently \"yarn devs\" \"yarn watch:graphql\""
   },
   "dependencies": {
     "@apollo/client": "^3.8.6",
@@ -22,6 +22,7 @@
     "@mui/material": "^5.14.16",
     "apollo-upload-client": "^18.0.1",
     "deepmerge": "^4.3.1",
+    "framer-motion": "^10.16.4",
     "graphql": "^16.8.1",
     "lodash": "^4.17.21",
     "nanoid": "^5.0.2",

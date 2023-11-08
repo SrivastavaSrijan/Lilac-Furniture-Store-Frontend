@@ -2,16 +2,18 @@ import { Button, Collapse, Grid, Stack, Typography } from '@mui/material';
 import { nanoid } from 'nanoid';
 import React, { useState } from 'react';
 
-import { usePaginatedProductsQuery } from '@/lib/graphql';
+import { generateMockArray } from '@/lib';
+import { IProduct, usePaginatedProductsQuery } from '@/lib/graphql';
 
 import { ProductCard } from './ProductCard';
 
 interface IProductsGridProps {
   limit: number;
 }
+
 export const ProductsGrid = ({ limit }: IProductsGridProps) => {
   const [expanded, setExpanded] = useState(false);
-  const { data } = usePaginatedProductsQuery({
+  const { data, loading } = usePaginatedProductsQuery({
     variables: {
       offset: 0,
       limit,
@@ -32,13 +34,12 @@ export const ProductsGrid = ({ limit }: IProductsGridProps) => {
       </Stack>
       <Collapse collapsedSize="70vh" in={expanded}>
         <Grid container spacing={{ xs: 2, md: 3 }}>
-          {(data?.products ?? [])?.map(
-            (val) =>
-              val && (
-                <Grid item key={nanoid()} xs={6} md={3}>
-                  <ProductCard {...val} />
-                </Grid>
-              ),
+          {(!loading ? data?.products : generateMockArray(9))?.map(
+            (val: IProduct | null) => (
+              <Grid item key={nanoid()} xs={6} md={3}>
+                <ProductCard {...val} />
+              </Grid>
+            ),
           )}
         </Grid>
       </Collapse>

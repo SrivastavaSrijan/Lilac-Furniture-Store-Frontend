@@ -1,8 +1,0 @@
-query AllCategories($take: Int) { 
-  categories(take: $take) {
-    name 
-    products {
-      id
-    }
-  }
-}
