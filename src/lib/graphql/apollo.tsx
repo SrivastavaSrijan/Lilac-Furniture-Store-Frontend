@@ -31,9 +31,13 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 const httpLink = new HttpLink({
   uri: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT, // Server URL (must be absolute)
-  credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
+  credentials: 'include', // Needed for cookies, if used
+  headers: {
+    'content-type': 'application/json', // Set content type
+    // Add any other headers that the backend requires
+  },
   fetchOptions: {
-    credentials: 'include',
+    mode: 'cors', // To allow handling CORS
   },
 });
 
