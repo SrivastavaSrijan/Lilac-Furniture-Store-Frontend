@@ -37,7 +37,7 @@ const httpLink = new HttpLink({
     // Add any other headers that the backend requires
   },
   fetchOptions: {
-    mode: 'cors', // To allow handling CORS
+    mode: 'no-cors', // To allow handling CORS
   },
 });
 
