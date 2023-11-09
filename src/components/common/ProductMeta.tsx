@@ -3,8 +3,7 @@ import { kebabCase } from 'lodash';
 import { nanoid } from 'nanoid';
 import Link from 'next/link';
 
-import { AppConfig } from '@/constants';
-import { formatMoney } from '@/lib';
+import { AppConfig, formatMoney } from '@/lib';
 import { IProduct } from '@/lib/graphql';
 
 const { path } = AppConfig.pages.products;

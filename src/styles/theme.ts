@@ -1,11 +1,8 @@
 import {
-  accordionClasses,
-  buttonBaseClasses,
   buttonClasses,
   createTheme,
-  filledInputClasses,
+  formLabelClasses,
   responsiveFontSizes,
-  tabScrollButtonClasses,
 } from '@mui/material';
 import { EB_Garamond, Source_Sans_3 } from 'next/font/google';
 
@@ -149,27 +146,11 @@ const THEME = {
     MuiCssBaseline: {
       styleOverrides: () => `
         .${buttonClasses.root}.${buttonClasses.contained}, .${buttonClasses.root}.${buttonClasses.outlined} {
-          padding: 8px 32px !important;
           border-radius: 0px !important;
-          height: fit-content !important;
         },
-        .${buttonClasses.root}.${buttonClasses.text} {
-          min-width: 0 !important;
-        },
-        .${filledInputClasses.root} {
-          background-color: white !important;
-        },
-        .${buttonBaseClasses.root}.${tabScrollButtonClasses.root} {
-          opacity: 1 !important;
-          pointer-events: initial !important;
-          cursor: initial !important;
-        },
-        .${accordionClasses.root}.${accordionClasses.expanded} {
-          margin: 0 !important;
-          &:before {
-            opacity: 1 !important;
-          }
-        },
+        .${formLabelClasses.root}.${formLabelClasses.root} {
+          color: rgba(0, 0, 0, 0.7) !important;
+        }
       `,
     },
   },

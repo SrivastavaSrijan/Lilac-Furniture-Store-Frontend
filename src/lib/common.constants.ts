@@ -5,6 +5,12 @@ export const NavbarConstants = {
 
 export const AssetsConfig = {
   root: '/assets',
+  cloudinary: {
+    root: `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/v1699532885/assets/images/`,
+    get login() {
+      return `${this.root}login/insecvbbdqfejdxk3l4o.jpg`;
+    },
+  },
   brand: {
     get root() {
       return `${AssetsConfig.root}/brand`;

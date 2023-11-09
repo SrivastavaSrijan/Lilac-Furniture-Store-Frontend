@@ -12,8 +12,7 @@ import { chunk, kebabCase, map } from 'lodash';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
-import { AppConfig } from '@/constants';
-import { generateMockArray } from '@/lib';
+import { AppConfig, generateMockArray } from '@/lib';
 import {
   ICategory,
   IProductWhere,
@@ -119,14 +118,19 @@ export const CategoryCard = ({ name, products }: ICategoryCardProps) => {
       <Stack gap={{ xs: 1, md: 1 }}>
         <Stack sx={{ clipPath: 'inset(8px 8px 8px 8px round 8px)' }}>
           {pages.map((productPages, index) => (
-            <Grid container key={index} position="relative">
+            <Grid container key={`parent_${index}`} position="relative">
               {productPages.map((product, pIndex) => {
                 const { image, name: pName, id } = product ?? {};
                 const isExpanded = expandedData?.product === id;
 
                 const imageURL = image?.image?.publicUrlTransformed;
                 return !imageURL || !pName ? (
-                  <Grid item xs={12 / COLUMNS} md={12 / COLUMNS}>
+                  <Grid
+                    item
+                    xs={12 / COLUMNS}
+                    md={12 / COLUMNS}
+                    key={`child_${pIndex}`}
+                  >
                     <Skeleton variant="rectangular" height={HEIGHT} />
                   </Grid>
                 ) : (
@@ -134,7 +138,7 @@ export const CategoryCard = ({ name, products }: ICategoryCardProps) => {
                     item
                     xs={handleWidth(isExpanded, index)}
                     md={handleWidth(isExpanded, index)}
-                    key={pIndex}
+                    key={`child_${pIndex}`}
                     sx={{ cursor: 'pointer' }}
                   >
                     <motion.div
@@ -181,6 +185,7 @@ export const CategoryCard = ({ name, products }: ICategoryCardProps) => {
                               alignItems="flex-end"
                               height="100%"
                               px={2}
+                              pt={1.25}
                             >
                               <IconButton
                                 onClick={() => setExpanded(null)}
@@ -224,7 +229,7 @@ export const CategoryCard = ({ name, products }: ICategoryCardProps) => {
             </Grid>
           ))}
         </Stack>
-        <Stack px={1} my={-0.5}>
+        <Stack px={1} my={{ xs: -1, md: -1 }}>
           <Link href={path} as={path.replace('[id].tsx', kebabCase(name))}>
             <Button
               variant="outlined"

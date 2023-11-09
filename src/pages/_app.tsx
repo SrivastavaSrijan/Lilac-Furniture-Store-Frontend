@@ -3,11 +3,11 @@ import '@/styles/global.scss';
 import { ApolloProvider } from '@apollo/client';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import { Box, CssBaseline, ThemeProvider } from '@mui/material';
+import ModalProvider from 'mui-modal-provider';
 import Head from 'next/head';
 
 import { Page } from '@/components/common';
-import { AssetsConfig } from '@/constants';
-import { createEmotionCache, useApollo } from '@/lib';
+import { AssetsConfig, createEmotionCache, useApollo } from '@/lib';
 import { poppinsClassName, theme } from '@/styles/theme';
 
 // Client-side cache, shared for the whole session of the user in the browser.
@@ -37,11 +37,13 @@ export default function MyApp(props: IMyAppProps) {
       <CacheProvider value={emotionCache}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Page>
-            <Box className={poppinsClassName} bgcolor="background.main">
-              <Component {...pageProps} />
-            </Box>
-          </Page>
+          <ModalProvider>
+            <Page>
+              <Box className={poppinsClassName} bgcolor="background.main">
+                <Component {...pageProps} />
+              </Box>
+            </Page>
+          </ModalProvider>
         </ThemeProvider>
       </CacheProvider>
     </ApolloProvider>

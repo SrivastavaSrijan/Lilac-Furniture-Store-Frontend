@@ -3,8 +3,7 @@ import { GetServerSideProps } from 'next';
 
 import { ProductsGrid, SEO } from '@/components/common';
 import { Banners, CategoriesGrid } from '@/components/home';
-import { AppConfig } from '@/constants';
-import { withApollo } from '@/lib';
+import { AppConfig, withApollo } from '@/lib';
 import { PageHomeComp, ssrHome } from '@/lib/graphql';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {

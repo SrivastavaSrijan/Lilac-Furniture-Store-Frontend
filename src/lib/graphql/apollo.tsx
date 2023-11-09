@@ -22,11 +22,11 @@ let apolloClient: ApolloClient<NormalizedCacheObject> | null = null;
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
     graphQLErrors.forEach(({ message, locations, path }) =>
-      console.log(
+      console.error(
         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
       ),
     );
-  if (networkError) console.log(`[Network error]: ${networkError}`);
+  if (networkError) console.error(`[Network error]: ${networkError}`);
 });
 
 const httpLink = new HttpLink({
@@ -116,9 +116,10 @@ export type ApolloClientContext = {
 
 // eslint-disable-next-line react/display-name
 export const withApollo = (Comp: NextPage) => (props: any) => {
-  return (
+  const WrappedWithApollo = (
     <ApolloProvider client={getApolloClient(undefined, props.apolloState)}>
       <Comp />
     </ApolloProvider>
   );
+  return WrappedWithApollo;
 };

@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 import React from 'react';
 
-import { AppConfig, AssetsConfig } from '@/constants';
+import { AppConfig, AssetsConfig } from '@/lib';
 
 interface ISEOProps {
   title: string;

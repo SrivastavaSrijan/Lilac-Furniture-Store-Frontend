@@ -22,7 +22,7 @@ export const CategoriesGrid = ({ categories }: ICategoriesGridProps) => {
           excepteur duis aliqua laborum cupidatat proident consectetur.
         </Typography>
       </Stack>
-      <Grid container spacing={{ xs: 2, md: 5 }}>
+      <Grid container spacing={{ xs: 5, md: 5 }}>
         {(categories ?? []).map((val) => (
           <Grid item key={nanoid()} xs={12} md={12 / 3}>
             <CategoryCard {...val} />

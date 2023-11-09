@@ -1,5 +1,6 @@
 import {
   FavoriteOutlined,
+  Login as LoginIcon,
   Menu as MenuIcon,
   PermIdentityOutlined,
   SearchOutlined,
@@ -16,19 +17,28 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material';
+import { useModal } from 'mui-modal-provider';
 import { nanoid } from 'nanoid';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { KeyboardEvent, MouseEvent, useState } from 'react';
+import React, { KeyboardEvent, MouseEvent, useEffect, useState } from 'react';
 
-import { AppConfig, AssetsConfig, NavbarConstants } from '@/constants';
+import {
+  AppConfig,
+  asModal,
+  AssetsConfig,
+  NavbarConstants,
+  useUser,
+} from '@/lib';
 
+import { IconButtonPopover, Login } from '.';
 import { ElevationScroll } from './ElevationScroll';
 
 interface INavbarProps {}
 export const Navbar = (_props: INavbarProps) => {
-  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [openDrawer, setDrawer] = useState(false);
+  const { showModal } = useModal();
+  const user = useUser();
 
   const handleDrawerToggle =
     (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
@@ -41,19 +51,23 @@ export const Navbar = (_props: INavbarProps) => {
         return;
       }
 
-      setMobileOpen(open);
+      setDrawer(open);
     };
 
-  const handleToggle = (open: boolean) => (event: MouseEvent<HTMLElement>) => {
-    setAnchorElUser(open ? event.currentTarget : null);
+  const handleLogin = () => {
+    showModal(asModal(<Login />), { maxWidth: 'sm' });
   };
 
-  const Logo = ({ size }: { size: number }) => (
+  useEffect(() => {
+    handleLogin();
+  }, []);
+
+  const Logo = (
     <Stack justifyContent="center" alignItems="center" direction="row" gap={2}>
       <Image
         src={AssetsConfig.brand.logo}
-        width={size}
-        height={size}
+        width={48}
+        height={48}
         style={{ objectFit: 'contain', borderRadius: '50%' }}
         alt="Logo"
       />
@@ -62,6 +76,7 @@ export const Navbar = (_props: INavbarProps) => {
       </Typography>
     </Stack>
   );
+
   const Links = (
     <Stack direction={{ xs: 'column', md: 'row' }} gap={{ xs: 1, md: 3 }}>
       {NavbarConstants.pages.map((page) => (
@@ -79,19 +94,39 @@ export const Navbar = (_props: INavbarProps) => {
       <IconButton color="primary" size="large">
         <SearchOutlined fontSize="inherit" />
       </IconButton>
-      <IconButton
-        color="primary"
-        onClick={handleToggle(!anchorElUser)}
-        size="large"
+      {!user ? (
+        <IconButtonPopover Icon={<PermIdentityOutlined />} name="user">
+          <Typography sx={{ p: 2 }}>
+            The content of the Popover for user.
+          </Typography>
+        </IconButtonPopover>
+      ) : (
+        <IconButton color="primary" onClick={handleLogin} size="large">
+          <LoginIcon fontSize="inherit" />
+        </IconButton>
+      )}
+      <IconButtonPopover
+        Icon={
+          <FavoriteOutlined
+            fontSize="inherit"
+            sx={{
+              fill: 'transparent',
+              stroke: 'currentColor',
+              strokeWidth: '2px',
+            }}
+          />
+        }
+        name="favorites"
       >
-        <PermIdentityOutlined fontSize="inherit" />
-      </IconButton>
-      <IconButton color="primary" size="large">
-        <ShoppingCartOutlined fontSize="inherit" />
-      </IconButton>
-      <IconButton color="primary" size="large">
-        <FavoriteOutlined fontSize="inherit" />
-      </IconButton>
+        <Typography sx={{ p: 2 }}>
+          The content of the Popover for favs.
+        </Typography>
+      </IconButtonPopover>
+      <IconButtonPopover Icon={<ShoppingCartOutlined />} name="cart">
+        <Typography sx={{ p: 2 }}>
+          The content of the Popover for cart.
+        </Typography>
+      </IconButtonPopover>
     </Stack>
   );
 
@@ -102,7 +137,7 @@ export const Navbar = (_props: INavbarProps) => {
       flexGrow={1}
       alignItems="center"
     >
-      <Logo size={48} />
+      {Logo}
       <Box flexGrow={1} />
       {Links}
       <Box flexGrow={1} />
@@ -112,7 +147,7 @@ export const Navbar = (_props: INavbarProps) => {
 
   const MobileNavbar = (
     <Stack display={{ xs: 'flex', md: 'none' }} direction="row" width="100%">
-      <Logo size={48} />
+      {Logo}
       <Box flexGrow={1} />
       <IconButton
         color="inherit"
@@ -125,7 +160,7 @@ export const Navbar = (_props: INavbarProps) => {
       <SwipeableDrawer
         anchor="right"
         variant="temporary"
-        open={mobileOpen}
+        open={openDrawer}
         onClose={handleDrawerToggle(false)}
         onOpen={handleDrawerToggle(true)}
         ModalProps={{
