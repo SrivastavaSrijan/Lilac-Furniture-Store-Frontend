@@ -1,6 +1,7 @@
 import createCache from '@emotion/cache';
+import { string } from 'yup';
 
-import { Entries } from '.';
+import { Entries, MessagesMap } from '.';
 
 // eslint-disable-next-line import/prefer-default-export
 export function createEmotionCache() {
@@ -33,3 +34,5 @@ export const generateMockArray = (size: number): null[] => {
 
 // eslint-disable-next-line no-promise-executor-return
 export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+export const isRequiredString = () => string().required(MessagesMap.required);

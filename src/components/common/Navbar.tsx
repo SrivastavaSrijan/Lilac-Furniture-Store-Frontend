@@ -21,7 +21,7 @@ import { useModal } from 'mui-modal-provider';
 import { nanoid } from 'nanoid';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { KeyboardEvent, MouseEvent, useEffect, useState } from 'react';
+import React, { KeyboardEvent, MouseEvent, useState } from 'react';
 
 import {
   AppConfig,
@@ -31,7 +31,7 @@ import {
   useUser,
 } from '@/lib';
 
-import { IconButtonPopover, Login } from '.';
+import { Auth, IconButtonPopover } from '.';
 import { ElevationScroll } from './ElevationScroll';
 
 interface INavbarProps {}
@@ -55,12 +55,15 @@ export const Navbar = (_props: INavbarProps) => {
     };
 
   const handleLogin = () => {
-    showModal(asModal(<Login />), { maxWidth: 'sm' });
+    showModal(
+      asModal(<Auth />),
+      {
+        maxWidth: 'sm',
+        PaperProps: { sx: { overflow: 'hidden', height: '100%' } },
+      },
+      { rootId: 'Auth' },
+    );
   };
-
-  useEffect(() => {
-    handleLogin();
-  }, []);
 
   const Logo = (
     <Stack justifyContent="center" alignItems="center" direction="row" gap={2}>
@@ -94,7 +97,7 @@ export const Navbar = (_props: INavbarProps) => {
       <IconButton color="primary" size="large">
         <SearchOutlined fontSize="inherit" />
       </IconButton>
-      {!user ? (
+      {user ? (
         <IconButtonPopover Icon={<PermIdentityOutlined />} name="user">
           <Typography sx={{ p: 2 }}>
             The content of the Popover for user.

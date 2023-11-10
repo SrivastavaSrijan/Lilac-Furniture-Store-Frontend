@@ -46,7 +46,7 @@ const themeColors = {
   },
   error: {
     light: '#F9D1D1', // Soft pastel red for error light
-    main: '#F2A3A3', // Mid-tone red for error main
+    main: '#EB6B6B', // Mid-tone red for error main
     dark: '#EB6B6B', // Darker red for error dark
     contrastText: '#FFFFFF', // White for readability
   },

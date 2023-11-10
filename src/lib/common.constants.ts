@@ -46,3 +46,11 @@ export const AppConfig = {
     image: AssetsConfig.brand.preview,
   },
 };
+
+export const MessagesMap = {
+  required: 'This field is required',
+  invalid: 'This field is invalid',
+  user: {
+    notFound: `Couldn't find a user with that email/password entered is incorrect`,
+  },
+};

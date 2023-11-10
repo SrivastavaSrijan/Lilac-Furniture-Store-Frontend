@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react';
+
 export type Entries<T> = {
   [K in keyof T]: [K, T[K]];
 }[keyof T][];
@@ -18,3 +20,5 @@ export type GraphQLNestedProperty<T, K extends keyof T> = NonNullable<
 > extends (infer U)[]
   ? NonNullableArrayItem<U[]>
   : never;
+
+export type SetState<T> = Dispatch<SetStateAction<T>>;

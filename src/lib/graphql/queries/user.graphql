@@ -6,3 +6,17 @@ query GetUser {
     }
   }
 }
+
+mutation SignIn($email: String!, $password: String!) {
+  authenticateUserWithPassword(email: $email, password: $password) {
+    ...on UserAuthenticationWithPasswordSuccess {
+      item {
+        id
+      }
+      sessionToken
+    },
+    ...on UserAuthenticationWithPasswordFailure {
+      message
+    }
+  }
+}
