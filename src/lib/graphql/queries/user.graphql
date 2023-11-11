@@ -2,7 +2,8 @@ query GetUser {
   authenticatedItem {
     ...on User {
       id,
-      email
+      email,
+      name
     }
   }
 }
@@ -19,4 +20,8 @@ mutation SignIn($email: String!, $password: String!) {
       message
     }
   }
+}
+
+mutation SignOut {
+  endSession
 }

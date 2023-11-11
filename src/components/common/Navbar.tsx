@@ -1,17 +1,25 @@
 import {
-  FavoriteOutlined,
+  AccountCircleOutlined,
   Login as LoginIcon,
+  LogoutOutlined,
   Menu as MenuIcon,
   PermIdentityOutlined,
   SearchOutlined,
+  ShoppingBagOutlined,
   ShoppingCartOutlined,
 } from '@mui/icons-material';
 import {
   AppBar,
+  Avatar,
   Box,
   Button,
   Container,
+  Divider,
   IconButton,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
   Stack,
   SwipeableDrawer,
   Toolbar,
@@ -21,6 +29,7 @@ import { useModal } from 'mui-modal-provider';
 import { nanoid } from 'nanoid';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { KeyboardEvent, MouseEvent, useState } from 'react';
 
 import {
@@ -30,6 +39,7 @@ import {
   NavbarConstants,
   useUser,
 } from '@/lib';
+import { GetUserDocument, useSignOutMutation } from '@/lib/graphql';
 
 import { Auth, IconButtonPopover } from '.';
 import { ElevationScroll } from './ElevationScroll';
@@ -39,6 +49,8 @@ export const Navbar = (_props: INavbarProps) => {
   const [openDrawer, setDrawer] = useState(false);
   const { showModal } = useModal();
   const user = useUser();
+  const router = useRouter();
+  const [signOut] = useSignOutMutation({ refetchQueries: [GetUserDocument] });
 
   const handleDrawerToggle =
     (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
@@ -54,7 +66,8 @@ export const Navbar = (_props: INavbarProps) => {
       setDrawer(open);
     };
 
-  const handleLogin = () => {
+  const handleLogin = (ev: MouseEvent) => {
+    handleDrawerToggle(false)(ev);
     showModal(
       asModal(<Auth />),
       {
@@ -63,6 +76,12 @@ export const Navbar = (_props: INavbarProps) => {
       },
       { rootId: 'Auth' },
     );
+  };
+
+  const handleLogout = async (ev: MouseEvent) => {
+    handleDrawerToggle(false)(ev);
+    signOut();
+    router.replace(router.asPath);
   };
 
   const Logo = (
@@ -81,14 +100,63 @@ export const Navbar = (_props: INavbarProps) => {
   );
 
   const Links = (
-    <Stack direction={{ xs: 'column', md: 'row' }} gap={{ xs: 1, md: 3 }}>
+    <Stack
+      direction={{ xs: 'column', md: 'row' }}
+      gap={{ xs: 1, md: 3 }}
+      alignItems="flex-start"
+    >
       {NavbarConstants.pages.map((page) => (
         <Link passHref href={page} key={nanoid()}>
-          <Button key={page} onClick={handleDrawerToggle(false)}>
-            <Typography>{page}</Typography>
+          <Button onClick={handleDrawerToggle(false)} sx={{ minWidth: 0 }}>
+            <Typography sx={{ typography: { xs: 'subtitle2', md: 'body1' } }}>
+              {page}
+            </Typography>
           </Button>
         </Link>
       ))}
+    </Stack>
+  );
+
+  const UserAccount = (
+    <Stack
+      py={{ xs: 1, md: 2 }}
+      minWidth={{ xs: 200, md: 200 }}
+      gap={{ xs: 1, md: 1.5 }}
+    >
+      <Stack
+        width="100%"
+        justifyContent="center"
+        alignItems="center"
+        gap={{ xs: 1, md: 1.25 }}
+      >
+        <Avatar src="/lol.jpg" alt="SM" style={{ width: 64, height: 64 }} />
+        <Typography>Welcome, {user?.name}</Typography>
+      </Stack>
+      <Divider flexItem variant="middle" />
+      <List component="nav" disablePadding>
+        <Link passHref href="/profile">
+          <ListItemButton>
+            <ListItemIcon>
+              <AccountCircleOutlined color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="Profile" color="common.black" />
+          </ListItemButton>
+        </Link>
+        <Link passHref href="/orders">
+          <ListItemButton>
+            <ListItemIcon>
+              <ShoppingBagOutlined color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="My Orders" color="common.black" />
+          </ListItemButton>
+        </Link>
+        <ListItemButton onClick={handleLogout}>
+          <ListItemIcon>
+            <LogoutOutlined color="primary" />
+          </ListItemIcon>
+          <ListItemText primary="Logout" color="common.black" />
+        </ListItemButton>
+      </List>
     </Stack>
   );
 
@@ -97,39 +165,20 @@ export const Navbar = (_props: INavbarProps) => {
       <IconButton color="primary" size="large">
         <SearchOutlined fontSize="inherit" />
       </IconButton>
+      <IconButtonPopover Icon={<ShoppingCartOutlined />} name="cart">
+        <Typography sx={{ p: 2 }}>
+          The content of the Popover for cart.
+        </Typography>
+      </IconButtonPopover>
       {user ? (
         <IconButtonPopover Icon={<PermIdentityOutlined />} name="user">
-          <Typography sx={{ p: 2 }}>
-            The content of the Popover for user.
-          </Typography>
+          {UserAccount}
         </IconButtonPopover>
       ) : (
         <IconButton color="primary" onClick={handleLogin} size="large">
           <LoginIcon fontSize="inherit" />
         </IconButton>
       )}
-      <IconButtonPopover
-        Icon={
-          <FavoriteOutlined
-            fontSize="inherit"
-            sx={{
-              fill: 'transparent',
-              stroke: 'currentColor',
-              strokeWidth: '2px',
-            }}
-          />
-        }
-        name="favorites"
-      >
-        <Typography sx={{ p: 2 }}>
-          The content of the Popover for favs.
-        </Typography>
-      </IconButtonPopover>
-      <IconButtonPopover Icon={<ShoppingCartOutlined />} name="cart">
-        <Typography sx={{ p: 2 }}>
-          The content of the Popover for cart.
-        </Typography>
-      </IconButtonPopover>
     </Stack>
   );
 
@@ -152,14 +201,21 @@ export const Navbar = (_props: INavbarProps) => {
     <Stack display={{ xs: 'flex', md: 'none' }} direction="row" width="100%">
       {Logo}
       <Box flexGrow={1} />
-      <IconButton
-        color="inherit"
-        aria-label="open drawer"
-        edge="start"
-        onClick={handleDrawerToggle(true)}
-      >
-        <MenuIcon />
-      </IconButton>
+      <Stack gap={2} direction="row">
+        <IconButtonPopover Icon={<ShoppingCartOutlined />} name="cart">
+          <Typography sx={{ p: 2 }}>
+            The content of the Popover for cart.
+          </Typography>
+        </IconButtonPopover>
+        <IconButton
+          color="primary"
+          aria-label="open drawer"
+          edge="start"
+          onClick={handleDrawerToggle(true)}
+        >
+          <MenuIcon color="inherit" />
+        </IconButton>
+      </Stack>
       <SwipeableDrawer
         anchor="right"
         variant="temporary"
@@ -170,12 +226,56 @@ export const Navbar = (_props: INavbarProps) => {
           keepMounted: true, // Better open performance on mobile.
         }}
         sx={{
-          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 240 },
+          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 200 },
         }}
       >
-        <Stack py={3} px={1}>
-          {ActionIcons}
+        <Stack py="25%" px={1} gap={{ xs: 2, md: 3 }}>
+          <Stack gap={{ xs: 2, md: 3 }}>
+            <Stack
+              direction={{ xs: 'column', md: 'row' }}
+              gap={{ xs: 1, md: 3 }}
+              alignItems="flex-start"
+            >
+              {user && (
+                <>
+                  <Link passHref href="/profile">
+                    <Button sx={{ minWidth: 0 }}>
+                      <Typography
+                        sx={{ typography: { xs: 'subtitle2', md: 'body1' } }}
+                      >
+                        Profile
+                      </Typography>
+                    </Button>
+                  </Link>
+                  <Link passHref href="/orders">
+                    <Button sx={{ minWidth: 0 }}>
+                      <Typography
+                        sx={{ typography: { xs: 'subtitle2', md: 'body1' } }}
+                      >
+                        Orders
+                      </Typography>
+                    </Button>
+                  </Link>
+                  <Button onClick={handleLogout} sx={{ minWidth: 0 }}>
+                    <Typography
+                      sx={{ typography: { xs: 'subtitle2', md: 'body1' } }}
+                    >
+                      Logout
+                    </Typography>
+                  </Button>
+                  <Divider flexItem />
+                </>
+              )}
+            </Stack>
+          </Stack>
           {Links}
+          {!user && (
+            <Button onClick={handleLogin} variant="contained">
+              <Typography sx={{ typography: { xs: 'subtitle2', md: 'body1' } }}>
+                Login
+              </Typography>
+            </Button>
+          )}
         </Stack>
       </SwipeableDrawer>
     </Stack>

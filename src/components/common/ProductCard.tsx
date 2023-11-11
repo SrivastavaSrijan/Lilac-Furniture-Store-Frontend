@@ -7,7 +7,7 @@ import {
 } from '@mui/icons-material';
 import { Box, Button, IconButton, Skeleton, Stack } from '@mui/material';
 import { motion } from 'framer-motion';
-import React, { useState } from 'react';
+import React, { MouseEvent, useState } from 'react';
 
 import { generateSizes } from '@/lib';
 import { IProduct } from '@/lib/graphql';
@@ -20,10 +20,21 @@ export const ProductCard = (props: IProductCardProps) => {
   const { image, name } = props;
   const imageURL = image?.image?.publicUrlTransformed;
   const [show, setShow] = useState(false);
+
+  const handleCart = (ev: MouseEvent) => {
+    ev.preventDefault();
+    ev.stopPropagation();
+  };
   return (
     <Stack>
       <Stack>
-        <Box position="relative" width="100%" height={300}>
+        <Box
+          sx={{ cursor: 'pointer' }}
+          onClick={() => setShow(!show)}
+          position="relative"
+          width="100%"
+          height={300}
+        >
           <Stack
             height={36}
             width="100%"
@@ -38,7 +49,10 @@ export const ProductCard = (props: IProductCardProps) => {
               color="secondary"
             >
               {!show ? (
-                <VisibilityOutlined htmlColor="white" sx={{ fontSize: 18 }} />
+                <VisibilityOutlined
+                  htmlColor="white"
+                  sx={{ fontSize: 18, display: 'none' }}
+                />
               ) : (
                 <Cancel htmlColor="white" sx={{ fontSize: 18 }} />
               )}
@@ -66,6 +80,7 @@ export const ProductCard = (props: IProductCardProps) => {
               <Button
                 variant="contained"
                 color="secondary"
+                onClick={handleCart}
                 startIcon={<ShoppingCartOutlined />}
               >
                 Add to cart

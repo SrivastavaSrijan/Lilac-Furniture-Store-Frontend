@@ -39,7 +39,7 @@ export const IconButtonPopover = ({
         }}
         transformOrigin={{
           vertical: 'top',
-          horizontal: 'right',
+          horizontal: 'center',
         }}
         {...rest}
       >

@@ -6,8 +6,15 @@ import { Banners, CategoriesGrid } from '@/components/home';
 import { AppConfig, withApollo } from '@/lib';
 import { PageHomeComp, ssrHome } from '@/lib/graphql';
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  return ssrHome.getServerPage({ variables: { take: 3, skip: 3 } }, context);
+export const getStaticProps: GetServerSideProps = async (context) => {
+  const props = await ssrHome.getServerPage(
+    { variables: { take: 3, skip: 3 } },
+    context,
+  );
+  return {
+    ...props,
+    revalidate: 10,
+  };
 };
 
 const Home: PageHomeComp = ({ data }) => {

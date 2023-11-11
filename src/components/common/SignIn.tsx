@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   CircularProgress,
+  IconButton,
   Stack,
   Typography,
 } from '@mui/material';
@@ -12,7 +13,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { object } from 'yup';
 
 import { isRequiredString, MessagesMap } from '@/lib';
-import { useSignInMutation } from '@/lib/graphql';
+import { GetUserDocument, useSignInMutation } from '@/lib/graphql';
 
 import { AuthHeader, AuthState, IAuthChildProps } from '.';
 import { Text } from './Text';
@@ -32,9 +33,11 @@ interface ISignInForm {
   password: string;
 }
 export const SignIn = ({ setCurrentState }: IAuthChildProps) => {
-  const [state, setState] = useState<SignInState>(SignInState.Init);
-
-  const [handleSignIn, { data, loading, error }] = useSignInMutation();
+  const [, setState] = useState<SignInState>(SignInState.Init);
+  const [visibility, setVisibility] = useState(false);
+  const [handleSignIn, { data, loading, error }] = useSignInMutation({
+    refetchQueries: [GetUserDocument],
+  });
   const {
     control,
     handleSubmit,
@@ -84,14 +87,21 @@ export const SignIn = ({ setCurrentState }: IAuthChildProps) => {
           InputProps={{ endAdornment: <EmailOutlined /> }}
           label="Email"
           control={control}
+          autoComplete="username email"
           name="email"
           errors={errors}
         />
         <Text<ISignInForm>
           variant="filled"
-          InputProps={{ endAdornment: <VisibilityOutlined /> }}
+          InputProps={{
+            endAdornment: (
+              <IconButton onClick={() => setVisibility(!visibility)}>
+                <VisibilityOutlined />
+              </IconButton>
+            ),
+          }}
           label="Password"
-          type="password"
+          type={visibility ? 'text' : 'password'}
           control={control}
           name="password"
           autoComplete="password"
