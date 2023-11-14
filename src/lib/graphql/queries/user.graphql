@@ -25,3 +25,10 @@ mutation SignIn($email: String!, $password: String!) {
 mutation SignOut {
   endSession
 }
+
+mutation SignUp($data: UserCreateInput!) {
+  createUser(data: $data) {
+    id
+    name
+  }
+}

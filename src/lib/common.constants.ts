@@ -5,6 +5,9 @@ export const NavbarConstants = {
 
 export const AssetsConfig = {
   root: '/assets',
+  get error() {
+    return `${AssetsConfig.root}/error.png`;
+  },
   cloudinary: {
     root: `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/v1699532885/assets/images/`,
     get login() {

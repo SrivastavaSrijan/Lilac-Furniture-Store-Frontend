@@ -8,11 +8,12 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { object } from 'yup';
 
-import { isRequiredString, MessagesMap } from '@/lib';
+import { ApolloErrorHandler, MessagesMap, stringRequired } from '@/lib';
 import { GetUserDocument, useSignInMutation } from '@/lib/graphql';
 
 import { AuthHeader, AuthState, IAuthChildProps } from '.';
@@ -25,8 +26,8 @@ enum SignInState {
   Init,
 }
 const SignInSchema = object({
-  email: isRequiredString().email(MessagesMap.invalid),
-  password: isRequiredString(),
+  email: stringRequired().email(MessagesMap.invalid),
+  password: stringRequired(),
 });
 interface ISignInForm {
   email: string;
@@ -38,6 +39,7 @@ export const SignIn = ({ setCurrentState }: IAuthChildProps) => {
   const [handleSignIn, { data, loading, error }] = useSignInMutation({
     refetchQueries: [GetUserDocument],
   });
+  const { enqueueSnackbar } = useSnackbar();
   const {
     control,
     handleSubmit,
@@ -54,19 +56,25 @@ export const SignIn = ({ setCurrentState }: IAuthChildProps) => {
 
   useEffect(() => {
     if (loading) return;
-    const { __typename: responseType } =
-      data?.authenticateUserWithPassword ?? {};
-    if (responseType === 'UserAuthenticationWithPasswordSuccess') {
-      setState(SignInState.Success);
-      setCurrentState(AuthState.WELCOME);
-    } else if (responseType === 'UserAuthenticationWithPasswordFailure') {
-      setState(SignInState.Failure);
-      setError('root', {
-        type: 'value',
-        message: MessagesMap.user.notFound,
-      });
+    try {
+      if (data && !error) {
+        const { __typename: responseType } =
+          data?.authenticateUserWithPassword ?? {};
+        if (responseType === 'UserAuthenticationWithPasswordSuccess') {
+          setState(SignInState.Success);
+          setCurrentState(AuthState.WELCOME);
+        } else if (responseType === 'UserAuthenticationWithPasswordFailure') {
+          setState(SignInState.Failure);
+          throw new Error(MessagesMap.user.notFound);
+        }
+      }
+    } catch (thrownError) {
+      setState(SignInState.Error);
+      const formattedError = new ApolloErrorHandler(thrownError)?.get();
+      if (formattedError)
+        enqueueSnackbar(formattedError?.message, { variant: 'error' });
     }
-  }, [data, loading, setCurrentState, setError]);
+  }, [data, loading, error, setCurrentState, setError, enqueueSnackbar]);
 
   return (
     <Stack
@@ -107,7 +115,7 @@ export const SignIn = ({ setCurrentState }: IAuthChildProps) => {
           autoComplete="password"
           errors={errors}
         />
-        <Typography variant="caption" color="error.main">
+        <Typography variant="caption" color="error.main" mb={2}>
           {errors.root?.message}
         </Typography>
       </Stack>
@@ -131,13 +139,14 @@ export const SignIn = ({ setCurrentState }: IAuthChildProps) => {
         >
           Login
         </Button>
-        <Typography variant="body2">
+        <Typography>
           Don&apos;t have an account?{' '}
           <Typography
             component="span"
             color="primary.main"
             fontWeight={600}
             onClick={() => setCurrentState(AuthState.SIGN_UP)}
+            sx={{ cursor: 'pointer' }}
           >
             Sign Up
           </Typography>

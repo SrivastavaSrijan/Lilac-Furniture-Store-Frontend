@@ -1,5 +1,13 @@
+import Image from 'next/image';
 import { CldImage, CldImageProps } from 'next-cloudinary';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  ReactEventHandler,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
+
+import { AssetsConfig } from '@/lib';
 
 // Use a map to store the fetched blur data URLs.
 const blurDataURLCache = new Map();
@@ -22,9 +30,11 @@ const getDynamicBlurDataUrl = async (url: string) => {
     'e_contrast:20', // Increase contrast by 20%
   ];
   const blurURL = url.replace('/upload/', `/upload/${params.join(',')}/`);
-  const base64str = await fetch(blurURL).then(async (res) => {
-    return Buffer.from(await res.arrayBuffer()).toString('base64');
-  });
+  const base64str = await fetch(blurURL)
+    .then(async (res) => {
+      return Buffer.from(await res.arrayBuffer()).toString('base64');
+    })
+    .catch((error) => console.error(error));
 
   const blurSvg = `
     <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 12'>
@@ -50,6 +60,7 @@ const getDynamicBlurDataUrl = async (url: string) => {
 interface ICloudImageProps extends CldImageProps {}
 export const CloudImage = (props: ICloudImageProps) => {
   const [blurDataURL, setBlurDataURL] = useState<string | null>(null);
+  const [hasError, setError] = useState<boolean>(false);
 
   const updateBlurDataURL = useCallback(async () => {
     const blurDataURLData = await getDynamicBlurDataUrl(props.src);
@@ -60,9 +71,21 @@ export const CloudImage = (props: ICloudImageProps) => {
     updateBlurDataURL();
   }, [updateBlurDataURL]);
 
-  return (
+  const handleError: ReactEventHandler<HTMLImageElement> = () => {
+    // setError(true);
+  };
+
+  return hasError ? (
+    <Image
+      {...props}
+      src={AssetsConfig.error}
+      alt={props.alt}
+      style={{ objectFit: 'contain' }}
+    />
+  ) : (
     <CldImage
       {...props}
+      onError={handleError}
       {...(blurDataURL && { blurDataURL, placeholder: 'blur' })}
     />
   );

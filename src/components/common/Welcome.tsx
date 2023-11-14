@@ -14,16 +14,16 @@ export const Welcome = (_props: IWelcomeProps) => {
   const user = useUser();
   const router = useRouter();
   const progress = useMotionValue(20);
-  const { hideModal, state } = useModal();
+  const { destroyModal, state } = useModal();
 
-  const handleLoggedIn = () => {
-    hideModal(Object.keys(state)?.[0]);
-    router.replace(router.asPath);
-  };
   useEffect(() => {
+    const handleLoggedIn = () => {
+      destroyModal(Object.keys(state)?.[0]);
+      router.replace(router.asPath);
+    };
     const hide = () => setTimeout(handleLoggedIn, 500);
     progress.on('animationComplete', () => hide());
-  }, [progress, hideModal, state]);
+  }, [progress, router, destroyModal, state]);
 
   return (
     <Stack
@@ -34,7 +34,7 @@ export const Welcome = (_props: IWelcomeProps) => {
       alignItems="center"
     >
       <AnimatedCheckmark progress={progress} />
-      <AuthHeader title={`Welcome back!`} subtitle={`${user?.email}`} />
+      <AuthHeader title={`Welcome!`} subtitle={`${user?.email}`} />
     </Stack>
   );
 };

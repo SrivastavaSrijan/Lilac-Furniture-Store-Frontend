@@ -8,15 +8,23 @@ import {
   Box,
   Button,
   CircularProgress,
+  IconButton,
   Stack,
   Typography,
 } from '@mui/material';
+import { omit } from 'lodash';
+import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 import { Resolver, SubmitHandler, useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import YupPassword from 'yup-password';
 
-import { isRequiredString } from '@/lib';
+import { ApolloErrorHandler, stringRequired } from '@/lib';
+import {
+  GetUserDocument,
+  useSignInMutation,
+  useSignUpMutation,
+} from '@/lib/graphql';
 
 import { AuthHeader, AuthState, IAuthChildProps } from '.';
 import { Text } from './Text';
@@ -30,18 +38,22 @@ enum SignUpState {
   Init,
 }
 const SignUpSchema = Yup.object({
-  name: isRequiredString().email(),
-  email: isRequiredString().email(),
-  password: isRequiredString()
-    .min(
-      8,
-      'Password must contain 8 or more characters with at least one of each: uppercase, lowercase, number and a special character',
-    )
-    .minLowercase(1, 'Password must contain at least 1 lower case letter')
-    .minUppercase(1, 'Password must contain at least 1 upper case letter')
-    .minNumbers(1, 'Password must contain at least 1 number')
-    .minSymbols(1, 'Password must contain at least 1 special character'),
-  confirmPassword: isRequiredString().oneOf(
+  name: stringRequired(),
+  email: stringRequired().email(),
+  password: stringRequired().when('$condition', () =>
+    process.env.NODE_ENV === 'development'
+      ? stringRequired()
+      : stringRequired()
+          .min(
+            8,
+            'Password must contain 8 or more characters with at least one of each: uppercase, lowercase, number and a special character',
+          )
+          .minLowercase(1, 'Password must contain at least 1 lower case letter')
+          .minUppercase(1, 'Password must contain at least 1 upper case letter')
+          .minNumbers(1, 'Password must contain at least 1 number')
+          .minSymbols(1, 'Password must contain at least 1 special character'),
+  ),
+  confirmPassword: stringRequired().oneOf(
     [Yup.ref('password')],
     'Passwords must match',
   ),
@@ -53,7 +65,15 @@ interface ISignUpForm {
   confirmPassword: string;
 }
 export const SignUp = ({ setCurrentState }: IAuthChildProps) => {
-  const [state, setState] = useState<SignUpState>(SignUpState.Init);
+  const [, setState] = useState<SignUpState>(SignUpState.Init);
+  const [visibility, setVisibility] = useState(false);
+  const [handleSignUp, { loading: signUpLoading }] = useSignUpMutation();
+  const [handleSignIn, { loading: signInLoading }] = useSignInMutation({
+    refetchQueries: [GetUserDocument],
+  });
+  const loading = signUpLoading || signInLoading;
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const {
     control,
@@ -68,9 +88,35 @@ export const SignUp = ({ setCurrentState }: IAuthChildProps) => {
     },
     resolver: yupResolver(SignUpSchema) as Resolver<ISignUpForm, any>,
   });
+
   const onSubmit: SubmitHandler<ISignUpForm> = async (formValues) => {
-    // if (!formValues) return;
-    // await handleSignUp({ variables: formValues });
+    if (!formValues) return;
+    const formValuesCleaned = omit(formValues, ['confirmPassword']);
+    try {
+      const { data: signUpData } = await handleSignUp({
+        variables: { data: formValuesCleaned },
+      });
+      if (signUpData) {
+        if (signUpData?.createUser) {
+          const { data: signInData } = await handleSignIn({
+            variables: omit(formValuesCleaned, ['name']),
+          });
+          if (signInData)
+            if (
+              signInData.authenticateUserWithPassword?.__typename ===
+              'UserAuthenticationWithPasswordSuccess'
+            ) {
+              setCurrentState(AuthState.WELCOME);
+              setState(SignUpState.Success);
+            }
+        }
+      }
+    } catch (thrownError) {
+      setState(SignUpState.Error);
+      const formattedError = new ApolloErrorHandler(thrownError)?.get();
+      if (formattedError)
+        enqueueSnackbar(formattedError?.message, { variant: 'error' });
+    }
   };
 
   return (
@@ -86,7 +132,11 @@ export const SignUp = ({ setCurrentState }: IAuthChildProps) => {
         title="Sign up"
         subtitle="Consectetur cupidatat nulla deserunt nulla pariatur culpa incididunt id non cillum incididunt mollit sit fugiat elit non labore."
       />
-      <Stack gap={{ xs: 1, md: 2 }} sx={{ overflowY: 'auto' }} pb={12}>
+      <Stack
+        gap={{ xs: 1, md: 2 }}
+        sx={{ overflowY: 'auto' }}
+        mb={{ md: '128px', sm: '72px' }}
+      >
         <Text<ISignUpForm>
           variant="filled"
           label="Email"
@@ -94,6 +144,7 @@ export const SignUp = ({ setCurrentState }: IAuthChildProps) => {
           InputProps={{ endAdornment: <EmailOutlined /> }}
           name="email"
           errors={errors}
+          autoComplete="username"
         />
         <Text<ISignUpForm>
           variant="filled"
@@ -107,23 +158,38 @@ export const SignUp = ({ setCurrentState }: IAuthChildProps) => {
         <Text<ISignUpForm>
           variant="filled"
           label="Password"
-          InputProps={{ endAdornment: <VisibilityOutlined /> }}
-          type="password"
-          control={control}
+          InputProps={{
+            endAdornment: (
+              <IconButton onClick={() => setVisibility(!visibility)}>
+                <VisibilityOutlined />
+              </IconButton>
+            ),
+          }}
           name="password"
+          control={control}
+          type={visibility ? 'text' : 'password'}
           autoComplete="new-password"
           errors={errors}
         />
         <Text<ISignUpForm>
           variant="filled"
           label="Confirm Password"
-          InputProps={{ endAdornment: <VisibilityOutlined /> }}
-          type="password"
+          InputProps={{
+            endAdornment: (
+              <IconButton onClick={() => setVisibility(!visibility)}>
+                <VisibilityOutlined />
+              </IconButton>
+            ),
+          }}
+          type={visibility ? 'text' : 'password'}
           control={control}
           name="confirmPassword"
           autoComplete="new-password"
           errors={errors}
         />
+        <Typography variant="caption" color="error.main" mb={2}>
+          {errors.root?.message}
+        </Typography>
       </Stack>
       <Box flexGrow={1} />
       <Stack
@@ -139,17 +205,18 @@ export const SignUp = ({ setCurrentState }: IAuthChildProps) => {
           type="submit"
           variant="contained"
           endIcon={
-            false ? <CircularProgress color="inherit" size={14} /> : undefined
+            loading ? <CircularProgress color="inherit" size={14} /> : undefined
           }
         >
           Sign Up
         </Button>
-        <Typography variant="body2">
+        <Typography>
           Already have an account?{' '}
           <Typography
             component="span"
             fontWeight={600}
             onClick={() => setCurrentState(AuthState.SIGN_IN)}
+            sx={{ cursor: 'pointer' }}
           >
             Login
           </Typography>

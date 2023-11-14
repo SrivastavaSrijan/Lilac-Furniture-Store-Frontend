@@ -5,8 +5,13 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import { Box, CssBaseline, ThemeProvider } from '@mui/material';
 import ModalProvider from 'mui-modal-provider';
 import Head from 'next/head';
+import { SnackbarProvider } from 'notistack';
 
-import { Page } from '@/components/common';
+import {
+  ErrorBoundary,
+  Page,
+  StyledMaterialDesignContent,
+} from '@/components/common';
 import { AssetsConfig, createEmotionCache, useApollo } from '@/lib';
 import { poppinsClassName, theme } from '@/styles/theme';
 
@@ -25,7 +30,7 @@ export default function MyApp(props: IMyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   const apolloClient = useApollo(pageProps);
   return (
-    <ApolloProvider client={apolloClient}>
+    <>
       <Head>
         <meta
           name="viewport"
@@ -34,18 +39,31 @@ export default function MyApp(props: IMyAppProps) {
         <meta charSet="utf-8" />
         <link rel="icon" href={AssetsConfig.brand.favicon} key="favicon" />
       </Head>
-      <CacheProvider value={emotionCache}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <ModalProvider>
-            <Page>
-              <Box className={poppinsClassName} bgcolor="background.main">
-                <Component {...pageProps} />
-              </Box>
-            </Page>
-          </ModalProvider>
-        </ThemeProvider>
-      </CacheProvider>
-    </ApolloProvider>
+      <ErrorBoundary>
+        <ApolloProvider client={apolloClient}>
+          <CacheProvider value={emotionCache}>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <SnackbarProvider
+                preventDuplicate
+                maxSnack={1}
+                Components={{
+                  success: StyledMaterialDesignContent,
+                  error: StyledMaterialDesignContent,
+                }}
+              >
+                <ModalProvider>
+                  <Page>
+                    <Box className={poppinsClassName} bgcolor="background.main">
+                      <Component {...pageProps} />
+                    </Box>
+                  </Page>
+                </ModalProvider>
+              </SnackbarProvider>
+            </ThemeProvider>
+          </CacheProvider>
+        </ApolloProvider>
+      </ErrorBoundary>
+    </>
   );
 }
