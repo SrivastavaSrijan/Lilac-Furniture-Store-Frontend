@@ -1,11 +1,15 @@
 import '@/styles/global.scss';
+import '@/styles/nprogress.css';
 
 import { ApolloProvider } from '@apollo/client';
 import { CacheProvider, EmotionCache } from '@emotion/react';
-import { Box, CssBaseline, ThemeProvider } from '@mui/material';
+import { Box, Button, CssBaseline, ThemeProvider } from '@mui/material';
 import ModalProvider from 'mui-modal-provider';
 import Head from 'next/head';
-import { SnackbarProvider } from 'notistack';
+import { useRouter } from 'next/router';
+import { closeSnackbar, SnackbarProvider } from 'notistack';
+import nprogress from 'nprogress';
+import { useEffect } from 'react';
 
 import {
   ErrorBoundary,
@@ -14,6 +18,8 @@ import {
 } from '@/components/common';
 import { AssetsConfig, createEmotionCache, useApollo } from '@/lib';
 import { poppinsClassName, theme } from '@/styles/theme';
+
+nprogress.configure({ parent: '#__next' });
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -29,6 +35,13 @@ export interface IMyAppProps {
 export default function MyApp(props: IMyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   const apolloClient = useApollo(pageProps);
+  const router = useRouter();
+  useEffect(() => {
+    router.events.on('routeChangeStart', () => nprogress.start());
+    router.events.on('routeChangeComplete', () => nprogress.done());
+    router.events.on('routeChangeError', () => nprogress.done());
+  }, [router.events]);
+
   return (
     <>
       <Head>
@@ -47,6 +60,15 @@ export default function MyApp(props: IMyAppProps) {
               <SnackbarProvider
                 preventDuplicate
                 maxSnack={1}
+                action={(snackbarId) => (
+                  <Button
+                    variant="text"
+                    onClick={() => closeSnackbar(snackbarId)}
+                    sx={{ color: 'white' }}
+                  >
+                    Dismiss
+                  </Button>
+                )}
                 Components={{
                   success: StyledMaterialDesignContent,
                   error: StyledMaterialDesignContent,

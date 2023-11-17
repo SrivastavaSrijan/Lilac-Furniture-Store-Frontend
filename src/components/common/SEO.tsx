@@ -17,7 +17,7 @@ export const SEO = ({
   const url = router.basePath + router.asPath;
   return (
     <NextSeo
-      title={`${title} | ${AppConfig.name}`}
+      title={`${title}`}
       description={description}
       canonical={url}
       openGraph={{

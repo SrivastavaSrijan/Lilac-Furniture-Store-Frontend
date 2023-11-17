@@ -41,10 +41,11 @@ export const ProductsGrid = ({ limit }: IProductsGridProps) => {
 
   const handleFetchMore = async () => {
     setIsFetchingMore(true);
+
+    await sleep(1000);
     setTimeout(() => {
       ref?.current?.scrollIntoView({ behavior: 'smooth' });
     }, 100);
-    await sleep(2000);
     await fetchMore({
       variables: { offset: cursor, limit },
       updateQuery: (previousResult, { fetchMoreResult }) => {

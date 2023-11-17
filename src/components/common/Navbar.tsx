@@ -20,6 +20,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Skeleton,
   Stack,
   SwipeableDrawer,
   Toolbar,
@@ -30,6 +31,7 @@ import { nanoid } from 'nanoid';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useSnackbar } from 'notistack';
 import React, { KeyboardEvent, MouseEvent, useState } from 'react';
 
 import {
@@ -48,8 +50,9 @@ interface INavbarProps {}
 export const Navbar = (_props: INavbarProps) => {
   const [openDrawer, setDrawer] = useState(false);
   const { showModal } = useModal();
-  const user = useUser();
+  const { user, loading } = useUser();
   const router = useRouter();
+  const { enqueueSnackbar } = useSnackbar();
   const [signOut] = useSignOutMutation({ refetchQueries: [GetUserDocument] });
 
   const handleDrawerToggle =
@@ -82,14 +85,15 @@ export const Navbar = (_props: INavbarProps) => {
     handleDrawerToggle(false)(ev);
     signOut();
     router.replace(router.asPath);
+    enqueueSnackbar({ message: "You've been signed out", variant: 'info' });
   };
 
   const Logo = (
     <Stack justifyContent="center" alignItems="center" direction="row" gap={2}>
       <Image
         src={AssetsConfig.brand.logo}
-        width={48}
-        height={48}
+        width={56}
+        height={56}
         style={{ objectFit: 'contain', borderRadius: '50%' }}
         alt="Logo"
       />
@@ -116,22 +120,23 @@ export const Navbar = (_props: INavbarProps) => {
       ))}
     </Stack>
   );
-
+  const HiUser = (
+    <Stack width="100%" justifyContent="center" alignItems="center" gap={1}>
+      <Avatar
+        src={`https://api.dicebear.com/7.x/micah/svg?seed=${user?.name?.toLowerCase()}&radius=50&backgroundColor=F5F3F6,356B80,8FCBDF&shirtColor=042A3A&hairColor=042A3A&mouth=pucker&baseColor=f9c9b6`}
+        alt={user?.name ?? 'User'}
+        sx={{ width: { xs: 96, md: 96 }, height: { xs: 96, md: 96 } }}
+      />
+      <Typography fontWeight={300}>Welcome, {user?.name}!</Typography>
+    </Stack>
+  );
   const UserAccount = (
     <Stack
       py={{ xs: 1, md: 2 }}
       minWidth={{ xs: 200, md: 200 }}
       gap={{ xs: 1, md: 1.5 }}
     >
-      <Stack
-        width="100%"
-        justifyContent="center"
-        alignItems="center"
-        gap={{ xs: 1, md: 1.25 }}
-      >
-        <Avatar src="/lol.jpg" alt="SM" style={{ width: 64, height: 64 }} />
-        <Typography>Welcome, {user?.name}</Typography>
-      </Stack>
+      {HiUser}
       <Divider flexItem variant="middle" />
       <List component="nav" disablePadding>
         <Link passHref href="/profile">
@@ -170,15 +175,30 @@ export const Navbar = (_props: INavbarProps) => {
           The content of the Popover for cart.
         </Typography>
       </IconButtonPopover>
-      {user ? (
-        <IconButtonPopover Icon={<PermIdentityOutlined />} name="user">
-          {UserAccount}
-        </IconButtonPopover>
-      ) : (
-        <IconButton color="primary" onClick={handleLogin} size="large">
-          <LoginIcon fontSize="inherit" />
-        </IconButton>
-      )}
+      {(() => {
+        if (loading)
+          return (
+            <Stack
+              width={52}
+              height={52}
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Skeleton variant="circular" height={28} width={28} />
+            </Stack>
+          );
+        if (user)
+          return (
+            <IconButtonPopover Icon={<PermIdentityOutlined />} name="user">
+              {UserAccount}
+            </IconButtonPopover>
+          );
+        return (
+          <IconButton color="primary" onClick={handleLogin} size="large">
+            <LoginIcon fontSize="inherit" />
+          </IconButton>
+        );
+      })()}
     </Stack>
   );
 
@@ -229,7 +249,7 @@ export const Navbar = (_props: INavbarProps) => {
           '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 200 },
         }}
       >
-        <Stack py="25%" px={1} gap={{ xs: 2, md: 3 }}>
+        <Stack py="15%" px={1} gap={{ xs: 2, md: 3 }}>
           <Stack gap={{ xs: 2, md: 3 }}>
             <Stack
               direction={{ xs: 'column', md: 'row' }}
@@ -238,6 +258,7 @@ export const Navbar = (_props: INavbarProps) => {
             >
               {user && (
                 <>
+                  {HiUser}
                   <Link passHref href="/profile">
                     <Button sx={{ minWidth: 0 }}>
                       <Typography

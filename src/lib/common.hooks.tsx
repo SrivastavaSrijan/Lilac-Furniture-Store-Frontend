@@ -12,8 +12,8 @@ import React from 'react';
 import { useGetUserQuery } from './graphql';
 
 export const useUser = () => {
-  const { data } = useGetUserQuery();
-  return data?.authenticatedItem;
+  const { data, loading } = useGetUserQuery();
+  return { user: data?.authenticatedItem, loading };
 };
 
 export const useInMobile = () => {

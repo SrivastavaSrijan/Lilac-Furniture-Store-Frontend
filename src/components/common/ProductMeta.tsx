@@ -39,7 +39,6 @@ export const ProductMeta = ({ name, price, meta }: IProductMetaProps) => {
             </>
           )}
         </Typography>
-
         <Typography variant="body2">{formatMoney(price)}</Typography>
       </Stack>
     </Link>

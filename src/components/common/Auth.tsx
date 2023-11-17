@@ -1,10 +1,14 @@
 import { Stack, Typography, useTheme } from '@mui/material';
 import { AnimatePresence, motion } from 'framer-motion';
+import { snakeCase } from 'lodash';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
-import { AssetsConfig } from '@/lib';
+import { AppConfig, AssetsConfig } from '@/lib';
 
 import { CloudImage } from '.';
+import { RedeemResetPassword } from './RedeemResetPassword';
+import { RequestPasswordResetLink } from './RequestPasswordResetLink';
 import { SignIn } from './SignIn';
 import { SignUp } from './SignUp';
 import { Welcome } from './Welcome';
@@ -30,12 +34,18 @@ const variants = {
 
 export interface IAuthChildProps {
   setCurrentState: (state: AuthState) => void;
+  token?: string;
 }
 const IMAGE_HEIGHT = 200;
-interface IAuthProps {}
+interface IAuthProps {
+  initialState?: AuthState;
+  token?: string;
+  mode?: 'dialog' | 'page';
+}
 export enum AuthState {
   SIGN_UP,
   FORGOT_PASSWORD,
+  REQUEST_PASSWORD,
   SIGN_IN,
   WELCOME,
 }
@@ -55,20 +65,28 @@ export const AuthHeader = ({
   </Stack>
 );
 
-export const Auth = (_props: IAuthProps) => {
+export const Auth = ({ initialState, token, mode = 'dialog' }: IAuthProps) => {
   const [currentState, setCurrentState] = useState<AuthState>(
-    AuthState.SIGN_IN,
+    initialState || AuthState.SIGN_IN,
   );
-  const [prevState, setPrevState] = useState<AuthState[]>([AuthState.SIGN_IN]);
+  const [, setPrevState] = useState<AuthState[]>([AuthState.SIGN_IN]);
   const [direction, setDirection] = useState(0);
-
+  const router = useRouter();
   const theme = useTheme();
   const setNewState = (newState: AuthState) => {
     setDirection(newState > currentState ? 1 : -1);
+    if (router.asPath.includes(AppConfig.pages.welcome.path))
+      router.replace(
+        {
+          query: { state: snakeCase(AuthState[newState]) },
+        },
+        undefined,
+        { shallow: true },
+      );
     setPrevState((oldPreviousState) => [...oldPreviousState, currentState]);
     setCurrentState(newState);
   };
-  const childProps = { setCurrentState: setNewState };
+  const childProps = { setCurrentState: setNewState, token };
   const renderScene = (scene: AuthState) => {
     switch (scene) {
       case AuthState.SIGN_IN:
@@ -77,6 +95,10 @@ export const Auth = (_props: IAuthProps) => {
         return <SignUp {...childProps} />;
       case AuthState.WELCOME:
         return <Welcome {...childProps} />;
+      case AuthState.FORGOT_PASSWORD:
+        return <RequestPasswordResetLink {...childProps} />;
+      case AuthState.REQUEST_PASSWORD:
+        return <RedeemResetPassword {...childProps} />;
       default:
         return null;
     }
@@ -95,11 +117,7 @@ export const Auth = (_props: IAuthProps) => {
           objectFit: 'cover',
         }}
       />
-      <Stack
-        sx={{ overflowX: 'hidden' }}
-        // position="relative"
-        // height={`calc(100vh - ${200 + 64}px)`}
-      >
+      <Stack sx={{ overflowX: 'hidden' }}>
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
             key={currentState}
@@ -108,7 +126,6 @@ export const Auth = (_props: IAuthProps) => {
             initial="initial"
             animate="in"
             exit="out"
-            // layout="position"
             transition={{
               x: { type: 'spring', stiffness: 300, damping: 30 },
               opacity: { duration: 0.2 },
@@ -116,7 +133,7 @@ export const Auth = (_props: IAuthProps) => {
             style={{
               position: 'absolute',
               width: '100%',
-              height: `calc(100vh - ${64}px)`,
+              ...(mode === 'dialog' && { height: `calc(100vh - ${64}px)` }),
             }}
           >
             {renderScene(currentState)}

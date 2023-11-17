@@ -1,4 +1,4 @@
-import { ArrowForward, Close } from '@mui/icons-material';
+import { ArrowForward, Close, ShoppingCartOutlined } from '@mui/icons-material';
 import {
   Button,
   Grid,
@@ -10,7 +10,7 @@ import {
 import { motion, Variants } from 'framer-motion';
 import { chunk, kebabCase, map } from 'lodash';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { MouseEvent, useEffect, useState } from 'react';
 
 import { AppConfig, generateMockArray } from '@/lib';
 import {
@@ -112,6 +112,11 @@ export const CategoryCard = ({ name, products }: ICategoryCardProps) => {
     return HEIGHT / ROWS;
   };
 
+  const handleCart = (ev: MouseEvent) => {
+    ev.preventDefault();
+    ev.stopPropagation();
+  };
+
   if (!name) return <></>;
   return (
     <Stack>
@@ -165,38 +170,6 @@ export const CategoryCard = ({ name, products }: ICategoryCardProps) => {
                           handleHeight(isExpanded, index) / (isExpanded ? 2 : 1)
                         }
                       >
-                        {isExpanded && (
-                          <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.3 }}
-                            style={{
-                              position: 'absolute',
-                              width: '100%',
-                              zIndex: 3,
-                              height: 48,
-                            }}
-                          >
-                            <Stack
-                              bgcolor="secondary.light"
-                              flex={1}
-                              justifyContent="center"
-                              alignItems="flex-end"
-                              height="100%"
-                              px={2}
-                              pt={1.25}
-                            >
-                              <IconButton
-                                onClick={() => setExpanded(null)}
-                                size="small"
-                                sx={{ p: 0 }}
-                              >
-                                <Close />
-                              </IconButton>
-                            </Stack>
-                          </motion.div>
-                        )}
                         <CloudImage
                           src={imageURL}
                           fill
@@ -216,10 +189,31 @@ export const CategoryCard = ({ name, products }: ICategoryCardProps) => {
                             index,
                           )}px - 50%)`}
                           bgcolor="secondary.light"
-                          px={{ xs: 1, md: 2 }}
-                          py={{ xs: 2, md: 3 }}
+                          px={{ xs: 0.5, md: 0.5 }}
                         >
-                          <ProductMeta {...product} />{' '}
+                          <IconButton
+                            onClick={() => setExpanded(null)}
+                            size="medium"
+                            sx={{
+                              p: 0,
+                              color: 'secondary.dark',
+                              position: 'absolute',
+                              right: 16,
+                              top: 10,
+                            }}
+                          >
+                            <Close color="inherit" fontSize="inherit" />
+                          </IconButton>
+                          <ProductMeta {...product} />
+                          <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={handleCart}
+                            sx={{ mb: 3, mx: 2 }}
+                            startIcon={<ShoppingCartOutlined />}
+                          >
+                            Add to cart
+                          </Button>
                         </Stack>
                       )}
                     </motion.div>

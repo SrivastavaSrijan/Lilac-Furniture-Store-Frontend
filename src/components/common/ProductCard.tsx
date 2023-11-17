@@ -51,7 +51,7 @@ export const ProductCard = (props: IProductCardProps) => {
               {!show ? (
                 <VisibilityOutlined
                   htmlColor="white"
-                  sx={{ fontSize: 18, display: 'none' }}
+                  sx={{ fontSize: 18, display: { xs: 'flex', md: 'none' } }}
                 />
               ) : (
                 <Cancel htmlColor="white" sx={{ fontSize: 18 }} />

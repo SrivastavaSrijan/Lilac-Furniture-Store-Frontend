@@ -32,3 +32,11 @@ mutation SignUp($data: UserCreateInput!) {
     name
   }
 }
+mutation SendUserPasswordResetLink($email: String!) {
+  sendUserPasswordResetLink(email: $email)
+}
+mutation RedeemUserPasswordResetToken($email: String!, $token: String!, $password: String!) {
+  redeemUserPasswordResetToken(email: $email, token: $token, password: $password) {
+    code
+  }
+}

@@ -32,6 +32,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean };
   Int: { input: number; output: number };
   Float: { input: number; output: number };
+  DateTime: { input: any; output: any };
   JSON: { input: any; output: any };
   Upload: { input: any; output: any };
 };
@@ -222,6 +223,17 @@ export type CreateInitialUserInput = {
   password?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type DateTimeNullableFilter = {
+  equals?: InputMaybe<Scalars['DateTime']['input']>;
+  gt?: InputMaybe<Scalars['DateTime']['input']>;
+  gte?: InputMaybe<Scalars['DateTime']['input']>;
+  in?: InputMaybe<Array<Scalars['DateTime']['input']>>;
+  lt?: InputMaybe<Scalars['DateTime']['input']>;
+  lte?: InputMaybe<Scalars['DateTime']['input']>;
+  not?: InputMaybe<DateTimeNullableFilter>;
+  notIn?: InputMaybe<Array<Scalars['DateTime']['input']>>;
+};
+
 export type IdFilter = {
   equals?: InputMaybe<Scalars['ID']['input']>;
   gt?: InputMaybe<Scalars['ID']['input']>;
@@ -388,6 +400,8 @@ export type Mutation = {
   deleteUser?: Maybe<User>;
   deleteUsers?: Maybe<Array<Maybe<User>>>;
   endSession: Scalars['Boolean']['output'];
+  redeemUserPasswordResetToken?: Maybe<RedeemUserPasswordResetTokenResult>;
+  sendUserPasswordResetLink: Scalars['Boolean']['output'];
   updateBanner?: Maybe<Banner>;
   updateBanners?: Maybe<Array<Maybe<Banner>>>;
   updateCategories?: Maybe<Array<Maybe<Category>>>;
@@ -489,6 +503,16 @@ export type MutationDeleteUsersArgs = {
   where: Array<UserWhereUniqueInput>;
 };
 
+export type MutationRedeemUserPasswordResetTokenArgs = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  token: Scalars['String']['input'];
+};
+
+export type MutationSendUserPasswordResetLinkArgs = {
+  email: Scalars['String']['input'];
+};
+
 export type MutationUpdateBannerArgs = {
   data: BannerUpdateInput;
   where: BannerWhereUniqueInput;
@@ -556,6 +580,12 @@ export enum OrderDirection {
 export type PasswordFilter = {
   isSet: Scalars['Boolean']['input'];
 };
+
+export enum PasswordResetRedemptionErrorCode {
+  Failure = 'FAILURE',
+  TokenExpired = 'TOKEN_EXPIRED',
+  TokenRedeemed = 'TOKEN_REDEEMED',
+}
 
 export type PasswordState = {
   __typename?: 'PasswordState';
@@ -726,6 +756,7 @@ export type Query = {
   user?: Maybe<User>;
   users?: Maybe<Array<User>>;
   usersCount?: Maybe<Scalars['Int']['output']>;
+  validateUserPasswordResetToken?: Maybe<ValidateUserPasswordResetTokenResult>;
 };
 
 export type QueryBannerArgs = {
@@ -808,10 +839,21 @@ export type QueryUsersCountArgs = {
   where?: UserWhereInput;
 };
 
+export type QueryValidateUserPasswordResetTokenArgs = {
+  email: Scalars['String']['input'];
+  token: Scalars['String']['input'];
+};
+
 export enum QueryMode {
   Default = 'default',
   Insensitive = 'insensitive',
 }
+
+export type RedeemUserPasswordResetTokenResult = {
+  __typename?: 'RedeemUserPasswordResetTokenResult';
+  code: PasswordResetRedemptionErrorCode;
+  message: Scalars['String']['output'];
+};
 
 export type StringFilter = {
   contains?: InputMaybe<Scalars['String']['input']>;
@@ -849,6 +891,9 @@ export type User = {
   id: Scalars['ID']['output'];
   name?: Maybe<Scalars['String']['output']>;
   password?: Maybe<PasswordState>;
+  passwordResetIssuedAt?: Maybe<Scalars['DateTime']['output']>;
+  passwordResetRedeemedAt?: Maybe<Scalars['DateTime']['output']>;
+  passwordResetToken?: Maybe<PasswordState>;
 };
 
 export type UserAuthenticationWithPasswordFailure = {
@@ -870,12 +915,17 @@ export type UserCreateInput = {
   email?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
+  passwordResetIssuedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  passwordResetRedeemedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  passwordResetToken?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserOrderByInput = {
   email?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
   name?: InputMaybe<OrderDirection>;
+  passwordResetIssuedAt?: InputMaybe<OrderDirection>;
+  passwordResetRedeemedAt?: InputMaybe<OrderDirection>;
 };
 
 export type UserUpdateArgs = {
@@ -887,6 +937,9 @@ export type UserUpdateInput = {
   email?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
+  passwordResetIssuedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  passwordResetRedeemedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  passwordResetToken?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserWhereInput = {
@@ -897,11 +950,20 @@ export type UserWhereInput = {
   id?: InputMaybe<IdFilter>;
   name?: InputMaybe<StringFilter>;
   password?: InputMaybe<PasswordFilter>;
+  passwordResetIssuedAt?: InputMaybe<DateTimeNullableFilter>;
+  passwordResetRedeemedAt?: InputMaybe<DateTimeNullableFilter>;
+  passwordResetToken?: InputMaybe<PasswordFilter>;
 };
 
 export type UserWhereUniqueInput = {
   email?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+export type ValidateUserPasswordResetTokenResult = {
+  __typename?: 'ValidateUserPasswordResetTokenResult';
+  code: PasswordResetRedemptionErrorCode;
+  message: Scalars['String']['output'];
 };
 
 export type HomePageQueryVariables = Exact<{
@@ -1015,6 +1077,29 @@ export type SignUpMutationVariables = Exact<{
 export type SignUpMutation = {
   __typename?: 'Mutation';
   createUser?: { __typename?: 'User'; id: string; name?: string | null } | null;
+};
+
+export type SendUserPasswordResetLinkMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+}>;
+
+export type SendUserPasswordResetLinkMutation = {
+  __typename?: 'Mutation';
+  sendUserPasswordResetLink: boolean;
+};
+
+export type RedeemUserPasswordResetTokenMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+  token: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+}>;
+
+export type RedeemUserPasswordResetTokenMutation = {
+  __typename?: 'Mutation';
+  redeemUserPasswordResetToken?: {
+    __typename?: 'RedeemUserPasswordResetTokenResult';
+    code: PasswordResetRedemptionErrorCode;
+  } | null;
 };
 
 export const HomePageDocument = gql`
@@ -1483,3 +1568,113 @@ export type SignUpMutationOptions = Apollo.BaseMutationOptions<
   SignUpMutation,
   SignUpMutationVariables
 >;
+export const SendUserPasswordResetLinkDocument = gql`
+  mutation SendUserPasswordResetLink($email: String!) {
+    sendUserPasswordResetLink(email: $email)
+  }
+`;
+export type SendUserPasswordResetLinkMutationFn = Apollo.MutationFunction<
+  SendUserPasswordResetLinkMutation,
+  SendUserPasswordResetLinkMutationVariables
+>;
+
+/**
+ * __useSendUserPasswordResetLinkMutation__
+ *
+ * To run a mutation, you first call `useSendUserPasswordResetLinkMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSendUserPasswordResetLinkMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [sendUserPasswordResetLinkMutation, { data, loading, error }] = useSendUserPasswordResetLinkMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useSendUserPasswordResetLinkMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    SendUserPasswordResetLinkMutation,
+    SendUserPasswordResetLinkMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    SendUserPasswordResetLinkMutation,
+    SendUserPasswordResetLinkMutationVariables
+  >(SendUserPasswordResetLinkDocument, options as any);
+}
+export type SendUserPasswordResetLinkMutationHookResult = ReturnType<
+  typeof useSendUserPasswordResetLinkMutation
+>;
+export type SendUserPasswordResetLinkMutationResult =
+  Apollo.MutationResult<SendUserPasswordResetLinkMutation>;
+export type SendUserPasswordResetLinkMutationOptions =
+  Apollo.BaseMutationOptions<
+    SendUserPasswordResetLinkMutation,
+    SendUserPasswordResetLinkMutationVariables
+  >;
+export const RedeemUserPasswordResetTokenDocument = gql`
+  mutation RedeemUserPasswordResetToken(
+    $email: String!
+    $token: String!
+    $password: String!
+  ) {
+    redeemUserPasswordResetToken(
+      email: $email
+      token: $token
+      password: $password
+    ) {
+      code
+    }
+  }
+`;
+export type RedeemUserPasswordResetTokenMutationFn = Apollo.MutationFunction<
+  RedeemUserPasswordResetTokenMutation,
+  RedeemUserPasswordResetTokenMutationVariables
+>;
+
+/**
+ * __useRedeemUserPasswordResetTokenMutation__
+ *
+ * To run a mutation, you first call `useRedeemUserPasswordResetTokenMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRedeemUserPasswordResetTokenMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [redeemUserPasswordResetTokenMutation, { data, loading, error }] = useRedeemUserPasswordResetTokenMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *      token: // value for 'token'
+ *      password: // value for 'password'
+ *   },
+ * });
+ */
+export function useRedeemUserPasswordResetTokenMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    RedeemUserPasswordResetTokenMutation,
+    RedeemUserPasswordResetTokenMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    RedeemUserPasswordResetTokenMutation,
+    RedeemUserPasswordResetTokenMutationVariables
+  >(RedeemUserPasswordResetTokenDocument, options as any);
+}
+export type RedeemUserPasswordResetTokenMutationHookResult = ReturnType<
+  typeof useRedeemUserPasswordResetTokenMutation
+>;
+export type RedeemUserPasswordResetTokenMutationResult =
+  Apollo.MutationResult<RedeemUserPasswordResetTokenMutation>;
+export type RedeemUserPasswordResetTokenMutationOptions =
+  Apollo.BaseMutationOptions<
+    RedeemUserPasswordResetTokenMutation,
+    RedeemUserPasswordResetTokenMutationVariables
+  >;

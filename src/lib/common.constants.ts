@@ -34,7 +34,21 @@ export const AppConfig = {
   name: 'Lilac',
   pages: {
     index: {
-      title: 'Home Page',
+      title:
+        'Lilac: Mid-Century Modern Furniture for Elegant & Contemporary Living Spaces',
+      path: '/',
+    },
+    welcome: {
+      path: '/welcome',
+      title: {
+        'sign-up':
+          'Join Lilac: Create Your Account for Exclusive Mid-Century Furniture Access',
+        'sign-in':
+          'Log In to Lilac: Access Your Mid-Century Modern Furniture World',
+        'forgot-password': 'Reset Your Lilac Account Password - Quick & Secure',
+        'request-password':
+          'Forgot Password - Recover Your Lilac Account Access',
+      },
     },
     category: {
       path: '/category/[id].tsx',
@@ -55,5 +69,12 @@ export const MessagesMap = {
   invalid: 'This field is invalid',
   user: {
     notFound: `Couldn't find a user with that email/password entered is incorrect`,
+    reset: {
+      redeemedFailure: 'Link expired or invalid, please request a new one',
+      requestedSuccess:
+        'Sent an email at your registered email ID. Please click on the link to reset your password.',
+      requestedFailure: `Unable to send an email/user does not exist.`,
+      redeemedSuccess: 'Password changed successfully. Please sign in.',
+    },
   },
 };

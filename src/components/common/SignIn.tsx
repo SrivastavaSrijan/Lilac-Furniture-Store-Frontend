@@ -1,11 +1,17 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { EmailOutlined, VisibilityOutlined } from '@mui/icons-material';
+import {
+  EmailOutlined,
+  HelpOutlineOutlined,
+  VisibilityOffOutlined,
+  VisibilityOutlined,
+} from '@mui/icons-material';
 import {
   Box,
   Button,
   CircularProgress,
   IconButton,
   Stack,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import { useSnackbar } from 'notistack';
@@ -65,7 +71,7 @@ export const SignIn = ({ setCurrentState }: IAuthChildProps) => {
           setCurrentState(AuthState.WELCOME);
         } else if (responseType === 'UserAuthenticationWithPasswordFailure') {
           setState(SignInState.Failure);
-          throw new Error(MessagesMap.user.notFound);
+          setError('root', { message: MessagesMap.user.notFound });
         }
       }
     } catch (thrownError) {
@@ -89,10 +95,14 @@ export const SignIn = ({ setCurrentState }: IAuthChildProps) => {
         title="Login"
         subtitle="Lorem ipsum dolor sit amet, sint aliquip deserunt aute ea nisi sint incididunt anim pariatur"
       />
-      <Stack gap={{ xs: 1, md: 2 }} sx={{ overflowY: 'auto' }} pb={12}>
+      <Stack
+        gap={{ xs: 1, md: 2 }}
+        sx={{ overflowY: 'auto' }}
+        pb={{ xs: '12vh', md: '12vh' }}
+      >
         <Text<ISignInForm>
           variant="filled"
-          InputProps={{ endAdornment: <EmailOutlined /> }}
+          InputProps={{ endAdornment: <EmailOutlined color="primary" /> }}
           label="Email"
           control={control}
           autoComplete="username email"
@@ -103,9 +113,29 @@ export const SignIn = ({ setCurrentState }: IAuthChildProps) => {
           variant="filled"
           InputProps={{
             endAdornment: (
-              <IconButton onClick={() => setVisibility(!visibility)}>
-                <VisibilityOutlined />
-              </IconButton>
+              <Stack gap={1} direction="row">
+                <Tooltip title="View">
+                  <IconButton
+                    onClick={() => setVisibility(!visibility)}
+                    color="primary"
+                    sx={{ p: 0 }}
+                  >
+                    {!visibility ? (
+                      <VisibilityOutlined />
+                    ) : (
+                      <VisibilityOffOutlined />
+                    )}
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Reset Password" color="primary">
+                  <IconButton
+                    sx={{ p: 0 }}
+                    onClick={() => setCurrentState(AuthState.FORGOT_PASSWORD)}
+                  >
+                    <HelpOutlineOutlined />
+                  </IconButton>
+                </Tooltip>
+              </Stack>
             ),
           }}
           label="Password"
