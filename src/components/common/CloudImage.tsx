@@ -24,7 +24,7 @@ const getDynamicBlurDataUrl = async (url: string) => {
     'f_auto',
     'c_fill', // Fill the space, maintaining aspect ratio
     'g_auto', // Automatically focus on the most important region of the image
-    'w_30', // Width of 30 pixels for the placeholder
+    'w_5', // Width of 10 pixels for the placeholder
     'q_auto:low', // Lower quality for smaller file size
     'e_saturation:50', // Increase saturation by 50%
     'e_contrast:20', // Increase contrast by 20%
@@ -72,7 +72,7 @@ export const CloudImage = (props: ICloudImageProps) => {
   }, [updateBlurDataURL]);
 
   const handleError: ReactEventHandler<HTMLImageElement> = () => {
-    // setError(true);
+    setError(true);
   };
 
   return hasError ? (

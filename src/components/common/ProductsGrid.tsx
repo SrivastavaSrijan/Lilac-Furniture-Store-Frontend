@@ -6,8 +6,6 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { concat } from 'lodash';
-import { nanoid } from 'nanoid';
 import React, { useEffect, useRef, useState } from 'react';
 
 import { generateMockArray, sleep } from '@/lib';
@@ -32,13 +30,6 @@ export const ProductsGrid = ({ limit }: IProductsGridProps) => {
 
   const ref = useRef<HTMLButtonElement | null>(null);
 
-  useEffect(() => {
-    if (!loading && data?.products) {
-      // Append new products to the existing list
-      setDataArray(data.products);
-    }
-  }, [data, loading]);
-
   const handleFetchMore = async () => {
     setIsFetchingMore(true);
     await sleep(1000);
@@ -48,10 +39,10 @@ export const ProductsGrid = ({ limit }: IProductsGridProps) => {
         if (!fetchMoreResult) return previousResult;
         return {
           __typename: previousResult.__typename,
-          products: concat(
-            previousResult?.products ?? [],
-            fetchMoreResult?.products ?? [],
-          ),
+          products: [
+            ...(previousResult?.products ?? []),
+            ...(fetchMoreResult?.products ?? []),
+          ],
         };
       },
     });
@@ -61,9 +52,16 @@ export const ProductsGrid = ({ limit }: IProductsGridProps) => {
     setIsFetchingMore(false);
   };
 
+  useEffect(() => {
+    if (!loading && data?.products) {
+      // Append new products to the existing list
+      setDataArray(data.products);
+    }
+  }, [data?.products, loading]);
+
   // Prepare the product cards or skeletons
-  const productCards = dataArray.map((product: IProduct) => (
-    <Grid item key={nanoid()} xs={6} md={3}>
+  const productCards = dataArray.map((product: IProduct, index) => (
+    <Grid item key={`${product?.name}_${index}`} xs={6} md={3}>
       <ProductCard {...product} />
     </Grid>
   ));
