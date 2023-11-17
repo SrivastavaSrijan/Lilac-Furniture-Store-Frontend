@@ -38,8 +38,6 @@ const isBrowser = typeof window !== 'undefined';
 const progressLink = new ApolloLink((operation, forward) => {
   if (isBrowser) nprogress.start();
   numRequests += 1;
-  console.log(numRequests);
-
   return forward(operation).map((response) => {
     numRequests -= 1;
     if (numRequests === 0) {

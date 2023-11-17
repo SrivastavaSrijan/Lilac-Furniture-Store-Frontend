@@ -101,6 +101,7 @@ export const ProductCard = (props: IProductCardProps) => {
               fill
               alt={name}
               sizes={generateSizes({ xs: 6, md: 3 })}
+              style={{ objectFit: 'cover' }}
             />
           ) : (
             <Skeleton variant="rectangular">
