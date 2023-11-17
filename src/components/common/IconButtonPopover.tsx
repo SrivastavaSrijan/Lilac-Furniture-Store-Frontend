@@ -25,7 +25,7 @@ export const IconButtonPopover = ({
 
   return (
     <>
-      <IconButton color="primary" size="large" onClick={handleToggle(!el)}>
+      <IconButton color="primary" size="medium" onClick={handleToggle(!el)}>
         <SvgIcon fontSize="inherit">{Icon}</SvgIcon>
       </IconButton>
       <MUIPopover

@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import {
   ApolloClient,
+  ApolloLink,
   ApolloProvider,
   from,
   HttpLink,
@@ -13,6 +14,7 @@ import { IncomingMessage } from 'http';
 import { isEqual } from 'lodash';
 import { NextPage } from 'next';
 import { NextApiRequestCookies } from 'next/dist/server/api-utils';
+import nprogress from 'nprogress';
 import { useMemo } from 'react';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
@@ -27,6 +29,24 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
       ),
     );
   if (networkError) console.error(`[Network error]: ${networkError}`);
+});
+
+// Track ongoing requests
+let numRequests = 0;
+const isBrowser = typeof window !== 'undefined';
+
+const progressLink = new ApolloLink((operation, forward) => {
+  if (isBrowser) nprogress.start();
+  numRequests += 1;
+  console.log(numRequests);
+
+  return forward(operation).map((response) => {
+    numRequests -= 1;
+    if (numRequests === 0) {
+      if (isBrowser) nprogress.done();
+    }
+    return response;
+  });
 });
 
 const httpLink = new HttpLink({
@@ -55,9 +75,9 @@ export const getApolloClient = (
     initialState || {},
   );
   return new ApolloClient({
-    ssrMode: typeof window === 'undefined',
+    ssrMode: !isBrowser,
     connectToDevTools: process.env.NODE_ENV !== 'production',
-    link: from([errorLink, httpLink]),
+    link: from([progressLink, errorLink, httpLink]),
     cache,
   });
 };

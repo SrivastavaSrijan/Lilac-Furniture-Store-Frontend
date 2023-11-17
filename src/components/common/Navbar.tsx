@@ -39,6 +39,7 @@ import {
   asModal,
   AssetsConfig,
   NavbarConstants,
+  useInMobile,
   useUser,
 } from '@/lib';
 import { GetUserDocument, useSignOutMutation } from '@/lib/graphql';
@@ -54,7 +55,7 @@ export const Navbar = (_props: INavbarProps) => {
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
   const [signOut] = useSignOutMutation({ refetchQueries: [GetUserDocument] });
-
+  const inMobile = useInMobile();
   const handleDrawerToggle =
     (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
       if (
@@ -92,8 +93,8 @@ export const Navbar = (_props: INavbarProps) => {
     <Stack justifyContent="center" alignItems="center" direction="row" gap={2}>
       <Image
         src={AssetsConfig.brand.logo}
-        width={56}
-        height={56}
+        width={inMobile ? 32 : 48}
+        height={inMobile ? 32 : 48}
         style={{ objectFit: 'contain', borderRadius: '50%' }}
         alt="Logo"
       />
@@ -170,7 +171,10 @@ export const Navbar = (_props: INavbarProps) => {
       <IconButton color="primary" size="large">
         <SearchOutlined fontSize="inherit" />
       </IconButton>
-      <IconButtonPopover Icon={<ShoppingCartOutlined />} name="cart">
+      <IconButtonPopover
+        Icon={<ShoppingCartOutlined fontSize="inherit" />}
+        name="cart"
+      >
         <Typography sx={{ p: 2 }}>
           The content of the Popover for cart.
         </Typography>
@@ -189,7 +193,10 @@ export const Navbar = (_props: INavbarProps) => {
           );
         if (user)
           return (
-            <IconButtonPopover Icon={<PermIdentityOutlined />} name="user">
+            <IconButtonPopover
+              Icon={<PermIdentityOutlined fontSize="inherit" />}
+              name="user"
+            >
               {UserAccount}
             </IconButtonPopover>
           );
@@ -222,7 +229,10 @@ export const Navbar = (_props: INavbarProps) => {
       {Logo}
       <Box flexGrow={1} />
       <Stack gap={2} direction="row">
-        <IconButtonPopover Icon={<ShoppingCartOutlined />} name="cart">
+        <IconButtonPopover
+          Icon={<ShoppingCartOutlined fontSize="inherit" />}
+          name="cart"
+        >
           <Typography sx={{ p: 2 }}>
             The content of the Popover for cart.
           </Typography>
@@ -233,7 +243,7 @@ export const Navbar = (_props: INavbarProps) => {
           edge="start"
           onClick={handleDrawerToggle(true)}
         >
-          <MenuIcon color="inherit" />
+          <MenuIcon color="inherit" fontSize="inherit" />
         </IconButton>
       </Stack>
       <SwipeableDrawer
