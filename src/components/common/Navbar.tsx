@@ -11,6 +11,7 @@ import {
 import {
   AppBar,
   Avatar,
+  Badge,
   Box,
   Button,
   Container,
@@ -26,36 +27,54 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material';
+import { every } from 'lodash';
 import { useModal } from 'mui-modal-provider';
 import { nanoid } from 'nanoid';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
-import React, { KeyboardEvent, MouseEvent, useState } from 'react';
+import React, {
+  KeyboardEvent,
+  MouseEvent,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import { DeepRequired } from 'react-hook-form';
 
 import {
   AppConfig,
   asModal,
   AssetsConfig,
   NavbarConstants,
-  useInMobile,
+  useIsMobile,
   useUser,
 } from '@/lib';
-import { GetUserDocument, useSignOutMutation } from '@/lib/graphql';
+import { GetUserDocument, ICartItem, useSignOutMutation } from '@/lib/graphql';
+import { CommonContext } from '@/lib/providers';
 
 import { Auth, IconButtonPopover } from '.';
-import { ElevationScroll } from './ElevationScroll';
+import { CartPopover } from './CartPopover';
 
 interface INavbarProps {}
 export const Navbar = (_props: INavbarProps) => {
   const [openDrawer, setDrawer] = useState(false);
   const { showModal } = useModal();
-  const { user, loading } = useUser();
+  const { user, loading, refetch, updating } = useUser();
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
-  const [signOut] = useSignOutMutation({ refetchQueries: [GetUserDocument] });
-  const inMobile = useInMobile();
+  const [signOut] = useSignOutMutation({
+    refetchQueries: [
+      {
+        query: GetUserDocument,
+      },
+    ],
+  });
+  const inMobile = useIsMobile();
+  const cartRef = useRef<HTMLButtonElement>(null);
+  const { dispatch } = useContext(CommonContext);
   const handleDrawerToggle =
     (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
       if (
@@ -89,9 +108,41 @@ export const Navbar = (_props: INavbarProps) => {
     enqueueSnackbar({ message: "You've been signed out", variant: 'info' });
   };
 
+  useEffect(() => {
+    if (cartRef.current)
+      dispatch({ type: 'cart-element', payload: cartRef.current });
+  }, [dispatch, cartRef]);
+
+  useEffect(() => {
+    dispatch({ type: 'cart-update', payload: refetch });
+  }, [dispatch, refetch]);
+
+  useEffect(() => {
+    dispatch({ type: 'cart-updating', payload: updating });
+  }, [dispatch, updating]);
+
+  useEffect(() => {
+    const cleanedCartItems = (user?.cart ?? [])
+      .filter(({ product, quantity, __typename }) => {
+        if (
+          product &&
+          quantity &&
+          every(product, Boolean) &&
+          every(product?.meta, Boolean) &&
+          product?.image?.image?.publicUrlTransformed
+        )
+          return { product, quantity, __typename };
+        return undefined;
+      })
+      .filter(Boolean) as DeepRequired<ICartItem>[];
+
+    dispatch({ type: 'cart-items', payload: cleanedCartItems });
+  }, [dispatch, user]);
+
   const Logo = (
     <Stack justifyContent="center" alignItems="center" direction="row" gap={2}>
       <Image
+        priority
         src={AssetsConfig.brand.logo}
         width={inMobile ? 32 : 48}
         height={inMobile ? 32 : 48}
@@ -121,6 +172,7 @@ export const Navbar = (_props: INavbarProps) => {
       ))}
     </Stack>
   );
+
   const HiUser = (
     <Stack width="100%" justifyContent="center" alignItems="center" gap={1}>
       <Avatar
@@ -131,6 +183,7 @@ export const Navbar = (_props: INavbarProps) => {
       <Typography fontWeight={300}>Welcome, {user?.name}!</Typography>
     </Stack>
   );
+
   const UserAccount = (
     <Stack
       py={{ xs: 1, md: 2 }}
@@ -166,19 +219,28 @@ export const Navbar = (_props: INavbarProps) => {
     </Stack>
   );
 
+  const Cart = (
+    <IconButtonPopover
+      ref={cartRef}
+      Icon={
+        <Badge
+          badgeContent={updating ? '...' : user?.cart?.length ?? 0}
+          color="primary"
+        >
+          <ShoppingCartOutlined fontSize="inherit" />
+        </Badge>
+      }
+      name="cart"
+    >
+      <CartPopover />
+    </IconButtonPopover>
+  );
   const ActionIcons = (
     <Stack direction="row" gap={{ xs: 1, md: 3 }}>
-      <IconButton color="primary" size="large">
+      <IconButton color="primary">
         <SearchOutlined fontSize="inherit" />
       </IconButton>
-      <IconButtonPopover
-        Icon={<ShoppingCartOutlined fontSize="inherit" />}
-        name="cart"
-      >
-        <Typography sx={{ p: 2 }}>
-          The content of the Popover for cart.
-        </Typography>
-      </IconButtonPopover>
+      {Cart}
       {(() => {
         if (loading)
           return (
@@ -229,14 +291,7 @@ export const Navbar = (_props: INavbarProps) => {
       {Logo}
       <Box flexGrow={1} />
       <Stack gap={2} direction="row">
-        <IconButtonPopover
-          Icon={<ShoppingCartOutlined fontSize="inherit" />}
-          name="cart"
-        >
-          <Typography sx={{ p: 2 }}>
-            The content of the Popover for cart.
-          </Typography>
-        </IconButtonPopover>
+        {Cart}
         <IconButton
           color="primary"
           aria-label="open drawer"
@@ -313,20 +368,18 @@ export const Navbar = (_props: INavbarProps) => {
   );
 
   return (
-    <ElevationScroll>
-      <AppBar
-        position="sticky"
-        color="inherit"
-        sx={{ bgcolor: 'background.paper', py: { xs: 1, md: 1 } }}
-        elevation={0}
-      >
-        <Container maxWidth="md" disableGutters>
-          <Toolbar>
-            {MobileNavbar}
-            {DesktopNavbar}
-          </Toolbar>
-        </Container>
-      </AppBar>
-    </ElevationScroll>
+    <AppBar
+      position="sticky"
+      color="inherit"
+      sx={{ bgcolor: 'background.paper', py: { xs: 1, md: 1 } }}
+      elevation={0}
+    >
+      <Container maxWidth="md" disableGutters>
+        <Toolbar>
+          {MobileNavbar}
+          {DesktopNavbar}
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 };

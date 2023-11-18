@@ -1,9 +1,28 @@
-query GetUser {
+query GetUser($orderBy: [CartItemOrderByInput!] = [
+    {
+     id: asc
+    }
+  ]) {
   authenticatedItem {
     ...on User {
       id,
       email,
       name
+      cart(orderBy: $orderBy) {
+        id
+        product {
+          name
+          price
+          meta
+          image {
+            image {
+              publicUrlTransformed
+            }
+          }
+          id
+        }
+        quantity
+      }
     }
   }
 }

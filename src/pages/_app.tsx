@@ -17,6 +17,7 @@ import {
   StyledMaterialDesignContent,
 } from '@/components/common';
 import { AssetsConfig, createEmotionCache, useApollo } from '@/lib';
+import { CommonProvider } from '@/lib/providers/common.provider';
 import { poppinsClassName, theme } from '@/styles/theme';
 
 nprogress.configure({ parent: '#__next' });
@@ -75,11 +76,16 @@ export default function MyApp(props: IMyAppProps) {
                 }}
               >
                 <ModalProvider>
-                  <Page>
-                    <Box className={poppinsClassName} bgcolor="background.main">
-                      <Component {...pageProps} />
-                    </Box>
-                  </Page>
+                  <CommonProvider>
+                    <Page>
+                      <Box
+                        className={poppinsClassName}
+                        bgcolor="background.main"
+                      >
+                        <Component {...pageProps} />
+                      </Box>
+                    </Page>
+                  </CommonProvider>
                 </ModalProvider>
               </SnackbarProvider>
             </ThemeProvider>

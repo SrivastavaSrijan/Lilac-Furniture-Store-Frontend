@@ -14,7 +14,6 @@ import { IncomingMessage } from 'http';
 import { isEqual } from 'lodash';
 import { NextPage } from 'next';
 import { NextApiRequestCookies } from 'next/dist/server/api-utils';
-import nprogress from 'nprogress';
 import { useMemo } from 'react';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
@@ -36,12 +35,12 @@ let numRequests = 0;
 const isBrowser = typeof window !== 'undefined';
 
 const progressLink = new ApolloLink((operation, forward) => {
-  if (isBrowser) nprogress.start();
+  // if (isBrowser) nprogress.start();
   numRequests += 1;
   return forward(operation).map((response) => {
     numRequests -= 1;
     if (numRequests === 0) {
-      if (isBrowser) nprogress.done();
+      // if (isBrowser) nprogress.done();
     }
     return response;
   });

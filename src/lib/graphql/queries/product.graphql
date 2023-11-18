@@ -1,5 +1,6 @@
 query PaginatedProducts($offset: Int, $limit: Int) {
   products(skip: $offset, take: $limit) {
+    id
     image {
       image {
         publicUrlTransformed
@@ -13,14 +14,34 @@ query PaginatedProducts($offset: Int, $limit: Int) {
 
 query ProductsWhere($where: ProductWhereInput!, $includeDesc: Boolean = false, $take: Int) {
   products(where: $where, take: $take) {
-    name,
-    id,
-    meta,
+    id
+    name
+    meta
     image {
       image {
         publicUrlTransformed
       }
     }
     description @include(if: $includeDesc)
+  }
+}
+
+mutation AddToCart($id: ID!) {
+  addToCart(id: $id) {
+    product {
+      id
+    }
+  }
+}
+
+mutation UpdateCartItem($where: CartItemWhereUniqueInput!, $data: CartItemUpdateInput!) {
+  updateCartItem(where: $where, data: $data) {
+    quantity
+  }
+}
+
+mutation DeleteCartItem($where: CartItemWhereUniqueInput!) {
+  deleteCartItem(where: $where) {
+    id
   }
 }

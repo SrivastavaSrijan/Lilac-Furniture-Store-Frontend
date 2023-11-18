@@ -1,6 +1,5 @@
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { nanoid } from 'nanoid';
-import React from 'react';
 
 import { HomePageQuery } from '@/lib/graphql';
 
@@ -16,7 +15,7 @@ interface IBannersProps extends Pick<HomePageQuery, 'banners'> {}
 export const Banners = ({ banners }: IBannersProps) => {
   return (
     <Carousel disablePadding>
-      {(banners ?? []).map((banner) => {
+      {(banners ?? []).map((banner, index) => {
         if (!banner) return <></>;
         const { title, subtitle, image, href } = banner;
         const { publicUrlTransformed: bannerImage = null } = image ?? {};
@@ -29,7 +28,7 @@ export const Banners = ({ banners }: IBannersProps) => {
                   src={bannerImage}
                   sizes="100vw"
                   quality={70}
-                  priority
+                  priority={index === 0}
                   alt={banner?.title ?? 'Image'}
                   style={{ objectFit: 'cover' }}
                 />

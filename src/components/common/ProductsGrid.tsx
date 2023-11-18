@@ -70,7 +70,7 @@ export const ProductsGrid = ({ limit }: IProductsGridProps) => {
   const skeletons = isFetchingMore
     ? generateMockArray(limit).map((_, index) => (
         <Grid item key={`skeleton-${index}`} xs={6} md={3}>
-          <ProductCard />
+          <ProductCard id={index?.toString()} />
         </Grid>
       ))
     : null;

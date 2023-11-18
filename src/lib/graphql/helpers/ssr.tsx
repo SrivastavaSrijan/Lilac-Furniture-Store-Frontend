@@ -194,6 +194,7 @@ export const ssrProductsWhere = {
   withPage: withPageProductsWhere,
   usePage: useProductsWhere,
 };
+
 export async function getServerPageGetUser(
   options: Omit<Apollo.QueryOptions<Types.GetUserQueryVariables>, 'query'>,
   ctx: ApolloClientContext,

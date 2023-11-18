@@ -1,6 +1,5 @@
 import { Grid, Stack, Typography } from '@mui/material';
 import { nanoid } from 'nanoid';
-import React from 'react';
 
 import { HomePageQuery } from '@/lib/graphql';
 

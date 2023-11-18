@@ -19,7 +19,6 @@
     "prefix": "gencomp",
     "body": [
       "import { Stack } from '@mui/material';",
-      "import React from 'react';",
       "",
       "interface I${TM_FILENAME_BASE/(.)(.*)/${1:/upcase}$2/}Props {}",
       "export const ${TM_FILENAME_BASE/(.)(.*)/${1:/upcase}$2/} = (props: I${TM_FILENAME_BASE/(.)(.*)/${1:/upcase}$2/}Props) => {",

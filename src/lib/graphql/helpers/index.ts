@@ -93,6 +93,68 @@ export type BannerWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
 };
 
+export type CartItem = {
+  __typename?: 'CartItem';
+  id: Scalars['ID']['output'];
+  product?: Maybe<Product>;
+  quantity?: Maybe<Scalars['Int']['output']>;
+  user?: Maybe<User>;
+};
+
+export type CartItemCreateInput = {
+  product?: InputMaybe<ProductRelateToOneForCreateInput>;
+  quantity?: InputMaybe<Scalars['Int']['input']>;
+  user?: InputMaybe<UserRelateToOneForCreateInput>;
+};
+
+export type CartItemManyRelationFilter = {
+  every?: InputMaybe<CartItemWhereInput>;
+  none?: InputMaybe<CartItemWhereInput>;
+  some?: InputMaybe<CartItemWhereInput>;
+};
+
+export type CartItemOrderByInput = {
+  id?: InputMaybe<OrderDirection>;
+  quantity?: InputMaybe<OrderDirection>;
+};
+
+export type CartItemRelateToManyForCreateInput = {
+  connect?: InputMaybe<Array<CartItemWhereUniqueInput>>;
+  create?: InputMaybe<Array<CartItemCreateInput>>;
+};
+
+export type CartItemRelateToManyForUpdateInput = {
+  connect?: InputMaybe<Array<CartItemWhereUniqueInput>>;
+  create?: InputMaybe<Array<CartItemCreateInput>>;
+  disconnect?: InputMaybe<Array<CartItemWhereUniqueInput>>;
+  set?: InputMaybe<Array<CartItemWhereUniqueInput>>;
+};
+
+export type CartItemUpdateArgs = {
+  data: CartItemUpdateInput;
+  where: CartItemWhereUniqueInput;
+};
+
+export type CartItemUpdateInput = {
+  product?: InputMaybe<ProductRelateToOneForUpdateInput>;
+  quantity?: InputMaybe<Scalars['Int']['input']>;
+  user?: InputMaybe<UserRelateToOneForUpdateInput>;
+};
+
+export type CartItemWhereInput = {
+  AND?: InputMaybe<Array<CartItemWhereInput>>;
+  NOT?: InputMaybe<Array<CartItemWhereInput>>;
+  OR?: InputMaybe<Array<CartItemWhereInput>>;
+  id?: InputMaybe<IdFilter>;
+  product?: InputMaybe<ProductWhereInput>;
+  quantity?: InputMaybe<IntFilter>;
+  user?: InputMaybe<UserWhereInput>;
+};
+
+export type CartItemWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
 export type Category = {
   __typename?: 'Category';
   description?: Maybe<Scalars['String']['output']>;
@@ -245,6 +307,17 @@ export type IdFilter = {
   notIn?: InputMaybe<Array<Scalars['ID']['input']>>;
 };
 
+export type IntFilter = {
+  equals?: InputMaybe<Scalars['Int']['input']>;
+  gt?: InputMaybe<Scalars['Int']['input']>;
+  gte?: InputMaybe<Scalars['Int']['input']>;
+  in?: InputMaybe<Array<Scalars['Int']['input']>>;
+  lt?: InputMaybe<Scalars['Int']['input']>;
+  lte?: InputMaybe<Scalars['Int']['input']>;
+  not?: InputMaybe<IntFilter>;
+  notIn?: InputMaybe<Array<Scalars['Int']['input']>>;
+};
+
 export type IntNullableFilter = {
   equals?: InputMaybe<Scalars['Int']['input']>;
   gt?: InputMaybe<Scalars['Int']['input']>;
@@ -377,9 +450,12 @@ export type KeystoneMeta = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addToCart?: Maybe<CartItem>;
   authenticateUserWithPassword?: Maybe<UserAuthenticationWithPasswordResult>;
   createBanner?: Maybe<Banner>;
   createBanners?: Maybe<Array<Maybe<Banner>>>;
+  createCartItem?: Maybe<CartItem>;
+  createCartItems?: Maybe<Array<Maybe<CartItem>>>;
   createCategories?: Maybe<Array<Maybe<Category>>>;
   createCategory?: Maybe<Category>;
   createInitialUser: UserAuthenticationWithPasswordSuccess;
@@ -391,6 +467,8 @@ export type Mutation = {
   createUsers?: Maybe<Array<Maybe<User>>>;
   deleteBanner?: Maybe<Banner>;
   deleteBanners?: Maybe<Array<Maybe<Banner>>>;
+  deleteCartItem?: Maybe<CartItem>;
+  deleteCartItems?: Maybe<Array<Maybe<CartItem>>>;
   deleteCategories?: Maybe<Array<Maybe<Category>>>;
   deleteCategory?: Maybe<Category>;
   deleteProduct?: Maybe<Product>;
@@ -404,6 +482,8 @@ export type Mutation = {
   sendUserPasswordResetLink: Scalars['Boolean']['output'];
   updateBanner?: Maybe<Banner>;
   updateBanners?: Maybe<Array<Maybe<Banner>>>;
+  updateCartItem?: Maybe<CartItem>;
+  updateCartItems?: Maybe<Array<Maybe<CartItem>>>;
   updateCategories?: Maybe<Array<Maybe<Category>>>;
   updateCategory?: Maybe<Category>;
   updateProduct?: Maybe<Product>;
@@ -412,6 +492,10 @@ export type Mutation = {
   updateProducts?: Maybe<Array<Maybe<Product>>>;
   updateUser?: Maybe<User>;
   updateUsers?: Maybe<Array<Maybe<User>>>;
+};
+
+export type MutationAddToCartArgs = {
+  id: Scalars['ID']['input'];
 };
 
 export type MutationAuthenticateUserWithPasswordArgs = {
@@ -425,6 +509,14 @@ export type MutationCreateBannerArgs = {
 
 export type MutationCreateBannersArgs = {
   data: Array<BannerCreateInput>;
+};
+
+export type MutationCreateCartItemArgs = {
+  data: CartItemCreateInput;
+};
+
+export type MutationCreateCartItemsArgs = {
+  data: Array<CartItemCreateInput>;
 };
 
 export type MutationCreateCategoriesArgs = {
@@ -469,6 +561,14 @@ export type MutationDeleteBannerArgs = {
 
 export type MutationDeleteBannersArgs = {
   where: Array<BannerWhereUniqueInput>;
+};
+
+export type MutationDeleteCartItemArgs = {
+  where: CartItemWhereUniqueInput;
+};
+
+export type MutationDeleteCartItemsArgs = {
+  where: Array<CartItemWhereUniqueInput>;
 };
 
 export type MutationDeleteCategoriesArgs = {
@@ -520,6 +620,15 @@ export type MutationUpdateBannerArgs = {
 
 export type MutationUpdateBannersArgs = {
   data: Array<BannerUpdateArgs>;
+};
+
+export type MutationUpdateCartItemArgs = {
+  data: CartItemUpdateInput;
+  where: CartItemWhereUniqueInput;
+};
+
+export type MutationUpdateCartItemsArgs = {
+  data: Array<CartItemUpdateArgs>;
 };
 
 export type MutationUpdateCategoriesArgs = {
@@ -743,6 +852,9 @@ export type Query = {
   banner?: Maybe<Banner>;
   banners?: Maybe<Array<Banner>>;
   bannersCount?: Maybe<Scalars['Int']['output']>;
+  cartItem?: Maybe<CartItem>;
+  cartItems?: Maybe<Array<CartItem>>;
+  cartItemsCount?: Maybe<Scalars['Int']['output']>;
   categories?: Maybe<Array<Category>>;
   categoriesCount?: Maybe<Scalars['Int']['output']>;
   category?: Maybe<Category>;
@@ -773,6 +885,22 @@ export type QueryBannersArgs = {
 
 export type QueryBannersCountArgs = {
   where?: BannerWhereInput;
+};
+
+export type QueryCartItemArgs = {
+  where: CartItemWhereUniqueInput;
+};
+
+export type QueryCartItemsArgs = {
+  cursor?: InputMaybe<CartItemWhereUniqueInput>;
+  orderBy?: Array<CartItemOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: CartItemWhereInput;
+};
+
+export type QueryCartItemsCountArgs = {
+  where?: CartItemWhereInput;
 };
 
 export type QueryCategoriesArgs = {
@@ -887,6 +1015,8 @@ export type StringNullableFilter = {
 
 export type User = {
   __typename?: 'User';
+  cart?: Maybe<Array<CartItem>>;
+  cartCount?: Maybe<Scalars['Int']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   name?: Maybe<Scalars['String']['output']>;
@@ -894,6 +1024,18 @@ export type User = {
   passwordResetIssuedAt?: Maybe<Scalars['DateTime']['output']>;
   passwordResetRedeemedAt?: Maybe<Scalars['DateTime']['output']>;
   passwordResetToken?: Maybe<PasswordState>;
+};
+
+export type UserCartArgs = {
+  cursor?: InputMaybe<CartItemWhereUniqueInput>;
+  orderBy?: Array<CartItemOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: CartItemWhereInput;
+};
+
+export type UserCartCountArgs = {
+  where?: CartItemWhereInput;
 };
 
 export type UserAuthenticationWithPasswordFailure = {
@@ -912,6 +1054,7 @@ export type UserAuthenticationWithPasswordSuccess = {
 };
 
 export type UserCreateInput = {
+  cart?: InputMaybe<CartItemRelateToManyForCreateInput>;
   email?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
@@ -928,12 +1071,24 @@ export type UserOrderByInput = {
   passwordResetRedeemedAt?: InputMaybe<OrderDirection>;
 };
 
+export type UserRelateToOneForCreateInput = {
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  create?: InputMaybe<UserCreateInput>;
+};
+
+export type UserRelateToOneForUpdateInput = {
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  create?: InputMaybe<UserCreateInput>;
+  disconnect?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
 export type UserUpdateArgs = {
   data: UserUpdateInput;
   where: UserWhereUniqueInput;
 };
 
 export type UserUpdateInput = {
+  cart?: InputMaybe<CartItemRelateToManyForUpdateInput>;
   email?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
@@ -946,6 +1101,7 @@ export type UserWhereInput = {
   AND?: InputMaybe<Array<UserWhereInput>>;
   NOT?: InputMaybe<Array<UserWhereInput>>;
   OR?: InputMaybe<Array<UserWhereInput>>;
+  cart?: InputMaybe<CartItemManyRelationFilter>;
   email?: InputMaybe<StringFilter>;
   id?: InputMaybe<IdFilter>;
   name?: InputMaybe<StringFilter>;
@@ -1000,6 +1156,7 @@ export type PaginatedProductsQuery = {
   __typename?: 'Query';
   products?: Array<{
     __typename?: 'Product';
+    id: string;
     name?: string | null;
     meta?: any | null;
     price?: number | null;
@@ -1023,8 +1180,8 @@ export type ProductsWhereQuery = {
   __typename?: 'Query';
   products?: Array<{
     __typename?: 'Product';
-    name?: string | null;
     id: string;
+    name?: string | null;
     meta?: any | null;
     description?: string | null;
     image?: {
@@ -1037,7 +1194,40 @@ export type ProductsWhereQuery = {
   }> | null;
 };
 
-export type GetUserQueryVariables = Exact<{ [key: string]: never }>;
+export type AddToCartMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+export type AddToCartMutation = {
+  __typename?: 'Mutation';
+  addToCart?: {
+    __typename?: 'CartItem';
+    product?: { __typename?: 'Product'; id: string } | null;
+  } | null;
+};
+
+export type UpdateCartItemMutationVariables = Exact<{
+  where: CartItemWhereUniqueInput;
+  data: CartItemUpdateInput;
+}>;
+
+export type UpdateCartItemMutation = {
+  __typename?: 'Mutation';
+  updateCartItem?: { __typename?: 'CartItem'; quantity?: number | null } | null;
+};
+
+export type DeleteCartItemMutationVariables = Exact<{
+  where: CartItemWhereUniqueInput;
+}>;
+
+export type DeleteCartItemMutation = {
+  __typename?: 'Mutation';
+  deleteCartItem?: { __typename?: 'CartItem'; id: string } | null;
+};
+
+export type GetUserQueryVariables = Exact<{
+  orderBy?: InputMaybe<Array<CartItemOrderByInput> | CartItemOrderByInput>;
+}>;
 
 export type GetUserQuery = {
   __typename?: 'Query';
@@ -1046,6 +1236,25 @@ export type GetUserQuery = {
     id: string;
     email?: string | null;
     name?: string | null;
+    cart?: Array<{
+      __typename?: 'CartItem';
+      id: string;
+      quantity?: number | null;
+      product?: {
+        __typename?: 'Product';
+        name?: string | null;
+        price?: number | null;
+        meta?: any | null;
+        id: string;
+        image?: {
+          __typename?: 'ProductImage';
+          image?: {
+            __typename?: 'CloudinaryImage_File';
+            publicUrlTransformed?: string | null;
+          } | null;
+        } | null;
+      } | null;
+    }> | null;
   } | null;
 };
 
@@ -1186,6 +1395,7 @@ export type HomePageQueryResult = Apollo.QueryResult<
 export const PaginatedProductsDocument = gql`
   query PaginatedProducts($offset: Int, $limit: Int) {
     products(skip: $offset, take: $limit) {
+      id
       image {
         image {
           publicUrlTransformed
@@ -1271,8 +1481,8 @@ export const ProductsWhereDocument = gql`
     $take: Int
   ) {
     products(where: $where, take: $take) {
-      name
       id
+      name
       meta
       image {
         image {
@@ -1351,13 +1561,183 @@ export type ProductsWhereQueryResult = Apollo.QueryResult<
   ProductsWhereQuery,
   ProductsWhereQueryVariables
 >;
+export const AddToCartDocument = gql`
+  mutation AddToCart($id: ID!) {
+    addToCart(id: $id) {
+      product {
+        id
+      }
+    }
+  }
+`;
+export type AddToCartMutationFn = Apollo.MutationFunction<
+  AddToCartMutation,
+  AddToCartMutationVariables
+>;
+
+/**
+ * __useAddToCartMutation__
+ *
+ * To run a mutation, you first call `useAddToCartMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddToCartMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addToCartMutation, { data, loading, error }] = useAddToCartMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useAddToCartMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    AddToCartMutation,
+    AddToCartMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<AddToCartMutation, AddToCartMutationVariables>(
+    AddToCartDocument,
+    options,
+  );
+}
+export type AddToCartMutationHookResult = ReturnType<
+  typeof useAddToCartMutation
+>;
+export type AddToCartMutationResult = Apollo.MutationResult<AddToCartMutation>;
+export type AddToCartMutationOptions = Apollo.BaseMutationOptions<
+  AddToCartMutation,
+  AddToCartMutationVariables
+>;
+export const UpdateCartItemDocument = gql`
+  mutation UpdateCartItem(
+    $where: CartItemWhereUniqueInput!
+    $data: CartItemUpdateInput!
+  ) {
+    updateCartItem(where: $where, data: $data) {
+      quantity
+    }
+  }
+`;
+export type UpdateCartItemMutationFn = Apollo.MutationFunction<
+  UpdateCartItemMutation,
+  UpdateCartItemMutationVariables
+>;
+
+/**
+ * __useUpdateCartItemMutation__
+ *
+ * To run a mutation, you first call `useUpdateCartItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCartItemMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateCartItemMutation, { data, loading, error }] = useUpdateCartItemMutation({
+ *   variables: {
+ *      where: // value for 'where'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateCartItemMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateCartItemMutation,
+    UpdateCartItemMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateCartItemMutation,
+    UpdateCartItemMutationVariables
+  >(UpdateCartItemDocument, options as any);
+}
+export type UpdateCartItemMutationHookResult = ReturnType<
+  typeof useUpdateCartItemMutation
+>;
+export type UpdateCartItemMutationResult =
+  Apollo.MutationResult<UpdateCartItemMutation>;
+export type UpdateCartItemMutationOptions = Apollo.BaseMutationOptions<
+  UpdateCartItemMutation,
+  UpdateCartItemMutationVariables
+>;
+export const DeleteCartItemDocument = gql`
+  mutation DeleteCartItem($where: CartItemWhereUniqueInput!) {
+    deleteCartItem(where: $where) {
+      id
+    }
+  }
+`;
+export type DeleteCartItemMutationFn = Apollo.MutationFunction<
+  DeleteCartItemMutation,
+  DeleteCartItemMutationVariables
+>;
+
+/**
+ * __useDeleteCartItemMutation__
+ *
+ * To run a mutation, you first call `useDeleteCartItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteCartItemMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteCartItemMutation, { data, loading, error }] = useDeleteCartItemMutation({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useDeleteCartItemMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteCartItemMutation,
+    DeleteCartItemMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteCartItemMutation,
+    DeleteCartItemMutationVariables
+  >(DeleteCartItemDocument, options as any);
+}
+export type DeleteCartItemMutationHookResult = ReturnType<
+  typeof useDeleteCartItemMutation
+>;
+export type DeleteCartItemMutationResult =
+  Apollo.MutationResult<DeleteCartItemMutation>;
+export type DeleteCartItemMutationOptions = Apollo.BaseMutationOptions<
+  DeleteCartItemMutation,
+  DeleteCartItemMutationVariables
+>;
 export const GetUserDocument = gql`
-  query GetUser {
+  query GetUser($orderBy: [CartItemOrderByInput!] = [{ id: asc }]) {
     authenticatedItem {
       ... on User {
         id
         email
         name
+        cart(orderBy: $orderBy) {
+          id
+          product {
+            name
+            price
+            meta
+            image {
+              image {
+                publicUrlTransformed
+              }
+            }
+            id
+          }
+          quantity
+        }
       }
     }
   }
@@ -1375,6 +1755,7 @@ export const GetUserDocument = gql`
  * @example
  * const { data, loading, error } = useGetUserQuery({
  *   variables: {
+ *      orderBy: // value for 'orderBy'
  *   },
  * });
  */

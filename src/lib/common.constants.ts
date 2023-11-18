@@ -56,6 +56,9 @@ export const AppConfig = {
     products: {
       path: '/products/[id].tsx',
     },
+    checkout: {
+      path: '/checkout',
+    },
     default: {
       description:
         'Discover timeless elegance and modern comfort at Lilac, your destination for mid-century modern furniture. Explore a curated collection of beautifully crafted pieces that blend pastel sophistication with a touch of nostalgia. Redefine your living spaces with our exquisite designs. Welcome to Lilac, where classic meets contemporary.',
@@ -67,6 +70,7 @@ export const AppConfig = {
 export const MessagesMap = {
   required: 'This field is required',
   invalid: 'This field is invalid',
+
   user: {
     notFound: `Couldn't find a user with that email/password entered is incorrect`,
     reset: {

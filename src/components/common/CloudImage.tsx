@@ -34,7 +34,9 @@ const getDynamicBlurDataUrl = async (url: string) => {
     .then(async (res) => {
       return Buffer.from(await res.arrayBuffer()).toString('base64');
     })
-    .catch((error) => console.error(error));
+    .catch(() => {
+      // no-op
+    });
 
   const blurSvg = `
     <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 12'>

@@ -1,9 +1,11 @@
 import { ApolloError } from '@apollo/client';
 import createCache from '@emotion/cache';
 import { PrismaError } from 'prisma-error-enum';
+import { DeepRequired } from 'react-hook-form';
 import { string } from 'yup';
 
 import { Entries, MessagesMap } from '.';
+import { ICartItem } from './graphql';
 
 // eslint-disable-next-line import/prefer-default-export
 export function createEmotionCache() {
@@ -98,3 +100,7 @@ export class ApolloErrorHandler {
     );
   }
 }
+
+export const calculateCartPrice = (items: DeepRequired<ICartItem>[]) => {
+  return items.reduce((p, c) => p + c.product.price * c.quantity, 0);
+};

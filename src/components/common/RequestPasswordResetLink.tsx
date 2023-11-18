@@ -43,7 +43,11 @@ export const RequestPasswordResetLink = ({
   const [timerTimestamp, setTimerTimestamp] = useState<Date | null>(null);
   const [handleRequestPasswordResetLink, { data, loading, error }] =
     useSendUserPasswordResetLinkMutation({
-      refetchQueries: [GetUserDocument],
+      refetchQueries: [
+        {
+          query: GetUserDocument,
+        },
+      ],
     });
   const { enqueueSnackbar } = useSnackbar();
 

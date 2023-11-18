@@ -71,7 +71,11 @@ export const SignUp = ({ setCurrentState }: IAuthChildProps) => {
   const [visibility, setVisibility] = useState(false);
   const [handleSignUp, { loading: signUpLoading }] = useSignUpMutation();
   const [handleSignIn, { loading: signInLoading }] = useSignInMutation({
-    refetchQueries: [GetUserDocument],
+    refetchQueries: [
+      {
+        query: GetUserDocument,
+      },
+    ],
   });
   const loading = signUpLoading || signInLoading;
 

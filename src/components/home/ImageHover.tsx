@@ -1,6 +1,5 @@
 import { motion, TargetAndTransition } from 'framer-motion';
 import { CldImageProps } from 'next-cloudinary';
-import React from 'react';
 
 import { CloudImage } from '../common';
 

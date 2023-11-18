@@ -3,7 +3,12 @@
 /* eslint-disable react/display-name */
 import { GraphQLNestedProperty } from '@/lib';
 
-import { HomePageQuery, PaginatedProductsQuery, ProductsWhereQuery } from '.';
+import {
+  GetUserQuery,
+  HomePageQuery,
+  PaginatedProductsQuery,
+  ProductsWhereQuery,
+} from '.';
 
 export type IProduct = GraphQLNestedProperty<
   PaginatedProductsQuery,
@@ -16,3 +21,7 @@ export type IProductWhere = GraphQLNestedProperty<
 >;
 
 export type ICategory = GraphQLNestedProperty<HomePageQuery, 'categories'>;
+export type ICartItem = GraphQLNestedProperty<
+  NonNullable<GetUserQuery['authenticatedItem']>,
+  'cart'
+>;

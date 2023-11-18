@@ -125,6 +125,7 @@ export const CategoryCard = ({ name, products }: ICategoryCardProps) => {
           {pages.map((productPages, index) => (
             <Grid container key={`parent_${index}`} position="relative">
               {productPages.map((product, pIndex) => {
+                if (!product) return <></>;
                 const { image, name: pName, id } = product ?? {};
                 const isExpanded = expandedData?.product === id;
 

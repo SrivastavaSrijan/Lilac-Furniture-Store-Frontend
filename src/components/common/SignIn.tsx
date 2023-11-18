@@ -43,7 +43,11 @@ export const SignIn = ({ setCurrentState }: IAuthChildProps) => {
   const [, setState] = useState<SignInState>(SignInState.Init);
   const [visibility, setVisibility] = useState(false);
   const [handleSignIn, { data, loading, error }] = useSignInMutation({
-    refetchQueries: [GetUserDocument],
+    refetchQueries: [
+      {
+        query: GetUserDocument,
+      },
+    ],
   });
   const { enqueueSnackbar } = useSnackbar();
   const {
