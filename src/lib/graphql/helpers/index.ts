@@ -1143,6 +1143,7 @@ export type HomePageQuery = {
   categories?: Array<{
     __typename?: 'Category';
     name?: string | null;
+    description?: string | null;
     products?: Array<{ __typename?: 'Product'; id: string }> | null;
   }> | null;
 };
@@ -1324,6 +1325,7 @@ export const HomePageDocument = gql`
     }
     categories(take: $take, skip: $skip) {
       name
+      description
       products {
         id
       }

@@ -1,46 +1,145 @@
-import { Skeleton, Stack, Typography } from '@mui/material';
-import { kebabCase } from 'lodash';
-import { nanoid } from 'nanoid';
-import Link from 'next/link';
+import {
+  Add,
+  Remove,
+  RemoveShoppingCartRounded,
+  ShoppingCartOutlined,
+} from '@mui/icons-material';
+import { alpha, Button, Stack, Typography } from '@mui/material';
 
-import { AppConfig, formatMoney } from '@/lib';
+import { formatMoney, useCartActions } from '@/lib';
 import { IProduct } from '@/lib/graphql';
 
-const { path } = AppConfig.pages.products;
+import { QuantityTextField } from './QuantityTextField';
 
-interface IProductMetaProps extends IProduct {}
-export const ProductMeta = ({ name, price, meta }: IProductMetaProps) => {
+interface IProductMetaProps extends IProduct {
+  description?: string | null;
+}
+export const ProductMeta = ({
+  name,
+  price,
+  meta,
+  id,
+  description,
+}: IProductMetaProps) => {
+  const { handleAdd, handleEdit, handleRemove, cartItemId, quantity, loading } =
+    useCartActions({ id });
   return (
-    <Link
-      href={path}
-      as={path.replace('[id].tsx', kebabCase(name || '...'))}
-      style={{ height: '100%' }}
+    <Stack
+      pt={{ xs: 0.5, md: 1 }}
+      height="100%"
+      pb={{ xs: 1.5, md: 2 }}
+      px={{ xs: 1, md: 1.5 }}
+      bgcolor="secondary.light"
+      justifyContent="space-between"
+      gap={{ xs: 1.5, md: 2 }}
     >
-      <Stack
-        pt={1}
-        height="100%"
-        pb={{ xs: 1.5, md: 2 }}
-        px={{ xs: 1, md: 1.5 }}
-        gap={0.25}
-        bgcolor="secondary.light"
-      >
-        <Typography key={nanoid()} variant="body1" fontWeight={600}>
-          {name || <Skeleton width="10ch" />}
+      <Stack gap={0.25}>
+        <Typography variant="body1" fontWeight={600}>
+          {name}
         </Typography>
+
         <Typography fontWeight={300} variant="caption">
-          {meta ? `by ${meta?.company}` : <Skeleton width="8ch" />}
+          {`by ${meta?.company}`}
         </Typography>
         <Typography fontWeight={300} variant="body2">
-          {meta ? (
-            `${meta?.type},${meta?.material}`
-          ) : (
-            <>
-              <Skeleton width="6ch" /> <Skeleton width="8ch" />
-            </>
-          )}
+          {`${meta?.type},${meta?.material}`}
         </Typography>
         <Typography variant="body2">{formatMoney(price)}</Typography>
+
+        {description && (
+          <Typography
+            variant="caption"
+            className="clamp-5"
+            mt={{ xs: 2, md: 3 }}
+          >
+            {description}
+          </Typography>
+        )}
       </Stack>
-    </Link>
+
+      {(() => {
+        if (quantity && cartItemId) {
+          return (
+            <Stack
+              gap={1}
+              direction={{ xs: 'column-reverse', md: 'row' }}
+              justifyContent="center"
+            >
+              <Stack
+                flex={1}
+                direction="row"
+                justifyContent="space-between"
+                flexWrap="nowrap"
+                height="100%"
+              >
+                <Button
+                  variant="contained"
+                  size="medium"
+                  disabled={loading}
+                  sx={{ minWidth: 0 }}
+                  onClick={handleEdit(cartItemId, quantity + 1)}
+                >
+                  <Add fontSize="small" />
+                </Button>
+                <Stack
+                  borderTop={1}
+                  borderBottom={1}
+                  borderColor={(theme) =>
+                    loading
+                      ? alpha(theme.palette.common.black, 0.12)
+                      : alpha(theme.palette.primary.main, 0.5)
+                  }
+                  width="100%"
+                  textAlign="center"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <QuantityTextField
+                    id={cartItemId}
+                    quantity={quantity}
+                    handleEdit={handleEdit}
+                    rest={{
+                      InputProps: { disableUnderline: true },
+                      disabled: loading,
+                    }}
+                  />
+                </Stack>
+                <Button
+                  variant="contained"
+                  size="medium"
+                  sx={{ minWidth: 0 }}
+                  disabled={loading}
+                  onClick={handleEdit(cartItemId, quantity - 1)}
+                >
+                  <Remove fontSize="small" />
+                </Button>
+              </Stack>
+              <Button
+                variant="outlined"
+                color="error"
+                size="medium"
+                sx={{ minWidth: 0, color: 'error.main' }}
+                disabled={loading}
+                onClick={handleRemove(cartItemId)}
+              >
+                <RemoveShoppingCartRounded color="inherit" fontSize="small" />
+              </Button>
+            </Stack>
+          );
+        }
+        return (
+          <Button
+            size="medium"
+            variant="contained"
+            color="secondary"
+            onClick={handleAdd(id)}
+            disabled={loading}
+            startIcon={<ShoppingCartOutlined fontSize="small" />}
+          >
+            Add to cart
+          </Button>
+        );
+      })()}
+    </Stack>
   );
 };

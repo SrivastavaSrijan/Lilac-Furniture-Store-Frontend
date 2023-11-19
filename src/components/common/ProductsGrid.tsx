@@ -6,7 +6,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { generateMockArray, sleep } from '@/lib';
 import { IProduct, usePaginatedProductsQuery } from '@/lib/graphql';
@@ -16,10 +16,11 @@ import { ProductCard } from './ProductCard';
 interface IProductsGridProps {
   limit: number;
 }
-
 export const ProductsGrid = ({ limit }: IProductsGridProps) => {
   const [cursor, setCursor] = useState(limit);
-  const [dataArray, setDataArray] = useState<IProduct[]>([]);
+  const [dataArray, setDataArray] = useState<(IProduct | null)[]>(
+    generateMockArray(limit),
+  );
   const [isFetchingMore, setIsFetchingMore] = useState(false);
   const { data, loading, fetchMore } = usePaginatedProductsQuery({
     variables: {
@@ -27,8 +28,6 @@ export const ProductsGrid = ({ limit }: IProductsGridProps) => {
       limit,
     },
   });
-
-  const ref = useRef<HTMLButtonElement | null>(null);
 
   const handleFetchMore = async () => {
     setIsFetchingMore(true);
@@ -46,9 +45,6 @@ export const ProductsGrid = ({ limit }: IProductsGridProps) => {
         };
       },
     });
-    setTimeout(() => {
-      ref?.current?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
     setIsFetchingMore(false);
   };
 
@@ -60,9 +56,13 @@ export const ProductsGrid = ({ limit }: IProductsGridProps) => {
   }, [data?.products, loading]);
 
   // Prepare the product cards or skeletons
-  const productCards = dataArray.map((product: IProduct, index) => (
+  const productCards = dataArray.map((product: IProduct | null, index) => (
     <Grid item key={`${product?.name}_${index}`} xs={6} md={3}>
-      <ProductCard {...product} />
+      {product ? (
+        <ProductCard {...product} />
+      ) : (
+        <ProductCard id={index.toString()} />
+      )}
     </Grid>
   ));
 
@@ -100,7 +100,6 @@ export const ProductsGrid = ({ limit }: IProductsGridProps) => {
           setCursor((oldLimit) => oldLimit + limit);
           handleFetchMore();
         }}
-        ref={ref}
         endIcon={isFetchingMore ? <CircularProgress size={12} /> : undefined}
         sx={{ mx: 'auto' }}
       >

@@ -9,7 +9,8 @@ query HomePage($take: Int, $skip: Int) {
     title
   }
   categories(take: $take, skip: $skip) {
-    name 
+    name
+    description
     products {
       id
     }

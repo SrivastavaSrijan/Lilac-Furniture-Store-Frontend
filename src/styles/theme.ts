@@ -45,9 +45,9 @@ const themeColors = {
     contrastText: '#FFFFFF', // White to stand out against the darker lilac
   },
   error: {
-    light: '#F9D1D1', // Soft pastel red for error light
-    main: '#EB6B6B', // Mid-tone red for error main
-    dark: '#EB6B6B', // Darker red for error dark
+    light: '#E97070', // Soft pastel red for error light
+    main: '#A52222', // Mid-tone red for error main
+    dark: '#560000', // Darker red for error dark
     contrastText: '#FFFFFF', // White for readability
   },
   success: {
@@ -78,6 +78,7 @@ const THEME = {
     button: {
       textTransform: 'none' as const,
       fontWeight: 500,
+      lineHeight: 1.1,
     },
     h1: {
       fontSize: '4rem',
@@ -123,7 +124,7 @@ const THEME = {
       fontFamily: TEXT_PRIMARY,
     },
     body1: {
-      fontSize: '0.875rem',
+      fontSize: '1rem',
       lineHeight: 1.5, // More generous for body text to improve readability
       fontFamily: TEXT_PRIMARY,
       '@media (min-width:600px)': {

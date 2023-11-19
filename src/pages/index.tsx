@@ -8,7 +8,7 @@ import { PageHomeComp, ssrHome } from '@/lib/graphql';
 
 export const getStaticProps: GetServerSideProps = async (context) => {
   const props = await ssrHome.getServerPage(
-    { variables: { take: 3, skip: 3 } },
+    { variables: { take: 4, skip: 4 } },
     context,
   );
   return {
@@ -36,5 +36,5 @@ const Home: PageHomeComp = ({ data }) => {
   );
 };
 export default withApollo(
-  ssrHome.withPage(() => ({ variables: { take: 3, skip: 3 } }))(Home),
+  ssrHome.withPage(() => ({ variables: { take: 4, skip: 4 } }))(Home),
 );
