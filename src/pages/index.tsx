@@ -13,7 +13,7 @@ export const getStaticProps: GetServerSideProps = async (context) => {
   );
   return {
     ...props,
-    revalidate: 10,
+    revalidate: 5 * 60,
   };
 };
 

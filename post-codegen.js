@@ -27,7 +27,10 @@ const modifyFile = (filePath) => {
     }
 
     // Change all ', options);' to ', options as any);'
-    modifiedData = modifiedData.replace(/, options\);/g, ", options as any);");
+    modifiedData = modifiedData.replace(
+      /Document,\s?(\n.*)?options/gm,
+      "Document, options as any",
+    );
 
     // Write the modified content back to the file
     fs.writeFile(filePath, modifiedData, "utf8", (writeErr) => {

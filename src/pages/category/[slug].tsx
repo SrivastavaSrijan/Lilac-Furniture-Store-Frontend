@@ -40,15 +40,14 @@ export const getStaticProps: GetServerSideProps = async ({ params, req }) => {
   );
   return {
     ...props,
-    revalidate: 10,
+    revalidate: 5 * 60,
   };
 };
 
 const CategoryBySlug: PageCategoryBySlugComp = ({ data }) => {
-  const { name, description, slug, productsCount } = data?.category ?? {};
-  if (!name || !slug || !productsCount) {
+  const { name, description, slug } = data?.category ?? {};
+  if (!name || !slug) {
     throw new Error('Something went wrong!');
-    return null;
   }
   const categoryImage = data?.category?.image?.publicUrlTransformed ?? null;
   return (

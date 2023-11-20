@@ -1400,7 +1400,7 @@ export function useHomePageQuery(
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<HomePageQuery, HomePageQueryVariables>(
     HomePageDocument,
-    options,
+    options as any,
   );
 }
 export function useHomePageLazyQuery(
@@ -1412,7 +1412,7 @@ export function useHomePageLazyQuery(
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<HomePageQuery, HomePageQueryVariables>(
     HomePageDocument,
-    options,
+    options as any,
   );
 }
 export function useHomePageSuspenseQuery(
@@ -1424,7 +1424,7 @@ export function useHomePageSuspenseQuery(
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useSuspenseQuery<HomePageQuery, HomePageQueryVariables>(
     HomePageDocument,
-    options,
+    options as any,
   );
 }
 export type HomePageQueryHookResult = ReturnType<typeof useHomePageQuery>;
@@ -1470,7 +1470,7 @@ export function useAllCategoriesQuery(
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<AllCategoriesQuery, AllCategoriesQueryVariables>(
     AllCategoriesDocument,
-    options,
+    options as any,
   );
 }
 export function useAllCategoriesLazyQuery(
@@ -1482,7 +1482,7 @@ export function useAllCategoriesLazyQuery(
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<AllCategoriesQuery, AllCategoriesQueryVariables>(
     AllCategoriesDocument,
-    options,
+    options as any,
   );
 }
 export function useAllCategoriesSuspenseQuery(
@@ -1549,7 +1549,7 @@ export function useCategoryBySlugQuery(
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<CategoryBySlugQuery, CategoryBySlugQueryVariables>(
     CategoryBySlugDocument,
-    options,
+    options as any,
   );
 }
 export function useCategoryBySlugLazyQuery(
@@ -1561,7 +1561,7 @@ export function useCategoryBySlugLazyQuery(
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<CategoryBySlugQuery, CategoryBySlugQueryVariables>(
     CategoryBySlugDocument,
-    options,
+    options as any,
   );
 }
 export function useCategoryBySlugSuspenseQuery(
@@ -1726,7 +1726,7 @@ export function useProductsWhereQuery(
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<ProductsWhereQuery, ProductsWhereQueryVariables>(
     ProductsWhereDocument,
-    options,
+    options as any,
   );
 }
 export function useProductsWhereLazyQuery(
@@ -1738,7 +1738,7 @@ export function useProductsWhereLazyQuery(
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<ProductsWhereQuery, ProductsWhereQueryVariables>(
     ProductsWhereDocument,
-    options,
+    options as any,
   );
 }
 export function useProductsWhereSuspenseQuery(
@@ -1806,7 +1806,7 @@ export function useAddToCartMutation(
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<AddToCartMutation, AddToCartMutationVariables>(
     AddToCartDocument,
-    options,
+    options as any,
   );
 }
 export type AddToCartMutationHookResult = ReturnType<
@@ -1970,7 +1970,7 @@ export function useGetUserQuery(
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<GetUserQuery, GetUserQueryVariables>(
     GetUserDocument,
-    options,
+    options as any,
   );
 }
 export function useGetUserLazyQuery(
@@ -1982,7 +1982,7 @@ export function useGetUserLazyQuery(
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<GetUserQuery, GetUserQueryVariables>(
     GetUserDocument,
-    options,
+    options as any,
   );
 }
 export function useGetUserSuspenseQuery(
@@ -1994,7 +1994,7 @@ export function useGetUserSuspenseQuery(
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useSuspenseQuery<GetUserQuery, GetUserQueryVariables>(
     GetUserDocument,
-    options,
+    options as any,
   );
 }
 export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
@@ -2053,7 +2053,7 @@ export function useSignInMutation(
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<SignInMutation, SignInMutationVariables>(
     SignInDocument,
-    options,
+    options as any,
   );
 }
 export type SignInMutationHookResult = ReturnType<typeof useSignInMutation>;
@@ -2097,7 +2097,7 @@ export function useSignOutMutation(
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<SignOutMutation, SignOutMutationVariables>(
     SignOutDocument,
-    options,
+    options as any,
   );
 }
 export type SignOutMutationHookResult = ReturnType<typeof useSignOutMutation>;
@@ -2145,7 +2145,7 @@ export function useSignUpMutation(
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useMutation<SignUpMutation, SignUpMutationVariables>(
     SignUpDocument,
-    options,
+    options as any,
   );
 }
 export type SignUpMutationHookResult = ReturnType<typeof useSignUpMutation>;

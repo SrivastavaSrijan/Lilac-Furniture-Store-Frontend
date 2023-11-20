@@ -185,7 +185,7 @@ export const withPageCategoryBySlug =
     const options = optionsFunc ? optionsFunc(router) : {};
     const { data, error } = useQuery(
       Operations.CategoryBySlugDocument,
-      options,
+      options as any,
     );
     return <WrappedComponent {...props} data={data} error={error} />;
   };
@@ -249,7 +249,7 @@ export const withPagePaginatedProducts =
     const options = optionsFunc ? optionsFunc(router) : {};
     const { data, error } = useQuery(
       Operations.PaginatedProductsDocument,
-      options,
+      options as any,
     );
     return <WrappedComponent {...props} data={data} error={error} />;
   };

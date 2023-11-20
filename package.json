@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "codegen": "graphql-codegen --config codegen.yml",
-    "postcodegen": "next lint --fix; node post-codegen.js  && next lint --fix",
+    "postcodegen": "next lint --fix; node post-codegen.js  && next lint --fix && clear",
     "watch:graphql": "chokidar 'src/lib/graphql/**/*.graphql' -c 'npm run codegen'",
     "dev": "concurrently \"yarn devs\" \"yarn watch:graphql\""
   },

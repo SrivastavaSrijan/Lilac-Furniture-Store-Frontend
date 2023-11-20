@@ -1,4 +1,11 @@
-import { Button, CircularProgress, Collapse, Grid } from '@mui/material';
+import {
+  Alert,
+  Button,
+  CircularProgress,
+  Collapse,
+  Grid,
+  Typography,
+} from '@mui/material';
 import React, { useEffect, useState } from 'react';
 
 import { generateMockArray, sleep } from '@/lib';
@@ -81,6 +88,11 @@ export const ProductsGrid = ({ limit, where }: IProductsGridProps) => {
 
   return (
     <>
+      {!dataArray.length && (
+        <Alert variant="standard" severity="error">
+          <Typography textAlign="center">No products found</Typography>
+        </Alert>
+      )}
       <Collapse
         in={limit > (max ?? 0) || fetched !== limit}
         collapsedSize="60vh"
