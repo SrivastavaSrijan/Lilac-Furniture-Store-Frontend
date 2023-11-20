@@ -140,19 +140,26 @@ export const Navbar = (_props: INavbarProps) => {
   }, [dispatch, user]);
 
   const Logo = (
-    <Stack justifyContent="center" alignItems="center" direction="row" gap={2}>
-      <Image
-        priority
-        src={AssetsConfig.brand.logo}
-        width={inMobile ? 32 : 48}
-        height={inMobile ? 32 : 48}
-        style={{ objectFit: 'contain', borderRadius: '50%' }}
-        alt="Logo"
-      />
-      <Typography variant="h5" color="primary.main">
-        {AppConfig.name.toUpperCase()}
-      </Typography>
-    </Stack>
+    <Link href={AppConfig.pages.index.path} passHref>
+      <Stack
+        justifyContent="center"
+        alignItems="center"
+        direction="row"
+        gap={2}
+      >
+        <Image
+          priority
+          src={AssetsConfig.brand.logo}
+          width={inMobile ? 32 : 48}
+          height={inMobile ? 32 : 48}
+          style={{ objectFit: 'contain', borderRadius: '50%' }}
+          alt="Logo"
+        />
+        <Typography variant="h5" color="primary.main">
+          {AppConfig.name.toUpperCase()}
+        </Typography>
+      </Stack>
+    </Link>
   );
 
   const Links = (
@@ -161,11 +168,11 @@ export const Navbar = (_props: INavbarProps) => {
       gap={{ xs: 1, md: 3 }}
       alignItems="flex-start"
     >
-      {NavbarConstants.pages.map((page) => (
-        <Link passHref href={page} key={nanoid()}>
+      {NavbarConstants.pages.map(({ title, href }) => (
+        <Link passHref href={href} key={nanoid()}>
           <Button onClick={handleDrawerToggle(false)} sx={{ minWidth: 0 }}>
             <Typography sx={{ typography: { xs: 'subtitle2', md: 'body1' } }}>
-              {page}
+              {title}
             </Typography>
           </Button>
         </Link>

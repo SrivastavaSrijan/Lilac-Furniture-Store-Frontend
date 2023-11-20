@@ -1,52 +1,56 @@
-import {
-  Button,
-  CircularProgress,
-  Collapse,
-  Grid,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Button, CircularProgress, Collapse, Grid } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 
 import { generateMockArray, sleep } from '@/lib';
-import { IProduct, usePaginatedProductsQuery } from '@/lib/graphql';
+import {
+  IProduct,
+  PaginatedProductsQueryVariables,
+  usePaginatedProductsQuery,
+} from '@/lib/graphql';
 
 import { ProductCard } from './ProductCard';
 
 interface IProductsGridProps {
   limit: number;
+  where?: PaginatedProductsQueryVariables['where'];
 }
-export const ProductsGrid = ({ limit }: IProductsGridProps) => {
-  const [cursor, setCursor] = useState(limit);
+export const ProductsGrid = ({ limit, where }: IProductsGridProps) => {
+  const [fetched, setFetched] = useState(limit);
+  const [max, setMax] = useState<number>(10e5);
   const [dataArray, setDataArray] = useState<(IProduct | null)[]>(
     generateMockArray(limit),
   );
   const [isFetchingMore, setIsFetchingMore] = useState(false);
   const { data, loading, fetchMore } = usePaginatedProductsQuery({
-    variables: {
-      offset: 0,
-      limit,
-    },
+    variables: { limit, where },
   });
 
   const handleFetchMore = async () => {
     setIsFetchingMore(true);
     await sleep(1000);
+    const lastProduct = dataArray?.[dataArray.length - 1] ?? null;
+    if (!lastProduct) return;
     await fetchMore({
-      variables: { offset: cursor, limit },
+      variables: { cursor: { id: lastProduct.id }, limit: limit + 1, where },
       updateQuery: (previousResult, { fetchMoreResult }) => {
         if (!fetchMoreResult) return previousResult;
+        const newProducts = fetchMoreResult?.products ?? [];
+        newProducts?.shift();
+        setFetched((oldLimit) => oldLimit + newProducts.length);
         return {
           __typename: previousResult.__typename,
-          products: [
-            ...(previousResult?.products ?? []),
-            ...(fetchMoreResult?.products ?? []),
-          ],
+          products: [...(previousResult?.products ?? []), ...newProducts],
         };
       },
     });
     setIsFetchingMore(false);
   };
+
+  useEffect(() => {
+    if (data && max === 10e5 && data?.productsCount) {
+      setMax(data?.productsCount);
+    }
+  }, [data, max]);
 
   useEffect(() => {
     if (!loading && data?.products) {
@@ -76,19 +80,11 @@ export const ProductsGrid = ({ limit }: IProductsGridProps) => {
     : null;
 
   return (
-    <Stack gap={{ xs: 2, md: 3 }}>
-      <Stack
-        gap={0.5}
-        justifyContent="center"
-        alignItems="center"
-        textAlign="center"
+    <>
+      <Collapse
+        in={limit > (max ?? 0) || fetched !== limit}
+        collapsedSize="60vh"
       >
-        <Typography variant="h4">Our Products</Typography>
-        <Typography variant="body1">
-          Commodo sint voluptate labore excepteur
-        </Typography>
-      </Stack>
-      <Collapse in={cursor !== limit} collapsedSize="80vh">
         <Grid container spacing={{ xs: 2, md: 3 }}>
           {productCards}
           {skeletons}
@@ -96,8 +92,8 @@ export const ProductsGrid = ({ limit }: IProductsGridProps) => {
       </Collapse>
       <Button
         variant="outlined"
+        disabled={fetched >= limit && fetched >= (max ?? 0)}
         onClick={() => {
-          setCursor((oldLimit) => oldLimit + limit);
           handleFetchMore();
         }}
         endIcon={isFetchingMore ? <CircularProgress size={12} /> : undefined}
@@ -105,6 +101,6 @@ export const ProductsGrid = ({ limit }: IProductsGridProps) => {
       >
         Show more
       </Button>
-    </Stack>
+    </>
   );
 };

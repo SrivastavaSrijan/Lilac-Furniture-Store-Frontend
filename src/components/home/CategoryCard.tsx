@@ -57,6 +57,7 @@ const MOCK_ARRAY = chunk(generateMockArray(COLUMNS * ROWS), COLUMNS);
 interface ICategoryCardProps extends ICategory {}
 export const CategoryCard = ({
   name,
+  id,
   description,
   products,
 }: ICategoryCardProps) => {
@@ -65,7 +66,6 @@ export const CategoryCard = ({
     row: number;
     product: string;
   } | null>(null);
-
   // Function to handle the product click
   const toggleProductView = (product: string | undefined, row: number) => {
     if (!product) return;
@@ -115,7 +115,12 @@ export const CategoryCard = ({
     }
     return HEIGHT / ROWS;
   };
-  if (!name) return null;
+  if (!name || !id) return null;
+  const linkProps = {
+    href: {
+      pathname: path.replace('[slug].tsx', kebabCase(name)),
+    },
+  };
   return (
     <Stack gap={{ xs: 1, md: 1 }}>
       <Stack
@@ -138,11 +143,7 @@ export const CategoryCard = ({
         </Typography>
         <Typography variant="body2">
           {description}
-          <Link
-            href={path}
-            as={path.replace('[id].tsx', kebabCase(name))}
-            passHref
-          >
+          <Link {...linkProps} passHref>
             <Button
               variant="text"
               color="primary"
@@ -158,9 +159,8 @@ export const CategoryCard = ({
         {pages.map((productPages, index) => (
           <Grid container key={`parent_${index}`} position="relative">
             {productPages.map((product, pIndex) => {
-              const { image, name: pName, id } = product ?? {};
-              const isExpanded = expandedData?.product === id;
-
+              const { image, name: pName, id: pid } = product ?? {};
+              const isExpanded = expandedData?.product === pid;
               const imageURL = image?.image?.publicUrlTransformed;
               return !product || !imageURL || !pName ? (
                 <Grid
@@ -196,7 +196,7 @@ export const CategoryCard = ({
                       damping: 25,
                     }}
                     onClick={() =>
-                      product && !expandedData && toggleProductView(id, index)
+                      product && !expandedData && toggleProductView(pid, index)
                     }
                     style={{
                       position: 'relative',
@@ -205,9 +205,7 @@ export const CategoryCard = ({
                   >
                     <Stack
                       position="relative"
-                      height={
-                        handleHeight(isExpanded, index) / (isExpanded ? 2 : 1)
-                      }
+                      height={handleHeight(isExpanded, index)}
                       sx={
                         isExpanded
                           ? {}

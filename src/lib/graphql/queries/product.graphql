@@ -1,6 +1,25 @@
-query PaginatedProducts($offset: Int, $limit: Int) {
-  products(skip: $offset, take: $limit) {
+query AllCategories {
+  categories {
+    slug
+  }
+}
+
+query CategoryBySlug($where: CategoryWhereUniqueInput!) {
+  category(where: $where) {
+    slug
+    name
+    description
+    image {
+      publicUrlTransformed
+    }
+    productsCount
+  }
+}
+
+query PaginatedProducts($limit: Int, $cursor: ProductWhereUniqueInput, $where: ProductWhereInput) {
+  products(take: $limit, cursor: $cursor, where: $where) {
     id
+    slug
     image {
       image {
         publicUrlTransformed
@@ -10,11 +29,13 @@ query PaginatedProducts($offset: Int, $limit: Int) {
     meta
     price
   }
+  productsCount(where: $where)
 }
 
 query ProductsWhere($where: ProductWhereInput!, $includeDesc: Boolean = false, $take: Int) {
   products(where: $where, take: $take) {
     id
+    slug
     name
     meta
     image {

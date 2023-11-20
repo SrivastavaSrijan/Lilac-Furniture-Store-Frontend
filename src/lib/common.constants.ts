@@ -1,5 +1,9 @@
 export const NavbarConstants = {
-  pages: ['Home', 'Shop', 'About', 'Contact'],
+  pages: [
+    { title: 'Home', href: '/' },
+    { title: 'Shop', href: '/shop' },
+    { title: 'Contact', href: 'contact' },
+  ],
   user: ['Profile', 'Log Out'],
 };
 
@@ -33,6 +37,9 @@ export const AssetsConfig = {
 export const AppConfig = {
   name: 'Lilac',
   pages: {
+    '404': {
+      title: 'Page Not Found | Lilac',
+    },
     index: {
       title:
         'Lilac: Mid-Century Modern Furniture for Elegant & Contemporary Living Spaces',
@@ -51,7 +58,7 @@ export const AppConfig = {
       },
     },
     category: {
-      path: '/category/[id].tsx',
+      path: '/category/[slug].tsx',
     },
     products: {
       path: '/products/[id].tsx',

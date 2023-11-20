@@ -163,6 +163,7 @@ export type Category = {
   name?: Maybe<Scalars['String']['output']>;
   products?: Maybe<Array<Product>>;
   productsCount?: Maybe<Scalars['Int']['output']>;
+  slug?: Maybe<Scalars['String']['output']>;
 };
 
 export type CategoryProductsArgs = {
@@ -182,12 +183,14 @@ export type CategoryCreateInput = {
   image?: InputMaybe<Scalars['Upload']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   products?: InputMaybe<ProductRelateToManyForCreateInput>;
+  slug?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CategoryOrderByInput = {
   description?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
   name?: InputMaybe<OrderDirection>;
+  slug?: InputMaybe<OrderDirection>;
 };
 
 export type CategoryRelateToOneForCreateInput = {
@@ -211,6 +214,7 @@ export type CategoryUpdateInput = {
   image?: InputMaybe<Scalars['Upload']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   products?: InputMaybe<ProductRelateToManyForUpdateInput>;
+  slug?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CategoryWhereInput = {
@@ -221,10 +225,12 @@ export type CategoryWhereInput = {
   id?: InputMaybe<IdFilter>;
   name?: InputMaybe<StringFilter>;
   products?: InputMaybe<ProductManyRelationFilter>;
+  slug?: InputMaybe<StringFilter>;
 };
 
 export type CategoryWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
 };
 
 /**
@@ -710,6 +716,7 @@ export type Product = {
   meta?: Maybe<Scalars['JSON']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   price?: Maybe<Scalars['Int']['output']>;
+  slug?: Maybe<Scalars['String']['output']>;
   status?: Maybe<Scalars['String']['output']>;
 };
 
@@ -720,6 +727,7 @@ export type ProductCreateInput = {
   meta?: InputMaybe<Scalars['JSON']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   price?: InputMaybe<Scalars['Int']['input']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -788,6 +796,7 @@ export type ProductOrderByInput = {
   id?: InputMaybe<OrderDirection>;
   name?: InputMaybe<OrderDirection>;
   price?: InputMaybe<OrderDirection>;
+  slug?: InputMaybe<OrderDirection>;
   status?: InputMaybe<OrderDirection>;
 };
 
@@ -826,6 +835,7 @@ export type ProductUpdateInput = {
   meta?: InputMaybe<Scalars['JSON']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   price?: InputMaybe<Scalars['Int']['input']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -839,11 +849,13 @@ export type ProductWhereInput = {
   image?: InputMaybe<ProductImageWhereInput>;
   name?: InputMaybe<StringFilter>;
   price?: InputMaybe<IntNullableFilter>;
+  slug?: InputMaybe<StringFilter>;
   status?: InputMaybe<StringNullableFilter>;
 };
 
 export type ProductWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Query = {
@@ -1142,22 +1154,52 @@ export type HomePageQuery = {
   }> | null;
   categories?: Array<{
     __typename?: 'Category';
+    id: string;
     name?: string | null;
     description?: string | null;
     products?: Array<{ __typename?: 'Product'; id: string }> | null;
   }> | null;
 };
 
+export type AllCategoriesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type AllCategoriesQuery = {
+  __typename?: 'Query';
+  categories?: Array<{ __typename?: 'Category'; slug?: string | null }> | null;
+};
+
+export type CategoryBySlugQueryVariables = Exact<{
+  where: CategoryWhereUniqueInput;
+}>;
+
+export type CategoryBySlugQuery = {
+  __typename?: 'Query';
+  category?: {
+    __typename?: 'Category';
+    slug?: string | null;
+    name?: string | null;
+    description?: string | null;
+    productsCount?: number | null;
+    image?: {
+      __typename?: 'CloudinaryImage_File';
+      publicUrlTransformed?: string | null;
+    } | null;
+  } | null;
+};
+
 export type PaginatedProductsQueryVariables = Exact<{
-  offset?: InputMaybe<Scalars['Int']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
+  cursor?: InputMaybe<ProductWhereUniqueInput>;
+  where?: InputMaybe<ProductWhereInput>;
 }>;
 
 export type PaginatedProductsQuery = {
   __typename?: 'Query';
+  productsCount?: number | null;
   products?: Array<{
     __typename?: 'Product';
     id: string;
+    slug?: string | null;
     name?: string | null;
     meta?: any | null;
     price?: number | null;
@@ -1182,6 +1224,7 @@ export type ProductsWhereQuery = {
   products?: Array<{
     __typename?: 'Product';
     id: string;
+    slug?: string | null;
     name?: string | null;
     meta?: any | null;
     description?: string | null;
@@ -1314,7 +1357,7 @@ export type RedeemUserPasswordResetTokenMutation = {
 
 export const HomePageDocument = gql`
   query HomePage($take: Int, $skip: Int) {
-    banners {
+    banners(take: $take) {
       head
       href
       image {
@@ -1324,6 +1367,7 @@ export const HomePageDocument = gql`
       title
     }
     categories(take: $take, skip: $skip) {
+      id
       name
       description
       products {
@@ -1394,10 +1438,166 @@ export type HomePageQueryResult = Apollo.QueryResult<
   HomePageQuery,
   HomePageQueryVariables
 >;
+export const AllCategoriesDocument = gql`
+  query AllCategories {
+    categories {
+      slug
+    }
+  }
+`;
+
+/**
+ * __useAllCategoriesQuery__
+ *
+ * To run a query within a React component, call `useAllCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllCategoriesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAllCategoriesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    AllCategoriesQuery,
+    AllCategoriesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<AllCategoriesQuery, AllCategoriesQueryVariables>(
+    AllCategoriesDocument,
+    options,
+  );
+}
+export function useAllCategoriesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    AllCategoriesQuery,
+    AllCategoriesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<AllCategoriesQuery, AllCategoriesQueryVariables>(
+    AllCategoriesDocument,
+    options,
+  );
+}
+export function useAllCategoriesSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    AllCategoriesQuery,
+    AllCategoriesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    AllCategoriesQuery,
+    AllCategoriesQueryVariables
+  >(AllCategoriesDocument, options as any);
+}
+export type AllCategoriesQueryHookResult = ReturnType<
+  typeof useAllCategoriesQuery
+>;
+export type AllCategoriesLazyQueryHookResult = ReturnType<
+  typeof useAllCategoriesLazyQuery
+>;
+export type AllCategoriesSuspenseQueryHookResult = ReturnType<
+  typeof useAllCategoriesSuspenseQuery
+>;
+export type AllCategoriesQueryResult = Apollo.QueryResult<
+  AllCategoriesQuery,
+  AllCategoriesQueryVariables
+>;
+export const CategoryBySlugDocument = gql`
+  query CategoryBySlug($where: CategoryWhereUniqueInput!) {
+    category(where: $where) {
+      slug
+      name
+      description
+      image {
+        publicUrlTransformed
+      }
+      productsCount
+    }
+  }
+`;
+
+/**
+ * __useCategoryBySlugQuery__
+ *
+ * To run a query within a React component, call `useCategoryBySlugQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCategoryBySlugQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCategoryBySlugQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useCategoryBySlugQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    CategoryBySlugQuery,
+    CategoryBySlugQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<CategoryBySlugQuery, CategoryBySlugQueryVariables>(
+    CategoryBySlugDocument,
+    options,
+  );
+}
+export function useCategoryBySlugLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CategoryBySlugQuery,
+    CategoryBySlugQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<CategoryBySlugQuery, CategoryBySlugQueryVariables>(
+    CategoryBySlugDocument,
+    options,
+  );
+}
+export function useCategoryBySlugSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    CategoryBySlugQuery,
+    CategoryBySlugQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    CategoryBySlugQuery,
+    CategoryBySlugQueryVariables
+  >(CategoryBySlugDocument, options as any);
+}
+export type CategoryBySlugQueryHookResult = ReturnType<
+  typeof useCategoryBySlugQuery
+>;
+export type CategoryBySlugLazyQueryHookResult = ReturnType<
+  typeof useCategoryBySlugLazyQuery
+>;
+export type CategoryBySlugSuspenseQueryHookResult = ReturnType<
+  typeof useCategoryBySlugSuspenseQuery
+>;
+export type CategoryBySlugQueryResult = Apollo.QueryResult<
+  CategoryBySlugQuery,
+  CategoryBySlugQueryVariables
+>;
 export const PaginatedProductsDocument = gql`
-  query PaginatedProducts($offset: Int, $limit: Int) {
-    products(skip: $offset, take: $limit) {
+  query PaginatedProducts(
+    $limit: Int
+    $cursor: ProductWhereUniqueInput
+    $where: ProductWhereInput
+  ) {
+    products(take: $limit, cursor: $cursor, where: $where) {
       id
+      slug
       image {
         image {
           publicUrlTransformed
@@ -1407,6 +1607,7 @@ export const PaginatedProductsDocument = gql`
       meta
       price
     }
+    productsCount(where: $where)
   }
 `;
 
@@ -1422,8 +1623,9 @@ export const PaginatedProductsDocument = gql`
  * @example
  * const { data, loading, error } = usePaginatedProductsQuery({
  *   variables: {
- *      offset: // value for 'offset'
  *      limit: // value for 'limit'
+ *      cursor: // value for 'cursor'
+ *      where: // value for 'where'
  *   },
  * });
  */
@@ -1484,6 +1686,7 @@ export const ProductsWhereDocument = gql`
   ) {
     products(where: $where, take: $take) {
       id
+      slug
       name
       meta
       image {

@@ -1,4 +1,4 @@
-import { Container, Stack } from '@mui/material';
+import { Container, Stack, Typography } from '@mui/material';
 import { GetServerSideProps } from 'next';
 
 import { ProductsGrid, SEO } from '@/components/common';
@@ -29,7 +29,20 @@ const Home: PageHomeComp = ({ data }) => {
           py={{ xs: 6, md: 8 }}
         >
           <CategoriesGrid categories={data?.categories ?? []} />
-          <ProductsGrid limit={12} />
+          <Stack gap={{ xs: 2, md: 3 }}>
+            <Stack
+              gap={0.5}
+              justifyContent="center"
+              alignItems="center"
+              textAlign="center"
+            >
+              <Typography variant="h4">Our Products</Typography>
+              <Typography variant="body1">
+                Commodo sint voluptate labore excepteur
+              </Typography>
+            </Stack>
+            <ProductsGrid limit={12} />
+          </Stack>
         </Stack>
       </Container>
     </Stack>

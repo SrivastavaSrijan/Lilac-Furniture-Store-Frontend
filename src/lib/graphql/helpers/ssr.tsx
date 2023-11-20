@@ -66,6 +66,134 @@ export const ssrHome = {
   withPage: withPageHome,
   usePage: useHome,
 };
+export async function getServerPageAllCategories(
+  options: Omit<
+    Apollo.QueryOptions<Types.AllCategoriesQueryVariables>,
+    'query'
+  >,
+  ctx: ApolloClientContext,
+) {
+  const apolloClient = getApolloClient(ctx);
+
+  const data = await apolloClient.query<Types.AllCategoriesQuery>({
+    ...options,
+    query: Operations.AllCategoriesDocument,
+  });
+
+  const apolloState = apolloClient.cache.extract();
+
+  return {
+    props: {
+      apolloState,
+      data: data?.data,
+      error: data?.error ?? data?.errors ?? null,
+    },
+  };
+}
+export const useAllCategories = (
+  optionsFunc?: (
+    router: NextRouter,
+  ) => QueryHookOptions<
+    Types.AllCategoriesQuery,
+    Types.AllCategoriesQueryVariables
+  >,
+) => {
+  const router = useRouter();
+  const options = optionsFunc ? optionsFunc(router) : {};
+  return useQuery(Operations.AllCategoriesDocument, options as any);
+};
+export type PageAllCategoriesComp = React.FC<{
+  data?: Types.AllCategoriesQuery;
+  error?: Apollo.ApolloError;
+}>;
+export const withPageAllCategories =
+  (
+    optionsFunc?: (
+      router: NextRouter,
+    ) => QueryHookOptions<
+      Types.AllCategoriesQuery,
+      Types.AllCategoriesQueryVariables
+    >,
+  ) =>
+  (WrappedComponent: PageAllCategoriesComp): NextPage =>
+  (props) => {
+    const router = useRouter();
+    const options = optionsFunc ? optionsFunc(router) : {};
+    const { data, error } = useQuery(
+      Operations.AllCategoriesDocument,
+      options as any,
+    );
+    return <WrappedComponent {...props} data={data} error={error} />;
+  };
+export const ssrAllCategories = {
+  getServerPage: getServerPageAllCategories,
+  withPage: withPageAllCategories,
+  usePage: useAllCategories,
+};
+export async function getServerPageCategoryBySlug(
+  options: Omit<
+    Apollo.QueryOptions<Types.CategoryBySlugQueryVariables>,
+    'query'
+  >,
+  ctx: ApolloClientContext,
+) {
+  const apolloClient = getApolloClient(ctx);
+
+  const data = await apolloClient.query<Types.CategoryBySlugQuery>({
+    ...options,
+    query: Operations.CategoryBySlugDocument,
+  });
+
+  const apolloState = apolloClient.cache.extract();
+
+  return {
+    props: {
+      apolloState,
+      data: data?.data,
+      error: data?.error ?? data?.errors ?? null,
+    },
+  };
+}
+export const useCategoryBySlug = (
+  optionsFunc?: (
+    router: NextRouter,
+  ) => QueryHookOptions<
+    Types.CategoryBySlugQuery,
+    Types.CategoryBySlugQueryVariables
+  >,
+) => {
+  const router = useRouter();
+  const options = optionsFunc ? optionsFunc(router) : {};
+  return useQuery(Operations.CategoryBySlugDocument, options as any);
+};
+export type PageCategoryBySlugComp = React.FC<{
+  data?: Types.CategoryBySlugQuery;
+  error?: Apollo.ApolloError;
+}>;
+export const withPageCategoryBySlug =
+  (
+    optionsFunc?: (
+      router: NextRouter,
+    ) => QueryHookOptions<
+      Types.CategoryBySlugQuery,
+      Types.CategoryBySlugQueryVariables
+    >,
+  ) =>
+  (WrappedComponent: PageCategoryBySlugComp): NextPage =>
+  (props) => {
+    const router = useRouter();
+    const options = optionsFunc ? optionsFunc(router) : {};
+    const { data, error } = useQuery(
+      Operations.CategoryBySlugDocument,
+      options,
+    );
+    return <WrappedComponent {...props} data={data} error={error} />;
+  };
+export const ssrCategoryBySlug = {
+  getServerPage: getServerPageCategoryBySlug,
+  withPage: withPageCategoryBySlug,
+  usePage: useCategoryBySlug,
+};
 export async function getServerPagePaginatedProducts(
   options: Omit<
     Apollo.QueryOptions<Types.PaginatedProductsQueryVariables>,

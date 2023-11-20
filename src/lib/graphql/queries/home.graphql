@@ -1,5 +1,5 @@
 query HomePage($take: Int, $skip: Int) {
-  banners {
+  banners(take: $take) {
     head
     href
     image {
@@ -8,7 +8,8 @@ query HomePage($take: Int, $skip: Int) {
     subtitle
     title
   }
-  categories(take: $take, skip: $skip) {
+   categories(take: $take, skip: $skip) {
+    id
     name
     description
     products {
