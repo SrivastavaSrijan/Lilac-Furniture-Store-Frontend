@@ -1136,13 +1136,16 @@ export type ValidateUserPasswordResetTokenResult = {
 
 export type HomePageQueryVariables = Exact<{
   take?: InputMaybe<Scalars['Int']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
+  cursor?: InputMaybe<CategoryWhereUniqueInput>;
+  skip: Scalars['Int']['input'];
 }>;
 
 export type HomePageQuery = {
   __typename?: 'Query';
+  bannersCount?: number | null;
   banners?: Array<{
     __typename?: 'Banner';
+    id: string;
     head?: string | null;
     href?: string | null;
     subtitle?: string | null;
@@ -1157,7 +1160,19 @@ export type HomePageQuery = {
     id: string;
     name?: string | null;
     description?: string | null;
-    products?: Array<{ __typename?: 'Product'; id: string }> | null;
+  }> | null;
+};
+
+export type CategoryIndexQueryVariables = Exact<{ [key: string]: never }>;
+
+export type CategoryIndexQuery = {
+  __typename?: 'Query';
+  categories?: Array<{
+    __typename?: 'Category';
+    id: string;
+    slug?: string | null;
+    name?: string | null;
+    description?: string | null;
   }> | null;
 };
 
@@ -1356,8 +1371,9 @@ export type RedeemUserPasswordResetTokenMutation = {
 };
 
 export const HomePageDocument = gql`
-  query HomePage($take: Int, $skip: Int) {
+  query HomePage($take: Int, $cursor: CategoryWhereUniqueInput, $skip: Int!) {
     banners(take: $take) {
+      id
       head
       href
       image {
@@ -1366,13 +1382,11 @@ export const HomePageDocument = gql`
       subtitle
       title
     }
-    categories(take: $take, skip: $skip) {
+    bannersCount
+    categories(take: $take, skip: $skip, cursor: $cursor) {
       id
       name
       description
-      products {
-        id
-      }
     }
   }
 `;
@@ -1390,12 +1404,13 @@ export const HomePageDocument = gql`
  * const { data, loading, error } = useHomePageQuery({
  *   variables: {
  *      take: // value for 'take'
+ *      cursor: // value for 'cursor'
  *      skip: // value for 'skip'
  *   },
  * });
  */
 export function useHomePageQuery(
-  baseOptions?: Apollo.QueryHookOptions<HomePageQuery, HomePageQueryVariables>,
+  baseOptions: Apollo.QueryHookOptions<HomePageQuery, HomePageQueryVariables>,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<HomePageQuery, HomePageQueryVariables>(
@@ -1437,6 +1452,81 @@ export type HomePageSuspenseQueryHookResult = ReturnType<
 export type HomePageQueryResult = Apollo.QueryResult<
   HomePageQuery,
   HomePageQueryVariables
+>;
+export const CategoryIndexDocument = gql`
+  query CategoryIndex {
+    categories {
+      id
+      slug
+      name
+      description
+    }
+  }
+`;
+
+/**
+ * __useCategoryIndexQuery__
+ *
+ * To run a query within a React component, call `useCategoryIndexQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCategoryIndexQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCategoryIndexQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCategoryIndexQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    CategoryIndexQuery,
+    CategoryIndexQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<CategoryIndexQuery, CategoryIndexQueryVariables>(
+    CategoryIndexDocument,
+    options as any,
+  );
+}
+export function useCategoryIndexLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CategoryIndexQuery,
+    CategoryIndexQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<CategoryIndexQuery, CategoryIndexQueryVariables>(
+    CategoryIndexDocument,
+    options as any,
+  );
+}
+export function useCategoryIndexSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    CategoryIndexQuery,
+    CategoryIndexQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    CategoryIndexQuery,
+    CategoryIndexQueryVariables
+  >(CategoryIndexDocument, options as any);
+}
+export type CategoryIndexQueryHookResult = ReturnType<
+  typeof useCategoryIndexQuery
+>;
+export type CategoryIndexLazyQueryHookResult = ReturnType<
+  typeof useCategoryIndexLazyQuery
+>;
+export type CategoryIndexSuspenseQueryHookResult = ReturnType<
+  typeof useCategoryIndexSuspenseQuery
+>;
+export type CategoryIndexQueryResult = Apollo.QueryResult<
+  CategoryIndexQuery,
+  CategoryIndexQueryVariables
 >;
 export const AllCategoriesDocument = gql`
   query AllCategories {

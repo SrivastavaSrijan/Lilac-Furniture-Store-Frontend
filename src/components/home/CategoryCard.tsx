@@ -8,11 +8,11 @@ import {
   Typography,
 } from '@mui/material';
 import { motion, Variants } from 'framer-motion';
-import { chunk, kebabCase, map } from 'lodash';
+import { chunk, kebabCase } from 'lodash';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
-import { AppConfig, generateMockArray } from '@/lib';
+import { AppConfig, generateMockArray, sleep } from '@/lib';
 import {
   ICategory,
   IProductWhere,
@@ -55,12 +55,7 @@ const variants: Variants = {
 };
 const MOCK_ARRAY = chunk(generateMockArray(COLUMNS * ROWS), COLUMNS);
 interface ICategoryCardProps extends ICategory {}
-export const CategoryCard = ({
-  name,
-  id,
-  description,
-  products,
-}: ICategoryCardProps) => {
+export const CategoryCard = ({ name, id, description }: ICategoryCardProps) => {
   const [pages, setPages] = useState<(IProductWhere | null)[][]>(MOCK_ARRAY);
   const [expandedData, setExpanded] = useState<{
     row: number;
@@ -75,18 +70,21 @@ export const CategoryCard = ({
   const [getProducts, { data, loading }] = useProductsWhereLazyQuery();
 
   useEffect(() => {
-    getProducts({
-      variables: {
-        includeDesc: true,
-        where: { id: { in: map(products, 'id') } },
-        take: COLUMNS * ROWS,
-      },
-    });
-  }, [products, getProducts]);
+    (async () => {
+      await sleep(2000);
+      await getProducts({
+        variables: {
+          includeDesc: true,
+          where: { category: { id: { equals: id } } },
+          take: COLUMNS * ROWS,
+        },
+      });
+    })();
+  }, [getProducts, id]);
 
   useEffect(() => {
-    if (loading) return;
-    const res = chunk(data?.products ?? [], COLUMNS);
+    if (loading || !data?.products?.length) return;
+    const res = chunk(data.products, COLUMNS);
     setPages(res);
   }, [data, loading]);
 

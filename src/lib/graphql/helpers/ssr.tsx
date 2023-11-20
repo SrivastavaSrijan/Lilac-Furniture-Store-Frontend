@@ -66,6 +66,70 @@ export const ssrHome = {
   withPage: withPageHome,
   usePage: useHome,
 };
+export async function getServerPageCategoryIndex(
+  options: Omit<
+    Apollo.QueryOptions<Types.CategoryIndexQueryVariables>,
+    'query'
+  >,
+  ctx: ApolloClientContext,
+) {
+  const apolloClient = getApolloClient(ctx);
+
+  const data = await apolloClient.query<Types.CategoryIndexQuery>({
+    ...options,
+    query: Operations.CategoryIndexDocument,
+  });
+
+  const apolloState = apolloClient.cache.extract();
+
+  return {
+    props: {
+      apolloState,
+      data: data?.data,
+      error: data?.error ?? data?.errors ?? null,
+    },
+  };
+}
+export const useCategoryIndex = (
+  optionsFunc?: (
+    router: NextRouter,
+  ) => QueryHookOptions<
+    Types.CategoryIndexQuery,
+    Types.CategoryIndexQueryVariables
+  >,
+) => {
+  const router = useRouter();
+  const options = optionsFunc ? optionsFunc(router) : {};
+  return useQuery(Operations.CategoryIndexDocument, options as any);
+};
+export type PageCategoryIndexComp = React.FC<{
+  data?: Types.CategoryIndexQuery;
+  error?: Apollo.ApolloError;
+}>;
+export const withPageCategoryIndex =
+  (
+    optionsFunc?: (
+      router: NextRouter,
+    ) => QueryHookOptions<
+      Types.CategoryIndexQuery,
+      Types.CategoryIndexQueryVariables
+    >,
+  ) =>
+  (WrappedComponent: PageCategoryIndexComp): NextPage =>
+  (props) => {
+    const router = useRouter();
+    const options = optionsFunc ? optionsFunc(router) : {};
+    const { data, error } = useQuery(
+      Operations.CategoryIndexDocument,
+      options as any,
+    );
+    return <WrappedComponent {...props} data={data} error={error} />;
+  };
+export const ssrCategoryIndex = {
+  getServerPage: getServerPageCategoryIndex,
+  withPage: withPageCategoryIndex,
+  usePage: useCategoryIndex,
+};
 export async function getServerPageAllCategories(
   options: Omit<
     Apollo.QueryOptions<Types.AllCategoriesQueryVariables>,

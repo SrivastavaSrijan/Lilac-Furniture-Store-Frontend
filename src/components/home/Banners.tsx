@@ -1,5 +1,4 @@
 import { Box, Button, Stack, Typography } from '@mui/material';
-import { nanoid } from 'nanoid';
 
 import { HomePageQuery } from '@/lib/graphql';
 
@@ -20,7 +19,7 @@ export const Banners = ({ banners }: IBannersProps) => {
         const { title, subtitle, image, href } = banner;
         const { publicUrlTransformed: bannerImage = null } = image ?? {};
         return (
-          <Stack key={nanoid()} position="relative">
+          <Stack key={banner.id} position="relative">
             {bannerImage && (
               <Box position="relative" width="100%" height={BannerHeight}>
                 <CloudImage

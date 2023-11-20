@@ -4,6 +4,7 @@ import '@/styles/nprogress.css';
 import { ApolloProvider } from '@apollo/client';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import { Box, Button, CssBaseline, ThemeProvider } from '@mui/material';
+import { AnimatePresence } from 'framer-motion';
 import ModalProvider from 'mui-modal-provider';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -77,14 +78,16 @@ export default function MyApp(props: IMyAppProps) {
               >
                 <ModalProvider>
                   <CommonProvider>
-                    <Page>
-                      <Box
-                        className={poppinsClassName}
-                        bgcolor="background.main"
-                      >
-                        <Component {...pageProps} />
-                      </Box>
-                    </Page>
+                    <AnimatePresence mode="wait" initial={false}>
+                      <Page key={router.asPath}>
+                        <Box
+                          className={poppinsClassName}
+                          bgcolor="background.main"
+                        >
+                          <Component {...pageProps} />
+                        </Box>
+                      </Page>
+                    </AnimatePresence>
                   </CommonProvider>
                 </ModalProvider>
               </SnackbarProvider>

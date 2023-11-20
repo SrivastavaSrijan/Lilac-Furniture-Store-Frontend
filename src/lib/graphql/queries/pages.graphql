@@ -1,0 +1,28 @@
+query HomePage($take: Int, $cursor: CategoryWhereUniqueInput, $skip: Int!) {
+  banners(take: $take) {
+    id
+    head
+    href
+    image {
+      publicUrlTransformed
+    }
+    subtitle
+    title
+    
+  }
+  bannersCount
+  categories(take: $take, skip: $skip cursor: $cursor) {
+    id
+    name
+    description
+  }
+}
+
+query CategoryIndex {
+  categories {
+    id
+    slug
+    name
+    description
+  }
+}

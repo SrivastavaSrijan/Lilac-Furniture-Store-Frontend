@@ -47,7 +47,7 @@ export const getStaticProps: GetServerSideProps = async ({ params, req }) => {
 const CategoryBySlug: PageCategoryBySlugComp = ({ data }) => {
   const { name, description, slug } = data?.category ?? {};
   if (!name || !slug) {
-    throw new Error('Something went wrong!');
+    return <></>;
   }
   const categoryImage = data?.category?.image?.publicUrlTransformed ?? null;
   return (

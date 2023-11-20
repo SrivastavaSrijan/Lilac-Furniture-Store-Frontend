@@ -29,7 +29,6 @@ import {
 } from '@mui/material';
 import { every } from 'lodash';
 import { useModal } from 'mui-modal-provider';
-import { nanoid } from 'nanoid';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -169,7 +168,7 @@ export const Navbar = (_props: INavbarProps) => {
       alignItems="flex-start"
     >
       {NavbarConstants.pages.map(({ title, href }) => (
-        <Link passHref href={href} key={nanoid()}>
+        <Link passHref href={href} key={href}>
           <Button onClick={handleDrawerToggle(false)} sx={{ minWidth: 0 }}>
             <Typography sx={{ typography: { xs: 'subtitle2', md: 'body1' } }}>
               {title}

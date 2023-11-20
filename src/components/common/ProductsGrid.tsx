@@ -4,6 +4,7 @@ import {
   CircularProgress,
   Collapse,
   Grid,
+  Stack,
   Typography,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
@@ -20,8 +21,15 @@ import { ProductCard } from './ProductCard';
 interface IProductsGridProps {
   limit: number;
   where?: PaginatedProductsQueryVariables['where'];
+  title?: string;
+  subtitle?: string;
 }
-export const ProductsGrid = ({ limit, where }: IProductsGridProps) => {
+export const ProductsGrid = ({
+  title,
+  subtitle,
+  limit,
+  where,
+}: IProductsGridProps) => {
   const [fetched, setFetched] = useState(limit);
   const [max, setMax] = useState<number>(10e5);
   const [dataArray, setDataArray] = useState<(IProduct | null)[]>(
@@ -68,7 +76,7 @@ export const ProductsGrid = ({ limit, where }: IProductsGridProps) => {
 
   // Prepare the product cards or skeletons
   const productCards = dataArray.map((product: IProduct | null, index) => (
-    <Grid item key={`${product?.name}_${index}`} xs={6} md={3}>
+    <Grid item key={product?.id ?? index} xs={6} md={3}>
       {product ? (
         <ProductCard {...product} />
       ) : (
@@ -87,7 +95,18 @@ export const ProductsGrid = ({ limit, where }: IProductsGridProps) => {
     : null;
 
   return (
-    <>
+    <Stack gap={{ xs: 2, md: 3 }}>
+      {title && subtitle && (
+        <Stack
+          gap={0.5}
+          justifyContent="center"
+          alignItems="center"
+          textAlign="center"
+        >
+          <Typography variant="h4">{title}</Typography>
+          <Typography variant="body1">{subtitle}</Typography>
+        </Stack>
+      )}
       {!dataArray.length && (
         <Alert variant="standard" severity="error">
           <Typography textAlign="center">No products found</Typography>
@@ -113,6 +132,6 @@ export const ProductsGrid = ({ limit, where }: IProductsGridProps) => {
       >
         Show more
       </Button>
-    </>
+    </Stack>
   );
 };
