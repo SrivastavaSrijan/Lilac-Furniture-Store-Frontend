@@ -1,8 +1,7 @@
 import { Container, Stack } from '@mui/material';
 import { GetServerSideProps, GetStaticPaths } from 'next';
 
-import { CategoryHeader } from '@/components/category';
-import { ProductsGrid, SEO } from '@/components/common';
+import { CategoryHeader, ProductsGrid, SEO } from '@/components';
 import { AppConfig, withApollo } from '@/lib';
 import {
   PageCategoryBySlugComp,
@@ -61,11 +60,7 @@ const CategoryBySlug: PageCategoryBySlugComp = ({ data }) => {
         />
       )}
       <Container maxWidth="md">
-        <Stack
-          px={{ xs: 1, md: 0 }}
-          gap={{ xs: 6, md: 8 }}
-          py={{ xs: 6, md: 8 }}
-        >
+        <Stack gap={{ xs: 6, md: 8 }} py={{ xs: 6, md: 8 }}>
           <ProductsGrid
             limit={12}
             where={{ category: { slug: { equals: slug } } }}

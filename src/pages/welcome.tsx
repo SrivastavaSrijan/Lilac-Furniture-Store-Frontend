@@ -2,7 +2,7 @@ import { Container, Stack } from '@mui/material';
 import { upperCase } from 'lodash';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 
-import { Auth, AuthState, SEO } from '@/components/common';
+import { Auth, AuthState, SEO } from '@/components';
 import { AppConfig } from '@/lib';
 
 const mapStringToAuthState = (stateString: string): AuthState => {

@@ -5,4 +5,7 @@
     "titleBar.inactiveBackground": "#3D182F",
     "titleBar.inactiveForeground": "#FFFFFFFF"
   },
+  "workbench.preferredDarkColorTheme": "Ghibli's Spirited Away",
+  "window.autoDetectColorScheme": true,
+  "workbench.colorTheme": "Ghibli's Spirited Away"
 }

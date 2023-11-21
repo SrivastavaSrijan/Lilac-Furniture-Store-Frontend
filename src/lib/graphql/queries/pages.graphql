@@ -18,11 +18,15 @@ query HomePage($take: Int, $cursor: CategoryWhereUniqueInput, $skip: Int!) {
   }
 }
 
-query CategoryIndex {
+query CategoryIndexPage {
   categories {
     id
     slug
     name
     description
   }
+}
+
+query CategoryIndexPath {
+  categoriesCount
 }

@@ -1,7 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   EmailOutlined,
-  PermIdentityOutlined,
   VisibilityOffOutlined,
   VisibilityOutlined,
 } from '@mui/icons-material';
@@ -15,17 +14,17 @@ import {
   Typography,
 } from '@mui/material';
 import { omit } from 'lodash';
+import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Resolver, SubmitHandler, useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import YupPassword from 'yup-password';
 
-import { ApolloErrorHandler, stringRequired } from '@/lib';
+import { ApolloErrorHandler, MessagesMap, stringRequired } from '@/lib';
 import {
-  GetUserDocument,
-  useSignInMutation,
-  useSignUpMutation,
+  PasswordResetRedemptionErrorCode,
+  useRedeemUserPasswordResetTokenMutation,
 } from '@/lib/graphql';
 
 import { AuthHeader, AuthState, IAuthChildProps } from '.';
@@ -33,14 +32,13 @@ import { Text } from './Text';
 
 YupPassword(Yup);
 
-enum SignUpState {
+enum RedeemResetPasswordState {
   Success,
   Failure,
   Error,
   Init,
 }
-const SignUpSchema = Yup.object({
-  name: stringRequired(),
+const RedeemResetPasswordSchema = Yup.object({
   email: stringRequired().email(),
   password: stringRequired().when('$condition', () =>
     process.env.NODE_ENV === 'development'
@@ -60,70 +58,96 @@ const SignUpSchema = Yup.object({
     'Passwords must match',
   ),
 });
-interface ISignUpForm {
-  name: string;
+interface IRedeemResetPasswordForm {
   email: string;
   password: string;
   confirmPassword: string;
 }
-export const SignUp = ({ setCurrentState }: IAuthChildProps) => {
-  const [, setState] = useState<SignUpState>(SignUpState.Init);
+export const RedeemResetPassword = ({
+  setCurrentState,
+  token,
+}: IAuthChildProps) => {
+  const [, setState] = useState<RedeemResetPasswordState>(
+    RedeemResetPasswordState.Init,
+  );
   const [visibility, setVisibility] = useState(false);
-  const [handleSignUp, { loading: signUpLoading }] = useSignUpMutation();
-  const [handleSignIn, { loading: signInLoading }] = useSignInMutation({
-    refetchQueries: [
-      {
-        query: GetUserDocument,
-      },
-    ],
-  });
-  const loading = signUpLoading || signInLoading;
+  const [handleRedeemResetPassword, { loading: redeemResetPasswordLoading }] =
+    useRedeemUserPasswordResetTokenMutation();
 
   const { enqueueSnackbar } = useSnackbar();
+  const router = useRouter();
 
   const {
     control,
     handleSubmit,
+    setValue,
     formState: { errors },
-  } = useForm<ISignUpForm>({
+  } = useForm<IRedeemResetPasswordForm>({
     values: {
-      name: '',
       email: '',
       password: '',
       confirmPassword: '',
     },
-    resolver: yupResolver(SignUpSchema) as Resolver<ISignUpForm, any>,
+    resolver: yupResolver(RedeemResetPasswordSchema) as Resolver<
+      IRedeemResetPasswordForm,
+      any
+    >,
   });
 
-  const onSubmit: SubmitHandler<ISignUpForm> = async (formValues) => {
-    if (!formValues) return;
+  const onSubmit: SubmitHandler<IRedeemResetPasswordForm> = async (
+    formValues,
+  ) => {
+    if (!formValues || !token) {
+      enqueueSnackbar({
+        message: MessagesMap.user.reset.redeemedFailure,
+        variant: 'error',
+      });
+      return;
+    }
     const formValuesCleaned = omit(formValues, ['confirmPassword']);
     try {
-      const { data: signUpData } = await handleSignUp({
-        variables: { data: formValuesCleaned },
-      });
-      if (signUpData) {
-        if (signUpData?.createUser) {
-          const { data: signInData } = await handleSignIn({
-            variables: omit(formValuesCleaned, ['name']),
+      const { data: redeemResetPasswordData } = await handleRedeemResetPassword(
+        {
+          variables: { ...formValuesCleaned, token },
+        },
+      );
+      if (redeemResetPasswordData) {
+        if (redeemResetPasswordData?.redeemUserPasswordResetToken) {
+          const { code: errorCode } =
+            redeemResetPasswordData?.redeemUserPasswordResetToken ?? {};
+          switch (errorCode) {
+            case PasswordResetRedemptionErrorCode.Failure:
+            case PasswordResetRedemptionErrorCode.TokenExpired:
+            case PasswordResetRedemptionErrorCode.TokenRedeemed:
+              enqueueSnackbar({
+                message: MessagesMap.user.reset.redeemedFailure,
+                variant: 'error',
+              });
+              break;
+            default:
+              break;
+          }
+        } else {
+          setCurrentState(AuthState.SIGN_IN);
+          enqueueSnackbar({
+            message: MessagesMap.user.reset.redeemedSuccess,
+            variant: 'success',
           });
-          if (signInData)
-            if (
-              signInData.authenticateUserWithPassword?.__typename ===
-              'UserAuthenticationWithPasswordSuccess'
-            ) {
-              setCurrentState(AuthState.WELCOME);
-              setState(SignUpState.Success);
-            }
         }
       }
     } catch (thrownError) {
-      setState(SignUpState.Error);
+      setState(RedeemResetPasswordState.Error);
       const formattedError = new ApolloErrorHandler(thrownError)?.get();
       if (formattedError)
         enqueueSnackbar(formattedError?.message, { variant: 'error' });
     }
   };
+
+  useEffect(() => {
+    const { email } = router.query;
+    if (router.isReady && email && !Array.isArray(email))
+      setValue('email', email);
+  }, [router.isReady, router.query, setValue]);
 
   return (
     <Stack
@@ -135,15 +159,15 @@ export const SignUp = ({ setCurrentState }: IAuthChildProps) => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <AuthHeader
-        title="Sign up"
-        subtitle="Consectetur cupidatat nulla deserunt nulla pariatur culpa incididunt id non cillum incididunt mollit sit fugiat elit non labore."
+        title="Reset Password"
+        subtitle="Consequat nulla consequat nisi enim in irure cillum ipsum magna proident nisi in culpa irure commodo enim magna."
       />
       <Stack
         gap={{ xs: 1, md: 2 }}
         sx={{ overflowY: 'auto' }}
-        pb={{ xs: '15vh', md: '15vh' }}
+        pb={{ xs: '108px', sm: '72px' }}
       >
-        <Text<ISignUpForm>
+        <Text<IRedeemResetPasswordForm>
           variant="filled"
           label="Email"
           control={control}
@@ -151,19 +175,9 @@ export const SignUp = ({ setCurrentState }: IAuthChildProps) => {
           name="email"
           errors={errors}
           autoComplete="username"
+          disabled
         />
-        <Text<ISignUpForm>
-          variant="filled"
-          label="Full Name"
-          InputProps={{
-            endAdornment: <PermIdentityOutlined color="primary" />,
-          }}
-          control={control}
-          name="name"
-          autoComplete="name"
-          errors={errors}
-        />
-        <Text<ISignUpForm>
+        <Text<IRedeemResetPasswordForm>
           variant="filled"
           label="Password"
           InputProps={{
@@ -189,7 +203,7 @@ export const SignUp = ({ setCurrentState }: IAuthChildProps) => {
           autoComplete="new-password"
           errors={errors}
         />
-        <Text<ISignUpForm>
+        <Text<IRedeemResetPasswordForm>
           variant="filled"
           label="Confirm Password"
           InputProps={{
@@ -221,7 +235,7 @@ export const SignUp = ({ setCurrentState }: IAuthChildProps) => {
       </Stack>
       <Box flexGrow={1} />
       <Stack
-        py={{ xs: 2, md: 1 }}
+        py={{ xs: 2, md: 3 }}
         gap={{ xs: 2, md: 2 }}
         position="sticky"
         bottom={0}
@@ -233,10 +247,12 @@ export const SignUp = ({ setCurrentState }: IAuthChildProps) => {
           type="submit"
           variant="contained"
           endIcon={
-            loading ? <CircularProgress color="inherit" size={14} /> : undefined
+            redeemResetPasswordLoading ? (
+              <CircularProgress color="inherit" size={14} />
+            ) : undefined
           }
         >
-          Sign Up
+          Reset Password
         </Button>
         <Typography>
           Already have an account?{' '}

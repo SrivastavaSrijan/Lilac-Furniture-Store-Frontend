@@ -12,11 +12,7 @@ import { closeSnackbar, SnackbarProvider } from 'notistack';
 import nprogress from 'nprogress';
 import { useEffect } from 'react';
 
-import {
-  ErrorBoundary,
-  Page,
-  StyledMaterialDesignContent,
-} from '@/components/common';
+import { ErrorBoundary, Page, StyledMaterialDesignContent } from '@/components';
 import { AssetsConfig, createEmotionCache, useApollo } from '@/lib';
 import { CommonProvider } from '@/lib/providers/common.provider';
 import { poppinsClassName, theme } from '@/styles/theme';
@@ -27,7 +23,6 @@ nprogress.configure({ parent: '#__next' });
 const clientSideEmotionCache = createEmotionCache();
 
 // pages/_app.js
-
 export interface IMyAppProps {
   Component: any;
   emotionCache: EmotionCache;
@@ -78,8 +73,8 @@ export default function MyApp(props: IMyAppProps) {
               >
                 <ModalProvider>
                   <CommonProvider>
-                    <AnimatePresence mode="wait" initial={false}>
-                      <Page key={router.asPath}>
+                    <AnimatePresence>
+                      <Page>
                         <Box
                           className={poppinsClassName}
                           bgcolor="background.main"

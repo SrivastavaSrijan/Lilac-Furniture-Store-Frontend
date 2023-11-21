@@ -1,7 +1,7 @@
 import { motion, TargetAndTransition } from 'framer-motion';
 import { CldImageProps } from 'next-cloudinary';
 
-import { CloudImage } from '../common';
+import { CloudImage } from '.';
 
 interface IImageHoverProps extends CldImageProps {
   overlay: JSX.Element;

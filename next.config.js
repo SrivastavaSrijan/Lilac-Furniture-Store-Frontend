@@ -9,6 +9,14 @@ const nextConfig = {
   experimental: {
     fallbackNodePolyfills: false,
   },
+  redirects: async () => [
+    {
+      source: "/explore",
+      destination: "/explore/1",
+      permanent: true,
+      statusCode: 301,
+    },
+  ],
 };
 
 module.exports = nextConfig;

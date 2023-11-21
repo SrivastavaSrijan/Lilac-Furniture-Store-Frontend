@@ -19,7 +19,7 @@ import {
   useProductsWhereLazyQuery,
 } from '@/lib/graphql';
 
-import { CloudImage, ProductCard } from '../common';
+import { CloudImage, ProductCard } from '.';
 
 const { path } = AppConfig.pages.category;
 const Config = {
@@ -39,7 +39,7 @@ const Config = {
       return 0;
     },
     get WIDTH() {
-      return 0.1;
+      return 0.01;
     },
   },
 };

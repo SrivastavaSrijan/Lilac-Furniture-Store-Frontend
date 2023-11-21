@@ -1,6 +1,6 @@
 import { Button, Stack, Typography } from '@mui/material';
 
-import { SEO } from '@/components/common';
+import { SEO } from '@/components';
 import { AppConfig } from '@/lib';
 
 export default function Custom404() {

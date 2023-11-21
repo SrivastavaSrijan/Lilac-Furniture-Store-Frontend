@@ -95,7 +95,7 @@ export const ProductsGrid = ({
     : null;
 
   return (
-    <Stack gap={{ xs: 2, md: 3 }}>
+    <Stack gap={{ xs: 3, md: 5 }}>
       {title && subtitle && (
         <Stack
           gap={0.5}

@@ -1163,9 +1163,9 @@ export type HomePageQuery = {
   }> | null;
 };
 
-export type CategoryIndexQueryVariables = Exact<{ [key: string]: never }>;
+export type CategoryIndexPageQueryVariables = Exact<{ [key: string]: never }>;
 
-export type CategoryIndexQuery = {
+export type CategoryIndexPageQuery = {
   __typename?: 'Query';
   categories?: Array<{
     __typename?: 'Category';
@@ -1174,6 +1174,13 @@ export type CategoryIndexQuery = {
     name?: string | null;
     description?: string | null;
   }> | null;
+};
+
+export type CategoryIndexPathQueryVariables = Exact<{ [key: string]: never }>;
+
+export type CategoryIndexPathQuery = {
+  __typename?: 'Query';
+  categoriesCount?: number | null;
 };
 
 export type AllCategoriesQueryVariables = Exact<{ [key: string]: never }>;
@@ -1453,8 +1460,8 @@ export type HomePageQueryResult = Apollo.QueryResult<
   HomePageQuery,
   HomePageQueryVariables
 >;
-export const CategoryIndexDocument = gql`
-  query CategoryIndex {
+export const CategoryIndexPageDocument = gql`
+  query CategoryIndexPage {
     categories {
       id
       slug
@@ -1465,68 +1472,138 @@ export const CategoryIndexDocument = gql`
 `;
 
 /**
- * __useCategoryIndexQuery__
+ * __useCategoryIndexPageQuery__
  *
- * To run a query within a React component, call `useCategoryIndexQuery` and pass it any options that fit your needs.
- * When your component renders, `useCategoryIndexQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useCategoryIndexPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCategoryIndexPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useCategoryIndexQuery({
+ * const { data, loading, error } = useCategoryIndexPageQuery({
  *   variables: {
  *   },
  * });
  */
-export function useCategoryIndexQuery(
+export function useCategoryIndexPageQuery(
   baseOptions?: Apollo.QueryHookOptions<
-    CategoryIndexQuery,
-    CategoryIndexQueryVariables
+    CategoryIndexPageQuery,
+    CategoryIndexPageQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<CategoryIndexQuery, CategoryIndexQueryVariables>(
-    CategoryIndexDocument,
-    options as any,
-  );
+  return Apollo.useQuery<
+    CategoryIndexPageQuery,
+    CategoryIndexPageQueryVariables
+  >(CategoryIndexPageDocument, options as any);
 }
-export function useCategoryIndexLazyQuery(
+export function useCategoryIndexPageLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    CategoryIndexQuery,
-    CategoryIndexQueryVariables
+    CategoryIndexPageQuery,
+    CategoryIndexPageQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<CategoryIndexQuery, CategoryIndexQueryVariables>(
-    CategoryIndexDocument,
-    options as any,
-  );
+  return Apollo.useLazyQuery<
+    CategoryIndexPageQuery,
+    CategoryIndexPageQueryVariables
+  >(CategoryIndexPageDocument, options as any);
 }
-export function useCategoryIndexSuspenseQuery(
+export function useCategoryIndexPageSuspenseQuery(
   baseOptions?: Apollo.SuspenseQueryHookOptions<
-    CategoryIndexQuery,
-    CategoryIndexQueryVariables
+    CategoryIndexPageQuery,
+    CategoryIndexPageQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useSuspenseQuery<
-    CategoryIndexQuery,
-    CategoryIndexQueryVariables
-  >(CategoryIndexDocument, options as any);
+    CategoryIndexPageQuery,
+    CategoryIndexPageQueryVariables
+  >(CategoryIndexPageDocument, options as any);
 }
-export type CategoryIndexQueryHookResult = ReturnType<
-  typeof useCategoryIndexQuery
+export type CategoryIndexPageQueryHookResult = ReturnType<
+  typeof useCategoryIndexPageQuery
 >;
-export type CategoryIndexLazyQueryHookResult = ReturnType<
-  typeof useCategoryIndexLazyQuery
+export type CategoryIndexPageLazyQueryHookResult = ReturnType<
+  typeof useCategoryIndexPageLazyQuery
 >;
-export type CategoryIndexSuspenseQueryHookResult = ReturnType<
-  typeof useCategoryIndexSuspenseQuery
+export type CategoryIndexPageSuspenseQueryHookResult = ReturnType<
+  typeof useCategoryIndexPageSuspenseQuery
 >;
-export type CategoryIndexQueryResult = Apollo.QueryResult<
-  CategoryIndexQuery,
-  CategoryIndexQueryVariables
+export type CategoryIndexPageQueryResult = Apollo.QueryResult<
+  CategoryIndexPageQuery,
+  CategoryIndexPageQueryVariables
+>;
+export const CategoryIndexPathDocument = gql`
+  query CategoryIndexPath {
+    categoriesCount
+  }
+`;
+
+/**
+ * __useCategoryIndexPathQuery__
+ *
+ * To run a query within a React component, call `useCategoryIndexPathQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCategoryIndexPathQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCategoryIndexPathQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCategoryIndexPathQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    CategoryIndexPathQuery,
+    CategoryIndexPathQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    CategoryIndexPathQuery,
+    CategoryIndexPathQueryVariables
+  >(CategoryIndexPathDocument, options as any);
+}
+export function useCategoryIndexPathLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CategoryIndexPathQuery,
+    CategoryIndexPathQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    CategoryIndexPathQuery,
+    CategoryIndexPathQueryVariables
+  >(CategoryIndexPathDocument, options as any);
+}
+export function useCategoryIndexPathSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    CategoryIndexPathQuery,
+    CategoryIndexPathQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    CategoryIndexPathQuery,
+    CategoryIndexPathQueryVariables
+  >(CategoryIndexPathDocument, options as any);
+}
+export type CategoryIndexPathQueryHookResult = ReturnType<
+  typeof useCategoryIndexPathQuery
+>;
+export type CategoryIndexPathLazyQueryHookResult = ReturnType<
+  typeof useCategoryIndexPathLazyQuery
+>;
+export type CategoryIndexPathSuspenseQueryHookResult = ReturnType<
+  typeof useCategoryIndexPathSuspenseQuery
+>;
+export type CategoryIndexPathQueryResult = Apollo.QueryResult<
+  CategoryIndexPathQuery,
+  CategoryIndexPathQueryVariables
 >;
 export const AllCategoriesDocument = gql`
   query AllCategories {

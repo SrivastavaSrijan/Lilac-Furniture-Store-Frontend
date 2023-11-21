@@ -1,8 +1,7 @@
 import { Container, Stack } from '@mui/material';
 import { GetServerSideProps } from 'next';
 
-import { ProductsGrid, SEO } from '@/components/common';
-import { Banners, CategoriesGrid } from '@/components/home';
+import { Banners, CategoriesGrid, ProductsGrid, SEO } from '@/components';
 import { AppConfig, withApollo } from '@/lib';
 import { PageHomeComp, ssrHome } from '@/lib/graphql';
 
@@ -23,12 +22,19 @@ const Home: PageHomeComp = ({ data }) => {
       <SEO title={AppConfig.pages.index.title} />
       <Banners banners={data?.banners ?? []} />
       <Container maxWidth="md">
-        <CategoriesGrid categories={data?.categories ?? []} />
-        <ProductsGrid
-          title="Our Products"
-          subtitle="Commodo sint voluptate labore excepteur"
-          limit={12}
-        />
+        <Stack gap={{ xs: 6, md: 8 }} py={{ xs: 6, md: 8 }}>
+          <CategoriesGrid
+            title="Browse The Range"
+            subtitle=" Lorem ipsum dolor sit amet, labore ea officia sit dolor eu id ex
+          excepteur duis aliqua laborum cupidatat proident consectetur."
+            categories={data?.categories ?? []}
+          />
+          <ProductsGrid
+            title="Our Products"
+            subtitle="Commodo sint voluptate labore excepteur"
+            limit={12}
+          />
+        </Stack>
       </Container>
     </Stack>
   );

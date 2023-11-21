@@ -3,6 +3,7 @@ import {
   createTheme,
   formLabelClasses,
   responsiveFontSizes,
+  toggleButtonClasses,
 } from '@mui/material';
 import { EB_Garamond, Source_Sans_3 } from 'next/font/google';
 
@@ -26,7 +27,7 @@ const themeColors = {
   },
   text: {
     secondary: '#ffffff',
-    primary: '#333333',
+    primary: '#000',
   },
   common: {
     white: '#FFFFFF',
@@ -77,8 +78,7 @@ const THEME = {
     fontFamily: TEXT_PRIMARY,
     button: {
       textTransform: 'none' as const,
-      fontWeight: 500,
-      lineHeight: 1.1,
+      lineHeight: 1.5,
     },
     h1: {
       fontSize: '4rem',
@@ -146,8 +146,11 @@ const THEME = {
   components: {
     MuiCssBaseline: {
       styleOverrides: () => `
-        .${buttonClasses.root}.${buttonClasses.contained}, .${buttonClasses.root}.${buttonClasses.outlined} {
+        .${buttonClasses.root}.${buttonClasses.contained}, .${buttonClasses.root}.${buttonClasses.outlined}, .${toggleButtonClasses.root} {
           border-radius: 0px !important;
+          & .${buttonClasses.startIcon}>*:nth-of-type(1) {
+            font-size: 18px !important;
+          }
         },
         .${formLabelClasses.root}.${formLabelClasses.root} {
           color: rgba(0, 0, 0, 0.7) !important;

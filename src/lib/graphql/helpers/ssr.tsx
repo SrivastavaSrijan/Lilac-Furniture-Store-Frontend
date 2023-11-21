@@ -68,16 +68,16 @@ export const ssrHome = {
 };
 export async function getServerPageCategoryIndex(
   options: Omit<
-    Apollo.QueryOptions<Types.CategoryIndexQueryVariables>,
+    Apollo.QueryOptions<Types.CategoryIndexPageQueryVariables>,
     'query'
   >,
   ctx: ApolloClientContext,
 ) {
   const apolloClient = getApolloClient(ctx);
 
-  const data = await apolloClient.query<Types.CategoryIndexQuery>({
+  const data = await apolloClient.query<Types.CategoryIndexPageQuery>({
     ...options,
-    query: Operations.CategoryIndexDocument,
+    query: Operations.CategoryIndexPageDocument,
   });
 
   const apolloState = apolloClient.cache.extract();
@@ -94,16 +94,16 @@ export const useCategoryIndex = (
   optionsFunc?: (
     router: NextRouter,
   ) => QueryHookOptions<
-    Types.CategoryIndexQuery,
-    Types.CategoryIndexQueryVariables
+    Types.CategoryIndexPageQuery,
+    Types.CategoryIndexPageQueryVariables
   >,
 ) => {
   const router = useRouter();
   const options = optionsFunc ? optionsFunc(router) : {};
-  return useQuery(Operations.CategoryIndexDocument, options as any);
+  return useQuery(Operations.CategoryIndexPageDocument, options as any);
 };
 export type PageCategoryIndexComp = React.FC<{
-  data?: Types.CategoryIndexQuery;
+  data?: Types.CategoryIndexPageQuery;
   error?: Apollo.ApolloError;
 }>;
 export const withPageCategoryIndex =
@@ -111,8 +111,8 @@ export const withPageCategoryIndex =
     optionsFunc?: (
       router: NextRouter,
     ) => QueryHookOptions<
-      Types.CategoryIndexQuery,
-      Types.CategoryIndexQueryVariables
+      Types.CategoryIndexPageQuery,
+      Types.CategoryIndexPageQueryVariables
     >,
   ) =>
   (WrappedComponent: PageCategoryIndexComp): NextPage =>
@@ -120,7 +120,7 @@ export const withPageCategoryIndex =
     const router = useRouter();
     const options = optionsFunc ? optionsFunc(router) : {};
     const { data, error } = useQuery(
-      Operations.CategoryIndexDocument,
+      Operations.CategoryIndexPageDocument,
       options as any,
     );
     return <WrappedComponent {...props} data={data} error={error} />;
@@ -129,6 +129,70 @@ export const ssrCategoryIndex = {
   getServerPage: getServerPageCategoryIndex,
   withPage: withPageCategoryIndex,
   usePage: useCategoryIndex,
+};
+export async function getServerPageCategoryIndexPath(
+  options: Omit<
+    Apollo.QueryOptions<Types.CategoryIndexPathQueryVariables>,
+    'query'
+  >,
+  ctx: ApolloClientContext,
+) {
+  const apolloClient = getApolloClient(ctx);
+
+  const data = await apolloClient.query<Types.CategoryIndexPathQuery>({
+    ...options,
+    query: Operations.CategoryIndexPathDocument,
+  });
+
+  const apolloState = apolloClient.cache.extract();
+
+  return {
+    props: {
+      apolloState,
+      data: data?.data,
+      error: data?.error ?? data?.errors ?? null,
+    },
+  };
+}
+export const useCategoryIndexPath = (
+  optionsFunc?: (
+    router: NextRouter,
+  ) => QueryHookOptions<
+    Types.CategoryIndexPathQuery,
+    Types.CategoryIndexPathQueryVariables
+  >,
+) => {
+  const router = useRouter();
+  const options = optionsFunc ? optionsFunc(router) : {};
+  return useQuery(Operations.CategoryIndexPathDocument, options as any);
+};
+export type PageCategoryIndexPathComp = React.FC<{
+  data?: Types.CategoryIndexPathQuery;
+  error?: Apollo.ApolloError;
+}>;
+export const withPageCategoryIndexPath =
+  (
+    optionsFunc?: (
+      router: NextRouter,
+    ) => QueryHookOptions<
+      Types.CategoryIndexPathQuery,
+      Types.CategoryIndexPathQueryVariables
+    >,
+  ) =>
+  (WrappedComponent: PageCategoryIndexPathComp): NextPage =>
+  (props) => {
+    const router = useRouter();
+    const options = optionsFunc ? optionsFunc(router) : {};
+    const { data, error } = useQuery(
+      Operations.CategoryIndexPathDocument,
+      options as any,
+    );
+    return <WrappedComponent {...props} data={data} error={error} />;
+  };
+export const ssrCategoryIndexPath = {
+  getServerPage: getServerPageCategoryIndexPath,
+  withPage: withPageCategoryIndexPath,
+  usePage: useCategoryIndexPath,
 };
 export async function getServerPageAllCategories(
   options: Omit<

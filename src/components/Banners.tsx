@@ -2,7 +2,7 @@ import { Box, Button, Stack, Typography } from '@mui/material';
 
 import { HomePageQuery } from '@/lib/graphql';
 
-import { Carousel, CloudImage } from '../common';
+import { Carousel, CloudImage } from '.';
 
 const BannerHeight = { xs: 500, md: 700 };
 const BoxWidth = { xs: 340, md: 500 };

@@ -57,6 +57,9 @@ export const AppConfig = {
           'Forgot Password - Recover Your Lilac Account Access',
       },
     },
+    explore: {
+      path: '/explore/[page].tsx',
+    },
     category: {
       path: '/category/[slug].tsx',
     },
