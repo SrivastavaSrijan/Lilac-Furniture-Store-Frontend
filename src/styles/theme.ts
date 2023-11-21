@@ -147,7 +147,7 @@ const THEME = {
     MuiCssBaseline: {
       styleOverrides: () => `
         .${buttonClasses.root}.${buttonClasses.contained}, .${buttonClasses.root}.${buttonClasses.outlined}, .${toggleButtonClasses.root} {
-          border-radius: 0px !important;
+          // border-radius: 0px !important;
           & .${buttonClasses.startIcon}>*:nth-of-type(1) {
             font-size: 18px !important;
           }

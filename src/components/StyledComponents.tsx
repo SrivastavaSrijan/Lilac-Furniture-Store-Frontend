@@ -1,4 +1,9 @@
-import { styled } from '@mui/material';
+import {
+  darken,
+  styled,
+  toggleButtonClasses,
+  ToggleButtonGroup,
+} from '@mui/material';
 import { MaterialDesignContent } from 'notistack';
 
 export const StyledMaterialDesignContent = styled(MaterialDesignContent)(
@@ -14,6 +19,21 @@ export const StyledMaterialDesignContent = styled(MaterialDesignContent)(
     },
     '&.notistack-MuiContent-error': {
       backgroundColor: '#EB6B6B',
+    },
+  }),
+);
+
+export const StyledToggleButtonGroup = styled(ToggleButtonGroup)(
+  ({ theme }) => ({
+    [`& .${toggleButtonClasses.root}`]: {
+      py: '6px',
+      [`&.${toggleButtonClasses.selected}`]: {
+        bgcolor: 'secondary.main',
+        color: 'secondary.light',
+        '&:hover, &:focus, &:active': {
+          bgcolor: darken(theme.palette.secondary.main, 0.2),
+        },
+      },
     },
   }),
 );
