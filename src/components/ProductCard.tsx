@@ -52,7 +52,7 @@ export const ProductCard = ({ direction, ...props }: IProductCardProps) => {
           <IconButton
             onClick={() => setShow(!show)}
             size="small"
-            color="secondary"
+            color="primary"
           >
             {!show ? (
               <VisibilityOutlined
@@ -128,7 +128,7 @@ export const ProductCard = ({ direction, ...props }: IProductCardProps) => {
             height="100%"
             px={{ xs: 1, md: 1.5 }}
             pb={{ xs: 1.5, md: 2 }}
-            bgcolor="secondary.light"
+            bgcolor="primary.light"
             justifyContent="space-between"
             gap={{ xs: 0.5, md: 1 }}
           >

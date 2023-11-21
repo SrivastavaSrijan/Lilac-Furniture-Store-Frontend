@@ -125,9 +125,9 @@ export const CategoryCard = ({ name, id, description }: ICategoryCardProps) => {
         px={{ xs: 1, md: 2 }}
         py={{ xs: 2, md: 2 }}
         gap={{ xs: 0.5, md: 0.75 }}
-        bgcolor="secondary.light"
+        bgcolor="primary.light"
       >
-        <Typography textAlign="center" variant="h5" color="secondary.dark">
+        <Typography textAlign="center" variant="h5" color="primary.dark">
           <Typography
             fontStyle="italic"
             variant="h6"
@@ -230,7 +230,7 @@ export const CategoryCard = ({ name, id, description }: ICategoryCardProps) => {
                           isExpanded,
                           index,
                         )}px - 50%)`}
-                        bgcolor="secondary.light"
+                        bgcolor="primary.light"
                         px={{ xs: 0.5, md: 0.5 }}
                       >
                         <IconButton
@@ -238,7 +238,7 @@ export const CategoryCard = ({ name, id, description }: ICategoryCardProps) => {
                           size="medium"
                           sx={{
                             p: 0,
-                            color: 'secondary.dark',
+                            color: 'primary.dark',
                             position: 'absolute',
                             right: 16,
                             zIndex: 2,

@@ -28,10 +28,10 @@ export const StyledToggleButtonGroup = styled(ToggleButtonGroup)(
     [`& .${toggleButtonClasses.root}`]: {
       py: '6px',
       [`&.${toggleButtonClasses.selected}`]: {
-        bgcolor: 'secondary.main',
-        color: 'secondary.light',
+        bgcolor: 'primary.main',
+        color: 'primary.light',
         '&:hover, &:focus, &:active': {
-          bgcolor: darken(theme.palette.secondary.main, 0.2),
+          bgcolor: darken(theme.palette.primary.main, 0.2),
         },
       },
     },

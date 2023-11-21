@@ -7,7 +7,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { generateMockArray, sleep } from '@/lib';
 import {
@@ -15,12 +15,13 @@ import {
   PaginatedProductsQueryVariables,
   usePaginatedProductsQuery,
 } from '@/lib/graphql';
+import { CommonContext } from '@/lib/providers';
 
 import { ProductCard } from './ProductCard';
 
 interface IProductsGridProps {
   limit: number;
-  where?: PaginatedProductsQueryVariables['where'];
+  variables?: PaginatedProductsQueryVariables;
   title?: string;
   subtitle?: string;
 }
@@ -28,17 +29,21 @@ export const ProductsGrid = ({
   title,
   subtitle,
   limit,
-  where,
+  variables,
 }: IProductsGridProps) => {
   const [fetched, setFetched] = useState(limit);
   const [max, setMax] = useState<number>(10e5);
   const [dataArray, setDataArray] = useState<(IProduct | null)[]>(
     generateMockArray(limit),
   );
+  const [hasFilterApplied, setFilterApplied] = useState<string[]>([]);
   const [isFetchingMore, setIsFetchingMore] = useState(false);
-  const { data, loading, fetchMore } = usePaginatedProductsQuery({
-    variables: { limit, where },
+  const { data, loading, refetch, fetchMore } = usePaginatedProductsQuery({
+    variables: { limit, ...variables },
+    notifyOnNetworkStatusChange: true,
   });
+
+  const { state, dispatch } = useContext(CommonContext);
 
   const handleFetchMore = async () => {
     setIsFetchingMore(true);
@@ -46,7 +51,11 @@ export const ProductsGrid = ({
     const lastProduct = dataArray?.[dataArray.length - 1] ?? null;
     if (!lastProduct) return;
     await fetchMore({
-      variables: { cursor: { id: lastProduct.id }, limit: limit + 1, where },
+      variables: {
+        cursor: { id: lastProduct.id },
+        limit: limit + 1,
+        ...variables,
+      },
       updateQuery: (previousResult, { fetchMoreResult }) => {
         if (!fetchMoreResult) return previousResult;
         const newProducts = fetchMoreResult?.products ?? [];
@@ -73,6 +82,47 @@ export const ProductsGrid = ({
       setDataArray(data.products);
     }
   }, [data?.products, loading]);
+
+  useEffect(() => {
+    if (variables?.if && data?.getPriceRange && data?.productsCount)
+      dispatch({
+        type: 'filter-meta',
+        payload: {
+          maxPrice: data?.getPriceRange?.max ?? null,
+          minPrice: data?.getPriceRange?.min ?? null,
+          fetched:
+            fetched > data?.productsCount ? data?.productsCount : fetched,
+          max: data?.productsCount,
+        },
+      });
+  }, [
+    data?.getPriceRange,
+    dispatch,
+    fetched,
+    variables?.if,
+    data?.productsCount,
+    max,
+  ]);
+
+  useEffect(() => {
+    const { price } = state?.filters ?? {};
+    const { if: ifV, where } = variables ?? {};
+    if (price.length === 2 && ifV) {
+      const [selectedMin, selectedMax] = price;
+      if (selectedMin && selectedMax)
+        refetch({
+          limit,
+          where: { ...where, price: { gte: selectedMin, lte: selectedMax } },
+        });
+      setFilterApplied((old) => [...old, 'price']);
+    }
+  }, [limit, refetch, state?.filters, variables]);
+
+  useEffect(() => {
+    const { price } = state?.filters ?? {};
+    if (!price.length && hasFilterApplied.includes('price'))
+      refetch({ limit, ...variables });
+  }, [hasFilterApplied, limit, refetch, state?.filters, variables]);
 
   // Prepare the product cards or skeletons
   const productCards = dataArray.map((product: IProduct | null, index) => (

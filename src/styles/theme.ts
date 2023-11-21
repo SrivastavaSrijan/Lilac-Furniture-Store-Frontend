@@ -33,13 +33,13 @@ const themeColors = {
     white: '#FFFFFF',
     black: '#333333',
   },
-  primary: {
+  secondary: {
     light: '#356B80', // A lighter, more marine blue that harmonizes with lilac
     main: '#042A3A', // Original deep navy blue
     dark: '#000', // A darker, more muted navy to provide depth
     contrastText: '#FFFFFF', // White for maximum contrast
   },
-  secondary: {
+  primary: {
     light: '#F5F3F6', // A softer, grey-infused lilac that pairs well with blues
     main: '#65475A', // Original muted lilac
     dark: '#3D182F', // A darker shade of lilac for depth

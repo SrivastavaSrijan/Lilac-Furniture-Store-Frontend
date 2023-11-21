@@ -35,7 +35,7 @@ export const Banners = ({ banners }: IBannersProps) => {
             )}
             <Stack
               sx={{
-                bgcolor: 'secondary.light',
+                bgcolor: 'primary.light',
                 position: 'absolute',
                 bottom: {
                   xs: `calc(75% - ${BoxHeight.xs / 2}px)`,
@@ -58,7 +58,7 @@ export const Banners = ({ banners }: IBannersProps) => {
                 alignItems="flex-start"
                 gap={{ xs: 1, md: 2 }}
               >
-                <Typography variant="h1" color="secondary.main">
+                <Typography variant="h1" color="primary.main">
                   {title}
                 </Typography>
                 <Typography

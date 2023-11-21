@@ -1,9 +1,13 @@
-query AllCategories {
-  categories {
+query AllCategories($if: Boolean = false, $orderBy: [CategoryOrderByInput!]=[
+    {
+      name: asc
+    }
+  ]) {
+  categories(orderBy: $orderBy) {
     slug
+    name @include(if: $if)
   }
 }
-
 query CategoryBySlug($where: CategoryWhereUniqueInput!) {
   category(where: $where) {
     slug
@@ -16,7 +20,7 @@ query CategoryBySlug($where: CategoryWhereUniqueInput!) {
   }
 }
 
-query PaginatedProducts($limit: Int, $cursor: ProductWhereUniqueInput, $where: ProductWhereInput) {
+query PaginatedProducts($limit: Int, $cursor: ProductWhereUniqueInput, $where: ProductWhereInput, $if: Boolean = false) {
   products(take: $limit, cursor: $cursor, where: $where) {
     id
     slug
@@ -30,6 +34,10 @@ query PaginatedProducts($limit: Int, $cursor: ProductWhereUniqueInput, $where: P
     price
   }
   productsCount(where: $where)
+  getPriceRange @include(if: $if) {
+    max
+    min
+  }
 }
 
 query ProductsWhere($where: ProductWhereInput!, $includeDesc: Boolean = false, $take: Int) {

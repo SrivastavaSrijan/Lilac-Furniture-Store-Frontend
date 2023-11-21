@@ -707,6 +707,12 @@ export type PasswordState = {
   isSet: Scalars['Boolean']['output'];
 };
 
+export type PriceRange = {
+  __typename?: 'PriceRange';
+  max?: Maybe<Scalars['Float']['output']>;
+  min?: Maybe<Scalars['Float']['output']>;
+};
+
 export type Product = {
   __typename?: 'Product';
   category?: Maybe<Category>;
@@ -870,6 +876,7 @@ export type Query = {
   categories?: Maybe<Array<Category>>;
   categoriesCount?: Maybe<Scalars['Int']['output']>;
   category?: Maybe<Category>;
+  getPriceRange?: Maybe<PriceRange>;
   keystone: KeystoneMeta;
   product?: Maybe<Product>;
   productImage?: Maybe<ProductImage>;
@@ -1183,11 +1190,18 @@ export type CategoryIndexPathQuery = {
   categoriesCount?: number | null;
 };
 
-export type AllCategoriesQueryVariables = Exact<{ [key: string]: never }>;
+export type AllCategoriesQueryVariables = Exact<{
+  if?: InputMaybe<Scalars['Boolean']['input']>;
+  orderBy?: InputMaybe<Array<CategoryOrderByInput> | CategoryOrderByInput>;
+}>;
 
 export type AllCategoriesQuery = {
   __typename?: 'Query';
-  categories?: Array<{ __typename?: 'Category'; slug?: string | null }> | null;
+  categories?: Array<{
+    __typename?: 'Category';
+    slug?: string | null;
+    name?: string | null;
+  }> | null;
 };
 
 export type CategoryBySlugQueryVariables = Exact<{
@@ -1213,6 +1227,7 @@ export type PaginatedProductsQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']['input']>;
   cursor?: InputMaybe<ProductWhereUniqueInput>;
   where?: InputMaybe<ProductWhereInput>;
+  if?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
 export type PaginatedProductsQuery = {
@@ -1233,6 +1248,11 @@ export type PaginatedProductsQuery = {
       } | null;
     } | null;
   }> | null;
+  getPriceRange?: {
+    __typename?: 'PriceRange';
+    max?: number | null;
+    min?: number | null;
+  } | null;
 };
 
 export type ProductsWhereQueryVariables = Exact<{
@@ -1606,9 +1626,13 @@ export type CategoryIndexPathQueryResult = Apollo.QueryResult<
   CategoryIndexPathQueryVariables
 >;
 export const AllCategoriesDocument = gql`
-  query AllCategories {
-    categories {
+  query AllCategories(
+    $if: Boolean = false
+    $orderBy: [CategoryOrderByInput!] = [{ name: asc }]
+  ) {
+    categories(orderBy: $orderBy) {
       slug
+      name @include(if: $if)
     }
   }
 `;
@@ -1625,6 +1649,8 @@ export const AllCategoriesDocument = gql`
  * @example
  * const { data, loading, error } = useAllCategoriesQuery({
  *   variables: {
+ *      if: // value for 'if'
+ *      orderBy: // value for 'orderBy'
  *   },
  * });
  */
@@ -1761,6 +1787,7 @@ export const PaginatedProductsDocument = gql`
     $limit: Int
     $cursor: ProductWhereUniqueInput
     $where: ProductWhereInput
+    $if: Boolean = false
   ) {
     products(take: $limit, cursor: $cursor, where: $where) {
       id
@@ -1775,6 +1802,10 @@ export const PaginatedProductsDocument = gql`
       price
     }
     productsCount(where: $where)
+    getPriceRange @include(if: $if) {
+      max
+      min
+    }
   }
 `;
 
@@ -1793,6 +1824,7 @@ export const PaginatedProductsDocument = gql`
  *      limit: // value for 'limit'
  *      cursor: // value for 'cursor'
  *      where: // value for 'where'
+ *      if: // value for 'if'
  *   },
  * });
  */

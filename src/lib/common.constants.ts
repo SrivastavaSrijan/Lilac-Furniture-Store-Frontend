@@ -17,6 +17,9 @@ export const AssetsConfig = {
     get login() {
       return `${this.root}login/insecvbbdqfejdxk3l4o.jpg`;
     },
+    get shop() {
+      return `${this.root}sho/lezjsoebnyfiugzhdpsa.jpg`;
+    },
   },
   brand: {
     get root() {

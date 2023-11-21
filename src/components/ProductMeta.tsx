@@ -29,7 +29,7 @@ export const ProductMeta = ({
       height="100%"
       pb={{ xs: 1.5, md: 2 }}
       px={{ xs: 1, md: 1.5 }}
-      bgcolor="secondary.light"
+      bgcolor="primary.light"
       justifyContent="space-between"
       gap={{ xs: 1.5, md: 2 }}
     >
@@ -131,7 +131,7 @@ export const ProductMeta = ({
           <Button
             size="medium"
             variant="contained"
-            color="secondary"
+            color="primary"
             onClick={handleAdd(id)}
             disabled={loading}
             startIcon={<ShoppingCartOutlined fontSize="small" />}

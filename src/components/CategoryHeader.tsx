@@ -39,10 +39,10 @@ export const CategoryHeader = ({
           px={{ xs: 2, md: 3 }}
           py={{ xs: 1, md: 4 }}
           gap={{ xs: 1, md: 1.5 }}
-          bgcolor="secondary.light"
+          bgcolor="primary.light"
           sx={{ transform: 'translate(-50%, -50%)' }}
         >
-          <Typography textAlign="center" variant="h2" color="secondary.dark">
+          <Typography textAlign="center" variant="h2" color="primary.dark">
             <Typography
               fontStyle="italic"
               variant="h4"

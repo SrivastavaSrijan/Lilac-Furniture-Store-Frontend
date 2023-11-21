@@ -63,7 +63,10 @@ const CategoryBySlug: PageCategoryBySlugComp = ({ data }) => {
         <Stack gap={{ xs: 6, md: 8 }} py={{ xs: 6, md: 8 }}>
           <ProductsGrid
             limit={12}
-            where={{ category: { slug: { equals: slug } } }}
+            variables={{
+              where: { category: { slug: { equals: slug } } },
+              if: true,
+            }}
           />
         </Stack>
       </Container>
