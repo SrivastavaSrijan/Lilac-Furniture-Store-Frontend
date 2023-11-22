@@ -3,7 +3,6 @@ import { Stack, Typography } from '@mui/material';
 import { generateSizes } from '@/lib';
 
 import { CloudImage } from '.';
-import { ProductFilterBar } from './ProductFilterBar';
 
 interface ICategoryHeaderProps {
   image: string;
@@ -63,7 +62,6 @@ export const CategoryHeader = ({
           </Typography>
         </Stack>
       </Stack>
-      <ProductFilterBar />
     </Stack>
   );
 };

@@ -1225,6 +1225,7 @@ export type CategoryBySlugQuery = {
 
 export type PaginatedProductsQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
   cursor?: InputMaybe<ProductWhereUniqueInput>;
   where?: InputMaybe<ProductWhereInput>;
   if?: InputMaybe<Scalars['Boolean']['input']>;
@@ -1785,11 +1786,12 @@ export type CategoryBySlugQueryResult = Apollo.QueryResult<
 export const PaginatedProductsDocument = gql`
   query PaginatedProducts(
     $limit: Int
+    $skip: Int
     $cursor: ProductWhereUniqueInput
     $where: ProductWhereInput
     $if: Boolean = false
   ) {
-    products(take: $limit, cursor: $cursor, where: $where) {
+    products(take: $limit, skip: $skip, cursor: $cursor, where: $where) {
       id
       slug
       image {
@@ -1822,6 +1824,7 @@ export const PaginatedProductsDocument = gql`
  * const { data, loading, error } = usePaginatedProductsQuery({
  *   variables: {
  *      limit: // value for 'limit'
+ *      skip: // value for 'skip'
  *      cursor: // value for 'cursor'
  *      where: // value for 'where'
  *      if: // value for 'if'

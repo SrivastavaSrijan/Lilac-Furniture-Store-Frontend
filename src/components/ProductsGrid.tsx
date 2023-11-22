@@ -1,8 +1,8 @@
+import { NetworkStatus } from '@apollo/client';
 import {
   Alert,
   Button,
   CircularProgress,
-  Collapse,
   Grid,
   Stack,
   Typography,
@@ -17,6 +17,7 @@ import {
 } from '@/lib/graphql';
 import { CommonContext } from '@/lib/providers';
 
+import { ProductFilterBar } from '.';
 import { ProductCard } from './ProductCard';
 
 interface IProductsGridProps {
@@ -25,29 +26,43 @@ interface IProductsGridProps {
   title?: string;
   subtitle?: string;
 }
+export interface IFilters {
+  category: string[];
+  price: number[];
+  view: 'grid' | 'card';
+  sort: 'name' | 'price';
+  applied: boolean;
+}
+
 export const ProductsGrid = ({
   title,
   subtitle,
   limit,
   variables,
 }: IProductsGridProps) => {
-  const [fetched, setFetched] = useState(limit);
-  const [max, setMax] = useState<number>(10e5);
+  const [productsShown, setProductsShown] = useState(limit);
+  const [productsCount, setProductsCount] = useState<number>(10e5);
   const [dataArray, setDataArray] = useState<(IProduct | null)[]>(
     generateMockArray(limit),
   );
-  const [hasFilterApplied, setFilterApplied] = useState<string[]>([]);
   const [isFetchingMore, setIsFetchingMore] = useState(false);
-  const { data, loading, refetch, fetchMore } = usePaginatedProductsQuery({
-    variables: { limit, ...variables },
-    notifyOnNetworkStatusChange: true,
-  });
 
-  const { state, dispatch } = useContext(CommonContext);
+  const { data, refetch, fetchMore, networkStatus } = usePaginatedProductsQuery(
+    {
+      variables: { limit, ...variables },
+      notifyOnNetworkStatusChange: true,
+    },
+  );
+  const loading = [
+    NetworkStatus.loading,
+    NetworkStatus.fetchMore,
+    NetworkStatus.refetch,
+  ].includes(networkStatus);
+  const { max: maxPrice = null, min: minPrice = null } =
+    data?.getPriceRange ?? {};
+  const { dispatch } = useContext(CommonContext);
 
   const handleFetchMore = async () => {
-    setIsFetchingMore(true);
-    await sleep(1000);
     const lastProduct = dataArray?.[dataArray.length - 1] ?? null;
     if (!lastProduct) return;
     await fetchMore({
@@ -60,7 +75,7 @@ export const ProductsGrid = ({
         if (!fetchMoreResult) return previousResult;
         const newProducts = fetchMoreResult?.products ?? [];
         newProducts?.shift();
-        setFetched((oldLimit) => oldLimit + newProducts.length);
+        setProductsShown((oldLimit) => oldLimit + newProducts.length);
         return {
           __typename: previousResult.__typename,
           products: [...(previousResult?.products ?? []), ...newProducts],
@@ -70,11 +85,46 @@ export const ProductsGrid = ({
     setIsFetchingMore(false);
   };
 
-  useEffect(() => {
-    if (data && max === 10e5 && data?.productsCount) {
-      setMax(data?.productsCount);
+  const handleApply = async (config: IFilters) => {
+    setIsFetchingMore(true);
+    await sleep(2000);
+    const handleRefetch = async (
+      refetchWhereVariables?: PaginatedProductsQueryVariables['where'],
+    ) => {
+      const { data: refetchData } = await refetch({
+        limit: undefined,
+        where: {
+          ...variables?.where,
+          ...(refetchWhereVariables ?? {}),
+        },
+      });
+      if (refetchData?.productsCount) {
+        setProductsShown(refetchData?.productsCount);
+        setProductsCount(refetchData?.productsCount);
+      }
+      setIsFetchingMore(false);
+      dispatch({ type: 'popover', payload: null });
+    };
+
+    if (config.price.length === 2) {
+      const [selectedMin, selectedMax] = config.price;
+      if (selectedMax && selectedMin) {
+        handleRefetch({ price: { gte: selectedMin, lte: selectedMax } });
+      }
+    } else if (!config.applied) {
+      handleRefetch({});
     }
-  }, [data, max]);
+  };
+
+  const handleClose = () => {
+    dispatch({ type: 'popover', payload: null });
+  };
+
+  useEffect(() => {
+    if (data && productsCount === 10e5 && data?.productsCount) {
+      setProductsCount(data?.productsCount);
+    }
+  }, [data, productsCount]);
 
   useEffect(() => {
     if (!loading && data?.products) {
@@ -82,47 +132,6 @@ export const ProductsGrid = ({
       setDataArray(data.products);
     }
   }, [data?.products, loading]);
-
-  useEffect(() => {
-    if (variables?.if && data?.getPriceRange && data?.productsCount)
-      dispatch({
-        type: 'filter-meta',
-        payload: {
-          maxPrice: data?.getPriceRange?.max ?? null,
-          minPrice: data?.getPriceRange?.min ?? null,
-          fetched:
-            fetched > data?.productsCount ? data?.productsCount : fetched,
-          max: data?.productsCount,
-        },
-      });
-  }, [
-    data?.getPriceRange,
-    dispatch,
-    fetched,
-    variables?.if,
-    data?.productsCount,
-    max,
-  ]);
-
-  useEffect(() => {
-    const { price } = state?.filters ?? {};
-    const { if: ifV, where } = variables ?? {};
-    if (price.length === 2 && ifV) {
-      const [selectedMin, selectedMax] = price;
-      if (selectedMin && selectedMax)
-        refetch({
-          limit,
-          where: { ...where, price: { gte: selectedMin, lte: selectedMax } },
-        });
-      setFilterApplied((old) => [...old, 'price']);
-    }
-  }, [limit, refetch, state?.filters, variables]);
-
-  useEffect(() => {
-    const { price } = state?.filters ?? {};
-    if (!price.length && hasFilterApplied.includes('price'))
-      refetch({ limit, ...variables });
-  }, [hasFilterApplied, limit, refetch, state?.filters, variables]);
 
   // Prepare the product cards or skeletons
   const productCards = dataArray.map((product: IProduct | null, index) => (
@@ -162,22 +171,32 @@ export const ProductsGrid = ({
           <Typography textAlign="center">No products found</Typography>
         </Alert>
       )}
-      <Collapse
-        in={limit > (max ?? 0) || fetched !== limit}
-        collapsedSize="60vh"
-      >
-        <Grid container spacing={{ xs: 2, md: 3 }}>
-          {productCards}
-          {skeletons}
-        </Grid>
-      </Collapse>
+      {variables?.if && (
+        <ProductFilterBar
+          apply={handleApply}
+          handleClose={handleClose}
+          loading={isFetchingMore || loading}
+          meta={{
+            maxPrice,
+            minPrice,
+            productsCount: productsCount === 10e5 ? null : productsCount,
+            productsShown:
+              productsCount < productsShown ? productsCount : productsShown,
+          }}
+        />
+      )}
+
+      <Grid container spacing={{ xs: 2, md: 3 }}>
+        {productCards}
+        {skeletons}
+      </Grid>
       <Button
         variant="outlined"
-        disabled={fetched >= limit && fetched >= (max ?? 0)}
+        disabled={productsCount <= limit || productsShown === productsCount}
         onClick={() => {
           handleFetchMore();
         }}
-        endIcon={isFetchingMore ? <CircularProgress size={12} /> : undefined}
+        endIcon={isFetchingMore ? <CircularProgress size={14} /> : undefined}
         sx={{ mx: 'auto' }}
       >
         Show more

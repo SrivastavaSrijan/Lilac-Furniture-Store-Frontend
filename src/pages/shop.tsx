@@ -13,7 +13,7 @@ const Shop = () => {
         description="Nostrud mollit amet irure est cillum excepteur ullamco. Eu aliquip magna in in. Ut est nulla proident eiusmod dolor ipsum cupidatat."
       />
       <Container maxWidth="md">
-        <Stack gap={{ xs: 6, md: 8 }} py={{ xs: 6, md: 8 }}>
+        <Stack gap={{ xs: 6, md: 8 }} py={{ xs: 3, md: 4 }}>
           <ProductsGrid limit={12} />
         </Stack>
       </Container>

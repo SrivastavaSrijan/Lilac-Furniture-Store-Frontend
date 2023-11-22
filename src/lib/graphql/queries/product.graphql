@@ -20,8 +20,8 @@ query CategoryBySlug($where: CategoryWhereUniqueInput!) {
   }
 }
 
-query PaginatedProducts($limit: Int, $cursor: ProductWhereUniqueInput, $where: ProductWhereInput, $if: Boolean = false) {
-  products(take: $limit, cursor: $cursor, where: $where) {
+query PaginatedProducts($limit: Int, $skip: Int, $cursor: ProductWhereUniqueInput, $where: ProductWhereInput, $if: Boolean = false) {
+  products(take: $limit, skip: $skip, cursor: $cursor, where: $where) {
     id
     slug
     image {

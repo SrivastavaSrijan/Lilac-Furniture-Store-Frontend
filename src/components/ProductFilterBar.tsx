@@ -5,10 +5,10 @@ import {
   ViewDayOutlined,
 } from '@mui/icons-material';
 import {
+  Badge,
   Box,
   Button,
   Checkbox,
-  CircularProgress,
   Container,
   Divider,
   filledInputClasses,
@@ -26,13 +26,12 @@ import {
   ToggleButtonGroup,
   Typography,
 } from '@mui/material';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { formatMoney } from '@/lib';
 import { useAllCategoriesQuery } from '@/lib/graphql';
-import { CommonContext } from '@/lib/providers';
 
-import { IconButtonPopover } from '.';
+import { IconButtonPopover, IFilters } from '.';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -59,49 +58,60 @@ const calculateStep = (
 
   return step;
 };
-interface IProductFilterBarProps {}
-export const ProductFilterBar = (_props: IProductFilterBarProps) => {
-  const [filterOptions, setFilterOptions] = useState<{
-    category: string[];
-    price: number[];
-  }>({
+interface IProductFilterBarProps {
+  meta: {
+    minPrice: number | null;
+    maxPrice: number | null;
+    productsShown: number | null;
+    productsCount: number | null;
+  };
+  apply: (config: IFilters) => void;
+  handleClose: () => void;
+  loading: boolean;
+}
+export const ProductFilterBar = ({
+  apply,
+  handleClose,
+  loading,
+  meta: { minPrice, maxPrice, productsShown, productsCount },
+}: IProductFilterBarProps) => {
+  const [localConfig, setLocalConfig] = useState<IFilters>({
     category: [],
-    price: [20, 60], // Assuming this is the price range
+    price: [],
+    view: 'grid',
+    sort: 'name',
+    applied: false,
   });
-  const [sortOption, setSortOption] = useState<string>('featured');
-
-  const { data, loading } = useAllCategoriesQuery({
+  const { data, loading: categoriesLoading } = useAllCategoriesQuery({
     variables: { if: true },
   });
 
-  const { state, dispatch } = useContext(CommonContext);
-  const { minPrice, maxPrice, fetched, max } = state?.filters?.meta ?? {};
-
   const handleCategoryChange = (event: SelectChangeEvent<string[]>) => {
     const { value } = event.target;
-    setFilterOptions((prevOptions) => ({
+    setLocalConfig((prevOptions) => ({
       ...prevOptions,
       category: typeof value === 'string' ? value.split(',') : value,
+      applied: true,
     }));
   };
 
   const handlePriceChange = (_event: Event, newValue: number | number[]) => {
-    setFilterOptions((prevOptions) => ({
+    setLocalConfig((prevOptions) => ({
       ...prevOptions,
       price: newValue as number[],
+      applied: true,
     }));
-  };
-  const [view, setView] = useState<'grid' | 'card'>('grid');
-
-  const handleClose = () => {
-    dispatch({ type: 'popover', payload: null });
   };
 
   const handleAlignment = (
     _event: React.MouseEvent<HTMLElement>,
     newAlignment: string | null,
   ) => {
-    if (newAlignment) setView(newAlignment as 'grid' | 'card');
+    if (newAlignment)
+      setLocalConfig((prevOptions) => ({
+        ...prevOptions,
+        view: newAlignment as 'grid' | 'card',
+      }));
   };
 
   const handleSortChange = (
@@ -109,27 +119,34 @@ export const ProductFilterBar = (_props: IProductFilterBarProps) => {
     newSort: string | null,
   ) => {
     if (newSort !== null) {
-      setSortOption(newSort);
+      setLocalConfig((old) => ({
+        ...old,
+        sort: newSort as 'name' | 'price',
+        applied: true,
+      }));
     }
   };
 
   const handleApply = () => {
-    const { price, category } = filterOptions;
-    dispatch({ type: 'filter-category', payload: category });
-    dispatch({ type: 'filter-price', payload: price });
-    dispatch({ type: 'filter-view', payload: view });
-    dispatch({ type: 'popover', payload: null });
+    apply(localConfig);
   };
 
   const handleClear = () => {
-    dispatch({ type: 'filter-clear' });
-    dispatch({ type: 'popover', payload: null });
+    const clearConfig: IFilters = {
+      category: [],
+      price: [],
+      view: 'grid',
+      sort: 'name',
+      applied: false,
+    };
+    setLocalConfig(clearConfig);
+    apply(clearConfig);
   };
 
   useEffect(() => {
-    if (maxPrice && minPrice)
-      setFilterOptions((old) => ({ ...old, price: [minPrice, maxPrice] }));
-  }, [maxPrice, minPrice]);
+    if (maxPrice && minPrice && localConfig.price.length === 0)
+      setLocalConfig((old) => ({ ...old, price: [minPrice, maxPrice] }));
+  }, [localConfig.price.length, maxPrice, minPrice]);
 
   return (
     <Stack bgcolor="primary.light" py={{ xs: 2, md: 3 }}>
@@ -145,211 +162,228 @@ export const ProductFilterBar = (_props: IProductFilterBarProps) => {
             <Stack gap={{ xs: 2, md: 3 }} direction="row" alignItems="center">
               <Stack direction="row" alignItems="center">
                 <IconButtonPopover
-                  name="filter"
+                  name="localConfig"
                   Icon={
-                    <Button
-                      size="medium"
-                      variant="contained"
-                      color="primary"
-                      startIcon={<TuneOutlined />}
+                    <Badge
+                      badgeContent={localConfig.applied ? 1 : 0}
+                      variant="dot"
                     >
-                      Filter
-                    </Button>
+                      <Button
+                        size="medium"
+                        variant="contained"
+                        color="primary"
+                        startIcon={<TuneOutlined />}
+                      >
+                        Filter
+                      </Button>
+                    </Badge>
                   }
                   slotProps={{ paper: { sx: { borderRadius: 2, mt: 1 } } }}
                   isButton
                 >
-                  {!maxPrice || !minPrice || loading ? (
-                    <Stack
-                      px={{ xs: 2, md: 2 }}
-                      py={{ xs: 1, md: 2 }}
-                      justifyContent="center"
-                      alignItems="center"
-                      width={{ xs: 256, md: 256 }}
-                      bgcolor="primary.light"
-                      gap={2}
-                    >
-                      <CircularProgress size={24} />
-                      <Typography variant="body2">Just a moment...</Typography>
-                    </Stack>
-                  ) : (
-                    <Stack
-                      px={{ xs: 2, md: 2 }}
-                      py={{ xs: 1, md: 2 }}
-                      gap={{ xs: 1, md: 2 }}
-                      bgcolor="primary.light"
-                      width={{ xs: 256, md: 256 }}
-                    >
-                      <Stack gap={1}>
-                        <Stack
-                          width="100%"
-                          direction="row"
-                          alignItems="center"
-                          justifyContent="space-between"
-                        >
-                          <Typography variant="subtitle2">Filter</Typography>
-                          <IconButton onClick={handleClose}>
-                            <Close />
-                          </IconButton>
-                        </Stack>
-                        <Divider
-                          flexItem
-                          variant="fullWidth"
-                          sx={{ mx: { xs: -2, md: -2 } }}
-                        />
-                      </Stack>
-                      <Stack gap={{ xs: 2, md: 3 }}>
-                        <Stack gap={1}>
-                          {/* Sort Toggle Button */}
-                          <Typography variant="body2" fontWeight={500}>
-                            Sort By
-                          </Typography>
-                          <ToggleButtonGroup
-                            value={sortOption}
-                            color="primary"
-                            exclusive
-                            size="small"
-                            onChange={handleSortChange}
-                            aria-label="Sort options"
-                          >
-                            <ToggleButton
-                              value="featured"
-                              aria-label="Featured"
-                            >
-                              Name
-                            </ToggleButton>
-                            <ToggleButton value="price" aria-label="Price">
-                              Price
-                            </ToggleButton>
-                            {/* ... more sort options */}
-                          </ToggleButtonGroup>
-                        </Stack>
-                        <Stack gap={1}>
-                          <Typography variant="body2" fontWeight={500}>
-                            Filter by Category
-                          </Typography>
-                          <FormControl variant="standard" size="small">
-                            <InputLabel id="category-filter-label">
-                              Category
-                            </InputLabel>
-                            <Select<string[]>
-                              size="small"
-                              labelId="category-filter-label"
-                              id="category-filter"
-                              multiple
-                              disabled={loading}
-                              value={filterOptions.category}
-                              onChange={handleCategoryChange}
-                              label="Category"
-                              sx={{
-                                [`.${filledInputClasses.input}`]: {
-                                  fontSize: 14,
-                                },
-                              }}
-                              renderValue={(selected) => (
-                                <Typography variant="body2" noWrap>
-                                  {selected.join(', ')}
-                                </Typography>
-                              )}
-                              MenuProps={MenuProps}
-                            >
-                              {(data?.categories ?? []).map(
-                                ({ name, slug }) =>
-                                  name &&
-                                  slug && (
-                                    <MenuItem
-                                      key={slug}
-                                      value={name}
-                                      disableGutters
-                                    >
-                                      <Checkbox
-                                        value={slug}
-                                        color="secondary"
-                                        sx={{ svg: { fill: 'black' } }}
-                                        checked={
-                                          filterOptions.category.indexOf(name) >
-                                          -1
-                                        }
-                                      />
-                                      <ListItemText
-                                        primary={
-                                          <Typography variant="body2">
-                                            {name}
-                                          </Typography>
-                                        }
-                                      />
-                                    </MenuItem>
-                                  ),
-                              )}
-                            </Select>
-                          </FormControl>
-                        </Stack>
-
-                        <Stack gap={1}>
-                          {/* Price Filter */}
-                          <Stack
-                            direction="row"
-                            alignContent="center"
-                            width="100%"
-                          >
-                            <Typography
-                              id="price-range-slider"
-                              variant="body2"
-                              fontWeight={500}
-                            >
-                              Budget
-                            </Typography>
-                            <Box flexGrow={1} />
-                            <Typography variant="body2" fontWeight={500}>
-                              {filterOptions?.price &&
-                                formatMoney(filterOptions?.price?.[0])}{' '}
-                              &mdash;{' '}
-                              {filterOptions?.price &&
-                                formatMoney(filterOptions?.price?.[1])}
-                            </Typography>
-                          </Stack>
-                          <Slider
-                            color="primary"
-                            value={filterOptions.price}
-                            onChange={handlePriceChange}
-                            disabled={!minPrice || !maxPrice}
-                            valueLabelDisplay="auto"
-                            aria-labelledby="price-range-slider"
-                            min={minPrice ?? 0}
-                            valueLabelFormat={(val) => formatMoney(val)}
-                            size="small"
-                            step={calculateStep(minPrice, maxPrice)}
-                            max={maxPrice ?? 100}
-                          />
-                        </Stack>
+                  <Stack
+                    px={{ xs: 2, md: 2 }}
+                    py={{ xs: 1, md: 2 }}
+                    gap={{ xs: 1, md: 2 }}
+                    bgcolor="primary.light"
+                    width={{ xs: 256, md: 256 }}
+                  >
+                    <Stack gap={1}>
+                      <Stack
+                        width="100%"
+                        direction="row"
+                        alignItems="center"
+                        justifyContent="space-between"
+                      >
+                        <Typography variant="subtitle2">Filter</Typography>
+                        <IconButton onClick={handleClose}>
+                          <Close />
+                        </IconButton>
                       </Stack>
                       <Divider
                         flexItem
                         variant="fullWidth"
                         sx={{ mx: { xs: -2, md: -2 } }}
                       />
-                      <Stack
-                        direction="row"
-                        width="100%"
-                        justifyContent="space-evenly"
-                        py={{ xs: 0, md: 0 }}
-                        gap={1}
-                      >
-                        <Button variant="contained" onClick={handleApply}>
-                          Apply
-                        </Button>
-                        <Button variant="outlined" onClick={handleClear}>
-                          Clear
-                        </Button>
-                      </Stack>
                     </Stack>
-                  )}
+                    <Stack gap={{ xs: 2, md: 3 }}>
+                      {!maxPrice ||
+                      !minPrice ||
+                      categoriesLoading ||
+                      loading ? (
+                        <Stack
+                          bgcolor="primary.light"
+                          minHeight={{ xs: 196, md: 196 }}
+                        >
+                          <Skeleton width={196} height={28} />
+                          <Skeleton width={196} height={48} />
+                          <Skeleton width={128} height={28} />
+                          <Skeleton width={128} height={54} />
+                          <Skeleton width={128} height={28} />
+                          <Skeleton width={196} height={36} />
+                        </Stack>
+                      ) : (
+                        <>
+                          <Stack gap={1}>
+                            {/* Sort Toggle Button */}
+                            <Typography variant="body2" fontWeight={500}>
+                              Sort By
+                            </Typography>
+                            <ToggleButtonGroup
+                              value={localConfig.sort}
+                              color="primary"
+                              exclusive
+                              size="small"
+                              onChange={handleSortChange}
+                              aria-label="Sort options"
+                            >
+                              <ToggleButton
+                                value="featured"
+                                aria-label="Featured"
+                              >
+                                Name
+                              </ToggleButton>
+                              <ToggleButton value="price" aria-label="Price">
+                                Price
+                              </ToggleButton>
+                              {/* ... more sort options */}
+                            </ToggleButtonGroup>
+                          </Stack>
+                          <Stack gap={1}>
+                            <Typography variant="body2" fontWeight={500}>
+                              Filter by Category
+                            </Typography>
+                            <FormControl variant="standard" size="small">
+                              <InputLabel id="category-localConfig-label">
+                                Category
+                              </InputLabel>
+                              <Select<string[]>
+                                size="small"
+                                labelId="category-localConfig-label"
+                                id="category-localConfig"
+                                multiple
+                                disabled={loading}
+                                value={localConfig.category}
+                                onChange={handleCategoryChange}
+                                label="Category"
+                                sx={{
+                                  [`.${filledInputClasses.input}`]: {
+                                    fontSize: 14,
+                                  },
+                                }}
+                                renderValue={(selected) => (
+                                  <Typography variant="body2" noWrap>
+                                    {selected.join(', ')}
+                                  </Typography>
+                                )}
+                                MenuProps={MenuProps}
+                              >
+                                {(data?.categories ?? []).map(
+                                  ({ name, slug }) =>
+                                    name &&
+                                    slug && (
+                                      <MenuItem
+                                        key={slug}
+                                        value={name}
+                                        disableGutters
+                                      >
+                                        <Checkbox
+                                          value={slug}
+                                          color="secondary"
+                                          sx={{ svg: { fill: 'black' } }}
+                                          checked={
+                                            localConfig.category.indexOf(name) >
+                                            -1
+                                          }
+                                        />
+                                        <ListItemText
+                                          primary={
+                                            <Typography variant="body2">
+                                              {name}
+                                            </Typography>
+                                          }
+                                        />
+                                      </MenuItem>
+                                    ),
+                                )}
+                              </Select>
+                            </FormControl>
+                          </Stack>
+
+                          <Stack gap={1}>
+                            {/* Price Filter */}
+                            <Stack
+                              direction="row"
+                              alignContent="center"
+                              width="100%"
+                            >
+                              <Typography
+                                id="price-range-slider"
+                                variant="body2"
+                                fontWeight={500}
+                              >
+                                Budget
+                              </Typography>
+                              <Box flexGrow={1} />
+                              <Typography variant="body2" fontWeight={500}>
+                                {localConfig?.price &&
+                                  formatMoney(localConfig?.price?.[0])}{' '}
+                                &mdash;{' '}
+                                {localConfig?.price &&
+                                  formatMoney(localConfig?.price?.[1])}
+                              </Typography>
+                            </Stack>
+                            <Slider
+                              color="primary"
+                              value={localConfig.price}
+                              onChange={handlePriceChange}
+                              disabled={!minPrice || !maxPrice}
+                              valueLabelDisplay="auto"
+                              aria-labelledby="price-range-slider"
+                              min={minPrice ?? 0}
+                              valueLabelFormat={(val) => formatMoney(val)}
+                              size="small"
+                              step={calculateStep(minPrice, maxPrice)}
+                              max={maxPrice ?? 100}
+                            />
+                          </Stack>
+                        </>
+                      )}
+                    </Stack>
+                    <Divider
+                      flexItem
+                      variant="fullWidth"
+                      sx={{ mx: { xs: -2, md: -2 } }}
+                    />
+                    <Stack
+                      direction="row"
+                      width="100%"
+                      justifyContent="space-evenly"
+                      py={{ xs: 0, md: 0 }}
+                      gap={1}
+                    >
+                      <Button
+                        variant="contained"
+                        disabled={loading}
+                        onClick={handleApply}
+                      >
+                        Apply
+                      </Button>
+                      <Button
+                        disabled={loading}
+                        variant="outlined"
+                        onClick={handleClear}
+                      >
+                        Clear
+                      </Button>
+                    </Stack>
+                  </Stack>
                 </IconButtonPopover>
               </Stack>
               <Stack direction="row" alignItems="baseline">
                 <ToggleButtonGroup
                   color="primary"
-                  value={view}
+                  value={localConfig.view}
                   exclusive
                   onChange={handleAlignment}
                   aria-label="Product View"
@@ -358,7 +392,7 @@ export const ProductFilterBar = (_props: IProductFilterBarProps) => {
                   <ToggleButton value="grid" aria-label="Grid View">
                     <GridViewOutlined fontSize="small" />
                   </ToggleButton>{' '}
-                  <ToggleButton value="stack" aria-label="Stack View">
+                  <ToggleButton value="card" aria-label="Stack View">
                     <ViewDayOutlined fontSize="small" />
                   </ToggleButton>
                 </ToggleButtonGroup>
@@ -374,10 +408,10 @@ export const ProductFilterBar = (_props: IProductFilterBarProps) => {
                   sx={{ typography: { xs: 'body2', md: 'body1' } }}
                   fontWeight={300}
                 >
-                  {!fetched || !max ? (
+                  {!productsCount || !productsShown || loading ? (
                     <Skeleton variant="text" width="20ch" />
                   ) : (
-                    `Showing ${fetched} of ${max} products`
+                    `Showing ${productsShown} of ${productsCount} products`
                   )}
                 </Typography>
               </Stack>

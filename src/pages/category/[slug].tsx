@@ -60,7 +60,7 @@ const CategoryBySlug: PageCategoryBySlugComp = ({ data }) => {
         />
       )}
       <Container maxWidth="md">
-        <Stack gap={{ xs: 6, md: 8 }} py={{ xs: 6, md: 8 }}>
+        <Stack gap={{ xs: 6, md: 8 }} py={{ xs: 3, md: 4 }}>
           <ProductsGrid
             limit={12}
             variables={{
