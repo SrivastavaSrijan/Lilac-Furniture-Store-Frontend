@@ -102,5 +102,5 @@ export class ApolloErrorHandler {
 }
 
 export const calculateCartPrice = (items: DeepRequired<ICartItem>[]) => {
-  return items.reduce((p, c) => p + c.product.price * c.quantity, 0);
+  return items.reduce((p, c) => p + (c.variant.price ?? 0) * c.quantity, 0);
 };

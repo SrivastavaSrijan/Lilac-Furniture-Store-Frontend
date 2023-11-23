@@ -122,15 +122,15 @@ export const Navbar = (_props: INavbarProps) => {
 
   useEffect(() => {
     const cleanedCartItems = (user?.cart ?? [])
-      .filter(({ product, quantity, __typename }) => {
+      .filter(({ variant, quantity, __typename }) => {
         if (
-          product &&
+          variant &&
           quantity &&
-          every(product, Boolean) &&
-          every(product?.meta, Boolean) &&
-          product?.image?.image?.publicUrlTransformed
+          every(variant, Boolean) &&
+          every(variant?.product, Boolean) &&
+          variant?.product?.image?.image?.publicUrlTransformed
         )
-          return { product, quantity, __typename };
+          return { variant, quantity, __typename };
         return undefined;
       })
       .filter(Boolean) as DeepRequired<ICartItem>[];

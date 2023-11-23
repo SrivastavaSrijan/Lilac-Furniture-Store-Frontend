@@ -1,7 +1,7 @@
 export const NavbarConstants = {
   pages: [
     { title: 'Home', href: '/' },
-    { title: 'Explore', href: '/explore' },
+    { title: 'Explore', href: '/explore/1' },
     { title: 'Contact', href: 'contact' },
   ],
   user: ['Profile', 'Log Out'],
@@ -83,7 +83,7 @@ export const AppConfig = {
 export const MessagesMap = {
   required: 'This field is required',
   invalid: 'This field is invalid',
-
+  error: 'Something went wrong!',
   user: {
     notFound: `Couldn't find a user with that email/password entered is incorrect`,
     reset: {

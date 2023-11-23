@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable import/no-duplicates */
 /* eslint-disable react/display-name */
+
 import { GraphQLNestedProperty } from '@/lib';
 
 import {
@@ -14,7 +15,9 @@ export type IProduct = GraphQLNestedProperty<
   PaginatedProductsQuery,
   'products'
 >;
-
+export type IProductX = IProduct & {
+  variant: Required<IProduct['variant']> & { id: string };
+};
 export type IProductWhere = GraphQLNestedProperty<
   ProductsWhereQuery,
   'products'

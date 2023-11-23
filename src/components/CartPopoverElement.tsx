@@ -20,7 +20,10 @@ interface ICartPopoverElementProps extends DeepRequired<ICartItem> {}
 export const CartPopoverElement = ({
   id: cartItemId,
   quantity,
-  product: { name, price, image },
+  variant: {
+    price,
+    product: { name, image },
+  },
 }: ICartPopoverElementProps) => {
   const [show, setShow] = useState<boolean>(false);
   const { handleEdit, handleRemove, loading } = useCartActions({

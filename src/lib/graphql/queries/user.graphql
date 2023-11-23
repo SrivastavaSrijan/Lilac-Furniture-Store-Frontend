@@ -10,18 +10,20 @@ query GetUser($orderBy: [CartItemOrderByInput!] = [
       name
       cart(orderBy: $orderBy) {
         id
-        product {
-          name
-          price
-          meta
-          image {
-            image {
-              publicUrlTransformed
-            }
-          }
-          id
-        }
         quantity
+        variant {
+          id
+          product {
+            name
+            image {
+              image {
+                publicUrlTransformed
+              }
+            }
+            id
+          }
+          price
+        }
       }
     }
   }

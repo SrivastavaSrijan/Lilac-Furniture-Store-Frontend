@@ -109,7 +109,11 @@ export const ProductsGrid = ({
     if (config.price.length === 2) {
       const [selectedMin, selectedMax] = config.price;
       if (selectedMax && selectedMin) {
-        handleRefetch({ price: { gte: selectedMin, lte: selectedMax } });
+        handleRefetch({
+          variants: {
+            every: { price: { gte: selectedMin, lte: selectedMax } },
+          },
+        });
       }
     } else if (!config.applied) {
       handleRefetch({});
@@ -129,7 +133,9 @@ export const ProductsGrid = ({
   useEffect(() => {
     if (!loading && data?.products) {
       // Append new products to the existing list
-      setDataArray(data.products);
+      setDataArray(
+        data.products.filter((val) => val.variant?.id) as IProduct[],
+      );
     }
   }, [data?.products, loading]);
 

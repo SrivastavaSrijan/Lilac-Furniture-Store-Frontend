@@ -29,9 +29,14 @@ query PaginatedProducts($limit: Int, $skip: Int, $cursor: ProductWhereUniqueInpu
         publicUrlTransformed
       }
     }
+    variant {
+      price
+      id
+    }
     name
-    meta
-    price
+    style
+    company
+    type
   }
   productsCount(where: $where)
   getPriceRange @include(if: $if) {
@@ -44,21 +49,29 @@ query ProductsWhere($where: ProductWhereInput!, $includeDesc: Boolean = false, $
   products(where: $where, take: $take) {
     id
     slug
-    name
-    meta
     image {
       image {
         publicUrlTransformed
       }
     }
+    variant {
+      price
+      id
+    }
+    name
+    style
+    company
+    type
     description @include(if: $includeDesc)
   }
 }
 
 mutation AddToCart($id: ID!) {
   addToCart(id: $id) {
-    product {
-      id
+    variant {
+      product {
+        id
+      }
     }
   }
 }

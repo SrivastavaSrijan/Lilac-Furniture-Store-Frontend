@@ -14,6 +14,7 @@ import { AppConfig, generateSizes } from '@/lib';
 import { IProduct } from '@/lib/graphql';
 
 import { CloudImage } from '.';
+import { CartHandleButtons } from './CartHandleButtons';
 import { ProductMeta } from './ProductMeta';
 
 const overlayVariants = {
@@ -28,7 +29,8 @@ interface IProductCardProps extends IProduct {
 }
 export const ProductCard = ({ direction, ...props }: IProductCardProps) => {
   const [show, setShow] = useState(false);
-  const { image, name } = props;
+  const { image, name, variant } = props;
+  const { id: variantId } = variant ?? {};
   const imageURL = image?.image?.publicUrlTransformed;
 
   return (
@@ -83,8 +85,8 @@ export const ProductCard = ({ direction, ...props }: IProductCardProps) => {
                 justifyContent="center"
                 alignItems="center"
                 flex={1}
-                gap={{ xs: 1, md: 2 }}
                 px={{ xs: 1, md: 1 }}
+                gap={{ xs: 3, md: 3 }}
               >
                 <Stack direction="row" gap={1}>
                   <IconButton size="small">
@@ -103,6 +105,7 @@ export const ProductCard = ({ direction, ...props }: IProductCardProps) => {
                     </IconButton>
                   </Link>
                 </Stack>
+                {variantId && <CartHandleButtons id={variantId} />}
               </Stack>
             </motion.div>
           )}
@@ -138,7 +141,6 @@ export const ProductCard = ({ direction, ...props }: IProductCardProps) => {
               <Skeleton width="12ch" />
               <Skeleton width="10ch" />
             </Stack>
-            <Skeleton width="100%" height={32} variant="rectangular" />
           </Stack>
         ) : (
           <ProductMeta {...props} />

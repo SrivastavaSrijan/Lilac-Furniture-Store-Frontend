@@ -17,7 +17,7 @@ import {
   useState,
 } from 'react';
 
-import { ApolloErrorHandler } from '.';
+import { ApolloErrorHandler, MessagesMap } from '.';
 import {
   useAddToCartMutation,
   useDeleteCartItemMutation,
@@ -68,7 +68,7 @@ export const asModal = (children: JSX.Element) => {
 };
 
 interface ICartActionsHookProps {
-  id: string;
+  id?: string | null;
 }
 export const useCartActions = ({ id }: ICartActionsHookProps) => {
   const [updateLoading, setUpdateLoading] = useState(false);
@@ -84,7 +84,7 @@ export const useCartActions = ({ id }: ICartActionsHookProps) => {
   const { state, dispatch } = useContext(CommonContext);
   const { enqueueSnackbar } = useSnackbar();
   const { element: cartEl, update: updateCart, items: cartItems } = state.cart;
-  const productInCart = cartItems.find((val) => val.product.id === id);
+  const productInCart = cartItems.find((val) => val.variant.id === id);
   const isProductInCart = !!productInCart;
 
   const handleUpdate = async () => {
@@ -93,11 +93,16 @@ export const useCartActions = ({ id }: ICartActionsHookProps) => {
     setUpdateLoading(false);
   };
 
-  const handleAdd = (productId: string) => async (ev: MouseEvent) => {
+  const handleError = () => {
+    enqueueSnackbar({ message: MessagesMap.error });
+  };
+
+  const handleAdd = (variantId?: string) => async (ev: MouseEvent) => {
     ev.preventDefault();
     ev.stopPropagation();
+    if (!variantId) return handleError();
     const { data: addData } = await handleAddToCart({
-      variables: { id: productId },
+      variables: { id: variantId },
     });
     await handleUpdate();
     if (cartEl && addData) dispatch({ type: 'popover', payload: cartEl });

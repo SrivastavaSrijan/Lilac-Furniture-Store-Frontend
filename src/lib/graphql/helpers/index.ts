@@ -96,15 +96,15 @@ export type BannerWhereUniqueInput = {
 export type CartItem = {
   __typename?: 'CartItem';
   id: Scalars['ID']['output'];
-  product?: Maybe<Product>;
   quantity?: Maybe<Scalars['Int']['output']>;
   user?: Maybe<User>;
+  variant?: Maybe<ProductVariant>;
 };
 
 export type CartItemCreateInput = {
-  product?: InputMaybe<ProductRelateToOneForCreateInput>;
   quantity?: InputMaybe<Scalars['Int']['input']>;
   user?: InputMaybe<UserRelateToOneForCreateInput>;
+  variant?: InputMaybe<ProductVariantRelateToOneForCreateInput>;
 };
 
 export type CartItemManyRelationFilter = {
@@ -136,9 +136,9 @@ export type CartItemUpdateArgs = {
 };
 
 export type CartItemUpdateInput = {
-  product?: InputMaybe<ProductRelateToOneForUpdateInput>;
   quantity?: InputMaybe<Scalars['Int']['input']>;
   user?: InputMaybe<UserRelateToOneForUpdateInput>;
+  variant?: InputMaybe<ProductVariantRelateToOneForUpdateInput>;
 };
 
 export type CartItemWhereInput = {
@@ -146,9 +146,9 @@ export type CartItemWhereInput = {
   NOT?: InputMaybe<Array<CartItemWhereInput>>;
   OR?: InputMaybe<Array<CartItemWhereInput>>;
   id?: InputMaybe<IdFilter>;
-  product?: InputMaybe<ProductWhereInput>;
   quantity?: InputMaybe<IntFilter>;
   user?: InputMaybe<UserWhereInput>;
+  variant?: InputMaybe<ProductVariantWhereInput>;
 };
 
 export type CartItemWhereUniqueInput = {
@@ -324,17 +324,6 @@ export type IntFilter = {
   notIn?: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
-export type IntNullableFilter = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
-  gt?: InputMaybe<Scalars['Int']['input']>;
-  gte?: InputMaybe<Scalars['Int']['input']>;
-  in?: InputMaybe<Array<Scalars['Int']['input']>>;
-  lt?: InputMaybe<Scalars['Int']['input']>;
-  lte?: InputMaybe<Scalars['Int']['input']>;
-  not?: InputMaybe<IntNullableFilter>;
-  notIn?: InputMaybe<Array<Scalars['Int']['input']>>;
-};
-
 export type KeystoneAdminMeta = {
   __typename?: 'KeystoneAdminMeta';
   list?: Maybe<KeystoneAdminUiListMeta>;
@@ -468,6 +457,8 @@ export type Mutation = {
   createProduct?: Maybe<Product>;
   createProductImage?: Maybe<ProductImage>;
   createProductImages?: Maybe<Array<Maybe<ProductImage>>>;
+  createProductVariant?: Maybe<ProductVariant>;
+  createProductVariants?: Maybe<Array<Maybe<ProductVariant>>>;
   createProducts?: Maybe<Array<Maybe<Product>>>;
   createUser?: Maybe<User>;
   createUsers?: Maybe<Array<Maybe<User>>>;
@@ -480,6 +471,8 @@ export type Mutation = {
   deleteProduct?: Maybe<Product>;
   deleteProductImage?: Maybe<ProductImage>;
   deleteProductImages?: Maybe<Array<Maybe<ProductImage>>>;
+  deleteProductVariant?: Maybe<ProductVariant>;
+  deleteProductVariants?: Maybe<Array<Maybe<ProductVariant>>>;
   deleteProducts?: Maybe<Array<Maybe<Product>>>;
   deleteUser?: Maybe<User>;
   deleteUsers?: Maybe<Array<Maybe<User>>>;
@@ -495,6 +488,8 @@ export type Mutation = {
   updateProduct?: Maybe<Product>;
   updateProductImage?: Maybe<ProductImage>;
   updateProductImages?: Maybe<Array<Maybe<ProductImage>>>;
+  updateProductVariant?: Maybe<ProductVariant>;
+  updateProductVariants?: Maybe<Array<Maybe<ProductVariant>>>;
   updateProducts?: Maybe<Array<Maybe<Product>>>;
   updateUser?: Maybe<User>;
   updateUsers?: Maybe<Array<Maybe<User>>>;
@@ -549,6 +544,14 @@ export type MutationCreateProductImagesArgs = {
   data: Array<ProductImageCreateInput>;
 };
 
+export type MutationCreateProductVariantArgs = {
+  data: ProductVariantCreateInput;
+};
+
+export type MutationCreateProductVariantsArgs = {
+  data: Array<ProductVariantCreateInput>;
+};
+
 export type MutationCreateProductsArgs = {
   data: Array<ProductCreateInput>;
 };
@@ -595,6 +598,14 @@ export type MutationDeleteProductImageArgs = {
 
 export type MutationDeleteProductImagesArgs = {
   where: Array<ProductImageWhereUniqueInput>;
+};
+
+export type MutationDeleteProductVariantArgs = {
+  where: ProductVariantWhereUniqueInput;
+};
+
+export type MutationDeleteProductVariantsArgs = {
+  where: Array<ProductVariantWhereUniqueInput>;
 };
 
 export type MutationDeleteProductsArgs = {
@@ -660,6 +671,15 @@ export type MutationUpdateProductImagesArgs = {
   data: Array<ProductImageUpdateArgs>;
 };
 
+export type MutationUpdateProductVariantArgs = {
+  data: ProductVariantUpdateInput;
+  where: ProductVariantWhereUniqueInput;
+};
+
+export type MutationUpdateProductVariantsArgs = {
+  data: Array<ProductVariantUpdateArgs>;
+};
+
 export type MutationUpdateProductsArgs = {
   data: Array<ProductUpdateArgs>;
 };
@@ -716,25 +736,51 @@ export type PriceRange = {
 export type Product = {
   __typename?: 'Product';
   category?: Maybe<Category>;
+  company?: Maybe<Scalars['String']['output']>;
+  defaultVariantId?: Maybe<Scalars['String']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   image?: Maybe<ProductImage>;
   meta?: Maybe<Scalars['JSON']['output']>;
   name?: Maybe<Scalars['String']['output']>;
-  price?: Maybe<Scalars['Int']['output']>;
   slug?: Maybe<Scalars['String']['output']>;
   status?: Maybe<Scalars['String']['output']>;
+  style?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  variant?: Maybe<ProductVariant>;
+  variants?: Maybe<Array<ProductVariant>>;
+  variantsCount?: Maybe<Scalars['Int']['output']>;
+};
+
+export type ProductVariantArgs = {
+  skuId?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ProductVariantsArgs = {
+  cursor?: InputMaybe<ProductVariantWhereUniqueInput>;
+  orderBy?: Array<ProductVariantOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: ProductVariantWhereInput;
+};
+
+export type ProductVariantsCountArgs = {
+  where?: ProductVariantWhereInput;
 };
 
 export type ProductCreateInput = {
   category?: InputMaybe<CategoryRelateToOneForCreateInput>;
+  company?: InputMaybe<Scalars['String']['input']>;
+  defaultVariantId?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   image?: InputMaybe<ProductImageRelateToOneForCreateInput>;
   meta?: InputMaybe<Scalars['JSON']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  price?: InputMaybe<Scalars['Int']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
+  style?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+  variants?: InputMaybe<ProductVariantRelateToManyForCreateInput>;
 };
 
 export type ProductImage = {
@@ -798,12 +844,15 @@ export type ProductManyRelationFilter = {
 };
 
 export type ProductOrderByInput = {
+  company?: InputMaybe<OrderDirection>;
+  defaultVariantId?: InputMaybe<OrderDirection>;
   description?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
   name?: InputMaybe<OrderDirection>;
-  price?: InputMaybe<OrderDirection>;
   slug?: InputMaybe<OrderDirection>;
   status?: InputMaybe<OrderDirection>;
+  style?: InputMaybe<OrderDirection>;
+  type?: InputMaybe<OrderDirection>;
 };
 
 export type ProductRelateToManyForCreateInput = {
@@ -836,13 +885,106 @@ export type ProductUpdateArgs = {
 
 export type ProductUpdateInput = {
   category?: InputMaybe<CategoryRelateToOneForUpdateInput>;
+  company?: InputMaybe<Scalars['String']['input']>;
+  defaultVariantId?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   image?: InputMaybe<ProductImageRelateToOneForUpdateInput>;
   meta?: InputMaybe<Scalars['JSON']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  price?: InputMaybe<Scalars['Int']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
+  style?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+  variants?: InputMaybe<ProductVariantRelateToManyForUpdateInput>;
+};
+
+export type ProductVariant = {
+  __typename?: 'ProductVariant';
+  color?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  material?: Maybe<Scalars['String']['output']>;
+  price?: Maybe<Scalars['Int']['output']>;
+  product?: Maybe<Product>;
+  size?: Maybe<Scalars['String']['output']>;
+  variant?: Maybe<Scalars['String']['output']>;
+};
+
+export type ProductVariantCreateInput = {
+  color?: InputMaybe<Scalars['String']['input']>;
+  material?: InputMaybe<Scalars['String']['input']>;
+  price?: InputMaybe<Scalars['Int']['input']>;
+  product?: InputMaybe<ProductRelateToOneForCreateInput>;
+  size?: InputMaybe<Scalars['String']['input']>;
+  variant?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ProductVariantManyRelationFilter = {
+  every?: InputMaybe<ProductVariantWhereInput>;
+  none?: InputMaybe<ProductVariantWhereInput>;
+  some?: InputMaybe<ProductVariantWhereInput>;
+};
+
+export type ProductVariantOrderByInput = {
+  color?: InputMaybe<OrderDirection>;
+  id?: InputMaybe<OrderDirection>;
+  material?: InputMaybe<OrderDirection>;
+  price?: InputMaybe<OrderDirection>;
+  size?: InputMaybe<OrderDirection>;
+  variant?: InputMaybe<OrderDirection>;
+};
+
+export type ProductVariantRelateToManyForCreateInput = {
+  connect?: InputMaybe<Array<ProductVariantWhereUniqueInput>>;
+  create?: InputMaybe<Array<ProductVariantCreateInput>>;
+};
+
+export type ProductVariantRelateToManyForUpdateInput = {
+  connect?: InputMaybe<Array<ProductVariantWhereUniqueInput>>;
+  create?: InputMaybe<Array<ProductVariantCreateInput>>;
+  disconnect?: InputMaybe<Array<ProductVariantWhereUniqueInput>>;
+  set?: InputMaybe<Array<ProductVariantWhereUniqueInput>>;
+};
+
+export type ProductVariantRelateToOneForCreateInput = {
+  connect?: InputMaybe<ProductVariantWhereUniqueInput>;
+  create?: InputMaybe<ProductVariantCreateInput>;
+};
+
+export type ProductVariantRelateToOneForUpdateInput = {
+  connect?: InputMaybe<ProductVariantWhereUniqueInput>;
+  create?: InputMaybe<ProductVariantCreateInput>;
+  disconnect?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type ProductVariantUpdateArgs = {
+  data: ProductVariantUpdateInput;
+  where: ProductVariantWhereUniqueInput;
+};
+
+export type ProductVariantUpdateInput = {
+  color?: InputMaybe<Scalars['String']['input']>;
+  material?: InputMaybe<Scalars['String']['input']>;
+  price?: InputMaybe<Scalars['Int']['input']>;
+  product?: InputMaybe<ProductRelateToOneForUpdateInput>;
+  size?: InputMaybe<Scalars['String']['input']>;
+  variant?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ProductVariantWhereInput = {
+  AND?: InputMaybe<Array<ProductVariantWhereInput>>;
+  NOT?: InputMaybe<Array<ProductVariantWhereInput>>;
+  OR?: InputMaybe<Array<ProductVariantWhereInput>>;
+  color?: InputMaybe<StringFilter>;
+  id?: InputMaybe<IdFilter>;
+  material?: InputMaybe<StringFilter>;
+  price?: InputMaybe<IntFilter>;
+  product?: InputMaybe<ProductWhereInput>;
+  size?: InputMaybe<StringFilter>;
+  variant?: InputMaybe<StringFilter>;
+};
+
+export type ProductVariantWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type ProductWhereInput = {
@@ -850,13 +992,17 @@ export type ProductWhereInput = {
   NOT?: InputMaybe<Array<ProductWhereInput>>;
   OR?: InputMaybe<Array<ProductWhereInput>>;
   category?: InputMaybe<CategoryWhereInput>;
+  company?: InputMaybe<StringFilter>;
+  defaultVariantId?: InputMaybe<StringFilter>;
   description?: InputMaybe<StringFilter>;
   id?: InputMaybe<IdFilter>;
   image?: InputMaybe<ProductImageWhereInput>;
   name?: InputMaybe<StringFilter>;
-  price?: InputMaybe<IntNullableFilter>;
   slug?: InputMaybe<StringFilter>;
   status?: InputMaybe<StringNullableFilter>;
+  style?: InputMaybe<StringFilter>;
+  type?: InputMaybe<StringFilter>;
+  variants?: InputMaybe<ProductVariantManyRelationFilter>;
 };
 
 export type ProductWhereUniqueInput = {
@@ -882,6 +1028,9 @@ export type Query = {
   productImage?: Maybe<ProductImage>;
   productImages?: Maybe<Array<ProductImage>>;
   productImagesCount?: Maybe<Scalars['Int']['output']>;
+  productVariant?: Maybe<ProductVariant>;
+  productVariants?: Maybe<Array<ProductVariant>>;
+  productVariantsCount?: Maybe<Scalars['Int']['output']>;
   products?: Maybe<Array<Product>>;
   productsCount?: Maybe<Scalars['Int']['output']>;
   user?: Maybe<User>;
@@ -956,6 +1105,22 @@ export type QueryProductImagesArgs = {
 
 export type QueryProductImagesCountArgs = {
   where?: ProductImageWhereInput;
+};
+
+export type QueryProductVariantArgs = {
+  where: ProductVariantWhereUniqueInput;
+};
+
+export type QueryProductVariantsArgs = {
+  cursor?: InputMaybe<ProductVariantWhereUniqueInput>;
+  orderBy?: Array<ProductVariantOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: ProductVariantWhereInput;
+};
+
+export type QueryProductVariantsCountArgs = {
+  where?: ProductVariantWhereInput;
 };
 
 export type QueryProductsArgs = {
@@ -1239,14 +1404,20 @@ export type PaginatedProductsQuery = {
     id: string;
     slug?: string | null;
     name?: string | null;
-    meta?: any | null;
-    price?: number | null;
+    style?: string | null;
+    company?: string | null;
+    type?: string | null;
     image?: {
       __typename?: 'ProductImage';
       image?: {
         __typename?: 'CloudinaryImage_File';
         publicUrlTransformed?: string | null;
       } | null;
+    } | null;
+    variant?: {
+      __typename?: 'ProductVariant';
+      price?: number | null;
+      id: string;
     } | null;
   }> | null;
   getPriceRange?: {
@@ -1269,7 +1440,9 @@ export type ProductsWhereQuery = {
     id: string;
     slug?: string | null;
     name?: string | null;
-    meta?: any | null;
+    style?: string | null;
+    company?: string | null;
+    type?: string | null;
     description?: string | null;
     image?: {
       __typename?: 'ProductImage';
@@ -1277,6 +1450,11 @@ export type ProductsWhereQuery = {
         __typename?: 'CloudinaryImage_File';
         publicUrlTransformed?: string | null;
       } | null;
+    } | null;
+    variant?: {
+      __typename?: 'ProductVariant';
+      price?: number | null;
+      id: string;
     } | null;
   }> | null;
 };
@@ -1289,7 +1467,10 @@ export type AddToCartMutation = {
   __typename?: 'Mutation';
   addToCart?: {
     __typename?: 'CartItem';
-    product?: { __typename?: 'Product'; id: string } | null;
+    variant?: {
+      __typename?: 'ProductVariant';
+      product?: { __typename?: 'Product'; id: string } | null;
+    } | null;
   } | null;
 };
 
@@ -1327,17 +1508,20 @@ export type GetUserQuery = {
       __typename?: 'CartItem';
       id: string;
       quantity?: number | null;
-      product?: {
-        __typename?: 'Product';
-        name?: string | null;
-        price?: number | null;
-        meta?: any | null;
+      variant?: {
+        __typename?: 'ProductVariant';
         id: string;
-        image?: {
-          __typename?: 'ProductImage';
+        price?: number | null;
+        product?: {
+          __typename?: 'Product';
+          name?: string | null;
+          id: string;
           image?: {
-            __typename?: 'CloudinaryImage_File';
-            publicUrlTransformed?: string | null;
+            __typename?: 'ProductImage';
+            image?: {
+              __typename?: 'CloudinaryImage_File';
+              publicUrlTransformed?: string | null;
+            } | null;
           } | null;
         } | null;
       } | null;
@@ -1799,9 +1983,14 @@ export const PaginatedProductsDocument = gql`
           publicUrlTransformed
         }
       }
+      variant {
+        price
+        id
+      }
       name
-      meta
-      price
+      style
+      company
+      type
     }
     productsCount(where: $where)
     getPriceRange @include(if: $if) {
@@ -1889,13 +2078,19 @@ export const ProductsWhereDocument = gql`
     products(where: $where, take: $take) {
       id
       slug
-      name
-      meta
       image {
         image {
           publicUrlTransformed
         }
       }
+      variant {
+        price
+        id
+      }
+      name
+      style
+      company
+      type
       description @include(if: $includeDesc)
     }
   }
@@ -1971,8 +2166,10 @@ export type ProductsWhereQueryResult = Apollo.QueryResult<
 export const AddToCartDocument = gql`
   mutation AddToCart($id: ID!) {
     addToCart(id: $id) {
-      product {
-        id
+      variant {
+        product {
+          id
+        }
       }
     }
   }
@@ -2132,18 +2329,20 @@ export const GetUserDocument = gql`
         name
         cart(orderBy: $orderBy) {
           id
-          product {
-            name
-            price
-            meta
-            image {
-              image {
-                publicUrlTransformed
-              }
-            }
-            id
-          }
           quantity
+          variant {
+            id
+            product {
+              name
+              image {
+                image {
+                  publicUrlTransformed
+                }
+              }
+              id
+            }
+            price
+          }
         }
       }
     }
