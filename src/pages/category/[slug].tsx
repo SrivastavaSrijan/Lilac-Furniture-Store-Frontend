@@ -65,7 +65,6 @@ const CategoryBySlug: PageCategoryBySlugComp = ({ data }) => {
             limit={12}
             variables={{
               where: { category: { slug: { equals: slug } } },
-              if: true,
             }}
           />
         </Stack>

@@ -1,5 +1,6 @@
 import { ApolloError } from '@apollo/client';
 import createCache from '@emotion/cache';
+import { random } from 'lodash';
 import { PrismaError } from 'prisma-error-enum';
 import { DeepRequired } from 'react-hook-form';
 import { string } from 'yup';
@@ -36,8 +37,9 @@ export const generateMockArray = (size: number): null[] => {
   return Array.from(new Array(size)).fill(null);
 };
 
-// eslint-disable-next-line no-promise-executor-return
-export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+export const sleep = (ms: number) =>
+  // eslint-disable-next-line no-promise-executor-return
+  new Promise((r) => setTimeout(r, random(0.7 * ms, 1.5 * ms)));
 
 export const stringRequired = () => string().required(MessagesMap.required);
 
@@ -103,4 +105,12 @@ export class ApolloErrorHandler {
 
 export const calculateCartPrice = (items: DeepRequired<ICartItem>[]) => {
   return items.reduce((p, c) => p + (c.variant.price ?? 0) * c.quantity, 0);
+};
+
+export const SizeOptionMap: Record<any, string> = {
+  'Extra Small': 'XS',
+  Small: 'S',
+  Medium: 'M',
+  Large: 'L',
+  'Extra Large': 'XL',
 };

@@ -28,7 +28,7 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 
-import { formatMoney } from '@/lib';
+import { formatMoney, SetState } from '@/lib';
 import { useAllCategoriesQuery } from '@/lib/graphql';
 
 import { IconButtonPopover, IFilters } from '.';
@@ -65,20 +65,23 @@ interface IProductFilterBarProps {
     productsShown: number | null;
     productsCount: number | null;
   };
-  apply: (config: IFilters) => void;
+  handleApply: (config: IFilters) => void;
+  setView: SetState<'card' | 'grid'>;
+  view: 'card' | 'grid';
   handleClose: () => void;
   loading: boolean;
 }
 export const ProductFilterBar = ({
-  apply,
+  handleApply: apply,
   handleClose,
+  view,
+  setView,
   loading,
   meta: { minPrice, maxPrice, productsShown, productsCount },
 }: IProductFilterBarProps) => {
   const [localConfig, setLocalConfig] = useState<IFilters>({
     category: [],
     price: [],
-    view: 'grid',
     sort: 'name',
     applied: false,
   });
@@ -107,11 +110,7 @@ export const ProductFilterBar = ({
     _event: React.MouseEvent<HTMLElement>,
     newAlignment: string | null,
   ) => {
-    if (newAlignment)
-      setLocalConfig((prevOptions) => ({
-        ...prevOptions,
-        view: newAlignment as 'grid' | 'card',
-      }));
+    if (newAlignment) setView(newAlignment as 'card' | 'grid');
   };
 
   const handleSortChange = (
@@ -135,7 +134,6 @@ export const ProductFilterBar = ({
     const clearConfig: IFilters = {
       category: [],
       price: [],
-      view: 'grid',
       sort: 'name',
       applied: false,
     };
@@ -154,12 +152,17 @@ export const ProductFilterBar = ({
         <Stack
           direction="row"
           alignItems="center"
-          flexWrap={{ xs: 'wrap', md: 'nowrap' }}
           gap={{ xs: 2, md: 0 }}
           justifyContent={{ xs: 'center', md: 'space-between' }}
         >
           <Stack direction="row" alignItems="center">
-            <Stack gap={{ xs: 2, md: 3 }} direction="row" alignItems="center">
+            <Stack
+              gap={{ xs: 2, md: 3 }}
+              direction="row"
+              alignItems="center"
+              flexWrap={{ xs: 'wrap', md: 'nowrap' }}
+              justifyContent={{ xs: 'center', md: 'flex-start' }}
+            >
               <Stack direction="row" alignItems="center">
                 <IconButtonPopover
                   name="localConfig"
@@ -273,7 +276,14 @@ export const ProductFilterBar = ({
                                 }}
                                 renderValue={(selected) => (
                                   <Typography variant="body2" noWrap>
-                                    {selected.join(', ')}
+                                    {(data?.categories ?? [])
+                                      .filter((category) =>
+                                        selected.some(
+                                          (val) => category.slug === val,
+                                        ),
+                                      )
+                                      .map((val) => val.name)
+                                      .join(', ')}
                                   </Typography>
                                 )}
                                 MenuProps={MenuProps}
@@ -284,7 +294,7 @@ export const ProductFilterBar = ({
                                     slug && (
                                       <MenuItem
                                         key={slug}
-                                        value={name}
+                                        value={slug}
                                         disableGutters
                                       >
                                         <Checkbox
@@ -292,7 +302,7 @@ export const ProductFilterBar = ({
                                           color="secondary"
                                           sx={{ svg: { fill: 'black' } }}
                                           checked={
-                                            localConfig.category.indexOf(name) >
+                                            localConfig.category.indexOf(slug) >
                                             -1
                                           }
                                         />
@@ -383,7 +393,7 @@ export const ProductFilterBar = ({
               <Stack direction="row" alignItems="baseline">
                 <ToggleButtonGroup
                   color="primary"
-                  value={localConfig.view}
+                  value={view}
                   exclusive
                   onChange={handleAlignment}
                   aria-label="Product View"
@@ -401,7 +411,10 @@ export const ProductFilterBar = ({
                 flexItem
                 variant="fullWidth"
                 orientation="vertical"
-                sx={{ borderColor: 'common.black' }}
+                sx={{
+                  borderColor: 'common.black',
+                  display: { xs: 'none', md: 'block' },
+                }}
               />
               <Stack>
                 <Typography

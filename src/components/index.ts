@@ -10,7 +10,7 @@ export * from './IconButtonPopover';
 export * from './Page';
 export * from './ProductCard';
 export * from './ProductFilterBar';
-export * from './ProductMeta';
+export * from './ProductIndex';
 export * from './ProductsGrid';
 export * from './SEO';
 export * from './StyledComponents';

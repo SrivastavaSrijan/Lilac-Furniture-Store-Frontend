@@ -20,7 +20,38 @@ query CategoryBySlug($where: CategoryWhereUniqueInput!) {
   }
 }
 
-query PaginatedProducts($limit: Int, $skip: Int, $cursor: ProductWhereUniqueInput, $where: ProductWhereInput, $if: Boolean = false) {
+query AllProducts {
+  products {
+    slug
+  }
+}
+query ProductBySlug($where: ProductWhereUniqueInput!) {
+  product(where: $where) {
+    category {
+      name
+    }
+    name
+    style
+    type
+    image {
+      image {
+        publicUrlTransformed
+      }
+    }
+    description
+    company
+    slug
+    variants {
+      color
+      id
+      material
+      price
+      size
+      variant
+    }
+  }
+}
+query PaginatedProducts($limit: Int, $skip: Int, $cursor: ProductWhereUniqueInput, $where: ProductWhereInput, $if: Boolean = false, $includeDesc: Boolean = false) {
   products(take: $limit, skip: $skip, cursor: $cursor, where: $where) {
     id
     slug
@@ -37,6 +68,7 @@ query PaginatedProducts($limit: Int, $skip: Int, $cursor: ProductWhereUniqueInpu
     style
     company
     type
+    description @include(if: $includeDesc)
   }
   productsCount(where: $where)
   getPriceRange @include(if: $if) {

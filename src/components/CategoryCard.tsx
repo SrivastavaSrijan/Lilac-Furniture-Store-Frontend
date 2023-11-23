@@ -71,7 +71,7 @@ export const CategoryCard = ({ name, id, description }: ICategoryCardProps) => {
 
   useEffect(() => {
     (async () => {
-      await sleep(2000);
+      await sleep(1500);
       await getProducts({
         variables: {
           includeDesc: true,

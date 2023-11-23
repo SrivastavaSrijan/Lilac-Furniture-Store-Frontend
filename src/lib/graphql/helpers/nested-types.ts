@@ -8,15 +8,17 @@ import {
   GetUserQuery,
   HomePageQuery,
   PaginatedProductsQuery,
+  ProductBySlugQuery,
   ProductsWhereQuery,
 } from '.';
 
-export type IProduct = GraphQLNestedProperty<
+export type IPaginatedProduct = GraphQLNestedProperty<
   PaginatedProductsQuery,
   'products'
 >;
-export type IProductX = IProduct & {
-  variant: Required<IProduct['variant']> & { id: string };
+export type IProduct = NonNullable<ProductBySlugQuery['product']>;
+export type IProductX = IPaginatedProduct & {
+  variant: Required<IPaginatedProduct['variant']> & { id: string };
 };
 export type IProductWhere = GraphQLNestedProperty<
   ProductsWhereQuery,

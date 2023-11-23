@@ -322,6 +322,131 @@ export const ssrCategoryBySlug = {
   withPage: withPageCategoryBySlug,
   usePage: useCategoryBySlug,
 };
+export async function getServerPageAllProducts(
+  options: Omit<Apollo.QueryOptions<Types.AllProductsQueryVariables>, 'query'>,
+  ctx: ApolloClientContext,
+) {
+  const apolloClient = getApolloClient(ctx);
+
+  const data = await apolloClient.query<Types.AllProductsQuery>({
+    ...options,
+    query: Operations.AllProductsDocument,
+  });
+
+  const apolloState = apolloClient.cache.extract();
+
+  return {
+    props: {
+      apolloState,
+      data: data?.data,
+      error: data?.error ?? data?.errors ?? null,
+    },
+  };
+}
+export const useAllProducts = (
+  optionsFunc?: (
+    router: NextRouter,
+  ) => QueryHookOptions<
+    Types.AllProductsQuery,
+    Types.AllProductsQueryVariables
+  >,
+) => {
+  const router = useRouter();
+  const options = optionsFunc ? optionsFunc(router) : {};
+  return useQuery(Operations.AllProductsDocument, options as any);
+};
+export type PageAllProductsComp = React.FC<{
+  data?: Types.AllProductsQuery;
+  error?: Apollo.ApolloError;
+}>;
+export const withPageAllProducts =
+  (
+    optionsFunc?: (
+      router: NextRouter,
+    ) => QueryHookOptions<
+      Types.AllProductsQuery,
+      Types.AllProductsQueryVariables
+    >,
+  ) =>
+  (WrappedComponent: PageAllProductsComp): NextPage =>
+  (props) => {
+    const router = useRouter();
+    const options = optionsFunc ? optionsFunc(router) : {};
+    const { data, error } = useQuery(
+      Operations.AllProductsDocument,
+      options as any,
+    );
+    return <WrappedComponent {...props} data={data} error={error} />;
+  };
+export const ssrAllProducts = {
+  getServerPage: getServerPageAllProducts,
+  withPage: withPageAllProducts,
+  usePage: useAllProducts,
+};
+export async function getServerPageProductBySlug(
+  options: Omit<
+    Apollo.QueryOptions<Types.ProductBySlugQueryVariables>,
+    'query'
+  >,
+  ctx: ApolloClientContext,
+) {
+  const apolloClient = getApolloClient(ctx);
+
+  const data = await apolloClient.query<Types.ProductBySlugQuery>({
+    ...options,
+    query: Operations.ProductBySlugDocument,
+  });
+
+  const apolloState = apolloClient.cache.extract();
+
+  return {
+    props: {
+      apolloState,
+      data: data?.data,
+      error: data?.error ?? data?.errors ?? null,
+    },
+  };
+}
+export const useProductBySlug = (
+  optionsFunc?: (
+    router: NextRouter,
+  ) => QueryHookOptions<
+    Types.ProductBySlugQuery,
+    Types.ProductBySlugQueryVariables
+  >,
+) => {
+  const router = useRouter();
+  const options = optionsFunc ? optionsFunc(router) : {};
+  return useQuery(Operations.ProductBySlugDocument, options as any);
+};
+export type PageProductBySlugComp = React.FC<{
+  data?: Types.ProductBySlugQuery;
+  error?: Apollo.ApolloError;
+}>;
+export const withPageProductBySlug =
+  (
+    optionsFunc?: (
+      router: NextRouter,
+    ) => QueryHookOptions<
+      Types.ProductBySlugQuery,
+      Types.ProductBySlugQueryVariables
+    >,
+  ) =>
+  (WrappedComponent: PageProductBySlugComp): NextPage =>
+  (props) => {
+    const router = useRouter();
+    const options = optionsFunc ? optionsFunc(router) : {};
+    const { data, error } = useQuery(
+      Operations.ProductBySlugDocument,
+      options as any,
+    );
+    return <WrappedComponent {...props} data={data} error={error} />;
+  };
+export const ssrProductBySlug = {
+  getServerPage: getServerPageProductBySlug,
+  withPage: withPageProductBySlug,
+  usePage: useProductBySlug,
+};
 export async function getServerPagePaginatedProducts(
   options: Omit<
     Apollo.QueryOptions<Types.PaginatedProductsQueryVariables>,

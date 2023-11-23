@@ -2,6 +2,7 @@ export const NavbarConstants = {
   pages: [
     { title: 'Home', href: '/' },
     { title: 'Explore', href: '/explore/1' },
+    { title: 'Shop', href: '/shop' },
     { title: 'Contact', href: 'contact' },
   ],
   user: ['Profile', 'Log Out'],

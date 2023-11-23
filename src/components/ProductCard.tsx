@@ -4,18 +4,17 @@ import {
   ShareOutlined,
   VisibilityOutlined,
 } from '@mui/icons-material';
-import { Box, IconButton, Skeleton, Stack, StackProps } from '@mui/material';
+import { Box, IconButton, Skeleton, Stack, Typography } from '@mui/material';
 import { AnimatePresence, motion } from 'framer-motion';
 import { kebabCase } from 'lodash';
 import Link from 'next/link';
 import React, { useState } from 'react';
 
-import { AppConfig, generateSizes } from '@/lib';
-import { IProduct } from '@/lib/graphql';
+import { AppConfig, formatMoney, generateSizes, MessagesMap } from '@/lib';
+import { IPaginatedProduct } from '@/lib/graphql';
 
 import { CloudImage } from '.';
 import { CartHandleButtons } from './CartHandleButtons';
-import { ProductMeta } from './ProductMeta';
 
 const overlayVariants = {
   initial: { display: 'none', opacity: 0, zIndex: -2 },
@@ -24,19 +23,32 @@ const overlayVariants = {
 };
 const { path } = AppConfig.pages.products;
 
-interface IProductCardProps extends IProduct {
-  direction?: StackProps['direction'];
+interface IProductCardProps extends IPaginatedProduct {
+  direction?: 'row' | 'column';
+  description?: string | null;
 }
 export const ProductCard = ({ direction, ...props }: IProductCardProps) => {
   const [show, setShow] = useState(false);
-  const { image, name, variant } = props;
-  const { id: variantId } = variant ?? {};
+  const { image, name, type, company, style, variant, description } = props;
+  const { id: variantId, price } = variant ?? {};
   const imageURL = image?.image?.publicUrlTransformed;
 
+  const handleShare = async () => {
+    try {
+      await navigator.share({
+        title: document.title,
+        text: AppConfig.pages.default.description,
+        url: window.location.href,
+      });
+    } catch (err) {
+      throw new Error(MessagesMap.error);
+    }
+  };
+
   return (
-    <Stack direction={direction}>
+    <Stack direction={{ xs: 'column', md: direction || 'column' }}>
       <Stack
-        flex={direction && '0 0 50%'}
+        flex={direction === 'row' ? '0 0 40%' : 'initial'}
         sx={{ cursor: 'pointer' }}
         onClick={() => setShow(!show)}
         position="relative"
@@ -92,7 +104,7 @@ export const ProductCard = ({ direction, ...props }: IProductCardProps) => {
                   <IconButton size="small">
                     <FavoriteOutlined color="inherit" htmlColor="white" />
                   </IconButton>
-                  <IconButton size="small">
+                  <IconButton size="small" onClick={handleShare}>
                     <ShareOutlined color="inherit" htmlColor="white" />
                   </IconButton>
                   <Link
@@ -124,7 +136,7 @@ export const ProductCard = ({ direction, ...props }: IProductCardProps) => {
           </Skeleton>
         )}
       </Stack>
-      <Stack>
+      <Stack width={{ xs: '100%', md: direction === 'row' ? '60%' : '100%' }}>
         {!name ? (
           <Stack
             pt={{ xs: 0.5, md: 1 }}
@@ -143,7 +155,45 @@ export const ProductCard = ({ direction, ...props }: IProductCardProps) => {
             </Stack>
           </Stack>
         ) : (
-          <ProductMeta {...props} />
+          <Stack
+            pt={direction === 'row' ? { xs: 2, md: 3 } : { xs: 0.5, md: 1 }}
+            height="100%"
+            pb={{ xs: 1.5, md: 2 }}
+            px={{ xs: 1, md: 1.5 }}
+            bgcolor="primary.light"
+            justifyContent="space-between"
+            gap={{ xs: 1.5, md: 2 }}
+          >
+            <Stack>
+              <Typography variant="body1" fontWeight={600}>
+                {name}
+              </Typography>
+              <Typography fontWeight={300} variant="caption">
+                by {company}
+              </Typography>
+              <Typography fontWeight={300} variant="body2">
+                {style} {type}
+              </Typography>
+              <Typography variant="body2">{formatMoney(price)}</Typography>
+
+              {description && (
+                <Typography
+                  variant="caption"
+                  className="clamp-5"
+                  mt={{ xs: 1, md: 1 }}
+                >
+                  {description}
+                </Typography>
+              )}
+              {direction === 'row' && (
+                <Stack maxWidth={{ xs: 128, md: 256 }} my={{ xs: 2, md: 2 }}>
+                  {variantId && (
+                    <CartHandleButtons direction={direction} id={variantId} />
+                  )}
+                </Stack>
+              )}
+            </Stack>
+          </Stack>
         )}
       </Stack>
     </Stack>

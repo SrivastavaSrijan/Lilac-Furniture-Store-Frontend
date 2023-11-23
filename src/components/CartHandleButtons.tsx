@@ -12,19 +12,18 @@ import { QuantityTextField } from './QuantityTextField';
 
 interface ICartHandleButtonsProps {
   id: string;
+  direction?: 'row' | 'column';
 }
-export const CartHandleButtons = ({ id }: ICartHandleButtonsProps) => {
+export const CartHandleButtons = ({
+  id,
+  direction = 'column',
+}: ICartHandleButtonsProps) => {
   const { handleAdd, handleEdit, handleRemove, cartItemId, quantity, loading } =
     useCartActions({ id });
   if (quantity && cartItemId) {
     return (
-      <Stack
-        gap={{ xs: 2, md: 2 }}
-        direction={{ xs: 'column', md: 'column' }}
-        justifyContent="center"
-      >
+      <Stack gap={{ xs: 2, md: 2 }} direction={{ xs: 'column', md: direction }}>
         <Stack
-          flex={1}
           direction="row"
           justifyContent="space-between"
           flexWrap="nowrap"
@@ -34,7 +33,7 @@ export const CartHandleButtons = ({ id }: ICartHandleButtonsProps) => {
             variant="contained"
             size="medium"
             disabled={loading}
-            sx={{ minWidth: 0 }}
+            sx={{ minWidth: 0, borderRadius: 0 }}
             onClick={handleEdit(cartItemId, quantity + 1)}
           >
             <Add fontSize="small" />
@@ -66,7 +65,7 @@ export const CartHandleButtons = ({ id }: ICartHandleButtonsProps) => {
           <Button
             variant="contained"
             size="medium"
-            sx={{ minWidth: 0 }}
+            sx={{ minWidth: 0, borderRadius: 0 }}
             disabled={loading}
             onClick={handleEdit(cartItemId, quantity - 1)}
           >

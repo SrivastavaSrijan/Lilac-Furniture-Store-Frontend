@@ -11,7 +11,7 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import { generateMockArray, sleep } from '@/lib';
 import {
-  IProduct,
+  IPaginatedProduct,
   PaginatedProductsQueryVariables,
   usePaginatedProductsQuery,
 } from '@/lib/graphql';
@@ -29,7 +29,6 @@ interface IProductsGridProps {
 export interface IFilters {
   category: string[];
   price: number[];
-  view: 'grid' | 'card';
   sort: 'name' | 'price';
   applied: boolean;
 }
@@ -42,10 +41,11 @@ export const ProductsGrid = ({
 }: IProductsGridProps) => {
   const [productsShown, setProductsShown] = useState(limit);
   const [productsCount, setProductsCount] = useState<number>(10e5);
-  const [dataArray, setDataArray] = useState<(IProduct | null)[]>(
+  const [dataArray, setDataArray] = useState<(IPaginatedProduct | null)[]>(
     generateMockArray(limit),
   );
   const [isFetchingMore, setIsFetchingMore] = useState(false);
+  const [view, setView] = useState<'grid' | 'card'>('grid');
 
   const { data, refetch, fetchMore, networkStatus } = usePaginatedProductsQuery(
     {
@@ -87,37 +87,50 @@ export const ProductsGrid = ({
 
   const handleApply = async (config: IFilters) => {
     setIsFetchingMore(true);
-    await sleep(2000);
+    await sleep(100);
+    dispatch({ type: 'popover', payload: null });
+    setDataArray(generateMockArray(limit));
+    await sleep(1000);
     const handleRefetch = async (
       refetchWhereVariables?: PaginatedProductsQueryVariables['where'],
     ) => {
+      const isClear = Object.keys(refetchWhereVariables ?? {}).length < 1;
       const { data: refetchData } = await refetch({
-        limit: undefined,
+        limit: isClear ? limit : undefined,
         where: {
-          ...variables?.where,
           ...(refetchWhereVariables ?? {}),
         },
       });
       if (refetchData?.productsCount) {
-        setProductsShown(refetchData?.productsCount);
+        setProductsShown(isClear ? limit : refetchData?.productsCount);
         setProductsCount(refetchData?.productsCount);
       }
       setIsFetchingMore(false);
-      dispatch({ type: 'popover', payload: null });
     };
-
+    if (!config.applied) {
+      handleRefetch({});
+      return;
+    }
+    let refetchQuery: PaginatedProductsQueryVariables['where'] = {
+      ...variables?.where,
+    };
     if (config.price.length === 2) {
       const [selectedMin, selectedMax] = config.price;
-      if (selectedMax && selectedMin) {
-        handleRefetch({
+      if (selectedMax && selectedMin)
+        refetchQuery = {
+          ...refetchQuery,
           variants: {
             every: { price: { gte: selectedMin, lte: selectedMax } },
           },
-        });
-      }
-    } else if (!config.applied) {
-      handleRefetch({});
+        };
     }
+    if (config.category.length >= 1) {
+      refetchQuery = {
+        ...refetchQuery,
+        category: { slug: { in: config.category } },
+      };
+    }
+    handleRefetch(refetchQuery);
   };
 
   const handleClose = () => {
@@ -134,27 +147,59 @@ export const ProductsGrid = ({
     if (!loading && data?.products) {
       // Append new products to the existing list
       setDataArray(
-        data.products.filter((val) => val.variant?.id) as IProduct[],
+        data.products.filter((val) => val.variant?.id) as IPaginatedProduct[],
       );
     }
   }, [data?.products, loading]);
 
+  useEffect(() => {
+    const handleViewChange = async () => {
+      setIsFetchingMore(true);
+      setDataArray(generateMockArray(limit));
+      await sleep(500);
+      refetch({ limit, ...variables, includeDesc: view === 'card' });
+      setIsFetchingMore(false);
+    };
+    handleViewChange();
+  }, [limit, refetch, variables, view]);
+
   // Prepare the product cards or skeletons
-  const productCards = dataArray.map((product: IProduct | null, index) => (
-    <Grid item key={product?.id ?? index} xs={6} md={3}>
-      {product ? (
-        <ProductCard {...product} />
-      ) : (
-        <ProductCard id={index.toString()} />
-      )}
-    </Grid>
-  ));
+  const productCards = dataArray.map(
+    (product: IPaginatedProduct | null, index) => (
+      <Grid
+        item
+        key={product?.id ?? index}
+        xs={view === 'card' ? 12 : 6}
+        md={view === 'card' ? 12 : 3}
+      >
+        {product ? (
+          <ProductCard
+            {...product}
+            direction={view === 'card' ? 'row' : 'column'}
+          />
+        ) : (
+          <ProductCard
+            id={index.toString()}
+            direction={view === 'card' ? 'row' : 'column'}
+          />
+        )}
+      </Grid>
+    ),
+  );
 
   // Append skeletons to the end if more items are being fetched
   const skeletons = isFetchingMore
     ? generateMockArray(limit).map((_, index) => (
-        <Grid item key={`skeleton-${index}`} xs={6} md={3}>
-          <ProductCard id={index?.toString()} />
+        <Grid
+          item
+          key={`skeleton-${index}`}
+          xs={view === 'card' ? 12 : 6}
+          md={view === 'card' ? 12 : 3}
+        >
+          <ProductCard
+            id={index?.toString()}
+            direction={view === 'card' ? 'row' : 'column'}
+          />
         </Grid>
       ))
     : null;
@@ -172,14 +217,16 @@ export const ProductsGrid = ({
           <Typography variant="body1">{subtitle}</Typography>
         </Stack>
       )}
-      {!dataArray.length && (
+      {!dataArray.length && !loading && (
         <Alert variant="standard" severity="error">
           <Typography textAlign="center">No products found</Typography>
         </Alert>
       )}
       {variables?.if && (
         <ProductFilterBar
-          apply={handleApply}
+          setView={setView}
+          view={view}
+          handleApply={handleApply}
           handleClose={handleClose}
           loading={isFetchingMore || loading}
           meta={{
