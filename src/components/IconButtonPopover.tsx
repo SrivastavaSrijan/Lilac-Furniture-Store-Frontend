@@ -64,7 +64,7 @@ const InnerIconButtonPopover = (
         }}
         slotProps={{
           paper: {
-            elevation: 0,
+            // elevation: 0,
             sx: { borderRadius: 0, mt: 1, overflow: 'hidden' },
           },
         }}

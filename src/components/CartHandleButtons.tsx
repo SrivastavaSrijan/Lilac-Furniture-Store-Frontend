@@ -29,6 +29,11 @@ export const CartHandleButtons = ({
       <Stack
         gap={{ xs: 1, md: 1 }}
         direction={{ xs: direction, md: direction }}
+        sx={{
+          [`& .${buttonClasses.startIcon}`]: { m: 0 },
+          [`& .${buttonClasses.root}`]: { minWidth: 56 },
+          ...(loading && { pointerEvents: 'none' }),
+        }}
       >
         <Stack
           direction="row"
@@ -45,11 +50,6 @@ export const CartHandleButtons = ({
                 bgcolor: color === 'inverted' ? 'white' : 'primary.main',
                 color: color === 'inverted' ? 'black' : 'white',
               })}
-          sx={{
-            [`& .${buttonClasses.startIcon}`]: { m: 0 },
-            [`& .${buttonClasses.root}`]: { minWidth: 56 },
-            ...(loading && { pointerEvents: 'none' }),
-          }}
         >
           <Button
             variant="text"
@@ -88,6 +88,7 @@ export const CartHandleButtons = ({
             startIcon={<Remove fontSize="inherit" />}
           />
         </Stack>
+
         <Button
           variant="outlined"
           size="large"
@@ -100,9 +101,24 @@ export const CartHandleButtons = ({
           startIcon={
             <RemoveShoppingCartRounded htmlColor="inherit" fontSize="inherit" />
           }
-        >
-          Remove
-        </Button>
+        />
+        <Link href={AppConfig.pages.checkout.path} passHref>
+          <Button
+            size="large"
+            variant="outlined"
+            fullWidth
+            color="inherit"
+            sx={
+              color === 'inverted'
+                ? { color: 'white', borderColor: 'white' }
+                : { color: 'black', borderColor: 'primary.main' }
+            }
+            disabled={loading}
+            endIcon={<ArrowForward fontSize="inherit" />}
+          >
+            Checkout
+          </Button>
+        </Link>
       </Stack>
     );
   }
@@ -114,7 +130,7 @@ export const CartHandleButtons = ({
           variant="contained"
           fullWidth
           color={color === 'inverted' ? 'inherit' : 'primary'}
-          sx={color === 'inverted' ? { color: 'black' } : {}}
+          sx={color === 'inverted' ? { color: 'black', bgcolor: 'white' } : {}}
           disabled={loading}
           endIcon={<ArrowForward fontSize="inherit" />}
         >

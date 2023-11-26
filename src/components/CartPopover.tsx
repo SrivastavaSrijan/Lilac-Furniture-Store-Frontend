@@ -17,6 +17,7 @@ export const CartPopover = () => {
         gap={{ xs: 2, md: 2 }}
         sx={{ overflowY: 'auto' }}
         px={{ xs: 3, md: 5 }}
+        py={2}
       >
         {!updating && !cartItems.length && (
           <Typography py={2} variant="caption">
