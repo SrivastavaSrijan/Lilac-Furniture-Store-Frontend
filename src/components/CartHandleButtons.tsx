@@ -112,6 +112,7 @@ export const CartHandleButtons = ({
         <Button
           size="large"
           variant="contained"
+          fullWidth
           color={color === 'inverted' ? 'inherit' : 'primary'}
           sx={color === 'inverted' ? { color: 'black' } : {}}
           disabled={loading}

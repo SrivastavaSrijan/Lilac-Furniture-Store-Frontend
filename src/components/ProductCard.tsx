@@ -38,8 +38,8 @@ export const ProductCard = ({
           xs: 'initial',
           md: direction === 'row' ? '0 0 40%' : 'initial',
         }}
-        sx={{ cursor: 'pointer' }}
-        onClick={() => setShow(!show)}
+        sx={!show ? { cursor: 'pointer' } : {}}
+        {...(!show && { onClick: () => setShow(!show) })}
         position="relative"
         width="100%"
         height={height}

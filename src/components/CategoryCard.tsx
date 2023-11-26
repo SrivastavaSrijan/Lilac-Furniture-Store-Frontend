@@ -180,7 +180,7 @@ export const CategoryCard = ({ name, id, description }: ICategoryCardProps) => {
                   xs={handleWidth(isExpanded, index)}
                   md={handleWidth(isExpanded, index)}
                   key={`child_${pIndex}`}
-                  sx={{ cursor: 'pointer' }}
+                  sx={!isExpanded ? { cursor: 'pointer' } : {}}
                 >
                   <motion.div
                     layout
