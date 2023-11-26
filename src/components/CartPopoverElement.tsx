@@ -10,7 +10,7 @@ import {
 import { useEffect, useState } from 'react';
 import { DeepRequired } from 'react-hook-form';
 
-import { formatMoney, useCartActions, useIsMobile } from '@/lib';
+import { formatMoney, useCartActions, useInMobile } from '@/lib';
 import { ICartItem } from '@/lib/graphql';
 
 import { CloudImage } from '.';
@@ -29,7 +29,7 @@ export const CartPopoverElement = ({
   const { handleEdit, handleRemove, loading } = useCartActions({
     id: cartItemId,
   });
-  const isMobile = useIsMobile();
+  const isMobile = useInMobile();
 
   useEffect(() => {
     setShow(false);

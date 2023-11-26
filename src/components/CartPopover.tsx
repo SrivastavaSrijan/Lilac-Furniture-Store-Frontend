@@ -18,7 +18,7 @@ export const CartPopover = () => {
         sx={{ overflowY: 'auto' }}
         px={{ xs: 3, md: 5 }}
       >
-        {!cartItems.length && (
+        {!updating && !cartItems.length && (
           <Typography py={2} variant="caption">
             Your cart is empty
           </Typography>

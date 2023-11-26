@@ -1,6 +1,8 @@
 import { Container, Stack } from '@mui/material';
 import { upperCase } from 'lodash';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 import { Auth, AuthState, SEO } from '@/components';
 import { AppConfig } from '@/lib';
@@ -19,19 +21,15 @@ const mapStringToAuthState = (stateString: string): AuthState => {
 
 export const getServerSideProps = (async ({ query }) => {
   const { state: queryState, token } = query;
-  const ogTitle = AppConfig.pages.welcome.title;
   let props = {
     state: AuthState.SIGN_IN,
     token: null as string | null,
-    title: ogTitle['sign-in'],
   };
   if (queryState && !Array.isArray(queryState)) {
     const mappedState = mapStringToAuthState(queryState);
     props = {
       ...props,
       state: mappedState,
-      title:
-        ogTitle?.[queryState as keyof typeof ogTitle] || ogTitle['sign-in'],
     };
   }
   if (token && !Array.isArray(token))
@@ -45,23 +43,38 @@ export const getServerSideProps = (async ({ query }) => {
 }) satisfies GetServerSideProps<{
   token: string | null;
   state: AuthState;
-  title: string;
 }>;
 
 const Welcome = ({
-  title,
   state,
   token,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const [pageTitle, setTitle] = useState<string>(AppConfig.pages.welcome.title);
+  const [pageDescription, setDescription] = useState<string | undefined>(
+    undefined,
+  );
+  const router = useRouter();
+
+  useEffect(() => {
+    const { title, description } = (AppConfig.pages?.[
+      (router.query.state ??
+        AuthState[state]?.toLowerCase()) as keyof typeof AppConfig.pages
+    ] ?? {}) as any;
+    setTitle(title);
+    setDescription(description);
+  }, [router.query, state]);
+
   return (
     <>
-      <SEO title={title} />
+      <SEO title={pageTitle} description={pageDescription} />
       <Container maxWidth="sm" disableGutters>
         <Stack
           justifyContent="center"
           alignItems="center"
           width="100%"
+          height="100vh"
           position="relative"
+          className="welcome"
         >
           <Auth initialState={state} token={token ?? undefined} mode="page" />
         </Stack>

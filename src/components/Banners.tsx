@@ -5,7 +5,7 @@ import { HomePageQuery } from '@/lib/graphql';
 import { Carousel, CloudImage } from '.';
 
 const BannerHeight = { xs: 500, md: 700 };
-const BoxWidth = { xs: 340, md: 500 };
+const BoxWidth = { xs: 320, md: 500 };
 const BoxHeight = {
   xs: BannerHeight.xs - 300,
   md: BannerHeight.md - 250,

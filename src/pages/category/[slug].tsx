@@ -49,9 +49,14 @@ const CategoryBySlug: PageCategoryBySlugComp = ({ data }) => {
     return <></>;
   }
   const categoryImage = data?.category?.image?.publicUrlTransformed ?? null;
+  const { title, description: ogDescription } = AppConfig.pages.category ?? {};
   return (
     <Stack>
-      <SEO title={AppConfig.pages.index.title} />
+      <SEO
+        title={title}
+        description={ogDescription}
+        replacer={{ name: data?.category?.name }}
+      />
       {categoryImage && (
         <CategoryHeader
           image={categoryImage}

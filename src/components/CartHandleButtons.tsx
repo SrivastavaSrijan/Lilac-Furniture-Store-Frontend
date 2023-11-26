@@ -1,103 +1,136 @@
 import {
   Add,
+  AddShoppingCartOutlined,
+  ArrowForward,
   Remove,
   RemoveShoppingCartRounded,
-  ShoppingCartOutlined,
 } from '@mui/icons-material';
-import { alpha, Button, Stack, Typography } from '@mui/material';
+import { alpha, Button, buttonClasses, Stack } from '@mui/material';
+import Link from 'next/link';
 
-import { useCartActions } from '@/lib';
+import { AppConfig, useCartActions } from '@/lib';
 
 import { QuantityTextField } from './QuantityTextField';
 
 interface ICartHandleButtonsProps {
   id: string;
   direction?: 'row' | 'column';
+  color?: 'inverted' | 'colored';
 }
 export const CartHandleButtons = ({
   id,
   direction = 'column',
+  color = 'inverted',
 }: ICartHandleButtonsProps) => {
   const { handleAdd, handleEdit, handleRemove, cartItemId, quantity, loading } =
     useCartActions({ id });
   if (quantity && cartItemId) {
     return (
-      <Stack gap={{ xs: 2, md: 2 }} direction={{ xs: 'column', md: direction }}>
+      <Stack
+        gap={{ xs: 1, md: 1 }}
+        direction={{ xs: direction, md: direction }}
+      >
         <Stack
           direction="row"
           justifyContent="space-between"
           flexWrap="nowrap"
           height="100%"
+          borderRadius={1}
+          {...(loading
+            ? {
+                bgcolor: (theme) => alpha(theme.palette.common.black, 0.12),
+                color: (theme) => alpha(theme.palette.common.black, 0.56),
+              }
+            : {
+                bgcolor: color === 'inverted' ? 'white' : 'primary.main',
+                color: color === 'inverted' ? 'black' : 'white',
+              })}
+          sx={{
+            [`& .${buttonClasses.startIcon}`]: { m: 0 },
+            [`& .${buttonClasses.root}`]: { minWidth: 56 },
+            ...(loading && { pointerEvents: 'none' }),
+          }}
         >
           <Button
-            variant="contained"
-            size="medium"
+            variant="text"
+            size="large"
+            color="inherit"
             disabled={loading}
-            sx={{ minWidth: 0, borderRadius: 0 }}
             onClick={handleEdit(cartItemId, quantity + 1)}
-          >
-            <Add fontSize="small" />
-          </Button>
+            startIcon={<Add fontSize="inherit" />}
+          />
+
           <Stack
-            borderTop={1}
-            borderBottom={1}
-            borderColor={(theme) =>
-              loading
-                ? alpha(theme.palette.common.black, 0.12)
-                : alpha(theme.palette.primary.main, 0.5)
-            }
             width="100%"
             textAlign="center"
             justifyContent="center"
             alignItems="center"
-            bgcolor={loading ? 'gray' : 'primary.dark'}
           >
             <QuantityTextField
               id={cartItemId}
               quantity={quantity}
               handleEdit={handleEdit}
               rest={{
-                InputProps: { disableUnderline: true, sx: { color: 'white' } },
+                InputProps: {
+                  disableUnderline: true,
+                  sx: { color: 'inherit' },
+                },
                 disabled: loading,
               }}
             />
           </Stack>
           <Button
-            variant="contained"
-            size="medium"
-            sx={{ minWidth: 0, borderRadius: 0 }}
+            variant="text"
+            size="large"
+            color="inherit"
             disabled={loading}
             onClick={handleEdit(cartItemId, quantity - 1)}
-          >
-            <Remove fontSize="small" />
-          </Button>
+            startIcon={<Remove fontSize="inherit" />}
+          />
         </Stack>
         <Button
-          variant="contained"
-          color="error"
-          size="medium"
-          sx={{ minWidth: 0, color: 'error.main' }}
+          variant="outlined"
+          size="large"
+          color={color === 'inverted' ? 'inherit' : 'error'}
+          sx={{
+            color: color === 'inverted' ? 'white' : 'error.main',
+          }}
           disabled={loading}
           onClick={handleRemove(cartItemId)}
+          startIcon={
+            <RemoveShoppingCartRounded htmlColor="inherit" fontSize="inherit" />
+          }
         >
-          <RemoveShoppingCartRounded htmlColor="white" fontSize="small" />
-          <Typography variant="body2" color="white" ml={1}>
-            Remove
-          </Typography>
+          Remove
         </Button>
       </Stack>
     );
   }
   return (
-    <Button
-      size="medium"
-      variant="contained"
-      color="primary"
-      onClick={handleAdd(id)}
-      disabled={loading}
-      startIcon={<ShoppingCartOutlined fontSize="small" />}
-    >
-      Add to cart
-    </Button>
+    <Stack gap={{ xs: 1, md: 1 }} direction={{ xs: direction, md: direction }}>
+      <Link href={AppConfig.pages.checkout.path} passHref>
+        <Button
+          size="large"
+          variant="contained"
+          color={color === 'inverted' ? 'inherit' : 'primary'}
+          sx={color === 'inverted' ? { color: 'black' } : {}}
+          disabled={loading}
+          endIcon={<ArrowForward fontSize="inherit" />}
+        >
+          Buy Now
+        </Button>
+      </Link>
+      <Button
+        variant="outlined"
+        size="large"
+        color={color === 'inverted' ? 'inherit' : 'primary'}
+        sx={color === 'inverted' ? { color: 'white' } : {}}
+        onClick={handleAdd(id)}
+        disabled={loading}
+        startIcon={<AddShoppingCartOutlined fontSize="small" />}
+      >
+        Add To Cart
+      </Button>
+    </Stack>
   );
 };

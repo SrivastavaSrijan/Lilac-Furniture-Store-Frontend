@@ -42,14 +42,19 @@ export const getStaticProps: GetServerSideProps = async ({ params, req }) => {
 
 const ProductBySlug: PageProductBySlugComp = ({ data }) => {
   if (!data || !data?.product) throw new Error(MessagesMap.error);
+  const { title, description } = AppConfig.pages.products ?? {};
+
   return (
     <Stack>
-      <SEO title={AppConfig.pages.index.title} />
-      <Container maxWidth="xl" disableGutters sx={{ bgcolor: 'primary.light' }}>
-        <ProductIndex {...data.product} />
-      </Container>
+      <SEO
+        title={title}
+        description={description}
+        replacer={{ name: data?.product?.name }}
+      />
       <Container maxWidth="md">
-        <Stack gap={{ xs: 6, md: 8 }} py={{ xs: 3, md: 4 }}></Stack>
+        <Stack gap={{ xs: 6, md: 8 }} py={{ xs: 3, md: 4 }}>
+          <ProductIndex {...data.product} />
+        </Stack>
       </Container>
     </Stack>
   );

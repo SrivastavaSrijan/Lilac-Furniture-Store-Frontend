@@ -74,7 +74,6 @@ export const CategoryCard = ({ name, id, description }: ICategoryCardProps) => {
       await sleep(1500);
       await getProducts({
         variables: {
-          includeDesc: true,
           where: { category: { id: { equals: id } } },
           take: COLUMNS * ROWS,
         },
@@ -242,12 +241,18 @@ export const CategoryCard = ({ name, id, description }: ICategoryCardProps) => {
                             position: 'absolute',
                             right: 16,
                             zIndex: 2,
-                            top: 10,
+                            top: (HEIGHT / ROWS) * 2 + 8,
                           }}
                         >
                           <Close color="inherit" fontSize="inherit" />
                         </IconButton>
-                        <ProductCard direction="row" {...product} />
+                        <Stack boxShadow={10}>
+                          <ProductCard
+                            direction="column"
+                            height={(HEIGHT / ROWS) * 2}
+                            {...product}
+                          />
+                        </Stack>
                       </Stack>
                     )}
                   </motion.div>

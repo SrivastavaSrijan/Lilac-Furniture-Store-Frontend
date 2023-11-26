@@ -39,16 +39,25 @@ export const useUser = () => {
   };
 };
 
-export const useIsMobile = () => {
+export const useInMobile = () => {
   const theme = useTheme();
   return useMediaQuery(theme.breakpoints.down('md'));
 };
 
+export const useApolloErrorHandler = (error: unknown) => {
+  const { enqueueSnackbar } = useSnackbar();
+  useEffect(() => {
+    if (error) {
+      const message = new ApolloErrorHandler(error).get()?.message;
+      if (message) enqueueSnackbar({ message, variant: 'error' });
+    }
+  }, [enqueueSnackbar, error]);
+};
 interface IGenericDialogProps extends DialogProps {}
 export const asModal = (children: JSX.Element) => {
   const OuterDialog = ({ onClose, ...props }: IGenericDialogProps) => {
     return (
-      <Dialog {...props} fullScreen={useIsMobile()}>
+      <Dialog {...props} fullScreen={useInMobile()}>
         <Box position="absolute" right={0}>
           <IconButton
             onClick={() => onClose && onClose({}, 'escapeKeyDown')}

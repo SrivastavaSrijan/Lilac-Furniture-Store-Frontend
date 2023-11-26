@@ -111,7 +111,8 @@ export const RequestPasswordResetLink = ({
       <Stack
         gap={{ xs: 1, md: 2 }}
         sx={{ overflowY: 'auto' }}
-        pb={{ xs: '108px', sm: '72px' }}
+        pt={2}
+        mb={{ xs: '128px', md: '156px' }}
       >
         <Text<IRequestPasswordResetLinkForm>
           variant="filled"

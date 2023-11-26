@@ -102,7 +102,8 @@ export const SignIn = ({ setCurrentState }: IAuthChildProps) => {
       <Stack
         gap={{ xs: 1, md: 2 }}
         sx={{ overflowY: 'auto' }}
-        pb={{ xs: '12vh', md: '12vh' }}
+        pt={2}
+        mb={{ xs: '128px', md: '156px' }}
       >
         <Text<ISignInForm>
           variant="filled"

@@ -80,7 +80,7 @@ export const Auth = ({ initialState, token, mode = 'dialog' }: IAuthProps) => {
         {
           query: { state: snakeCase(AuthState[newState]) },
         },
-        undefined,
+        { pathname: AppConfig.pages.welcome.path },
         { shallow: true },
       );
     setPrevState((oldPreviousState) => [...oldPreviousState, currentState]);
@@ -117,7 +117,7 @@ export const Auth = ({ initialState, token, mode = 'dialog' }: IAuthProps) => {
           objectFit: 'cover',
         }}
       />
-      <Stack sx={{ overflowX: 'hidden' }}>
+      <Stack sx={{ overflowX: 'hidden' }} minHeight={500}>
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
             key={currentState}
@@ -133,7 +133,7 @@ export const Auth = ({ initialState, token, mode = 'dialog' }: IAuthProps) => {
             style={{
               position: 'absolute',
               width: '100%',
-              ...(mode === 'dialog' && { height: `calc(100vh - ${64}px)` }),
+              ...(mode === 'dialog' ? { height: `calc(100vh - ${64}px)` } : {}),
             }}
           >
             {renderScene(currentState)}

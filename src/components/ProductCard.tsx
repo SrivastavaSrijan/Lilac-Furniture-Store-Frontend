@@ -1,59 +1,48 @@
-import {
-  Cancel,
-  FavoriteOutlined,
-  ShareOutlined,
-  VisibilityOutlined,
-} from '@mui/icons-material';
+import { Cancel, VisibilityOutlined } from '@mui/icons-material';
 import { Box, IconButton, Skeleton, Stack, Typography } from '@mui/material';
 import { AnimatePresence, motion } from 'framer-motion';
-import { kebabCase } from 'lodash';
-import Link from 'next/link';
 import React, { useState } from 'react';
 
-import { AppConfig, formatMoney, generateSizes, MessagesMap } from '@/lib';
+import { formatMoney, generateSizes } from '@/lib';
 import { IPaginatedProduct } from '@/lib/graphql';
 
 import { CloudImage } from '.';
 import { CartHandleButtons } from './CartHandleButtons';
+import { ProductInterestButtons } from './ProductInterestButtons';
 
 const overlayVariants = {
   initial: { display: 'none', opacity: 0, zIndex: -2 },
   exit: { opacity: 0 },
   animate: { opacity: 1, zIndex: 1, display: 'flex' },
 };
-const { path } = AppConfig.pages.products;
 
 interface IProductCardProps extends IPaginatedProduct {
   direction?: 'row' | 'column';
   description?: string | null;
+  height?: number;
 }
-export const ProductCard = ({ direction, ...props }: IProductCardProps) => {
+export const ProductCard = ({
+  direction,
+  height = 300,
+  ...props
+}: IProductCardProps) => {
   const [show, setShow] = useState(false);
   const { image, name, type, company, style, variant, description } = props;
   const { id: variantId, price } = variant ?? {};
   const imageURL = image?.image?.publicUrlTransformed;
 
-  const handleShare = async () => {
-    try {
-      await navigator.share({
-        title: document.title,
-        text: AppConfig.pages.default.description,
-        url: window.location.href,
-      });
-    } catch (err) {
-      throw new Error(MessagesMap.error);
-    }
-  };
-
   return (
     <Stack direction={{ xs: 'column', md: direction || 'column' }}>
       <Stack
-        flex={direction === 'row' ? '0 0 40%' : 'initial'}
+        flex={{
+          xs: 'initial',
+          md: direction === 'row' ? '0 0 40%' : 'initial',
+        }}
         sx={{ cursor: 'pointer' }}
         onClick={() => setShow(!show)}
         position="relative"
         width="100%"
-        height={300}
+        height={height}
       >
         <Stack
           height={36}
@@ -100,23 +89,10 @@ export const ProductCard = ({ direction, ...props }: IProductCardProps) => {
                 px={{ xs: 1, md: 1 }}
                 gap={{ xs: 3, md: 3 }}
               >
-                <Stack direction="row" gap={1}>
-                  <IconButton size="small">
-                    <FavoriteOutlined color="inherit" htmlColor="white" />
-                  </IconButton>
-                  <IconButton size="small" onClick={handleShare}>
-                    <ShareOutlined color="inherit" htmlColor="white" />
-                  </IconButton>
-                  <Link
-                    href={path}
-                    as={path.replace('[id].tsx', kebabCase(name || '...'))}
-                    style={{ height: '100%' }}
-                  >
-                    <IconButton size="small">
-                      <VisibilityOutlined color="inherit" htmlColor="white" />
-                    </IconButton>
-                  </Link>
-                </Stack>
+                <ProductInterestButtons
+                  name={name}
+                  formattedName={`${style} ${type} "${name}"`}
+                />
                 {variantId && <CartHandleButtons id={variantId} />}
               </Stack>
             </motion.div>
@@ -131,9 +107,9 @@ export const ProductCard = ({ direction, ...props }: IProductCardProps) => {
             style={{ objectFit: 'cover' }}
           />
         ) : (
-          <Skeleton variant="rectangular">
-            <Box position="relative" width={400} height={300} />
-          </Skeleton>
+          <Box height="100%">
+            <Skeleton variant="rectangular" height="100%" />
+          </Box>
         )}
       </Stack>
       <Stack width={{ xs: '100%', md: direction === 'row' ? '60%' : '100%' }}>
@@ -186,9 +162,13 @@ export const ProductCard = ({ direction, ...props }: IProductCardProps) => {
                 </Typography>
               )}
               {direction === 'row' && (
-                <Stack maxWidth={{ xs: 128, md: 256 }} my={{ xs: 2, md: 2 }}>
+                <Stack my={{ xs: 2, md: 2 }}>
                   {variantId && (
-                    <CartHandleButtons direction={direction} id={variantId} />
+                    <CartHandleButtons
+                      direction={direction}
+                      color="colored"
+                      id={variantId}
+                    />
                   )}
                 </Stack>
               )}

@@ -4,9 +4,10 @@ import { CategoryHeader, ProductsGrid, SEO } from '@/components';
 import { AppConfig, AssetsConfig } from '@/lib';
 
 const Shop = () => {
+  const { title, description } = AppConfig.pages.shop ?? {};
   return (
     <Stack>
-      <SEO title={AppConfig.pages.index.title} />
+      <SEO title={title} description={description} />
       <CategoryHeader
         image={AssetsConfig.cloudinary.shop}
         name="Shop"

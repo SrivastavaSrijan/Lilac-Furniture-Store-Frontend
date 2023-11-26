@@ -1,6 +1,7 @@
 export * from './Auth';
 export * from './Banners';
 export * from './Carousel';
+export * from './CartPopover';
 export * from './CategoriesGrid';
 export * from './CategoryCard';
 export * from './CategoryHeader';
@@ -12,5 +13,6 @@ export * from './ProductCard';
 export * from './ProductFilterBar';
 export * from './ProductIndex';
 export * from './ProductsGrid';
+export * from './RelatedProducts';
 export * from './SEO';
 export * from './StyledComponents';

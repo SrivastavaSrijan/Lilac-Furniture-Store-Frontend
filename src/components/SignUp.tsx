@@ -6,7 +6,6 @@ import {
   VisibilityOutlined,
 } from '@mui/icons-material';
 import {
-  Box,
   Button,
   CircularProgress,
   IconButton,
@@ -141,7 +140,8 @@ export const SignUp = ({ setCurrentState }: IAuthChildProps) => {
       <Stack
         gap={{ xs: 1, md: 2 }}
         sx={{ overflowY: 'auto' }}
-        pb={{ xs: '15vh', md: '15vh' }}
+        pt={2}
+        mb={{ xs: '128px', md: '156px' }}
       >
         <Text<ISignUpForm>
           variant="filled"
@@ -219,7 +219,6 @@ export const SignUp = ({ setCurrentState }: IAuthChildProps) => {
           {errors.root?.message}
         </Typography>
       </Stack>
-      <Box flexGrow={1} />
       <Stack
         py={{ xs: 2, md: 3 }}
         gap={{ xs: 2, md: 2 }}

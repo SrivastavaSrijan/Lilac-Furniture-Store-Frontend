@@ -42,42 +42,72 @@ export const AppConfig = {
   name: 'Lilac',
   pages: {
     '404': {
+      path: '/404',
       title: 'Page Not Found | Lilac',
     },
     index: {
       title:
-        'Lilac: Mid-Century Modern Furniture for Elegant & Contemporary Living Spaces',
+        'Mid-Century Modern Furniture for Elegant & Contemporary Living Spaces - Lilac',
       path: '/',
     },
-    welcome: {
-      path: '/welcome',
-      title: {
-        'sign-up':
-          'Join Lilac: Create Your Account for Exclusive Mid-Century Furniture Access',
-        'sign-in':
-          'Log In to Lilac: Access Your Mid-Century Modern Furniture World',
-        'forgot-password': 'Reset Your Lilac Account Password - Quick & Secure',
-        'request-password':
-          'Forgot Password - Recover Your Lilac Account Access',
-      },
+    sign_up: {
+      path: '/welcome?state=sign-up',
+      title:
+        'Join Lilac - Create Your Account for Exclusive Mid-Century Furniture Access',
+    },
+    sign_in: {
+      path: '/welcome?state=sign-in',
+      title: 'Log In to Lilac - Access Your Mid-Century Modern Furniture World',
+    },
+    forgot_password: {
+      path: '/welcome?state=forgot-password',
+      title: 'Reset Your Lilac Account Password - Quick & Secure',
+    },
+    request_password: {
+      path: '/welcome?state=forgot-password',
+      title: 'Forgot Password - Recover Your Lilac Account Access',
     },
     explore: {
       path: '/explore/[page].tsx',
+      title: 'Explore Categories at Lilac - Your Mid-Century Modern Haven',
+      description:
+        'Dive into the world of mid-century modern design with Lilac. Explore various furniture categories to find pieces that resonate with your style and enhance your home.',
+    },
+    shop: {
+      path: '/shop',
+      title: 'Shop at Lilac - Find Your Perfect Mid-Century Modern Piece',
+      description:
+        'Browse our extensive selection of mid-century modern furniture at Lilac. Discover unique, elegant pieces that elevate your living space with style and sophistication.',
     },
     category: {
       path: '/category/[slug].tsx',
+      title: "Discover [name] - Lilac's Mid-Century Modern Collection",
+      description:
+        'Explore our [name] collection at Lilac. Each piece combines timeless design with modern comfort, perfect for adding a touch of mid-century elegance to your home.',
     },
     products: {
       path: '/products/[id].tsx',
+      title: '[name] - A Mid-Century Modern Masterpiece at Lilac',
+      description:
+        '[name] embodies the essence of mid-century modern design. Experience unparalleled style and comfort with this exquisite piece from Lilac.',
+    },
+    welcome: {
+      path: '/welcome',
+      title: 'Welcome to Lilac - Mid-Century Modern Furniture',
     },
     checkout: {
       path: '/checkout',
+      title: 'Checkout - Finalize Your Purchase on Lilac',
+      description:
+        "You're one step away from making a mid-century modern statement in your home. Securely complete your purchase at Lilac and get ready to transform your space.",
     },
     default: {
+      path: '/',
+      title:
+        'Mid-Century Modern Furniture for Elegant & Contemporary Living Spaces - Lilac',
       description:
         'Discover timeless elegance and modern comfort at Lilac, your destination for mid-century modern furniture. Explore a curated collection of beautifully crafted pieces that blend pastel sophistication with a touch of nostalgia. Redefine your living spaces with our exquisite designs. Welcome to Lilac, where classic meets contemporary.',
     },
-    image: AssetsConfig.brand.preview,
   },
 };
 

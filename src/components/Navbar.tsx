@@ -48,7 +48,7 @@ import {
   asModal,
   AssetsConfig,
   NavbarConstants,
-  useIsMobile,
+  useInMobile,
   useUser,
 } from '@/lib';
 import { GetUserDocument, ICartItem, useSignOutMutation } from '@/lib/graphql';
@@ -71,7 +71,7 @@ export const Navbar = (_props: INavbarProps) => {
       },
     ],
   });
-  const inMobile = useIsMobile();
+  const inMobile = useInMobile();
   const cartRef = useRef<HTMLButtonElement>(null);
   const { dispatch } = useContext(CommonContext);
   const handleDrawerToggle =
@@ -117,8 +117,8 @@ export const Navbar = (_props: INavbarProps) => {
   }, [dispatch, refetch]);
 
   useEffect(() => {
-    dispatch({ type: 'cart-updating', payload: updating });
-  }, [dispatch, updating]);
+    dispatch({ type: 'cart-updating', payload: updating || loading });
+  }, [dispatch, loading, updating]);
 
   useEffect(() => {
     const cleanedCartItems = (user?.cart ?? [])
@@ -375,7 +375,7 @@ export const Navbar = (_props: INavbarProps) => {
 
   return (
     <AppBar
-      position="sticky"
+      position="fixed"
       color="inherit"
       sx={{ bgcolor: 'background.paper', py: { xs: 1, md: 1 } }}
       elevation={0}

@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
 
-import { generateMockArray, sleep } from '@/lib';
+import { generateMockArray, sleep, useApolloErrorHandler } from '@/lib';
 import {
   IPaginatedProduct,
   PaginatedProductsQueryVariables,
@@ -47,12 +47,12 @@ export const ProductsGrid = ({
   const [isFetchingMore, setIsFetchingMore] = useState(false);
   const [view, setView] = useState<'grid' | 'card'>('grid');
 
-  const { data, refetch, fetchMore, networkStatus } = usePaginatedProductsQuery(
-    {
+  const { data, refetch, fetchMore, networkStatus, error } =
+    usePaginatedProductsQuery({
       variables: { limit, ...variables },
       notifyOnNetworkStatusChange: true,
-    },
-  );
+    });
+  useApolloErrorHandler(error);
   const loading = [
     NetworkStatus.loading,
     NetworkStatus.fetchMore,

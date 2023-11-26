@@ -69,20 +69,24 @@ export const CloudImage = (props: ICloudImageProps) => {
     setBlurDataURL(blurDataURLData);
   }, [props.src]);
 
-  useEffect(() => {
-    updateBlurDataURL();
-  }, [updateBlurDataURL]);
-
   const handleError: ReactEventHandler<HTMLImageElement> = () => {
     setError(true);
   };
+
+  useEffect(() => {
+    if (navigator && navigator.onLine) updateBlurDataURL();
+  }, [updateBlurDataURL]);
+
+  useEffect(() => {
+    if (!navigator || !navigator.onLine) setError(true);
+  }, []);
 
   return hasError ? (
     <Image
       {...props}
       src={AssetsConfig.error}
       alt={props.alt}
-      style={{ objectFit: 'contain' }}
+      style={{ objectFit: 'cover' }}
     />
   ) : (
     <CldImage

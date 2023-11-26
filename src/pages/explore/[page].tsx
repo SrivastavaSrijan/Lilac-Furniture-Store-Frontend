@@ -49,9 +49,10 @@ const CategoryIndex: PageCategoryIndexComp = ({ data }) => {
       ),
     });
   };
+  const { title, description } = AppConfig.pages.explore ?? {};
   return (
     <Stack>
-      <SEO title={AppConfig.pages.index.title} />
+      <SEO title={title} description={description} />
       <Container maxWidth="lg">
         <Stack gap={{ xs: 6, md: 8 }} py={{ xs: 6, md: 8 }}>
           <CategoriesGrid

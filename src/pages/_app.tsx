@@ -55,8 +55,7 @@ export default function MyApp(props: IMyAppProps) {
             <ThemeProvider theme={theme}>
               <CssBaseline />
               <SnackbarProvider
-                preventDuplicate
-                maxSnack={1}
+                maxSnack={2}
                 action={(snackbarId) => (
                   <Button
                     variant="text"

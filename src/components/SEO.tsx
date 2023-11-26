@@ -6,18 +6,28 @@ import { AppConfig, AssetsConfig } from '@/lib';
 interface ISEOProps {
   title: string;
   description?: string;
+  replacer?: Record<string, string | undefined | null>;
 }
-
-export const SEO = ({
-  title,
-  description = AppConfig.pages.default.description,
-}: ISEOProps) => {
+function replacePlaceholders(
+  str: string,
+  obj: Record<string, string | undefined | null>,
+) {
+  return str.replace(/\[([^\]]+)\]/g, (match, key) => obj[key] || match);
+}
+export const SEO = ({ title, description, replacer = {} }: ISEOProps) => {
   const router = useRouter();
   const url = router.basePath + router.asPath;
+
   return (
     <NextSeo
-      title={`${title}`}
-      description={description}
+      title={replacePlaceholders(
+        title || AppConfig.pages.default.title,
+        replacer,
+      )}
+      description={replacePlaceholders(
+        description || AppConfig.pages.default.description,
+        replacer,
+      )}
       canonical={url}
       openGraph={{
         url,
