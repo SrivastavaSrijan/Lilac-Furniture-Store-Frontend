@@ -13,7 +13,7 @@ const BoxHeight = {
 interface IBannersProps extends Pick<HomePageQuery, 'banners'> {}
 export const Banners = ({ banners }: IBannersProps) => {
   return (
-    <Carousel disablePadding>
+    <Carousel disablePeek>
       {(banners ?? []).map((banner, index) => {
         if (!banner) return <></>;
         const { title, subtitle, image, href } = banner;

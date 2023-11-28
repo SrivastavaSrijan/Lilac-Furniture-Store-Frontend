@@ -70,15 +70,17 @@ export const Carousel = ({
       onMouseLeave={handleMouseLeave}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
+      mb={-2}
     >
       <Stack
+        pb={2}
         sx={
           disablePadding
             ? {}
             : {
                 '[aria-colindex]': {
-                  px: { xs: 8, md: 5 },
-                  ml: { xs: -8, md: -5 },
+                  px: { xs: 5, md: 5 },
+                  ml: { xs: -5, md: -5 },
                 },
               }
         }
@@ -116,6 +118,7 @@ export const Carousel = ({
                 color={theme}
                 onClick={handleNext}
                 disabled={activeStep === children.length - 1}
+                sx={{ display: { xs: 'none', md: 'initial' } }}
               >
                 <KeyboardArrowRightOutlined fontSize="inherit" />
               </IconButton>
@@ -126,16 +129,16 @@ export const Carousel = ({
                 onClick={handleBack}
                 disabled={activeStep === 0}
                 color={theme}
+                sx={{ display: { xs: 'none', md: 'initial' } }}
               >
                 <KeyboardArrowLeftOutlined fontSize="inherit" />
               </IconButton>
             }
             sx={{
               bgcolor: 'transparent',
-
               [` .${mobileStepperClasses.dot}`]: {
-                width: 32,
-                height: 4,
+                width: { xs: 16, md: 32 },
+                height: { xs: 4, md: 4 },
                 borderRadius: 0,
               },
               [` .${mobileStepperClasses.dotActive}`]: {
