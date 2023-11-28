@@ -45,7 +45,7 @@ export const ProductCard = ({
         height={height}
       >
         <Stack
-          height={36}
+          height={48}
           width="100%"
           justifyContent="center"
           alignItems="flex-end"
@@ -54,16 +54,17 @@ export const ProductCard = ({
         >
           <IconButton
             onClick={() => setShow(!show)}
-            size="small"
+            size="medium"
             color="primary"
           >
             {!show ? (
               <VisibilityOutlined
                 htmlColor="white"
-                sx={{ fontSize: 18, display: { xs: 'flex', md: 'none' } }}
+                fontSize="inherit"
+                sx={{ display: { xs: 'flex', md: 'none' } }}
               />
             ) : (
-              <Cancel htmlColor="white" sx={{ fontSize: 18 }} />
+              <Cancel htmlColor="white" fontSize="inherit" />
             )}
           </IconButton>
         </Stack>
@@ -147,8 +148,12 @@ export const ProductCard = ({
               <Typography fontWeight={300} variant="caption">
                 by {company}
               </Typography>
-              <Typography fontWeight={300} variant="body2">
-                {style} {type}
+              <Typography fontWeight={300} variant="caption">
+                <Typography component="span" variant="body2" fontWeight={500}>
+                  {type}
+                  {', '}
+                </Typography>
+                {style}
               </Typography>
               <Typography variant="body2">{formatMoney(price)}</Typography>
 

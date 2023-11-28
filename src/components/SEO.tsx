@@ -31,8 +31,14 @@ export const SEO = ({ title, description, replacer = {} }: ISEOProps) => {
       canonical={url}
       openGraph={{
         url,
-        title,
-        description,
+        title: replacePlaceholders(
+          title || AppConfig.pages.default.title,
+          replacer,
+        ),
+        description: replacePlaceholders(
+          description || AppConfig.pages.default.description,
+          replacer,
+        ),
         images: [
           {
             url: AssetsConfig.brand.preview,

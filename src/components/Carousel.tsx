@@ -1,10 +1,15 @@
-import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
+import {
+  KeyboardArrowLeftOutlined,
+  KeyboardArrowRightOutlined,
+} from '@mui/icons-material';
 import {
   Box,
+  ButtonProps,
   Container,
   IconButton,
   MobileStepper,
   mobileStepperClasses,
+  paperClasses,
   Stack,
   SxProps,
 } from '@mui/material';
@@ -17,17 +22,19 @@ const AutoPlaySwipeableViews = autoPlay(bindKeyboard(SwipeableViews));
 interface ICarouselProps {
   children: JSX.Element[];
   slideSx?: SxProps;
-  disablePadding?: boolean;
+  disablePeek?: boolean;
+  theme?: ButtonProps['color'];
 }
 
 export const Carousel = ({
   children,
+  theme = 'primary',
+  disablePeek = false,
   slideSx = {},
-  disablePadding = false,
 }: ICarouselProps) => {
   const [activeStep, setActiveStep] = useState(0);
   const [shouldAutoplay, setAutoplay] = useState(true);
-
+  const disablePadding = children.length === 1 || disablePeek;
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -65,24 +72,30 @@ export const Carousel = ({
       onTouchEnd={handleTouchEnd}
     >
       <Stack
-        sx={{
-          '[aria-colindex]': {
-            px: disablePadding ? {} : { xs: 2, md: 5 },
-          },
-          '[aria-colindex="0"]': {
-            pl: 0,
-          },
-        }}
+        sx={
+          disablePadding
+            ? {}
+            : {
+                '[aria-colindex]': {
+                  px: { xs: 8, md: 5 },
+                  ml: { xs: -8, md: -5 },
+                },
+              }
+        }
       >
         <AutoPlaySwipeableViews
-          interval={shouldAutoplay ? 5000 : 10e10}
+          interval={
+            shouldAutoplay && process.env.NODE_ENV !== 'development'
+              ? 5000
+              : 10e10
+          }
           axis="x"
           index={activeStep}
           onChangeIndex={handleStepChange}
           enableMouseEvents
           aria-colindex={activeStep}
           aria-colcount={children.length}
-          slideStyle={{ padding: disablePadding ? 0 : 8 }}
+          slideStyle={disablePadding ? {} : { paddingRight: '16px' }}
         >
           {children.map((child) => (
             <Box height="100%" width="100%" key={child.key} sx={{ ...slideSx }}>
@@ -100,12 +113,11 @@ export const Carousel = ({
             nextButton={
               <IconButton
                 size="small"
-                color="primary"
+                color={theme}
                 onClick={handleNext}
                 disabled={activeStep === children.length - 1}
-                sx={{ visibility: 'hidden' }}
               >
-                <KeyboardArrowRight />
+                <KeyboardArrowRightOutlined fontSize="inherit" />
               </IconButton>
             }
             backButton={
@@ -113,16 +125,24 @@ export const Carousel = ({
                 size="small"
                 onClick={handleBack}
                 disabled={activeStep === 0}
-                color="primary"
-                sx={{ visibility: 'hidden' }}
+                color={theme}
               >
-                <KeyboardArrowLeft />
+                <KeyboardArrowLeftOutlined fontSize="inherit" />
               </IconButton>
             }
             sx={{
               bgcolor: 'transparent',
+
+              [` .${mobileStepperClasses.dot}`]: {
+                width: 32,
+                height: 4,
+                borderRadius: 0,
+              },
               [` .${mobileStepperClasses.dotActive}`]: {
-                bgcolor: 'primary.main',
+                bgcolor: `${theme}.main`,
+              },
+              [`&.${paperClasses.root}`]: {
+                justifyContent: 'center',
               },
             }}
           />

@@ -1,4 +1,5 @@
 import {
+  Alert,
   Container,
   Divider,
   Grid,
@@ -10,11 +11,18 @@ import {
   toggleButtonGroupClasses,
   Typography,
 } from '@mui/material';
-import { map, random, uniq } from 'lodash';
-import { MouseEvent, useEffect, useState } from 'react';
+import { intersection, map, random, uniq } from 'lodash';
+import {
+  MouseEvent,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
-import { formatMoney, SizeOptionMap, sleep } from '@/lib';
+import { formatMoney, generateSizes, SizeOptionMap, sleep } from '@/lib';
 import { IProduct } from '@/lib/graphql';
+import { CommonContext } from '@/lib/providers';
 
 import { CloudImage, RelatedProducts } from '.';
 import { CartHandleButtons } from './CartHandleButtons';
@@ -34,24 +42,47 @@ export const ProductIndex = ({
   const [selectedVariantType, setSelectedVariantTypes] = useState<
     Record<VariantTypes, string | null>
   >({ size: null, color: null, material: null });
+  const [availableVariantTypes, setAvailableVariantTypes] = useState<
+    Record<VariantTypes, string[]>
+  >({ size: [], color: [], material: [] });
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
     null,
   );
   const [loading, setLoading] = useState(false);
-  const sizes = uniq(map(variants, 'size').filter(Boolean)) as string[];
-  const colors = uniq(map(variants, 'color').filter(Boolean)) as string[];
-  const materials = uniq(map(variants, 'material').filter(Boolean)) as string[];
+  const { state } = useContext(CommonContext);
+
+  const getVariantsInCart = () => {
+    return intersection(
+      map(variants, 'id'),
+      map(state?.cart?.items ?? [], (val) => val.variant?.id),
+    );
+  };
+  const getUnique = useCallback((arr: typeof variants, key: VariantTypes) => {
+    return uniq(map(arr, key).filter(Boolean)) as string[];
+  }, []);
+  const sizes = getUnique(variants, 'size');
+  const colors = getUnique(variants, 'color');
+  const materials = getUnique(variants, 'material');
 
   const selectedVariant =
     variants?.find(({ id }) => id === selectedVariantId) ?? null;
 
-  const handleVariantChange =
-    (key: VariantTypes) => async (ev: MouseEvent, newValue: string) => {
+  const handleVariantChange = useCallback(
+    (key: VariantTypes) => async (ev: MouseEvent | null, newValue: string) => {
       const variantsWithProps = variants?.find(
         (variant) => variant[key] === newValue,
       );
+      if (selectedVariantId === variantsWithProps?.id) return;
+      const availableCombinations = variants?.filter(
+        (variant) => variant[key] === newValue,
+      );
+      setAvailableVariantTypes({
+        size: getUnique(availableCombinations, 'size'),
+        color: getUnique(availableCombinations, 'color'),
+        material: getUnique(availableCombinations, 'material'),
+      });
       setLoading(true);
-      await sleep(random(500, 1500));
+      await sleep(random(200, 500));
       setLoading(false);
       setSelectedVariantTypes({
         color: variantsWithProps?.color ?? null,
@@ -59,19 +90,16 @@ export const ProductIndex = ({
         material: variantsWithProps?.material ?? null,
       });
       setSelectedVariantId(variantsWithProps?.id ?? null);
-    };
+    },
+    [getUnique, selectedVariantId, variants],
+  );
 
   useEffect(() => {
     const firstVariant = variants?.[0];
-    if (firstVariant && !selectedVariantId) {
-      setSelectedVariantId(firstVariant?.id);
-      setSelectedVariantTypes({
-        color: firstVariant?.color ?? null,
-        size: firstVariant?.size ?? null,
-        material: firstVariant?.material ?? null,
-      });
+    if (firstVariant && firstVariant.material && !selectedVariantId) {
+      handleVariantChange('material')(null, firstVariant.material);
     }
-  }, [selectedVariantId, variants]);
+  }, [handleVariantChange, selectedVariantId, variants]);
 
   const imageLink = image?.image?.publicUrlTransformed;
   if (!name) return <></>;
@@ -125,23 +153,41 @@ export const ProductIndex = ({
         size="small"
         onChange={handleVariantChange(variantKey)}
         aria-label={label}
-        sx={{
-          [`& .${toggleButtonClasses.selected}.${toggleButtonGroupClasses.grouped}:not(:first-of-type)`]:
-            {
-              borderLeft: 1,
-            },
-        }}
+        sx={
+          loading
+            ? {}
+            : {
+                [`& .${toggleButtonClasses.selected}.${toggleButtonGroupClasses.grouped}:not(:first-of-type)`]:
+                  {
+                    borderLeft: 1,
+                  },
+              }
+        }
       >
         {options.map((option) => (
           <ToggleButton
             key={option}
             value={option}
             sx={
-              selectedVariant?.[variantKey] !== option
-                ? {
-                    opacity: 0.5,
+              loading
+                ? {}
+                : {
+                    ...(availableVariantTypes[variantKey].includes(option)
+                      ? {
+                          border: '1px dashed !important',
+                          borderColor: 'primary.light',
+                          opacity: 0.7,
+                        }
+                      : {
+                          opacity: 0.3,
+                        }),
+                    ...(selectedVariant?.[variantKey] === option && {
+                      border: '1px solid !important',
+                      borderColor: 'primary.main',
+                      opacity: 1,
+                    }),
+                    [`&.${toggleButtonClasses.selected}`]: { border: 1 },
                   }
-                : { [`&.${toggleButtonClasses.selected}`]: { border: 1 } }
             }
             aria-label={`${option}`}
           >
@@ -173,6 +219,7 @@ export const ProductIndex = ({
               >
                 <CloudImage
                   fill
+                  sizes={generateSizes({ xs: 12, md: 3 })}
                   src={imageLink}
                   alt={name}
                   style={{ objectFit: 'cover' }}
@@ -237,20 +284,53 @@ export const ProductIndex = ({
             {!selectedVariantId ? (
               <Skeleton width={48} height={38} />
             ) : (
-              <Stack maxWidth={343}>
+              <Stack maxWidth={343} gap={{ xs: 2, md: 3 }}>
                 <CartHandleButtons
                   id={selectedVariantId}
                   direction="row"
                   color="colored"
                 />
+                {!!getVariantsInCart().length &&
+                  !getVariantsInCart().includes(selectedVariantId) && (
+                    <Stack>
+                      <Alert
+                        severity="info"
+                        sx={{ '*': { typography: 'body2' } }}
+                      >
+                        <Typography>
+                          Variants of this product exist in your cart
+                        </Typography>
+                        <Typography component="ul">
+                          {(
+                            getVariantsInCart()?.map(
+                              (variantId) =>
+                                variants
+                                  ?.filter(({ id }) => id === variantId)
+                                  .map(({ size, material, color }) =>
+                                    [material, size, color].join(', '),
+                                  ),
+                            ) ?? []
+                          ).map((val, index) => (
+                            <Typography
+                              key={index}
+                              component="li"
+                            >{`${val}`}</Typography>
+                          ))}
+                        </Typography>
+                      </Alert>
+                    </Stack>
+                  )}
               </Stack>
             )}
-            <Divider
-              flexItem
-              variant="fullWidth"
-              sx={{ display: { xs: 'none', md: 'block' } }}
-            />
-            <Stack display={{ xs: 'flex', md: 'flex' }}>{MetadataFields}</Stack>
+
+            <Stack display={{ xs: 'flex', md: 'flex' }} gap={{ xs: 1, md: 2 }}>
+              <Divider
+                flexItem
+                variant="fullWidth"
+                sx={{ display: { xs: 'none', md: 'block' } }}
+              />
+              {MetadataFields}
+            </Stack>
           </Stack>
         </Grid>
       </Grid>
