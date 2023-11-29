@@ -82,7 +82,7 @@ export const ProductFilterBar = ({
   const [localConfig, setLocalConfig] = useState<IFilters>({
     category: [],
     price: [],
-    sort: 'name',
+    sort: 'featured',
     applied: false,
   });
   const { data, loading: categoriesLoading } = useAllCategoriesQuery({
@@ -120,7 +120,7 @@ export const ProductFilterBar = ({
     if (newSort !== null) {
       setLocalConfig((old) => ({
         ...old,
-        sort: newSort as 'name' | 'price',
+        sort: newSort as 'name' | 'price' | 'featured',
         applied: true,
       }));
     }
@@ -134,7 +134,7 @@ export const ProductFilterBar = ({
     const clearConfig: IFilters = {
       category: [],
       price: [],
-      sort: 'name',
+      sort: 'featured',
       applied: false,
     };
     setLocalConfig(clearConfig);
@@ -244,11 +244,15 @@ export const ProductFilterBar = ({
                                 value="featured"
                                 aria-label="Featured"
                               >
+                                Featured
+                              </ToggleButton>
+                              <ToggleButton value="name" aria-label="Name">
                                 Name
                               </ToggleButton>
                               <ToggleButton value="price" aria-label="Price">
                                 Price
                               </ToggleButton>
+
                               {/* ... more sort options */}
                             </ToggleButtonGroup>
                           </Stack>
@@ -256,7 +260,7 @@ export const ProductFilterBar = ({
                             <Typography variant="body2" fontWeight={500}>
                               Filter by Category
                             </Typography>
-                            <FormControl variant="standard" size="small">
+                            <FormControl variant="outlined" size="small">
                               <InputLabel id="category-localConfig-label">
                                 Category
                               </InputLabel>
@@ -343,19 +347,21 @@ export const ProductFilterBar = ({
                                   formatMoney(localConfig?.price?.[1])}
                               </Typography>
                             </Stack>
-                            <Slider
-                              color="primary"
-                              value={localConfig.price}
-                              onChange={handlePriceChange}
-                              disabled={!minPrice || !maxPrice}
-                              valueLabelDisplay="auto"
-                              aria-labelledby="price-range-slider"
-                              min={minPrice ?? 0}
-                              valueLabelFormat={(val) => formatMoney(val)}
-                              size="small"
-                              step={calculateStep(minPrice, maxPrice)}
-                              max={maxPrice ?? 100}
-                            />
+                            <Stack px={1}>
+                              <Slider
+                                color="primary"
+                                value={localConfig.price}
+                                onChange={handlePriceChange}
+                                disabled={!minPrice || !maxPrice}
+                                valueLabelDisplay="auto"
+                                aria-labelledby="price-range-slider"
+                                min={minPrice ?? 0}
+                                valueLabelFormat={(val) => formatMoney(val)}
+                                size="small"
+                                step={calculateStep(minPrice, maxPrice)}
+                                max={maxPrice ?? 100}
+                              />
+                            </Stack>
                           </Stack>
                         </>
                       )}

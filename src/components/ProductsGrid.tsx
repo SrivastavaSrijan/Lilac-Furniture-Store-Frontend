@@ -7,12 +7,15 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { isEqual } from 'lodash';
 import React, { useContext, useEffect, useState } from 'react';
 
 import { generateMockArray, sleep, useApolloErrorHandler } from '@/lib';
 import {
   IPaginatedProduct,
+  OrderDirection,
   PaginatedProductsQueryVariables,
+  useGetPriceRangeQuery,
   usePaginatedProductsQuery,
 } from '@/lib/graphql';
 import { CommonContext } from '@/lib/providers';
@@ -23,13 +26,14 @@ import { ProductCard } from './ProductCard';
 interface IProductsGridProps {
   limit: number;
   variables?: PaginatedProductsQueryVariables;
+  showFilters?: boolean;
   title?: string;
   subtitle?: string;
 }
 export interface IFilters {
   category: string[];
   price: number[];
-  sort: 'name' | 'price';
+  sort: 'name' | 'price' | 'featured';
   applied: boolean;
 }
 
@@ -38,6 +42,7 @@ export const ProductsGrid = ({
   subtitle,
   limit,
   variables,
+  showFilters = false,
 }: IProductsGridProps) => {
   const [productsShown, setProductsShown] = useState(limit);
   const [productsCount, setProductsCount] = useState<number>(10e5);
@@ -52,6 +57,7 @@ export const ProductsGrid = ({
       variables: { limit, ...variables },
       notifyOnNetworkStatusChange: true,
     });
+  const { data: priceData } = useGetPriceRangeQuery();
   useApolloErrorHandler(error);
   const loading = [
     NetworkStatus.loading,
@@ -59,7 +65,7 @@ export const ProductsGrid = ({
     NetworkStatus.refetch,
   ].includes(networkStatus);
   const { max: maxPrice = null, min: minPrice = null } =
-    data?.getPriceRange ?? {};
+    priceData?.getPriceRange ?? {};
   const { dispatch } = useContext(CommonContext);
 
   const handleFetchMore = async () => {
@@ -93,13 +99,23 @@ export const ProductsGrid = ({
     await sleep(1000);
     const handleRefetch = async (
       refetchWhereVariables?: PaginatedProductsQueryVariables['where'],
+      refetchSortVariables?: PaginatedProductsQueryVariables['orderBy'],
     ) => {
-      const isClear = Object.keys(refetchWhereVariables ?? {}).length < 1;
+      const defaultQuery: PaginatedProductsQueryVariables['where'] = {
+        variants: {
+          every: { price: { gte: minPrice, lte: maxPrice } },
+        },
+      };
+      const isClear =
+        Object.keys(refetchWhereVariables ?? {}).length < 1 ||
+        isEqual(refetchWhereVariables, defaultQuery);
+
       const { data: refetchData } = await refetch({
         limit: isClear ? limit : undefined,
         where: {
           ...(refetchWhereVariables ?? {}),
         },
+        ...(refetchSortVariables && { orderBy: refetchSortVariables }),
       });
       if (refetchData?.productsCount) {
         setProductsShown(isClear ? limit : refetchData?.productsCount);
@@ -111,9 +127,22 @@ export const ProductsGrid = ({
       handleRefetch({});
       return;
     }
+
     let refetchQuery: PaginatedProductsQueryVariables['where'] = {
       ...variables?.where,
     };
+    let refetchSortQuery: PaginatedProductsQueryVariables['orderBy'];
+    if (config.sort !== 'featured') {
+      if (config.sort === 'name') {
+        refetchSortQuery = {
+          name: OrderDirection.Asc,
+        };
+      } else if (config.sort === 'price') {
+        refetchSortQuery = {
+          lowestPrice: OrderDirection.Asc,
+        };
+      }
+    }
     if (config.price.length === 2) {
       const [selectedMin, selectedMax] = config.price;
       if (selectedMax && selectedMin)
@@ -130,7 +159,7 @@ export const ProductsGrid = ({
         category: { slug: { in: config.category } },
       };
     }
-    handleRefetch(refetchQuery);
+    handleRefetch(refetchQuery, refetchSortQuery);
   };
 
   const handleClose = () => {
@@ -222,7 +251,7 @@ export const ProductsGrid = ({
           <Typography textAlign="center">No products found</Typography>
         </Alert>
       )}
-      {variables?.if && (
+      {showFilters && (
         <ProductFilterBar
           setView={setView}
           view={view}

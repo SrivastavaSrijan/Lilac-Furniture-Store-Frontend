@@ -447,6 +447,134 @@ export const ssrProductBySlug = {
   withPage: withPageProductBySlug,
   usePage: useProductBySlug,
 };
+export async function getServerPageGetPriceRange(
+  options: Omit<
+    Apollo.QueryOptions<Types.GetPriceRangeQueryVariables>,
+    'query'
+  >,
+  ctx: ApolloClientContext,
+) {
+  const apolloClient = getApolloClient(ctx);
+
+  const data = await apolloClient.query<Types.GetPriceRangeQuery>({
+    ...options,
+    query: Operations.GetPriceRangeDocument,
+  });
+
+  const apolloState = apolloClient.cache.extract();
+
+  return {
+    props: {
+      apolloState,
+      data: data?.data,
+      error: data?.error ?? data?.errors ?? null,
+    },
+  };
+}
+export const useGetPriceRange = (
+  optionsFunc?: (
+    router: NextRouter,
+  ) => QueryHookOptions<
+    Types.GetPriceRangeQuery,
+    Types.GetPriceRangeQueryVariables
+  >,
+) => {
+  const router = useRouter();
+  const options = optionsFunc ? optionsFunc(router) : {};
+  return useQuery(Operations.GetPriceRangeDocument, options as any);
+};
+export type PageGetPriceRangeComp = React.FC<{
+  data?: Types.GetPriceRangeQuery;
+  error?: Apollo.ApolloError;
+}>;
+export const withPageGetPriceRange =
+  (
+    optionsFunc?: (
+      router: NextRouter,
+    ) => QueryHookOptions<
+      Types.GetPriceRangeQuery,
+      Types.GetPriceRangeQueryVariables
+    >,
+  ) =>
+  (WrappedComponent: PageGetPriceRangeComp): NextPage =>
+  (props) => {
+    const router = useRouter();
+    const options = optionsFunc ? optionsFunc(router) : {};
+    const { data, error } = useQuery(
+      Operations.GetPriceRangeDocument,
+      options as any,
+    );
+    return <WrappedComponent {...props} data={data} error={error} />;
+  };
+export const ssrGetPriceRange = {
+  getServerPage: getServerPageGetPriceRange,
+  withPage: withPageGetPriceRange,
+  usePage: useGetPriceRange,
+};
+export async function getServerPageProductWhereCount(
+  options: Omit<
+    Apollo.QueryOptions<Types.ProductWhereCountQueryVariables>,
+    'query'
+  >,
+  ctx: ApolloClientContext,
+) {
+  const apolloClient = getApolloClient(ctx);
+
+  const data = await apolloClient.query<Types.ProductWhereCountQuery>({
+    ...options,
+    query: Operations.ProductWhereCountDocument,
+  });
+
+  const apolloState = apolloClient.cache.extract();
+
+  return {
+    props: {
+      apolloState,
+      data: data?.data,
+      error: data?.error ?? data?.errors ?? null,
+    },
+  };
+}
+export const useProductWhereCount = (
+  optionsFunc?: (
+    router: NextRouter,
+  ) => QueryHookOptions<
+    Types.ProductWhereCountQuery,
+    Types.ProductWhereCountQueryVariables
+  >,
+) => {
+  const router = useRouter();
+  const options = optionsFunc ? optionsFunc(router) : {};
+  return useQuery(Operations.ProductWhereCountDocument, options as any);
+};
+export type PageProductWhereCountComp = React.FC<{
+  data?: Types.ProductWhereCountQuery;
+  error?: Apollo.ApolloError;
+}>;
+export const withPageProductWhereCount =
+  (
+    optionsFunc?: (
+      router: NextRouter,
+    ) => QueryHookOptions<
+      Types.ProductWhereCountQuery,
+      Types.ProductWhereCountQueryVariables
+    >,
+  ) =>
+  (WrappedComponent: PageProductWhereCountComp): NextPage =>
+  (props) => {
+    const router = useRouter();
+    const options = optionsFunc ? optionsFunc(router) : {};
+    const { data, error } = useQuery(
+      Operations.ProductWhereCountDocument,
+      options as any,
+    );
+    return <WrappedComponent {...props} data={data} error={error} />;
+  };
+export const ssrProductWhereCount = {
+  getServerPage: getServerPageProductWhereCount,
+  withPage: withPageProductWhereCount,
+  usePage: useProductWhereCount,
+};
 export async function getServerPagePaginatedProducts(
   options: Omit<
     Apollo.QueryOptions<Types.PaginatedProductsQueryVariables>,

@@ -51,8 +51,18 @@ query ProductBySlug($where: ProductWhereUniqueInput!) {
     }
   }
 }
-query PaginatedProducts($limit: Int, $skip: Int, $cursor: ProductWhereUniqueInput, $where: ProductWhereInput, $if: Boolean = false, $includeDesc: Boolean = false) {
-  products(take: $limit, skip: $skip, cursor: $cursor, where: $where) {
+
+query GetPriceRange {
+   getPriceRange {
+    max
+    min
+  }
+}
+query ProductWhereCount($where: ProductWhereInput) {
+  productsCount(where: $where)
+}
+query PaginatedProducts($limit: Int, $skip: Int, $cursor: ProductWhereUniqueInput, $where: ProductWhereInput, $includeDesc: Boolean = false, $orderBy: [ProductOrderByInput!]) {
+  products(take: $limit, skip: $skip, cursor: $cursor, where: $where, orderBy: $orderBy) {
     id
     slug
     image {
@@ -71,10 +81,6 @@ query PaginatedProducts($limit: Int, $skip: Int, $cursor: ProductWhereUniqueInpu
     description @include(if: $includeDesc)
   }
   productsCount(where: $where)
-  getPriceRange @include(if: $if) {
-    max
-    min
-  }
 }
 
 query ProductsWhere($where: ProductWhereInput!, $includeDesc: Boolean = false, $take: Int) {

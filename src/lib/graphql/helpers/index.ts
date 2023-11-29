@@ -443,8 +443,16 @@ export type KeystoneMeta = {
   adminMeta: KeystoneAdminMeta;
 };
 
+/**  Min/Max Price  */
+export type MinMax = {
+  __typename?: 'MinMax';
+  max?: Maybe<Scalars['Float']['output']>;
+  min?: Maybe<Scalars['Float']['output']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  /**  Add an item to a cart, remove if quantity = 0  */
   addToCart?: Maybe<CartItem>;
   authenticateUserWithPassword?: Maybe<UserAuthenticationWithPasswordResult>;
   createBanner?: Maybe<Banner>;
@@ -727,20 +735,16 @@ export type PasswordState = {
   isSet: Scalars['Boolean']['output'];
 };
 
-export type PriceRange = {
-  __typename?: 'PriceRange';
-  max?: Maybe<Scalars['Float']['output']>;
-  min?: Maybe<Scalars['Float']['output']>;
-};
-
 export type Product = {
   __typename?: 'Product';
   category?: Maybe<Category>;
   company?: Maybe<Scalars['String']['output']>;
   defaultVariantId?: Maybe<Scalars['String']['output']>;
   description?: Maybe<Scalars['String']['output']>;
+  highestPrice?: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
   image?: Maybe<ProductImage>;
+  lowestPrice?: Maybe<Scalars['Int']['output']>;
   meta?: Maybe<Scalars['JSON']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   slug?: Maybe<Scalars['String']['output']>;
@@ -773,7 +777,9 @@ export type ProductCreateInput = {
   company?: InputMaybe<Scalars['String']['input']>;
   defaultVariantId?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
+  highestPrice?: InputMaybe<Scalars['Int']['input']>;
   image?: InputMaybe<ProductImageRelateToOneForCreateInput>;
+  lowestPrice?: InputMaybe<Scalars['Int']['input']>;
   meta?: InputMaybe<Scalars['JSON']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
@@ -847,7 +853,9 @@ export type ProductOrderByInput = {
   company?: InputMaybe<OrderDirection>;
   defaultVariantId?: InputMaybe<OrderDirection>;
   description?: InputMaybe<OrderDirection>;
+  highestPrice?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
+  lowestPrice?: InputMaybe<OrderDirection>;
   name?: InputMaybe<OrderDirection>;
   slug?: InputMaybe<OrderDirection>;
   status?: InputMaybe<OrderDirection>;
@@ -888,7 +896,9 @@ export type ProductUpdateInput = {
   company?: InputMaybe<Scalars['String']['input']>;
   defaultVariantId?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
+  highestPrice?: InputMaybe<Scalars['Int']['input']>;
   image?: InputMaybe<ProductImageRelateToOneForUpdateInput>;
+  lowestPrice?: InputMaybe<Scalars['Int']['input']>;
   meta?: InputMaybe<Scalars['JSON']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
@@ -995,8 +1005,10 @@ export type ProductWhereInput = {
   company?: InputMaybe<StringFilter>;
   defaultVariantId?: InputMaybe<StringFilter>;
   description?: InputMaybe<StringFilter>;
+  highestPrice?: InputMaybe<IntFilter>;
   id?: InputMaybe<IdFilter>;
   image?: InputMaybe<ProductImageWhereInput>;
+  lowestPrice?: InputMaybe<IntFilter>;
   name?: InputMaybe<StringFilter>;
   slug?: InputMaybe<StringFilter>;
   status?: InputMaybe<StringNullableFilter>;
@@ -1022,7 +1034,8 @@ export type Query = {
   categories?: Maybe<Array<Category>>;
   categoriesCount?: Maybe<Scalars['Int']['output']>;
   category?: Maybe<Category>;
-  getPriceRange?: Maybe<PriceRange>;
+  /**  Get price range over a ProductVariant  */
+  getPriceRange?: Maybe<MinMax>;
   keystone: KeystoneMeta;
   product?: Maybe<Product>;
   productImage?: Maybe<ProductImage>;
@@ -1085,6 +1098,10 @@ export type QueryCategoriesCountArgs = {
 
 export type QueryCategoryArgs = {
   where: CategoryWhereUniqueInput;
+};
+
+export type QueryGetPriceRangeArgs = {
+  where?: InputMaybe<ProductWhereInput>;
 };
 
 export type QueryProductArgs = {
@@ -1429,13 +1446,33 @@ export type ProductBySlugQuery = {
   } | null;
 };
 
+export type GetPriceRangeQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetPriceRangeQuery = {
+  __typename?: 'Query';
+  getPriceRange?: {
+    __typename?: 'MinMax';
+    max?: number | null;
+    min?: number | null;
+  } | null;
+};
+
+export type ProductWhereCountQueryVariables = Exact<{
+  where?: InputMaybe<ProductWhereInput>;
+}>;
+
+export type ProductWhereCountQuery = {
+  __typename?: 'Query';
+  productsCount?: number | null;
+};
+
 export type PaginatedProductsQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   cursor?: InputMaybe<ProductWhereUniqueInput>;
   where?: InputMaybe<ProductWhereInput>;
-  if?: InputMaybe<Scalars['Boolean']['input']>;
   includeDesc?: InputMaybe<Scalars['Boolean']['input']>;
+  orderBy?: InputMaybe<Array<ProductOrderByInput> | ProductOrderByInput>;
 }>;
 
 export type PaginatedProductsQuery = {
@@ -1463,11 +1500,6 @@ export type PaginatedProductsQuery = {
       id: string;
     } | null;
   }> | null;
-  getPriceRange?: {
-    __typename?: 'PriceRange';
-    max?: number | null;
-    min?: number | null;
-  } | null;
 };
 
 export type ProductsWhereQueryVariables = Exact<{
@@ -2174,16 +2206,166 @@ export type ProductBySlugQueryResult = Apollo.QueryResult<
   ProductBySlugQuery,
   ProductBySlugQueryVariables
 >;
+export const GetPriceRangeDocument = gql`
+  query GetPriceRange {
+    getPriceRange {
+      max
+      min
+    }
+  }
+`;
+
+/**
+ * __useGetPriceRangeQuery__
+ *
+ * To run a query within a React component, call `useGetPriceRangeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPriceRangeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPriceRangeQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetPriceRangeQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetPriceRangeQuery,
+    GetPriceRangeQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetPriceRangeQuery, GetPriceRangeQueryVariables>(
+    GetPriceRangeDocument,
+    options as any,
+  );
+}
+export function useGetPriceRangeLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetPriceRangeQuery,
+    GetPriceRangeQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetPriceRangeQuery, GetPriceRangeQueryVariables>(
+    GetPriceRangeDocument,
+    options as any,
+  );
+}
+export function useGetPriceRangeSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    GetPriceRangeQuery,
+    GetPriceRangeQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    GetPriceRangeQuery,
+    GetPriceRangeQueryVariables
+  >(GetPriceRangeDocument, options as any);
+}
+export type GetPriceRangeQueryHookResult = ReturnType<
+  typeof useGetPriceRangeQuery
+>;
+export type GetPriceRangeLazyQueryHookResult = ReturnType<
+  typeof useGetPriceRangeLazyQuery
+>;
+export type GetPriceRangeSuspenseQueryHookResult = ReturnType<
+  typeof useGetPriceRangeSuspenseQuery
+>;
+export type GetPriceRangeQueryResult = Apollo.QueryResult<
+  GetPriceRangeQuery,
+  GetPriceRangeQueryVariables
+>;
+export const ProductWhereCountDocument = gql`
+  query ProductWhereCount($where: ProductWhereInput) {
+    productsCount(where: $where)
+  }
+`;
+
+/**
+ * __useProductWhereCountQuery__
+ *
+ * To run a query within a React component, call `useProductWhereCountQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProductWhereCountQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProductWhereCountQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useProductWhereCountQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    ProductWhereCountQuery,
+    ProductWhereCountQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    ProductWhereCountQuery,
+    ProductWhereCountQueryVariables
+  >(ProductWhereCountDocument, options as any);
+}
+export function useProductWhereCountLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ProductWhereCountQuery,
+    ProductWhereCountQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    ProductWhereCountQuery,
+    ProductWhereCountQueryVariables
+  >(ProductWhereCountDocument, options as any);
+}
+export function useProductWhereCountSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    ProductWhereCountQuery,
+    ProductWhereCountQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    ProductWhereCountQuery,
+    ProductWhereCountQueryVariables
+  >(ProductWhereCountDocument, options as any);
+}
+export type ProductWhereCountQueryHookResult = ReturnType<
+  typeof useProductWhereCountQuery
+>;
+export type ProductWhereCountLazyQueryHookResult = ReturnType<
+  typeof useProductWhereCountLazyQuery
+>;
+export type ProductWhereCountSuspenseQueryHookResult = ReturnType<
+  typeof useProductWhereCountSuspenseQuery
+>;
+export type ProductWhereCountQueryResult = Apollo.QueryResult<
+  ProductWhereCountQuery,
+  ProductWhereCountQueryVariables
+>;
 export const PaginatedProductsDocument = gql`
   query PaginatedProducts(
     $limit: Int
     $skip: Int
     $cursor: ProductWhereUniqueInput
     $where: ProductWhereInput
-    $if: Boolean = false
     $includeDesc: Boolean = false
+    $orderBy: [ProductOrderByInput!]
   ) {
-    products(take: $limit, skip: $skip, cursor: $cursor, where: $where) {
+    products(
+      take: $limit
+      skip: $skip
+      cursor: $cursor
+      where: $where
+      orderBy: $orderBy
+    ) {
       id
       slug
       image {
@@ -2202,10 +2384,6 @@ export const PaginatedProductsDocument = gql`
       description @include(if: $includeDesc)
     }
     productsCount(where: $where)
-    getPriceRange @include(if: $if) {
-      max
-      min
-    }
   }
 `;
 
@@ -2225,8 +2403,8 @@ export const PaginatedProductsDocument = gql`
  *      skip: // value for 'skip'
  *      cursor: // value for 'cursor'
  *      where: // value for 'where'
- *      if: // value for 'if'
  *      includeDesc: // value for 'includeDesc'
+ *      orderBy: // value for 'orderBy'
  *   },
  * });
  */
