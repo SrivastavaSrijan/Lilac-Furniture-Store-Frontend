@@ -109,7 +109,6 @@ export const ProductsGrid = ({
       const isClear =
         Object.keys(refetchWhereVariables ?? {}).length < 1 ||
         isEqual(refetchWhereVariables, defaultQuery);
-
       const { data: refetchData } = await refetch({
         limit: isClear ? limit : undefined,
         where: {
