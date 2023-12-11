@@ -1,5 +1,5 @@
 query HomePage($take: Int, $cursor: CategoryWhereUniqueInput, $skip: Int!) {
-  banners(take: $take) {
+  banners(take: $take, skip: $skip) {
     id
     head
     href

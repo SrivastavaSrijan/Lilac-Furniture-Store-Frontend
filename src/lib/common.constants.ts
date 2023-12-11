@@ -21,6 +21,9 @@ export const AssetsConfig = {
     get shop() {
       return `${this.root}sho/lezjsoebnyfiugzhdpsa.jpg`;
     },
+    get cart() {
+      return `${this.root}cart/ldrgejbwlmtpeeiorxk7.jpg`;
+    },
   },
   brand: {
     get root() {

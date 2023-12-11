@@ -1,7 +1,7 @@
 import { Container, Stack } from '@mui/material';
 import { GetServerSideProps, GetStaticPaths } from 'next';
 
-import { CategoryHeader, ProductsGrid, SEO } from '@/components';
+import { ImageHeader, ProductsGrid, SEO } from '@/components';
 import { AppConfig, withApollo } from '@/lib';
 import {
   PageCategoryBySlugComp,
@@ -58,7 +58,7 @@ const CategoryBySlug: PageCategoryBySlugComp = ({ data }) => {
         replacer={{ name: data?.category?.name }}
       />
       {categoryImage && (
-        <CategoryHeader
+        <ImageHeader
           image={categoryImage}
           name={name}
           description={description}

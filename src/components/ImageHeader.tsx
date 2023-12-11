@@ -4,16 +4,18 @@ import { generateSizes } from '@/lib';
 
 import { CloudImage } from '.';
 
-interface ICategoryHeaderProps {
+interface IImageHeaderProps {
   image: string;
   name: string;
   description?: string | null;
+  leadingText?: string | false;
 }
-export const CategoryHeader = ({
+export const ImageHeader = ({
   image,
   name,
   description,
-}: ICategoryHeaderProps) => {
+  leadingText = 'for the',
+}: IImageHeaderProps) => {
   return (
     <Stack width="100%">
       <Stack height={{ xs: 256, md: 320 }} position="relative">
@@ -41,16 +43,18 @@ export const CategoryHeader = ({
           bgcolor="primary.light"
           sx={{ transform: 'translate(-50%, -50%)' }}
         >
-          <Typography textAlign="center" variant="h2" color="primary.dark">
-            <Typography
-              fontStyle="italic"
-              variant="h4"
-              component="p"
-              lineHeight={1}
-              fontWeight={300}
-            >
-              for the
-            </Typography>
+          <Typography textAlign="center" variant="h2">
+            {leadingText && (
+              <Typography
+                fontStyle="italic"
+                variant="h4"
+                component="p"
+                lineHeight={1}
+                fontWeight={300}
+              >
+                {leadingText}
+              </Typography>
+            )}
             {name}
           </Typography>
           <Typography

@@ -1,6 +1,6 @@
 import { Container, Stack } from '@mui/material';
 
-import { CategoryHeader, ProductsGrid, SEO } from '@/components';
+import { ImageHeader, ProductsGrid, SEO } from '@/components';
 import { AppConfig, AssetsConfig } from '@/lib';
 
 const Shop = () => {
@@ -8,10 +8,11 @@ const Shop = () => {
   return (
     <Stack>
       <SEO title={title} description={description} />
-      <CategoryHeader
+      <ImageHeader
         image={AssetsConfig.cloudinary.shop}
         name="Shop"
         description="Nostrud mollit amet irure est cillum excepteur ullamco. Eu aliquip magna in in. Ut est nulla proident eiusmod dolor ipsum cupidatat."
+        leadingText={false}
       />
       <Container maxWidth="md">
         <Stack gap={{ xs: 6, md: 8 }} py={{ xs: 3, md: 4 }}>

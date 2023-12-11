@@ -1659,7 +1659,7 @@ export type RedeemUserPasswordResetTokenMutation = {
 
 export const HomePageDocument = gql`
   query HomePage($take: Int, $cursor: CategoryWhereUniqueInput, $skip: Int!) {
-    banners(take: $take) {
+    banners(take: $take, skip: $skip) {
       id
       head
       href

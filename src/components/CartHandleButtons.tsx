@@ -47,8 +47,8 @@ export const CartHandleButtons = ({
                 color: (theme) => alpha(theme.palette.common.black, 0.56),
               }
             : {
-                bgcolor: color === 'inverted' ? 'white' : 'primary.main',
-                color: color === 'inverted' ? 'black' : 'white',
+                bgcolor: color === 'inverted' ? 'common.white' : 'primary.main',
+                color: color === 'inverted' ? 'common.black' : 'common.white',
               })}
         >
           <Button
@@ -94,7 +94,7 @@ export const CartHandleButtons = ({
           size="large"
           color={color === 'inverted' ? 'inherit' : 'error'}
           sx={{
-            color: color === 'inverted' ? 'white' : 'error.main',
+            color: color === 'inverted' ? 'common.white' : 'error.main',
           }}
           disabled={loading}
           onClick={handleRemove(cartItemId)}
@@ -110,8 +110,8 @@ export const CartHandleButtons = ({
             color="inherit"
             sx={
               color === 'inverted'
-                ? { color: 'white', borderColor: 'white' }
-                : { color: 'black', borderColor: 'primary.main' }
+                ? { color: 'common.white', borderColor: 'common.white' }
+                : { color: 'common.black', borderColor: 'primary.main' }
             }
             disabled={loading}
             endIcon={<ArrowForward fontSize="inherit" />}
@@ -130,7 +130,11 @@ export const CartHandleButtons = ({
           variant="contained"
           fullWidth
           color={color === 'inverted' ? 'inherit' : 'primary'}
-          sx={color === 'inverted' ? { color: 'black', bgcolor: 'white' } : {}}
+          sx={
+            color === 'inverted'
+              ? { color: 'common.black', bgcolor: 'common.white' }
+              : {}
+          }
           disabled={loading}
           endIcon={<ArrowForward fontSize="inherit" />}
         >
@@ -141,7 +145,7 @@ export const CartHandleButtons = ({
         variant="outlined"
         size="large"
         color={color === 'inverted' ? 'inherit' : 'primary'}
-        sx={color === 'inverted' ? { color: 'white' } : {}}
+        sx={color === 'inverted' ? { color: 'common.white' } : {}}
         onClick={handleAdd(id)}
         disabled={loading}
         startIcon={<AddShoppingCartOutlined fontSize="small" />}

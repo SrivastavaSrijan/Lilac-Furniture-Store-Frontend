@@ -118,7 +118,7 @@ export const Carousel = ({
                 color={theme}
                 onClick={handleNext}
                 disabled={activeStep === children.length - 1}
-                sx={{ display: { xs: 'none', md: 'initial' } }}
+                sx={{ display: { xs: 'none', md: 'none' } }}
               >
                 <KeyboardArrowRightOutlined fontSize="inherit" />
               </IconButton>
@@ -129,7 +129,7 @@ export const Carousel = ({
                 onClick={handleBack}
                 disabled={activeStep === 0}
                 color={theme}
-                sx={{ display: { xs: 'none', md: 'initial' } }}
+                sx={{ display: { xs: 'none', md: 'none' } }}
               >
                 <KeyboardArrowLeftOutlined fontSize="inherit" />
               </IconButton>
@@ -137,11 +137,12 @@ export const Carousel = ({
             sx={{
               bgcolor: 'transparent',
               [` .${mobileStepperClasses.dot}`]: {
-                width: { xs: 16, md: 32 },
+                width: { xs: 8, md: 16 },
                 height: { xs: 4, md: 4 },
-                borderRadius: 0,
+                borderRadius: 32,
               },
               [` .${mobileStepperClasses.dotActive}`]: {
+                width: { xs: 16, md: 32 },
                 bgcolor: `${theme}.main`,
               },
               [`&.${paperClasses.root}`]: {
