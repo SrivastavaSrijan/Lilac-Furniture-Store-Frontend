@@ -148,7 +148,7 @@ export const ProductFilterBar = ({
 
   return (
     <Stack bgcolor="primary.light" py={{ xs: 2, md: 3 }}>
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
         <Stack
           direction="row"
           alignItems="center"

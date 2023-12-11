@@ -98,11 +98,17 @@ export const AppConfig = {
       path: '/welcome',
       title: 'Welcome to Lilac - Mid-Century Modern Furniture',
     },
-    checkout: {
-      path: '/checkout',
-      title: 'Checkout - Finalize Your Purchase on Lilac',
+    cart: {
+      path: '/cart',
+      title: 'Cart - View Your Cart on Lilac',
       description:
         "You're one step away from making a mid-century modern statement in your home. Securely complete your purchase at Lilac and get ready to transform your space.",
+    },
+    checkout: {
+      checkout: '/cart',
+      title: 'checkout - Finalize Your Purchase on Lilac',
+      description:
+        'Finalize your purchase by adding your address details, order delivery location and entering your payment details. ',
     },
     default: {
       path: '/',

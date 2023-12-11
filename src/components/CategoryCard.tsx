@@ -53,6 +53,24 @@ const variants: Variants = {
     height: 0,
   },
 };
+const container = {
+  hidden: { opacity: 1 },
+  visible: {
+    opacity: 1,
+    transition: {
+      delayChildren: 0.3,
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const item = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+  },
+};
 const MOCK_ARRAY = chunk(generateMockArray(COLUMNS * ROWS), COLUMNS);
 interface ICategoryCardProps extends ICategory {}
 export const CategoryCard = ({ name, id, description }: ICategoryCardProps) => {
@@ -153,114 +171,126 @@ export const CategoryCard = ({ name, id, description }: ICategoryCardProps) => {
         </Typography>
       </Stack>
       <Stack minHeight={HEIGHT}>
-        {pages.map((productPages, index) => (
-          <Grid container key={`parent_${index}`} position="relative">
-            {productPages.map((product, pIndex) => {
-              const { image, name: pName, id: pid } = product ?? {};
-              const isExpanded = expandedData?.product === pid;
-              const imageURL = image?.image?.publicUrlTransformed;
-              return !product || !imageURL || !pName ? (
-                <Grid
-                  item
-                  xs={12 / COLUMNS}
-                  md={12 / COLUMNS}
-                  key={`child_${pIndex}_loading`}
-                >
-                  <Skeleton
-                    variant="rectangular"
-                    height={HEIGHT / ROWS}
-                    sx={{
-                      clipPath: 'inset(2px 2px 2px 2px round 4px)',
-                    }}
-                  />
-                </Grid>
-              ) : (
-                <Grid
-                  item
-                  xs={handleWidth(isExpanded, index)}
-                  md={handleWidth(isExpanded, index)}
-                  key={`child_${pIndex}`}
-                  sx={!isExpanded ? { cursor: 'pointer' } : {}}
-                >
-                  <motion.div
-                    layout
-                    animate={isExpanded ? 'expanded' : 'initial'}
-                    initial={false}
-                    variants={variants}
-                    transition={{
-                      type: 'spring',
-                      stiffness: 200,
-                      damping: 25,
-                    }}
-                    onClick={() =>
-                      product && !expandedData && toggleProductView(pid, index)
-                    }
-                    style={{
-                      position: 'relative',
-                      height: handleHeight(isExpanded, index),
-                    }}
-                  >
-                    <Stack
-                      position="relative"
-                      height={handleHeight(isExpanded, index)}
-                      sx={
-                        isExpanded
-                          ? {}
-                          : {
-                              clipPath: 'inset(2px 2px 2px 2px round 4px)',
-                            }
-                      }
+        <motion.div
+          className="container"
+          variants={container}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          {pages.map((productPages, index) => (
+            <motion.div variants={item} key={`parent_${index}`}>
+              <Grid container position="relative">
+                {productPages.map((product, pIndex) => {
+                  const { image, name: pName, id: pid } = product ?? {};
+                  const isExpanded = expandedData?.product === pid;
+                  const imageURL = image?.image?.publicUrlTransformed;
+                  return !product || !imageURL || !pName ? (
+                    <Grid
+                      item
+                      xs={12 / COLUMNS}
+                      md={12 / COLUMNS}
+                      key={`child_${pIndex}_loading`}
                     >
-                      <CloudImage
-                        src={imageURL}
-                        fill
-                        alt={pName}
-                        style={{
-                          objectFit: 'cover',
+                      <Skeleton
+                        variant="rectangular"
+                        height={HEIGHT / ROWS}
+                        sx={{
+                          clipPath: 'inset(2px 2px 2px 2px round 4px)',
                         }}
-                        sizes="100px"
                       />
-                    </Stack>
-                    {isExpanded && (
-                      <Stack
-                        position="absolute"
-                        width="100%"
-                        height={`calc(${handleHeight(
-                          isExpanded,
-                          index,
-                        )}px - 50%)`}
-                        bgcolor="primary.light"
-                        px={{ xs: 0.5, md: 0.5 }}
+                    </Grid>
+                  ) : (
+                    <Grid
+                      item
+                      xs={handleWidth(isExpanded, index)}
+                      md={handleWidth(isExpanded, index)}
+                      key={`child_${pIndex}`}
+                      sx={!isExpanded ? { cursor: 'pointer' } : {}}
+                    >
+                      <motion.div
+                        layout
+                        animate={isExpanded ? 'expanded' : 'initial'}
+                        initial={false}
+                        variants={variants}
+                        transition={{
+                          type: 'spring',
+                          stiffness: 200,
+                          damping: 25,
+                        }}
+                        onClick={() =>
+                          product &&
+                          !expandedData &&
+                          toggleProductView(pid, index)
+                        }
+                        style={{
+                          position: 'relative',
+                          height: handleHeight(isExpanded, index),
+                        }}
                       >
-                        <IconButton
-                          onClick={() => setExpanded(null)}
-                          size="medium"
-                          sx={{
-                            p: 0,
-                            color: 'primary.dark',
-                            position: 'absolute',
-                            right: 16,
-                            zIndex: 2,
-                            top: (HEIGHT / ROWS) * 2 + 8,
-                          }}
+                        <Stack
+                          position="relative"
+                          height={handleHeight(isExpanded, index)}
+                          sx={
+                            isExpanded
+                              ? {}
+                              : {
+                                  clipPath: 'inset(2px 2px 2px 2px round 4px)',
+                                }
+                          }
                         >
-                          <Close color="inherit" fontSize="inherit" />
-                        </IconButton>
-                        <Stack boxShadow={10}>
-                          <ProductCard
-                            direction="column"
-                            height={(HEIGHT / ROWS) * 2}
-                            {...product}
+                          <CloudImage
+                            src={imageURL}
+                            fill
+                            alt={pName}
+                            style={{
+                              objectFit: 'cover',
+                            }}
+                            sizes="100px"
                           />
                         </Stack>
-                      </Stack>
-                    )}
-                  </motion.div>
-                </Grid>
-              );
-            })}
-          </Grid>
-        ))}
+                        {isExpanded && (
+                          <Stack
+                            position="absolute"
+                            width="100%"
+                            height={`calc(${handleHeight(
+                              isExpanded,
+                              index,
+                            )}px - 50%)`}
+                            bgcolor="primary.light"
+                            px={{ xs: 0.5, md: 0.5 }}
+                          >
+                            <IconButton
+                              onClick={() => setExpanded(null)}
+                              size="medium"
+                              sx={{
+                                p: 0,
+                                color: 'primary.dark',
+                                position: 'absolute',
+                                right: 16,
+                                zIndex: 2,
+                                top: (HEIGHT / ROWS) * 2 + 8,
+                              }}
+                            >
+                              <Close color="inherit" fontSize="inherit" />
+                            </IconButton>
+                            <Stack boxShadow={10}>
+                              <ProductCard
+                                direction="column"
+                                height={(HEIGHT / ROWS) * 2}
+                                {...product}
+                              />
+                            </Stack>
+                          </Stack>
+                        )}
+                      </motion.div>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </motion.div>
+          ))}
+        </motion.div>
       </Stack>
     </Stack>
   );

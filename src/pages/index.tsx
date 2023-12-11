@@ -21,7 +21,7 @@ const Home: PageHomeComp = ({ data }) => {
     <Stack>
       <SEO title={AppConfig.pages.index.title} />
       <Banners banners={data?.banners ?? []} />
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
         <Stack gap={{ xs: 6, md: 8 }} py={{ xs: 6, md: 8 }}>
           <CategoriesGrid
             title="Browse The Range"

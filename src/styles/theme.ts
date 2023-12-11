@@ -31,7 +31,7 @@ const themeColors = {
   },
   common: {
     white: '#FFFFFF',
-    black: '#333333',
+    black: '#000000',
   },
   secondary: {
     light: '#356B80', // A lighter, more marine blue that harmonizes with lilac

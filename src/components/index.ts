@@ -2,6 +2,7 @@ export * from './Auth';
 export * from './Banners';
 export * from './Carousel';
 export * from './CartPopover';
+export * from './CartSummary';
 export * from './CategoriesGrid';
 export * from './CategoryCard';
 export * from './CloudImage';

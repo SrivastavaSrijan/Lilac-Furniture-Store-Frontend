@@ -58,7 +58,7 @@ export const CartPopover = () => {
               size="large"
               variant="contained"
               color="primary"
-              href={AppConfig.pages.checkout.path}
+              href={AppConfig.pages.cart.path}
             >
               Checkout
             </Button>

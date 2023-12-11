@@ -51,7 +51,7 @@ const ProductBySlug: PageProductBySlugComp = ({ data }) => {
         description={description}
         replacer={{ name: data?.product?.name }}
       />
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
         <Stack gap={{ xs: 6, md: 8 }} py={{ xs: 3, md: 4 }}>
           <ProductIndex {...data.product} />
         </Stack>

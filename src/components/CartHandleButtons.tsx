@@ -102,7 +102,7 @@ export const CartHandleButtons = ({
             <RemoveShoppingCartRounded htmlColor="inherit" fontSize="inherit" />
           }
         />
-        <Link href={AppConfig.pages.checkout.path} passHref>
+        <Link href={AppConfig.pages.cart.path} passHref>
           <Button
             size="large"
             variant="outlined"
@@ -124,7 +124,7 @@ export const CartHandleButtons = ({
   }
   return (
     <Stack gap={{ xs: 1, md: 1 }} direction={{ xs: direction, md: direction }}>
-      <Link href={AppConfig.pages.checkout.path} passHref>
+      <Link href={AppConfig.pages.cart.path} passHref>
         <Button
           size="large"
           variant="contained"

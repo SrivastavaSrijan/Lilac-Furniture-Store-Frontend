@@ -337,7 +337,7 @@ export const ProductIndex = ({
       {type && style && (
         <>
           <Divider flexItem variant="fullWidth" />
-          <Container maxWidth="md">
+          <Container maxWidth="lg">
             <RelatedProducts
               title="Related Products"
               subtitle="Lorem ipsum dolor sit amet, ullamco aliquip sunt qui deserunt eu officia culpa a dipisicing excepteur."

@@ -7,6 +7,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { motion } from 'framer-motion';
 import { isEqual } from 'lodash';
 import React, { useContext, useEffect, useState } from 'react';
 
@@ -23,6 +24,13 @@ import { CommonContext } from '@/lib/providers';
 import { ProductFilterBar } from '.';
 import { ProductCard } from './ProductCard';
 
+const item = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+  },
+};
 interface IProductsGridProps {
   limit: number;
   variables?: PaginatedProductsQueryVariables;
@@ -200,17 +208,25 @@ export const ProductsGrid = ({
         xs={view === 'card' ? 12 : 6}
         md={view === 'card' ? 12 : 3}
       >
-        {product ? (
-          <ProductCard
-            {...product}
-            direction={view === 'card' ? 'row' : 'column'}
-          />
-        ) : (
-          <ProductCard
-            id={index.toString()}
-            direction={view === 'card' ? 'row' : 'column'}
-          />
-        )}
+        <motion.div
+          variants={item}
+          whileInView="visible"
+          initial="hidden"
+          viewport={{ once: true, amount: 'some' }}
+          transition={{ ease: 'circInOut', delay: index * 0.02 }}
+        >
+          {product ? (
+            <ProductCard
+              {...product}
+              direction={view === 'card' ? 'row' : 'column'}
+            />
+          ) : (
+            <ProductCard
+              id={index.toString()}
+              direction={view === 'card' ? 'row' : 'column'}
+            />
+          )}
+        </motion.div>
       </Grid>
     ),
   );
