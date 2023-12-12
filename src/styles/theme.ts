@@ -22,7 +22,7 @@ export const TEXT_SECONDARY = FONT_HEADINGS.style.fontFamily;
 
 const themeColors = {
   background: {
-    paper: '#fbfefb',
+    paper: '#fff',
     main: '#fff',
   },
   text: {

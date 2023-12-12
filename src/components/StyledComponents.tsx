@@ -1,9 +1,11 @@
 import {
+  Box,
   darken,
   styled,
   toggleButtonClasses,
   ToggleButtonGroup,
 } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import { MaterialDesignContent } from 'notistack';
 
 export const StyledMaterialDesignContent = styled(MaterialDesignContent)(
@@ -37,3 +39,13 @@ export const StyledToggleButtonGroup = styled(ToggleButtonGroup)(
     },
   }),
 );
+
+export const Puller = styled(Box)(({ theme }) => ({
+  width: 30,
+  height: 6,
+  backgroundColor: theme.palette.mode === 'light' ? grey[300] : grey[900],
+  borderRadius: 3,
+  position: 'absolute',
+  top: 8,
+  left: 'calc(50% - 15px)',
+}));
