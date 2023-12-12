@@ -16,7 +16,7 @@ const Shop = () => {
       />
       <Container maxWidth="lg">
         <Stack gap={{ xs: 6, md: 8 }} py={{ xs: 3, md: 4 }}>
-          <ProductsGrid limit={12} showFilters />
+          <ProductsGrid limit={24} showFilters />
         </Stack>
       </Container>
     </Stack>

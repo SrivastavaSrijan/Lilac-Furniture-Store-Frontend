@@ -12,7 +12,7 @@ import { chunk, kebabCase } from 'lodash';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
-import { AppConfig, generateMockArray, sleep } from '@/lib';
+import { AppConfig, generateMockArray, sleep, useInMobile } from '@/lib';
 import {
   ICategory,
   IProductWhere,
@@ -86,7 +86,7 @@ export const CategoryCard = ({ name, id, description }: ICategoryCardProps) => {
   };
 
   const [getProducts, { data, loading }] = useProductsWhereLazyQuery();
-
+  const inMobile = useInMobile();
   useEffect(() => {
     (async () => {
       await sleep(1500);
@@ -176,7 +176,11 @@ export const CategoryCard = ({ name, id, description }: ICategoryCardProps) => {
           variants={container}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{
+            once: true,
+            amount: 'some',
+            margin: inMobile ? '72px' : '80px',
+          }}
         >
           {pages.map((productPages, index) => (
             <motion.div variants={item} key={`parent_${index}`}>

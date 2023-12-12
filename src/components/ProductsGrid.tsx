@@ -9,9 +9,14 @@ import {
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import { isEqual } from 'lodash';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 
-import { generateMockArray, sleep, useApolloErrorHandler } from '@/lib';
+import {
+  generateMockArray,
+  sleep,
+  useApolloErrorHandler,
+  useInMobile,
+} from '@/lib';
 import {
   IPaginatedProduct,
   OrderDirection,
@@ -25,12 +30,18 @@ import { ProductFilterBar } from '.';
 import { ProductCard } from './ProductCard';
 
 const item = {
-  hidden: { y: 20, opacity: 0 },
+  hidden: {
+    x: 50, // start 50 pixels to the right
+    opacity: 0, // fully transparent
+    scale: 0.95, // slightly smaller
+  },
   visible: {
-    y: 0,
-    opacity: 1,
+    x: 0, // move to final position
+    opacity: 1, // fully visible
+    scale: 1, // scale to normal size
   },
 };
+
 interface IProductsGridProps {
   limit: number;
   variables?: PaginatedProductsQueryVariables;
@@ -59,7 +70,8 @@ export const ProductsGrid = ({
   );
   const [isFetchingMore, setIsFetchingMore] = useState(false);
   const [view, setView] = useState<'grid' | 'card'>('grid');
-
+  const inMobile = useInMobile();
+  const scrollRef = useRef(null);
   const { data, refetch, fetchMore, networkStatus, error } =
     usePaginatedProductsQuery({
       variables: { limit, ...variables },
@@ -201,34 +213,51 @@ export const ProductsGrid = ({
 
   // Prepare the product cards or skeletons
   const productCards = dataArray.map(
-    (product: IPaginatedProduct | null, index) => (
-      <Grid
-        item
-        key={product?.id ?? index}
-        xs={view === 'card' ? 12 : 6}
-        md={view === 'card' ? 12 : 3}
-      >
-        <motion.div
-          variants={item}
-          whileInView="visible"
-          initial="hidden"
-          viewport={{ once: true, amount: 'some' }}
-          transition={{ ease: 'circInOut', delay: index * 0.02 }}
-        >
+    (product: IPaginatedProduct | null, index) => {
+      const xsWidth = view === 'card' ? 12 : 6;
+      const mdWidth = view === 'card' ? 12 : 3;
+      const itemsPerRow = inMobile ? 12 / xsWidth : 12 / mdWidth;
+      const rowIndex = Math.floor(index / itemsPerRow);
+      const positionInRow = index % itemsPerRow;
+
+      // Base delay for each row + additional stagger for each card in the row
+      const delay = rowIndex * 0.12 + positionInRow * 0.1;
+
+      return (
+        <Grid item key={product?.id ?? index} xs={xsWidth} md={mdWidth}>
           {product ? (
-            <ProductCard
-              {...product}
-              direction={view === 'card' ? 'row' : 'column'}
-            />
+            <motion.div
+              variants={item}
+              whileInView="visible"
+              initial="hidden"
+              viewport={{
+                once: true,
+                amount: 'some',
+                margin: inMobile ? '72px' : '80px',
+              }}
+              transition={{
+                ease: [0.22, 1, 0.36, 1],
+                type: 'spring',
+                damping: 15,
+                stiffness: 100,
+                delay,
+              }}
+              style={{ position: 'relative', zIndex: 1 }}
+            >
+              <ProductCard
+                {...product}
+                direction={view === 'card' ? 'row' : 'column'}
+              />
+            </motion.div>
           ) : (
             <ProductCard
               id={index.toString()}
               direction={view === 'card' ? 'row' : 'column'}
             />
           )}
-        </motion.div>
-      </Grid>
-    ),
+        </Grid>
+      );
+    },
   );
 
   // Append skeletons to the end if more items are being fetched
@@ -283,7 +312,7 @@ export const ProductsGrid = ({
         />
       )}
 
-      <Grid container spacing={{ xs: 2, md: 3 }}>
+      <Grid container spacing={{ xs: 2, md: 3 }} ref={scrollRef}>
         {productCards}
         {skeletons}
       </Grid>
