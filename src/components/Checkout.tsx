@@ -15,6 +15,7 @@ import { useSnackbar } from 'notistack';
 import { FormEvent, useEffect, useState } from 'react';
 
 import { formatMoney, MessagesMap } from '@/lib';
+import { useCreatePaymentIntentMutation } from '@/lib/graphql';
 import { StripeProvider } from '@/lib/providers';
 
 interface ICheckoutProps {
@@ -27,30 +28,52 @@ const InnerCheckout = ({ amount }: ICheckoutProps) => {
   const { enqueueSnackbar } = useSnackbar();
   const stripe = useStripe();
   const elements = useElements();
+  const [createPaymentIntent, { loading: intentLoading, error: intentError }] =
+    useCreatePaymentIntentMutation();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!stripe) throw new Error(MessagesMap.error);
-    if (!elements) throw new Error(MessagesMap.error);
+    setLoading(true);
+    if (!stripe || !elements) throw new Error(MessagesMap.error);
     // Trigger form validation and wallet collection
     const { error: submitError } = await elements.submit();
+
     if (submitError) {
       // Show error to your customer
-      setErrorMessage(submitError.message ?? '');
+      setErrorMessage(submitError.message ?? MessagesMap.error);
       return;
     }
-    setLoading(true);
+    const res = await createPaymentIntent();
+    const { error, paymentIntent } = await stripe.confirmPayment({
+      elements,
+      redirect: 'if_required',
+      clientSecret: res?.data?.createPaymentIntent.client_secret,
+      confirmParams: {
+        return_url: `${document.location.protocol}//${document.location.hostname}/thank-you`,
+      },
+    });
+    if (error) {
+      // Show error to your customer
+      setErrorMessage(error.message ?? MessagesMap.error);
+      return;
+    }
+    if (paymentIntent.status === 'succeeded') {
+      setLoading(false);
+      enqueueSnackbar({ message: MessagesMap.success, variant: 'success' });
+    }
   };
 
   useEffect(() => {
-    if (errorMessage)
+    if (errorMessage || !!intentError?.message) {
+      setLoading(false);
       enqueueSnackbar({ message: errorMessage, variant: 'error' });
-  }, [enqueueSnackbar, errorMessage]);
+    }
+  }, [enqueueSnackbar, errorMessage, intentError]);
 
   return (
     <>
       <Backdrop
-        open={loading}
+        open={loading || intentLoading}
         sx={(theme) => ({
           color: 'common.white',
           zIndex: theme.zIndex.drawer + 1,

@@ -61,3 +61,7 @@ mutation RedeemUserPasswordResetToken($email: String!, $token: String!, $passwor
     code
   }
 }
+
+mutation CreatePaymentIntent {
+  createPaymentIntent
+}
