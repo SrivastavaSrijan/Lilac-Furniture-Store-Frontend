@@ -61,7 +61,27 @@ mutation RedeemUserPasswordResetToken($email: String!, $token: String!, $passwor
     code
   }
 }
-
-mutation CreatePaymentIntent {
-  createPaymentIntent
+query GetAllOrders {
+  authenticatedItem {
+    ... on User {
+      orders {
+        items {
+          id
+          price
+          snapshot {
+            id
+            image
+            meta
+            name
+            price
+            slug
+          }
+          quantity
+        }
+        itemsCount
+        total
+        charge
+      }
+    }
+  }
 }

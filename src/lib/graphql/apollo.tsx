@@ -63,10 +63,22 @@ export const getApolloClient = (
   ctx?: ApolloClientContext,
   initialState?: NormalizedCacheObject,
 ) => {
-  if (ctx && ctx.req) {
-    // const { req } = ctx;
-    // TODO: Do something with the cookies here, maybe add a header for authentication
-    // req.cookies;
+  let authHttpLink = httpLink;
+
+  // If in SSR context, modify the HttpLink to include the cookie
+  if (ctx?.req) {
+    const { cookie } = ctx.req.headers;
+    if (cookie)
+      authHttpLink = new HttpLink({
+        uri: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
+        credentials: 'include',
+        headers: {
+          'content-type': 'application/json',
+          accept: 'application/json',
+          cookie, // Include the cookie from the server-side request
+        },
+        fetch,
+      });
   }
   const cache = new InMemoryCache({ typePolicies: {} }).restore(
     initialState || {},
@@ -74,7 +86,7 @@ export const getApolloClient = (
   return new ApolloClient({
     ssrMode: !isBrowser,
     connectToDevTools: process.env.NODE_ENV !== 'production',
-    link: from([progressLink, errorLink, httpLink]),
+    link: from([progressLink, errorLink, authHttpLink]),
     cache,
   });
 };

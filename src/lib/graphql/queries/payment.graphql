@@ -1,0 +1,19 @@
+
+mutation CreatePaymentIntent {
+  createPaymentIntent {
+      id
+      status
+      client_secret
+  }
+}
+
+mutation ConfirmPaymentAndCreateOrder($paymentIntentId: String!) {
+  confirmPaymentAndCreateOrder(paymentIntentId: $paymentIntentId) {
+    client_secret
+    id
+    order {
+      id
+    }
+    status
+  }
+}

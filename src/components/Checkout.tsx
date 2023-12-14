@@ -11,11 +11,16 @@ import {
   useElements,
   useStripe,
 } from '@stripe/react-stripe-js';
+import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
 import { FormEvent, useEffect, useState } from 'react';
 
-import { formatMoney, MessagesMap } from '@/lib';
-import { useCreatePaymentIntentMutation } from '@/lib/graphql';
+import { AppConfig, formatMoney, MessagesMap } from '@/lib';
+import {
+  PaymentIntentStatus,
+  useConfirmPaymentAndCreateOrderMutation,
+  useCreatePaymentIntentMutation,
+} from '@/lib/graphql';
 import { StripeProvider } from '@/lib/providers';
 
 interface ICheckoutProps {
@@ -23,57 +28,77 @@ interface ICheckoutProps {
 }
 
 const InnerCheckout = ({ amount }: ICheckoutProps) => {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<unknown | null>(null);
+  const [globalLoading, setLoading] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const stripe = useStripe();
   const elements = useElements();
+  const router = useRouter();
   const [createPaymentIntent, { loading: intentLoading, error: intentError }] =
     useCreatePaymentIntentMutation();
+  const [
+    confirmPaymentAndCreateOrder,
+    { loading: orderLoading, error: orderError },
+  ] = useConfirmPaymentAndCreateOrderMutation();
+  const loading = globalLoading || intentLoading || orderLoading;
+  const error =
+    (errorMessage as string) || !!intentError?.message || orderError?.message;
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
-    if (!stripe || !elements) throw new Error(MessagesMap.error);
     // Trigger form validation and wallet collection
-    const { error: submitError } = await elements.submit();
-
-    if (submitError) {
-      // Show error to your customer
-      setErrorMessage(submitError.message ?? MessagesMap.error);
-      return;
-    }
-    const res = await createPaymentIntent();
-    const { error, paymentIntent } = await stripe.confirmPayment({
-      elements,
-      redirect: 'if_required',
-      clientSecret: res?.data?.createPaymentIntent.client_secret,
-      confirmParams: {
-        return_url: `${document.location.protocol}//${document.location.hostname}/thank-you`,
-      },
-    });
-    if (error) {
-      // Show error to your customer
-      setErrorMessage(error.message ?? MessagesMap.error);
-      return;
-    }
-    if (paymentIntent.status === 'succeeded') {
-      setLoading(false);
-      enqueueSnackbar({ message: MessagesMap.success, variant: 'success' });
+    try {
+      if (!stripe || !elements) throw new Error(MessagesMap.error);
+      const { error: submitError } = await elements.submit();
+      if (submitError)
+        throw new Error(submitError?.message ?? MessagesMap.error);
+      const { data } = await createPaymentIntent();
+      if (!data || !data?.createPaymentIntent)
+        throw new Error(MessagesMap.error);
+      const {
+        createPaymentIntent: { client_secret: clientSecret, status },
+      } = data;
+      if (!clientSecret || status !== PaymentIntentStatus.Succeeded)
+        throw new Error(MessagesMap.error);
+      const { paymentIntent, error: paymentIntentError } =
+        await stripe.confirmPayment({
+          elements,
+          redirect: 'if_required',
+          clientSecret,
+          confirmParams: {
+            return_url: `${document.location.protocol}//${document.location.hostname}/thank-you`,
+          },
+        });
+      if (!paymentIntent) throw new Error(paymentIntentError.message);
+      const { id: paymentIntentId, status: intentStatus } = paymentIntent;
+      if (intentStatus === 'succeeded' && paymentIntent) {
+        setLoading(false);
+        confirmPaymentAndCreateOrder({
+          variables: { paymentIntentId },
+        });
+        router.push(AppConfig.pages.orders.path);
+        enqueueSnackbar({ message: MessagesMap.success, variant: 'success' });
+      }
+    } catch (caughtError) {
+      setErrorMessage(caughtError);
     }
   };
 
   useEffect(() => {
-    if (errorMessage || !!intentError?.message) {
+    if (error) {
       setLoading(false);
-      enqueueSnackbar({ message: errorMessage, variant: 'error' });
+      enqueueSnackbar({
+        message: error,
+        variant: 'error',
+      });
     }
-  }, [enqueueSnackbar, errorMessage, intentError]);
+  }, [enqueueSnackbar, error]);
 
   return (
     <>
       <Backdrop
-        open={loading || intentLoading}
+        open={loading}
         sx={(theme) => ({
           color: 'common.white',
           zIndex: theme.zIndex.drawer + 1,

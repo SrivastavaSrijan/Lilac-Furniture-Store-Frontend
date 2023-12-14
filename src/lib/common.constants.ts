@@ -105,10 +105,16 @@ export const AppConfig = {
         "You're one step away from making a mid-century modern statement in your home. Securely complete your purchase at Lilac and get ready to transform your space.",
     },
     checkout: {
-      checkout: '/cart',
-      title: 'checkout - Finalize Your Purchase on Lilac',
+      path: '/cart',
+      title: 'Checkout - Finalize Your Purchase on Lilac',
       description:
         'Finalize your purchase by adding your address details, order delivery location and entering your payment details. ',
+    },
+    orders: {
+      path: '/orders',
+      title: 'My Orders - View your existing orders ',
+      description:
+        'Dive into the world of mid-century modern design with Lilac. Explore various furniture categories to find pieces that resonate with your style and enhance your home.',
     },
     default: {
       path: '/',

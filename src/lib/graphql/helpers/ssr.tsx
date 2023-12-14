@@ -194,6 +194,7 @@ export const ssrCategoryIndexPath = {
   withPage: withPageCategoryIndexPath,
   usePage: useCategoryIndexPath,
 };
+
 export async function getServerPageAllCategories(
   options: Omit<
     Apollo.QueryOptions<Types.AllCategoriesQueryVariables>,
@@ -758,4 +759,66 @@ export const ssrGetUser = {
   getServerPage: getServerPageGetUser,
   withPage: withPageGetUser,
   usePage: useGetUser,
+};
+
+export async function getServerPageGetAllOrders(
+  options: Omit<Apollo.QueryOptions<Types.GetAllOrdersQueryVariables>, 'query'>,
+  ctx: ApolloClientContext,
+) {
+  const apolloClient = getApolloClient(ctx);
+
+  const data = await apolloClient.query<Types.GetAllOrdersQuery>({
+    ...options,
+    query: Operations.GetAllOrdersDocument,
+  });
+
+  const apolloState = apolloClient.cache.extract();
+
+  return {
+    props: {
+      apolloState,
+      data: data?.data,
+      error: data?.error ?? data?.errors ?? null,
+    },
+  };
+}
+export const useGetAllOrders = (
+  optionsFunc?: (
+    router: NextRouter,
+  ) => QueryHookOptions<
+    Types.GetAllOrdersQuery,
+    Types.GetAllOrdersQueryVariables
+  >,
+) => {
+  const router = useRouter();
+  const options = optionsFunc ? optionsFunc(router) : {};
+  return useQuery(Operations.GetAllOrdersDocument, options as any);
+};
+export type PageGetAllOrdersComp = React.FC<{
+  data?: Types.GetAllOrdersQuery;
+  error?: Apollo.ApolloError;
+}>;
+export const withPageGetAllOrders =
+  (
+    optionsFunc?: (
+      router: NextRouter,
+    ) => QueryHookOptions<
+      Types.GetAllOrdersQuery,
+      Types.GetAllOrdersQueryVariables
+    >,
+  ) =>
+  (WrappedComponent: PageGetAllOrdersComp): NextPage =>
+  (props) => {
+    const router = useRouter();
+    const options = optionsFunc ? optionsFunc(router) : {};
+    const { data, error } = useQuery(
+      Operations.GetAllOrdersDocument,
+      options as any,
+    );
+    return <WrappedComponent {...props} data={data} error={error} />;
+  };
+export const ssrGetAllOrders = {
+  getServerPage: getServerPageGetAllOrders,
+  withPage: withPageGetAllOrders,
+  usePage: useGetAllOrders,
 };

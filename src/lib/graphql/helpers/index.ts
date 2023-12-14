@@ -285,10 +285,25 @@ export type CloudinaryImage_FilePublicUrlTransformedArgs = {
   transformation?: InputMaybe<CloudinaryImageFormat>;
 };
 
+export type ConfirmPaymentAndCreateOrderResult = {
+  __typename?: 'ConfirmPaymentAndCreateOrderResult';
+  client_secret?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  order?: Maybe<Order>;
+  status: PaymentIntentStatus;
+};
+
 export type CreateInitialUserInput = {
   email?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type CreatePaymentIntentResult = {
+  __typename?: 'CreatePaymentIntentResult';
+  client_secret?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  status: PaymentIntentStatus;
 };
 
 export type DateTimeNullableFilter = {
@@ -455,6 +470,8 @@ export type Mutation = {
   /**  Add an item to a cart, remove if quantity = 0  */
   addToCart?: Maybe<CartItem>;
   authenticateUserWithPassword?: Maybe<UserAuthenticationWithPasswordResult>;
+  /**  Confirm a payment intent and create an order  */
+  confirmPaymentAndCreateOrder?: Maybe<ConfirmPaymentAndCreateOrderResult>;
   createBanner?: Maybe<Banner>;
   createBanners?: Maybe<Array<Maybe<Banner>>>;
   createCartItem?: Maybe<CartItem>;
@@ -466,8 +483,8 @@ export type Mutation = {
   createOrderItem?: Maybe<OrderItem>;
   createOrderItems?: Maybe<Array<Maybe<OrderItem>>>;
   createOrders?: Maybe<Array<Maybe<Order>>>;
-  /**  Create an order with a token  */
-  createPaymentIntent?: Maybe<Scalars['JSON']['output']>;
+  /**  Create an payment intent  */
+  createPaymentIntent?: Maybe<CreatePaymentIntentResult>;
   createProduct?: Maybe<Product>;
   createProductImage?: Maybe<ProductImage>;
   createProductImages?: Maybe<Array<Maybe<ProductImage>>>;
@@ -530,6 +547,10 @@ export type MutationAddToCartArgs = {
 export type MutationAuthenticateUserWithPasswordArgs = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
+};
+
+export type MutationConfirmPaymentAndCreateOrderArgs = {
+  paymentIntentId: Scalars['String']['input'];
 };
 
 export type MutationCreateBannerArgs = {
@@ -991,6 +1012,16 @@ export type PasswordState = {
   __typename?: 'PasswordState';
   isSet: Scalars['Boolean']['output'];
 };
+
+export enum PaymentIntentStatus {
+  Canceled = 'CANCELED',
+  Processing = 'PROCESSING',
+  RequiresAction = 'REQUIRES_ACTION',
+  RequiresCapture = 'REQUIRES_CAPTURE',
+  RequiresConfirmation = 'REQUIRES_CONFIRMATION',
+  RequiresPaymentMethod = 'REQUIRES_PAYMENT_METHOD',
+  Succeeded = 'SUCCEEDED',
+}
 
 export type Product = {
   __typename?: 'Product';
@@ -1769,6 +1800,35 @@ export type CategoryIndexPathQuery = {
   categoriesCount?: number | null;
 };
 
+export type CreatePaymentIntentMutationVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type CreatePaymentIntentMutation = {
+  __typename?: 'Mutation';
+  createPaymentIntent?: {
+    __typename?: 'CreatePaymentIntentResult';
+    id?: string | null;
+    status: PaymentIntentStatus;
+    client_secret?: string | null;
+  } | null;
+};
+
+export type ConfirmPaymentAndCreateOrderMutationVariables = Exact<{
+  paymentIntentId: Scalars['String']['input'];
+}>;
+
+export type ConfirmPaymentAndCreateOrderMutation = {
+  __typename?: 'Mutation';
+  confirmPaymentAndCreateOrder?: {
+    __typename?: 'ConfirmPaymentAndCreateOrderResult';
+    client_secret?: string | null;
+    id?: string | null;
+    status: PaymentIntentStatus;
+    order?: { __typename?: 'Order'; id: string } | null;
+  } | null;
+};
+
 export type AllCategoriesQueryVariables = Exact<{
   if?: InputMaybe<Scalars['Boolean']['input']>;
   orderBy?: InputMaybe<Array<CategoryOrderByInput> | CategoryOrderByInput>;
@@ -2054,13 +2114,34 @@ export type RedeemUserPasswordResetTokenMutation = {
   } | null;
 };
 
-export type CreatePaymentIntentMutationVariables = Exact<{
-  [key: string]: never;
-}>;
+export type GetAllOrdersQueryVariables = Exact<{ [key: string]: never }>;
 
-export type CreatePaymentIntentMutation = {
-  __typename?: 'Mutation';
-  createPaymentIntent?: any | null;
+export type GetAllOrdersQuery = {
+  __typename?: 'Query';
+  authenticatedItem?: {
+    __typename?: 'User';
+    orders?: Array<{
+      __typename?: 'Order';
+      itemsCount?: number | null;
+      total?: number | null;
+      charge?: string | null;
+      items?: Array<{
+        __typename?: 'OrderItem';
+        id: string;
+        price?: number | null;
+        quantity?: number | null;
+        snapshot?: {
+          __typename?: 'ProductSnapshot';
+          id: string;
+          image?: string | null;
+          meta?: any | null;
+          name?: string | null;
+          price?: number | null;
+          slug?: string | null;
+        } | null;
+      }> | null;
+    }> | null;
+  } | null;
 };
 
 export const HomePageDocument = gql`
@@ -2291,6 +2372,113 @@ export type CategoryIndexPathQueryResult = Apollo.QueryResult<
   CategoryIndexPathQuery,
   CategoryIndexPathQueryVariables
 >;
+export const CreatePaymentIntentDocument = gql`
+  mutation CreatePaymentIntent {
+    createPaymentIntent {
+      id
+      status
+      client_secret
+    }
+  }
+`;
+export type CreatePaymentIntentMutationFn = Apollo.MutationFunction<
+  CreatePaymentIntentMutation,
+  CreatePaymentIntentMutationVariables
+>;
+
+/**
+ * __useCreatePaymentIntentMutation__
+ *
+ * To run a mutation, you first call `useCreatePaymentIntentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePaymentIntentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPaymentIntentMutation, { data, loading, error }] = useCreatePaymentIntentMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCreatePaymentIntentMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreatePaymentIntentMutation,
+    CreatePaymentIntentMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreatePaymentIntentMutation,
+    CreatePaymentIntentMutationVariables
+  >(CreatePaymentIntentDocument, options as any);
+}
+export type CreatePaymentIntentMutationHookResult = ReturnType<
+  typeof useCreatePaymentIntentMutation
+>;
+export type CreatePaymentIntentMutationResult =
+  Apollo.MutationResult<CreatePaymentIntentMutation>;
+export type CreatePaymentIntentMutationOptions = Apollo.BaseMutationOptions<
+  CreatePaymentIntentMutation,
+  CreatePaymentIntentMutationVariables
+>;
+export const ConfirmPaymentAndCreateOrderDocument = gql`
+  mutation ConfirmPaymentAndCreateOrder($paymentIntentId: String!) {
+    confirmPaymentAndCreateOrder(paymentIntentId: $paymentIntentId) {
+      client_secret
+      id
+      order {
+        id
+      }
+      status
+    }
+  }
+`;
+export type ConfirmPaymentAndCreateOrderMutationFn = Apollo.MutationFunction<
+  ConfirmPaymentAndCreateOrderMutation,
+  ConfirmPaymentAndCreateOrderMutationVariables
+>;
+
+/**
+ * __useConfirmPaymentAndCreateOrderMutation__
+ *
+ * To run a mutation, you first call `useConfirmPaymentAndCreateOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useConfirmPaymentAndCreateOrderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [confirmPaymentAndCreateOrderMutation, { data, loading, error }] = useConfirmPaymentAndCreateOrderMutation({
+ *   variables: {
+ *      paymentIntentId: // value for 'paymentIntentId'
+ *   },
+ * });
+ */
+export function useConfirmPaymentAndCreateOrderMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    ConfirmPaymentAndCreateOrderMutation,
+    ConfirmPaymentAndCreateOrderMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    ConfirmPaymentAndCreateOrderMutation,
+    ConfirmPaymentAndCreateOrderMutationVariables
+  >(ConfirmPaymentAndCreateOrderDocument, options as any);
+}
+export type ConfirmPaymentAndCreateOrderMutationHookResult = ReturnType<
+  typeof useConfirmPaymentAndCreateOrderMutation
+>;
+export type ConfirmPaymentAndCreateOrderMutationResult =
+  Apollo.MutationResult<ConfirmPaymentAndCreateOrderMutation>;
+export type ConfirmPaymentAndCreateOrderMutationOptions =
+  Apollo.BaseMutationOptions<
+    ConfirmPaymentAndCreateOrderMutation,
+    ConfirmPaymentAndCreateOrderMutationVariables
+  >;
 export const AllCategoriesDocument = gql`
   query AllCategories(
     $if: Boolean = false
@@ -3459,50 +3647,94 @@ export type RedeemUserPasswordResetTokenMutationOptions =
     RedeemUserPasswordResetTokenMutation,
     RedeemUserPasswordResetTokenMutationVariables
   >;
-export const CreatePaymentIntentDocument = gql`
-  mutation CreatePaymentIntent {
-    createPaymentIntent
+export const GetAllOrdersDocument = gql`
+  query GetAllOrders {
+    authenticatedItem {
+      ... on User {
+        orders {
+          items {
+            id
+            price
+            snapshot {
+              id
+              image
+              meta
+              name
+              price
+              slug
+            }
+            quantity
+          }
+          itemsCount
+          total
+          charge
+        }
+      }
+    }
   }
 `;
-export type CreatePaymentIntentMutationFn = Apollo.MutationFunction<
-  CreatePaymentIntentMutation,
-  CreatePaymentIntentMutationVariables
->;
 
 /**
- * __useCreatePaymentIntentMutation__
+ * __useGetAllOrdersQuery__
  *
- * To run a mutation, you first call `useCreatePaymentIntentMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreatePaymentIntentMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
+ * To run a query within a React component, call `useGetAllOrdersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllOrdersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const [createPaymentIntentMutation, { data, loading, error }] = useCreatePaymentIntentMutation({
+ * const { data, loading, error } = useGetAllOrdersQuery({
  *   variables: {
  *   },
  * });
  */
-export function useCreatePaymentIntentMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreatePaymentIntentMutation,
-    CreatePaymentIntentMutationVariables
+export function useGetAllOrdersQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetAllOrdersQuery,
+    GetAllOrdersQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    CreatePaymentIntentMutation,
-    CreatePaymentIntentMutationVariables
-  >(CreatePaymentIntentDocument, options as any);
+  return Apollo.useQuery<GetAllOrdersQuery, GetAllOrdersQueryVariables>(
+    GetAllOrdersDocument,
+    options as any,
+  );
 }
-export type CreatePaymentIntentMutationHookResult = ReturnType<
-  typeof useCreatePaymentIntentMutation
+export function useGetAllOrdersLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetAllOrdersQuery,
+    GetAllOrdersQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetAllOrdersQuery, GetAllOrdersQueryVariables>(
+    GetAllOrdersDocument,
+    options as any,
+  );
+}
+export function useGetAllOrdersSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    GetAllOrdersQuery,
+    GetAllOrdersQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetAllOrdersQuery, GetAllOrdersQueryVariables>(
+    GetAllOrdersDocument,
+    options as any,
+  );
+}
+export type GetAllOrdersQueryHookResult = ReturnType<
+  typeof useGetAllOrdersQuery
 >;
-export type CreatePaymentIntentMutationResult =
-  Apollo.MutationResult<CreatePaymentIntentMutation>;
-export type CreatePaymentIntentMutationOptions = Apollo.BaseMutationOptions<
-  CreatePaymentIntentMutation,
-  CreatePaymentIntentMutationVariables
+export type GetAllOrdersLazyQueryHookResult = ReturnType<
+  typeof useGetAllOrdersLazyQuery
+>;
+export type GetAllOrdersSuspenseQueryHookResult = ReturnType<
+  typeof useGetAllOrdersSuspenseQuery
+>;
+export type GetAllOrdersQueryResult = Apollo.QueryResult<
+  GetAllOrdersQuery,
+  GetAllOrdersQueryVariables
 >;
