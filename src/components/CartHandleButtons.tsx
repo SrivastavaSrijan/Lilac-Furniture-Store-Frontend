@@ -45,11 +45,7 @@ export const CartHandleButtons = ({
             ? {
                 bgcolor: (theme) => alpha(theme.palette.common.black, 0.12),
                 color: (theme) => alpha(theme.palette.common.black, 0.56),
-              }
-            : {
-                bgcolor: color === 'inverted' ? 'common.white' : 'primary.main',
-                color: color === 'inverted' ? 'common.black' : 'common.white',
-              })}
+          })}
         >
           <Button
             variant="text"
