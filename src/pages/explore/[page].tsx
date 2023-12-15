@@ -67,6 +67,7 @@ const CategoryIndex: PageCategoryIndexComp = ({ data }) => {
             }
           />
           <Pagination
+            variant="outlined"
             size="medium"
             siblingCount={0}
             boundaryCount={2}

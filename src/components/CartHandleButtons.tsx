@@ -15,12 +15,12 @@ import { QuantityTextField } from './QuantityTextField';
 interface ICartHandleButtonsProps {
   id: string;
   direction?: 'row' | 'column';
-  color?: 'inverted' | 'primary';
+  color?: 'secondary' | 'primary';
 }
 export const CartHandleButtons = ({
   id,
   direction = 'column',
-  color = 'inverted',
+  color = 'secondary',
 }: ICartHandleButtonsProps) => {
   const { handleAdd, handleEdit, handleRemove, cartItemId, quantity, loading } =
     useCartActions({ id });
@@ -87,7 +87,7 @@ export const CartHandleButtons = ({
         </Stack>
         <Stack direction="row" gap={0.5}>
           <Button
-            variant={color === 'inverted' ? 'contained' : 'text'}
+            variant={color === 'secondary' ? 'contained' : 'text'}
             size="large"
             color="error"
             disabled={loading}

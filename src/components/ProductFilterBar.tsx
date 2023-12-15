@@ -147,8 +147,7 @@ export const ProductFilterBar = ({
 
   return (
     <Stack
-      bgcolor="primary.main"
-      color="primary.contrastText"
+      bgcolor="primary.light"
       py={{ xs: 2, md: 3 }}
       mx={{ xs: -2, md: 0 }}
       mt={{ xs: -3, md: 0 }}
@@ -158,15 +157,16 @@ export const ProductFilterBar = ({
           direction="row"
           alignItems="center"
           gap={{ xs: 2, md: 0 }}
-          justifyContent={{ xs: 'center', md: 'space-between' }}
+          justifyContent={{ xs: 'space-between', md: 'space-between' }}
         >
           <Stack direction="row" alignItems="center">
             <Stack
-              gap={{ xs: 2, md: 3 }}
+              gap={{ xs: 1, md: 3 }}
               direction="row"
               alignItems="center"
+              width="100%"
               flexWrap={{ xs: 'wrap', md: 'nowrap' }}
-              justifyContent={{ xs: 'center', md: 'flex-start' }}
+              justifyContent={{ xs: 'space-between', md: 'flex-start' }}
             >
               <Stack direction="row" alignItems="center">
                 <IconButtonPopover
@@ -179,7 +179,7 @@ export const ProductFilterBar = ({
                       <Button
                         size="medium"
                         variant="contained"
-                        color="inverted"
+                        color="primary"
                         startIcon={<TuneOutlined />}
                       >
                         Filter
@@ -193,8 +193,8 @@ export const ProductFilterBar = ({
                     px={{ xs: 2, md: 2 }}
                     py={{ xs: 1, md: 2 }}
                     gap={{ xs: 1, md: 2 }}
-                    bgcolor="inverted.main"
-                    color="inverted.contrastText"
+                    bgcolor="secondary.main"
+                    color="secondary.contrastText"
                     width={{ xs: 256, md: 256 }}
                   >
                     <Stack gap={1}>
@@ -309,7 +309,7 @@ export const ProductFilterBar = ({
                                       >
                                         <Checkbox
                                           value={slug}
-                                          color="secondary"
+                                          color="primary"
                                           sx={{ svg: { fill: 'black' } }}
                                           checked={
                                             localConfig.category.indexOf(slug) >
@@ -427,9 +427,9 @@ export const ProductFilterBar = ({
                   display: { xs: 'none', md: 'block' },
                 }}
               />
-              <Stack>
+              <Stack color="inherit" display={{ xs: 'none', md: 'flex' }}>
                 <Typography
-                  sx={{ typography: { xs: 'body2', md: 'body1' } }}
+                  sx={{ typography: { xs: 'caption', md: 'body1' } }}
                   fontWeight={300}
                 >
                   {!productsCount || !productsShown || loading ? (

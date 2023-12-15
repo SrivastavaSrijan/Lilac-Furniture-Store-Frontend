@@ -35,8 +35,8 @@ export const ImageHeader = ({
           width="100%"
           px={{ xs: 0, md: 3 }}
           py={{ xs: 1, md: 1 }}
-          bgcolor={(theme) => alpha(theme.palette.primary.main, 1)}
-          color="primary.contrastText"
+          bgcolor={(theme) => alpha(theme.palette.primary.light, 0.8)}
+          color="secondary.contrastText"
           sx={{
             transform: {
               xs: 'translate(-50%, 0)',

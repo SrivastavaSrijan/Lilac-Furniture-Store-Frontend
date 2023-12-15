@@ -142,18 +142,16 @@ export const CategoryCard = ({ name, id, description }: ICategoryCardProps) => {
         px={{ xs: 1, md: 2 }}
         py={{ xs: 2, md: 2 }}
         gap={{ xs: 0.5, md: 0.75 }}
-        bgcolor="primary.main"
-        color="primary.contrastText"
+        bgcolor="primary.light"
+        color="secondary.contrastText"
       >
-        <Typography textAlign="center" variant="h5">
-          {name}
-        </Typography>
+        <Typography variant="h5">{name}</Typography>
         <Typography variant="body2">
           {description}
           <Link {...linkProps} passHref>
             <Button
               variant="text"
-              color="inverted"
+              color="primary"
               sx={{ p: 0, minWidth: 0, ml: '1ch', typography: 'body2' }}
               endIcon={<ArrowForwardOutlined fontSize="inherit" />}
             >
@@ -259,7 +257,7 @@ export const CategoryCard = ({ name, id, description }: ICategoryCardProps) => {
                           >
                             <IconButton
                               onClick={() => setExpanded(null)}
-                              color="inverted"
+                              color="secondary"
                               size="medium"
                               sx={{
                                 p: 0,

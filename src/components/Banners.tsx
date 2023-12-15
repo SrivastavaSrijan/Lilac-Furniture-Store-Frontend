@@ -58,11 +58,12 @@ export const Banners = ({ banners }: IBannersProps) => {
                     {subtitle}
                   </Typography>
                 </Stack>
-                <Box flexGrow={1} />
                 {href && (
                   <Button
+                    size="large"
                     variant="text"
-                    color="inverted"
+                    color="secondary"
+                    sx={{ p: 0, mt: 3 }}
                     endIcon={<ArrowForwardOutlined fontSize="inherit" />}
                   >
                     View more

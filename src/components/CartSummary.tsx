@@ -14,6 +14,7 @@ import {
   formatMoney,
   generateMockArray,
   generateSizes,
+  useInMobile,
 } from '@/lib';
 import { CommonContext } from '@/lib/providers';
 
@@ -25,7 +26,7 @@ export const CartSummary = (_props: ICartSummaryProps) => {
   const [open, setOpen] = useState(false);
   const { state } = useContext(CommonContext);
   const { items: cartItems, updating } = state.cart;
-
+  const inMobile = useInMobile();
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
@@ -59,8 +60,8 @@ export const CartSummary = (_props: ICartSummaryProps) => {
           {totalAmount && <Checkout amount={totalAmount} />}
         </Stack>
       </SwipeableDrawer>
-      <Container maxWidth="lg">
-        <Grid container spacing={{ xs: 2, md: 3 }}>
+      <Container maxWidth="lg" disableGutters={inMobile}>
+        <Grid container spacing={{ xs: 1, md: 3 }}>
           <Grid item xs={12} md={8}>
             <Stack gap={{ xs: 2, md: 3 }}>
               <Stack
@@ -74,7 +75,7 @@ export const CartSummary = (_props: ICartSummaryProps) => {
                   spacing={{ xs: 3, md: 5 }}
                   justifyContent={{ xs: 'flex-start', md: 'center' }}
                   alignItems={{ xs: 'flex-start', md: 'center' }}
-                  textAlign="center"
+                  textAlign={{ xs: 'left', md: 'center' }}
                 >
                   <Grid
                     item
@@ -136,7 +137,7 @@ export const CartSummary = (_props: ICartSummaryProps) => {
                           key={id}
                           justifyContent={{ xs: 'flex-start', md: 'center' }}
                           alignItems={{ xs: 'flex-start', md: 'center' }}
-                          textAlign="center"
+                          textAlign={{ xs: 'left', md: 'center' }}
                         >
                           <Grid
                             item
@@ -204,6 +205,7 @@ export const CartSummary = (_props: ICartSummaryProps) => {
                 <Button
                   variant="contained"
                   size="large"
+                  color="secondary"
                   fullWidth
                   onClick={handleCheckout}
                 >

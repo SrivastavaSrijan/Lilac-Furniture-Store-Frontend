@@ -174,7 +174,7 @@ export const ProductIndex = ({
                 : {
                     ...(availableVariantTypes[variantKey].includes(option)
                       ? {
-                          border: '1px dashed !important',
+                          border: '0.5px dashed !important',
                           borderColor: 'primary.main',
                           opacity: 0.7,
                         }
@@ -182,7 +182,7 @@ export const ProductIndex = ({
                           opacity: 0.3,
                         }),
                     ...(selectedVariant?.[variantKey] === option && {
-                      border: '1px solid !important',
+                      border: '0.5px solid !important',
                       borderColor: 'primary.main',
                       opacity: 1,
                     }),

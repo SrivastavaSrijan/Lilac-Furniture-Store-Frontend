@@ -7,111 +7,6 @@ import {
 } from '@mui/material';
 import { EB_Garamond, Source_Sans_3 } from 'next/font/google';
 
-declare module '@mui/material/styles' {
-  interface Theme {
-    status: {
-      danger: string;
-    };
-  }
-  // allow configuration using `createTheme`
-  interface ThemeOptions {
-    status?: {
-      danger?: string;
-    };
-  }
-  interface Palette {
-    inverted: Palette['primary'];
-  }
-  interface PaletteOptions {
-    inverted: PaletteOptions['primary'];
-  }
-}
-declare module '@mui/material/Button' {
-  interface ButtonPropsColorOverrides {
-    inverted: true;
-  }
-}
-
-declare module '@mui/material/IconButton' {
-  interface IconButtonPropsColorOverrides {
-    inverted: true;
-  }
-}
-
-declare module '@mui/material/LinearProgress' {
-  interface LinearProgressPropsColorOverrides {
-    inverted: true;
-  }
-}
-
-declare module '@mui/material/Icon' {
-  interface IconPropsColorOverrides {
-    inverted: true;
-  }
-}
-declare module '@mui/material/SvgIcon' {
-  interface SvgIconPropsColorOverrides {
-    inverted: true;
-  }
-}
-
-declare module '@mui/material/Chip' {
-  interface ChipPropsColorOverrides {
-    inverted: true;
-  }
-}
-
-declare module '@mui/material/TextField' {
-  interface TextFieldPropsColorOverrides {
-    white: true;
-  }
-}
-
-declare module '@mui/material/Checkbox' {
-  interface CheckboxPropsColorOverrides {
-    inverted: true;
-  }
-}
-declare module '@mui/material/ToggleButtonGroup' {
-  interface ToggleButtonGroupPropsColorOverrides {
-    inverted: true;
-  }
-}
-
-declare module '@mui/material/Switch' {
-  interface SwitchPropsColorOverrides {
-    inverted: true;
-  }
-}
-
-declare module '@mui/material/ToggleButton' {
-  interface ToggleButtonPropsColorOverrides {
-    inverted: true;
-  }
-}
-declare module '@mui/material/Tabs' {
-  interface TabsPropsIndicatorColorOverrides {
-    inverted: true;
-  }
-}
-declare module '@mui/material/Radio' {
-  interface RadioPropsColorOverrides {
-    inverted: true;
-  }
-}
-declare module '@mui/material/Typography' {
-  interface TypographyPropsVariantOverrides {
-    h7: true;
-    poster: true;
-  }
-}
-
-declare module '@mui/material/CircularProgress' {
-  interface CircularProgressPropsColorOverrides {
-    inverted: true;
-  }
-}
-
 const FONT_BODY = Source_Sans_3({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700', '800'],
@@ -139,20 +34,13 @@ const themeColors = {
     white: '#FFFFFF',
     black: '#000000',
   },
-  inverted: {
+  secondary: {
     main: '#fff',
     contrastText: '#000000', // Black for readability
-  },
-  secondary: {
-    light: '#356B80', // A lighter, more marine blue that harmonizes with lilac
-    main: '#042A3A', // Original deep navy blue
-    dark: '#000', // A darker, more muted navy to provide depth
-    contrastText: '#FFFFFF', // White for maximum contrast
   },
   primary: {
     light: '#F5F3F6', // A softer, grey-infused lilac that pairs well with blues
     main: '#3D182F', // Original muted lilac
-    dark: '#3D182F', // A darker shade of lilac for depth
     contrastText: '#FFFFFF', // White to stand out against the darker lilac
   },
   error: {

@@ -145,16 +145,13 @@ export const Navbar = (_props: INavbarProps) => {
   const Links = (
     <Stack
       direction={{ xs: 'column', md: 'row' }}
-      gap={{ xs: 1, md: 3 }}
+      gap={{ xs: 1, md: 2 }}
       alignItems="flex-start"
+      color={{ xs: 'inverted.contrastText' }}
     >
       {NavbarConstants.pages.map(({ title, href }) => (
         <Link passHref href={href} key={href}>
-          <Button
-            onClick={handleDrawerToggle(false)}
-            sx={{ minWidth: 0 }}
-            color="inverted"
-          >
+          <Button onClick={handleDrawerToggle(false)} sx={{ minWidth: 0 }}>
             <Typography sx={{ typography: { xs: 'subtitle2', md: 'body1' } }}>
               {title}
             </Typography>
@@ -229,7 +226,7 @@ export const Navbar = (_props: INavbarProps) => {
 
   const ActionIcons = (
     <Stack direction="row" gap={{ xs: 1, md: 3 }}>
-      <IconButton color="inverted">
+      <IconButton color="secondary">
         <SearchOutlined fontSize="inherit" />
       </IconButton>
       {Cart}
@@ -255,7 +252,7 @@ export const Navbar = (_props: INavbarProps) => {
             </IconButtonPopover>
           );
         return (
-          <IconButton color="inverted" onClick={handleLogin}>
+          <IconButton color="secondary" onClick={handleLogin}>
             <LoginIcon fontSize="inherit" />
           </IconButton>
         );
@@ -270,9 +267,9 @@ export const Navbar = (_props: INavbarProps) => {
       flexGrow={1}
       alignItems="center"
     >
-      {Logo}
       <Box flexGrow={1} />
-      {Links}
+      {Logo}
+      {/* {Links} */}
       <Box flexGrow={1} />
       {ActionIcons}
     </Stack>
@@ -290,7 +287,7 @@ export const Navbar = (_props: INavbarProps) => {
       <Stack gap={2} direction="row">
         {Cart}
         <IconButton
-          color="inverted"
+          color="secondary"
           aria-label="open drawer"
           edge="start"
           onClick={handleDrawerToggle(true)}

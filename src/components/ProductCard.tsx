@@ -1,5 +1,13 @@
 import { Cancel, Visibility } from '@mui/icons-material';
-import { Box, IconButton, Skeleton, Stack, Typography } from '@mui/material';
+import {
+  alpha,
+  Box,
+  IconButton,
+  Skeleton,
+  skeletonClasses,
+  Stack,
+  Typography,
+} from '@mui/material';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { useState } from 'react';
 
@@ -125,7 +133,14 @@ export const ProductCard = ({
             justifyContent="space-between"
             gap={{ xs: 0.5, md: 1 }}
           >
-            <Stack gap={0.25}>
+            <Stack
+              gap={0.25}
+              sx={(theme) => ({
+                [`& .${skeletonClasses.root}`]: {
+                  backgroundColor: alpha(theme.palette.secondary.main, 0.5),
+                },
+              })}
+            >
               <Skeleton width="10ch" />
               <Skeleton width="8ch" />
               <Skeleton width="12ch" />

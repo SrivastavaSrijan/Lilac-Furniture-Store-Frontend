@@ -22,7 +22,7 @@ const Checkout = () => {
           <Typography variant="h2">Cart</Typography>
         </Container>
       </Stack>
-      <Stack gap={{ xs: 6, md: 8 }} py={{ xs: 6, md: 8 }}>
+      <Stack gap={{ xs: 6, md: 8 }} py={{ xs: 0, md: 8 }}>
         <CartSummary />
       </Stack>
     </Stack>

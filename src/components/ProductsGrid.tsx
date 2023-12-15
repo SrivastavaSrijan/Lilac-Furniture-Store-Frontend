@@ -311,7 +311,6 @@ export const ProductsGrid = ({
           }}
         />
       )}
-
       <Grid container spacing={{ xs: 2, md: 3 }} ref={scrollRef}>
         {productCards}
         {skeletons}
