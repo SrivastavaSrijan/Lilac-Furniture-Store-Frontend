@@ -1,12 +1,12 @@
-import { Container, Stack } from '@mui/material';
+import { Container, Stack, Typography } from '@mui/material';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 
-import { ImageHeader, SEO } from '@/components';
-import { AppConfig, AssetsConfig, withApollo } from '@/lib';
-import { ssrGetAllOrders } from '@/lib/graphql';
+import { SEO } from '@/components';
+import { AppConfig, withApollo } from '@/lib';
+import { ssrAllOrders } from '@/lib/graphql';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { props } = await ssrGetAllOrders.getServerPage({}, ctx);
+  const { props } = await ssrAllOrders.getServerPage({}, ctx);
   return {
     props,
   };
@@ -15,17 +15,23 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 const Orders = ({
   data,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { title, description } = AppConfig.pages.cart ?? {};
+  const { title, description } = AppConfig.pages.orders ?? {};
 
   return (
     <Stack>
       <SEO title={title} description={description} />
-      <ImageHeader
-        image={AssetsConfig.cloudinary.cart}
-        name="My Orders"
-        description="Irure culpa ex nulla et elit non ex cillum eiusmod quis dolore quis ad eu quis anim sint minim velit. Laborum occaecat anim id nulla incididunt veniam."
-        leadingText={false}
-      />
+      <Stack
+        justifyContent="center"
+        alignItems="center"
+        textAlign="center"
+        px={{ xs: 2, md: 3 }}
+        py={{ xs: 1, md: 4 }}
+        gap={{ xs: 1, md: 1.5 }}
+      >
+        <Typography textAlign="center" variant="h2">
+          My Orders
+        </Typography>
+      </Stack>
       <Container maxWidth="lg">
         <Stack gap={{ xs: 6, md: 8 }} py={{ xs: 6, md: 8 }}>
           {JSON.stringify(data?.authenticatedItem?.orders, null, 2)}
@@ -34,4 +40,4 @@ const Orders = ({
     </Stack>
   );
 };
-export default withApollo(ssrGetAllOrders.withPage()(Orders));
+export default withApollo(ssrAllOrders.withPage()(Orders));

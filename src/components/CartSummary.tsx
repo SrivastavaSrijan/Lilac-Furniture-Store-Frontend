@@ -64,7 +64,8 @@ export const CartSummary = (_props: ICartSummaryProps) => {
           <Grid item xs={12} md={8}>
             <Stack gap={{ xs: 2, md: 3 }}>
               <Stack
-                bgcolor="primary.light"
+                bgcolor="primary.main"
+                color="primary.contrastText"
                 py={{ xs: 1.75, md: 2 }}
                 px={{ xs: 2, md: 3 }}
               >
@@ -183,7 +184,8 @@ export const CartSummary = (_props: ICartSummaryProps) => {
           <Grid item xs={12} md={4}>
             <Stack
               gap={{ xs: 2, md: 3 }}
-              bgcolor="primary.light"
+              bgcolor="primary.main"
+              color="primary.contrastText"
               py={{ xs: 1.75, md: 2 }}
               px={{ xs: 2, md: 3 }}
               justifyContent="center"

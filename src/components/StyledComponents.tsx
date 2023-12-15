@@ -28,12 +28,13 @@ export const StyledMaterialDesignContent = styled(MaterialDesignContent)(
 export const StyledToggleButtonGroup = styled(ToggleButtonGroup)(
   ({ theme }) => ({
     [`& .${toggleButtonClasses.root}`]: {
-      py: '6px',
+      backgroundColor: theme.palette.inverted.main,
+      color: theme.palette.inverted.contrastText,
       [`&.${toggleButtonClasses.selected}`]: {
-        bgcolor: 'primary.main',
-        color: 'primary.light',
+        backgroundColor: theme.palette.primary.dark,
+        color: theme.palette.inverted.main,
         '&:hover, &:focus, &:active': {
-          bgcolor: darken(theme.palette.primary.main, 0.2),
+          backgroundColor: darken(theme.palette.primary.dark, 0.2),
         },
       },
     },

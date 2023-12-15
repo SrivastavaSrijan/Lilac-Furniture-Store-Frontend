@@ -24,6 +24,9 @@ export const AssetsConfig = {
     get cart() {
       return `${this.root}cart/ldrgejbwlmtpeeiorxk7.jpg`;
     },
+    get orders() {
+      return `${this.root}orders/lazzn3sv6nsnmicl7bzl.jpg`;
+    },
   },
   brand: {
     get root() {

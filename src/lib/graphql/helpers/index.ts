@@ -2114,9 +2114,9 @@ export type RedeemUserPasswordResetTokenMutation = {
   } | null;
 };
 
-export type GetAllOrdersQueryVariables = Exact<{ [key: string]: never }>;
+export type AllOrdersQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetAllOrdersQuery = {
+export type AllOrdersQuery = {
   __typename?: 'Query';
   authenticatedItem?: {
     __typename?: 'User';
@@ -2140,6 +2140,35 @@ export type GetAllOrdersQuery = {
           slug?: string | null;
         } | null;
       }> | null;
+    }> | null;
+  } | null;
+};
+
+export type OrderQueryVariables = Exact<{
+  where: OrderWhereUniqueInput;
+}>;
+
+export type OrderQuery = {
+  __typename?: 'Query';
+  order?: {
+    __typename?: 'Order';
+    itemsCount?: number | null;
+    total?: number | null;
+    charge?: string | null;
+    items?: Array<{
+      __typename?: 'OrderItem';
+      id: string;
+      price?: number | null;
+      quantity?: number | null;
+      snapshot?: {
+        __typename?: 'ProductSnapshot';
+        id: string;
+        image?: string | null;
+        meta?: any | null;
+        name?: string | null;
+        price?: number | null;
+        slug?: string | null;
+      } | null;
     }> | null;
   } | null;
 };
@@ -3647,8 +3676,8 @@ export type RedeemUserPasswordResetTokenMutationOptions =
     RedeemUserPasswordResetTokenMutation,
     RedeemUserPasswordResetTokenMutationVariables
   >;
-export const GetAllOrdersDocument = gql`
-  query GetAllOrders {
+export const AllOrdersDocument = gql`
+  query AllOrders {
     authenticatedItem {
       ... on User {
         orders {
@@ -3675,66 +3704,142 @@ export const GetAllOrdersDocument = gql`
 `;
 
 /**
- * __useGetAllOrdersQuery__
+ * __useAllOrdersQuery__
  *
- * To run a query within a React component, call `useGetAllOrdersQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAllOrdersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useAllOrdersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllOrdersQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetAllOrdersQuery({
+ * const { data, loading, error } = useAllOrdersQuery({
  *   variables: {
  *   },
  * });
  */
-export function useGetAllOrdersQuery(
+export function useAllOrdersQuery(
   baseOptions?: Apollo.QueryHookOptions<
-    GetAllOrdersQuery,
-    GetAllOrdersQueryVariables
+    AllOrdersQuery,
+    AllOrdersQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetAllOrdersQuery, GetAllOrdersQueryVariables>(
-    GetAllOrdersDocument,
+  return Apollo.useQuery<AllOrdersQuery, AllOrdersQueryVariables>(
+    AllOrdersDocument,
     options as any,
   );
 }
-export function useGetAllOrdersLazyQuery(
+export function useAllOrdersLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetAllOrdersQuery,
-    GetAllOrdersQueryVariables
+    AllOrdersQuery,
+    AllOrdersQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetAllOrdersQuery, GetAllOrdersQueryVariables>(
-    GetAllOrdersDocument,
+  return Apollo.useLazyQuery<AllOrdersQuery, AllOrdersQueryVariables>(
+    AllOrdersDocument,
     options as any,
   );
 }
-export function useGetAllOrdersSuspenseQuery(
+export function useAllOrdersSuspenseQuery(
   baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetAllOrdersQuery,
-    GetAllOrdersQueryVariables
+    AllOrdersQuery,
+    AllOrdersQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetAllOrdersQuery, GetAllOrdersQueryVariables>(
-    GetAllOrdersDocument,
+  return Apollo.useSuspenseQuery<AllOrdersQuery, AllOrdersQueryVariables>(
+    AllOrdersDocument,
     options as any,
   );
 }
-export type GetAllOrdersQueryHookResult = ReturnType<
-  typeof useGetAllOrdersQuery
+export type AllOrdersQueryHookResult = ReturnType<typeof useAllOrdersQuery>;
+export type AllOrdersLazyQueryHookResult = ReturnType<
+  typeof useAllOrdersLazyQuery
 >;
-export type GetAllOrdersLazyQueryHookResult = ReturnType<
-  typeof useGetAllOrdersLazyQuery
+export type AllOrdersSuspenseQueryHookResult = ReturnType<
+  typeof useAllOrdersSuspenseQuery
 >;
-export type GetAllOrdersSuspenseQueryHookResult = ReturnType<
-  typeof useGetAllOrdersSuspenseQuery
+export type AllOrdersQueryResult = Apollo.QueryResult<
+  AllOrdersQuery,
+  AllOrdersQueryVariables
 >;
-export type GetAllOrdersQueryResult = Apollo.QueryResult<
-  GetAllOrdersQuery,
-  GetAllOrdersQueryVariables
+export const OrderDocument = gql`
+  query Order($where: OrderWhereUniqueInput!) {
+    order(where: $where) {
+      items {
+        id
+        price
+        snapshot {
+          id
+          image
+          meta
+          name
+          price
+          slug
+        }
+        quantity
+      }
+      itemsCount
+      total
+      charge
+    }
+  }
+`;
+
+/**
+ * __useOrderQuery__
+ *
+ * To run a query within a React component, call `useOrderQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOrderQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOrderQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useOrderQuery(
+  baseOptions: Apollo.QueryHookOptions<OrderQuery, OrderQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<OrderQuery, OrderQueryVariables>(
+    OrderDocument,
+    options as any,
+  );
+}
+export function useOrderLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<OrderQuery, OrderQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<OrderQuery, OrderQueryVariables>(
+    OrderDocument,
+    options as any,
+  );
+}
+export function useOrderSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    OrderQuery,
+    OrderQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<OrderQuery, OrderQueryVariables>(
+    OrderDocument,
+    options as any,
+  );
+}
+export type OrderQueryHookResult = ReturnType<typeof useOrderQuery>;
+export type OrderLazyQueryHookResult = ReturnType<typeof useOrderLazyQuery>;
+export type OrderSuspenseQueryHookResult = ReturnType<
+  typeof useOrderSuspenseQuery
+>;
+export type OrderQueryResult = Apollo.QueryResult<
+  OrderQuery,
+  OrderQueryVariables
 >;

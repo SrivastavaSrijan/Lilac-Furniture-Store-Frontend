@@ -233,7 +233,7 @@ export const ProductsGrid = ({
               viewport={{
                 once: true,
                 amount: 'some',
-                margin: inMobile ? '72px' : '80px',
+                margin: inMobile ? '56px' : '64px',
               }}
               transition={{
                 ease: [0.22, 1, 0.36, 1],

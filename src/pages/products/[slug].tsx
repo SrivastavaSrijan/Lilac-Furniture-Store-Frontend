@@ -1,4 +1,4 @@
-import { Container, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 import { GetServerSideProps, GetStaticPaths } from 'next';
 
 import { ProductIndex, SEO } from '@/components';
@@ -51,11 +51,11 @@ const ProductBySlug: PageProductBySlugComp = ({ data }) => {
         description={description}
         replacer={{ name: data?.product?.name }}
       />
-      <Container maxWidth="lg">
-        <Stack gap={{ xs: 6, md: 8 }} py={{ xs: 3, md: 4 }}>
-          <ProductIndex {...data.product} />
-        </Stack>
-      </Container>
+      {/* <Container maxWidth="lg"> */}
+      <Stack gap={{ xs: 6, md: 8 }}>
+        <ProductIndex {...data.product} />
+      </Stack>
+      {/* </Container> */}
     </Stack>
   );
 };

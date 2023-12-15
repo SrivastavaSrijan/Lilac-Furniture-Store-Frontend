@@ -29,7 +29,6 @@ import {
 } from '@mui/material';
 import { every } from 'lodash';
 import { useModal } from 'mui-modal-provider';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
@@ -43,14 +42,7 @@ import React, {
 } from 'react';
 import { DeepRequired } from 'react-hook-form';
 
-import {
-  AppConfig,
-  asModal,
-  AssetsConfig,
-  NavbarConstants,
-  useInMobile,
-  useUser,
-} from '@/lib';
+import { AppConfig, asModal, NavbarConstants, useUser } from '@/lib';
 import { GetUserDocument, ICartItem, useSignOutMutation } from '@/lib/graphql';
 import { CommonContext } from '@/lib/providers';
 
@@ -71,7 +63,6 @@ export const Navbar = (_props: INavbarProps) => {
       },
     ],
   });
-  const inMobile = useInMobile();
   const cartRef = useRef<HTMLButtonElement>(null);
   const { dispatch } = useContext(CommonContext);
   const handleDrawerToggle =
@@ -146,17 +137,7 @@ export const Navbar = (_props: INavbarProps) => {
         direction="row"
         gap={2}
       >
-        <Image
-          priority
-          src={AssetsConfig.brand.logo}
-          width={inMobile ? 32 : 48}
-          height={inMobile ? 32 : 48}
-          style={{ objectFit: 'contain', borderRadius: '50%' }}
-          alt="Logo"
-        />
-        <Typography variant="h5" color="primary.main">
-          {AppConfig.name.toUpperCase()}
-        </Typography>
+        <Typography variant="h5">{AppConfig.name.toUpperCase()}</Typography>
       </Stack>
     </Link>
   );
@@ -169,7 +150,11 @@ export const Navbar = (_props: INavbarProps) => {
     >
       {NavbarConstants.pages.map(({ title, href }) => (
         <Link passHref href={href} key={href}>
-          <Button onClick={handleDrawerToggle(false)} sx={{ minWidth: 0 }}>
+          <Button
+            onClick={handleDrawerToggle(false)}
+            sx={{ minWidth: 0 }}
+            color="inverted"
+          >
             <Typography sx={{ typography: { xs: 'subtitle2', md: 'body1' } }}>
               {title}
             </Typography>
@@ -241,9 +226,10 @@ export const Navbar = (_props: INavbarProps) => {
       <CartPopover />
     </IconButtonPopover>
   );
+
   const ActionIcons = (
     <Stack direction="row" gap={{ xs: 1, md: 3 }}>
-      <IconButton color="primary">
+      <IconButton color="inverted">
         <SearchOutlined fontSize="inherit" />
       </IconButton>
       {Cart}
@@ -269,7 +255,7 @@ export const Navbar = (_props: INavbarProps) => {
             </IconButtonPopover>
           );
         return (
-          <IconButton color="primary" onClick={handleLogin} size="large">
+          <IconButton color="inverted" onClick={handleLogin}>
             <LoginIcon fontSize="inherit" />
           </IconButton>
         );
@@ -293,13 +279,18 @@ export const Navbar = (_props: INavbarProps) => {
   );
 
   const MobileNavbar = (
-    <Stack display={{ xs: 'flex', md: 'none' }} direction="row" width="100%">
+    <Stack
+      display={{ xs: 'flex', md: 'none' }}
+      direction="row"
+      width="100%"
+      alignItems="center"
+    >
       {Logo}
       <Box flexGrow={1} />
       <Stack gap={2} direction="row">
         {Cart}
         <IconButton
-          color="primary"
+          color="inverted"
           aria-label="open drawer"
           edge="start"
           onClick={handleDrawerToggle(true)}
@@ -377,10 +368,14 @@ export const Navbar = (_props: INavbarProps) => {
     <AppBar
       position="fixed"
       color="inherit"
-      sx={{ bgcolor: 'background.paper', py: { xs: 1, md: 1 } }}
+      sx={{
+        bgcolor: 'primary.main',
+        color: 'primary.contrastText',
+        py: { xs: 0, md: 0 },
+      }}
       elevation={0}
     >
-      <Container maxWidth="md" disableGutters>
+      <Container maxWidth="lg" disableGutters>
         <Toolbar>
           {MobileNavbar}
           {DesktopNavbar}

@@ -15,7 +15,7 @@ import { QuantityTextField } from './QuantityTextField';
 interface ICartHandleButtonsProps {
   id: string;
   direction?: 'row' | 'column';
-  color?: 'inverted' | 'colored';
+  color?: 'inverted' | 'primary';
 }
 export const CartHandleButtons = ({
   id,
@@ -45,7 +45,8 @@ export const CartHandleButtons = ({
             ? {
                 bgcolor: (theme) => alpha(theme.palette.common.black, 0.12),
                 color: (theme) => alpha(theme.palette.common.black, 0.56),
-          })}
+              }
+            : { bgcolor: `${color}.main`, color: `${color}.contrastText` })}
         >
           <Button
             variant="text"
@@ -84,37 +85,33 @@ export const CartHandleButtons = ({
             startIcon={<Remove fontSize="inherit" />}
           />
         </Stack>
-
-        <Button
-          variant="outlined"
-          size="large"
-          color={color === 'inverted' ? 'inherit' : 'error'}
-          sx={{
-            color: color === 'inverted' ? 'common.white' : 'error.main',
-          }}
-          disabled={loading}
-          onClick={handleRemove(cartItemId)}
-          startIcon={
-            <RemoveShoppingCartRounded htmlColor="inherit" fontSize="inherit" />
-          }
-        />
-        <Link href={AppConfig.pages.cart.path} passHref>
+        <Stack direction="row" gap={0.5}>
           <Button
+            variant={color === 'inverted' ? 'contained' : 'text'}
             size="large"
-            variant="outlined"
-            fullWidth
-            color="inherit"
-            sx={
-              color === 'inverted'
-                ? { color: 'common.white', borderColor: 'common.white' }
-                : { color: 'common.black', borderColor: 'primary.main' }
-            }
+            color="error"
             disabled={loading}
-            endIcon={<ArrowForward fontSize="inherit" />}
-          >
-            Checkout
-          </Button>
-        </Link>
+            onClick={handleRemove(cartItemId)}
+            startIcon={
+              <RemoveShoppingCartRounded
+                htmlColor="inherit"
+                fontSize="inherit"
+              />
+            }
+          />
+          <Link href={AppConfig.pages.cart.path} passHref>
+            <Button
+              size="large"
+              variant="text"
+              fullWidth
+              color={color}
+              disabled={loading}
+              endIcon={<ArrowForward fontSize="inherit" />}
+            >
+              Checkout
+            </Button>
+          </Link>
+        </Stack>
       </Stack>
     );
   }
@@ -125,12 +122,7 @@ export const CartHandleButtons = ({
           size="large"
           variant="contained"
           fullWidth
-          color={color === 'inverted' ? 'inherit' : 'primary'}
-          sx={
-            color === 'inverted'
-              ? { color: 'common.black', bgcolor: 'common.white' }
-              : {}
-          }
+          color={color}
           disabled={loading}
           endIcon={<ArrowForward fontSize="inherit" />}
         >
@@ -140,8 +132,7 @@ export const CartHandleButtons = ({
       <Button
         variant="outlined"
         size="large"
-        color={color === 'inverted' ? 'inherit' : 'primary'}
-        sx={color === 'inverted' ? { color: 'common.white' } : {}}
+        color={color}
         onClick={handleAdd(id)}
         disabled={loading}
         startIcon={<AddShoppingCartOutlined fontSize="small" />}

@@ -23,7 +23,6 @@ import {
   Slider,
   Stack,
   ToggleButton,
-  ToggleButtonGroup,
   Typography,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
@@ -31,7 +30,7 @@ import { useEffect, useState } from 'react';
 import { formatMoney, SetState } from '@/lib';
 import { useAllCategoriesQuery } from '@/lib/graphql';
 
-import { IconButtonPopover, IFilters } from '.';
+import { IconButtonPopover, IFilters, StyledToggleButtonGroup } from '.';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -147,7 +146,13 @@ export const ProductFilterBar = ({
   }, [localConfig.price.length, maxPrice, minPrice]);
 
   return (
-    <Stack bgcolor="primary.light" py={{ xs: 2, md: 3 }}>
+    <Stack
+      bgcolor="primary.main"
+      color="primary.contrastText"
+      py={{ xs: 2, md: 3 }}
+      mx={{ xs: -2, md: 0 }}
+      mt={{ xs: -3, md: 0 }}
+    >
       <Container maxWidth="lg">
         <Stack
           direction="row"
@@ -174,7 +179,7 @@ export const ProductFilterBar = ({
                       <Button
                         size="medium"
                         variant="contained"
-                        color="primary"
+                        color="inverted"
                         startIcon={<TuneOutlined />}
                       >
                         Filter
@@ -188,7 +193,8 @@ export const ProductFilterBar = ({
                     px={{ xs: 2, md: 2 }}
                     py={{ xs: 1, md: 2 }}
                     gap={{ xs: 1, md: 2 }}
-                    bgcolor="primary.light"
+                    bgcolor="inverted.main"
+                    color="inverted.contrastText"
                     width={{ xs: 256, md: 256 }}
                   >
                     <Stack gap={1}>
@@ -215,7 +221,8 @@ export const ProductFilterBar = ({
                       categoriesLoading ||
                       loading ? (
                         <Stack
-                          bgcolor="primary.light"
+                          bgcolor="primary.main"
+                          color="primary.contrastText"
                           minHeight={{ xs: 196, md: 196 }}
                         >
                           <Skeleton width={196} height={28} />
@@ -232,9 +239,8 @@ export const ProductFilterBar = ({
                             <Typography variant="body2" fontWeight={500}>
                               Sort By
                             </Typography>
-                            <ToggleButtonGroup
+                            <StyledToggleButtonGroup
                               value={localConfig.sort}
-                              color="primary"
                               exclusive
                               size="small"
                               onChange={handleSortChange}
@@ -254,13 +260,13 @@ export const ProductFilterBar = ({
                               </ToggleButton>
 
                               {/* ... more sort options */}
-                            </ToggleButtonGroup>
+                            </StyledToggleButtonGroup>
                           </Stack>
                           <Stack gap={1}>
                             <Typography variant="body2" fontWeight={500}>
                               Filter by Category
                             </Typography>
-                            <FormControl variant="outlined" size="small">
+                            <FormControl variant="standard" size="small">
                               <InputLabel id="category-localConfig-label">
                                 Category
                               </InputLabel>
@@ -397,8 +403,7 @@ export const ProductFilterBar = ({
                 </IconButtonPopover>
               </Stack>
               <Stack direction="row" alignItems="baseline">
-                <ToggleButtonGroup
-                  color="primary"
+                <StyledToggleButtonGroup
                   value={view}
                   exclusive
                   onChange={handleAlignment}
@@ -411,7 +416,7 @@ export const ProductFilterBar = ({
                   <ToggleButton value="card" aria-label="Stack View">
                     <ViewDayOutlined fontSize="small" />
                   </ToggleButton>
-                </ToggleButtonGroup>
+                </StyledToggleButtonGroup>
               </Stack>
               <Divider
                 flexItem

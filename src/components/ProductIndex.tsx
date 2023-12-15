@@ -175,7 +175,7 @@ export const ProductIndex = ({
                     ...(availableVariantTypes[variantKey].includes(option)
                       ? {
                           border: '1px dashed !important',
-                          borderColor: 'primary.light',
+                          borderColor: 'primary.main',
                           opacity: 0.7,
                         }
                       : {
@@ -207,16 +207,11 @@ export const ProductIndex = ({
   );
   return (
     <>
-      <Grid container spacing={{ xs: 3, md: 5 }}>
+      <Grid container>
         <Grid item xs={12} md={6}>
           <Stack>
             {imageLink && (
-              <Stack
-                position="relative"
-                height={{ xs: '75vh', md: '70vh' }}
-                mx={{ xs: -2, md: 0 }}
-                mt={{ xs: -3, md: 0 }}
-              >
+              <Stack position="relative" height={{ xs: '75vh', md: '100vh' }}>
                 <CloudImage
                   fill
                   sizes={generateSizes({ xs: 12, md: 3 })}
@@ -229,8 +224,20 @@ export const ProductIndex = ({
           </Stack>
         </Grid>
         <Grid item xs={12} md={6} order={{ xs: 0, md: 1 }}>
-          <Stack gap={{ xs: 3, md: 5 }} px={{ xs: 0, md: 4 }}>
-            <Stack gap={{ xs: 1, md: 1.5 }}>
+          <Stack
+            gap={{ xs: 3, md: 5 }}
+            px={{ xs: 2, md: 4 }}
+            py={{ xs: 3, md: 4 }}
+          >
+            <Stack
+              gap={{ xs: 1, md: 1.5 }}
+              bgcolor="primary.main"
+              color="primary.contrastText"
+              mt={{ xs: -3, md: -4 }}
+              mx={{ xs: -2, md: -4 }}
+              py={{ xs: 1, md: 2 }}
+              px={{ xs: 2, md: 4 }}
+            >
               <Stack
                 direction="row"
                 width="100%"
@@ -244,7 +251,6 @@ export const ProductIndex = ({
                   name={name}
                   formattedName={`${style} ${type} "${name}"`}
                   size="small"
-                  color="black"
                   onProductPage
                 />
               </Stack>
@@ -288,7 +294,7 @@ export const ProductIndex = ({
                 <CartHandleButtons
                   id={selectedVariantId}
                   direction="row"
-                  color="colored"
+                  color="primary"
                 />
                 {!!getVariantsInCart().length &&
                   !getVariantsInCart().includes(selectedVariantId) && (
@@ -336,7 +342,6 @@ export const ProductIndex = ({
       </Grid>
       {type && style && (
         <>
-          <Divider flexItem variant="fullWidth" />
           <Container maxWidth="lg">
             <RelatedProducts
               title="Related Products"

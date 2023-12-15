@@ -27,7 +27,7 @@ export const Page = ({ children }: IPageProps) => {
         initial={{ x: 30, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: -30, opacity: 0 }}
-        style={{ paddingTop: inMobile ? 72 : 80 }}
+        style={{ paddingTop: inMobile ? 56 : 64, overflow: 'hidden' }}
       >
         {children}
       </motion.div>

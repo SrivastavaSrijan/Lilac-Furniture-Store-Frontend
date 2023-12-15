@@ -1,15 +1,13 @@
+import { ArrowForwardOutlined } from '@mui/icons-material';
 import { Box, Button, Stack, Typography } from '@mui/material';
 
 import { HomePageQuery } from '@/lib/graphql';
 
 import { Carousel, CloudImage } from '.';
 
-const BannerHeight = { xs: 500, md: 700 };
+const BannerHeight = { xs: 300, md: 700 };
 const BoxWidth = { xs: 320, md: 500 };
-const BoxHeight = {
-  xs: BannerHeight.xs - 300,
-  md: BannerHeight.md - 250,
-};
+
 interface IBannersProps extends Pick<HomePageQuery, 'banners'> {}
 export const Banners = ({ banners }: IBannersProps) => {
   return (
@@ -35,48 +33,39 @@ export const Banners = ({ banners }: IBannersProps) => {
             )}
             <Stack
               sx={{
-                bgcolor: 'primary.light',
+                bgcolor: 'primary.main',
+                color: 'primary.contrastText',
                 position: 'absolute',
-                bottom: {
-                  xs: `calc(75% - ${BoxHeight.xs / 2}px)`,
-                  md: `calc(50% - ${BoxHeight.md / 2}px)`,
+                top: { xs: '50%', md: '30%' },
+                left: { xs: '50%', md: '90%' },
+                transform: {
+                  xs: 'translate(-50%, -50%)',
+                  md: 'translate(-90%, -30%)',
                 },
-                left: {
-                  xs: `calc(50% - ${BoxWidth.xs / 2}px)`,
-                  md: `calc(70% - ${BoxWidth.md / 2}px)`,
-                },
-                color: '#fff',
               }}
               py={{ xs: 2, md: 3 }}
               px={{ xs: 2, md: 2 }}
               width={BoxWidth}
-              height={BoxHeight}
             >
               <Stack
                 height="100%"
                 justifyContent="flex-start"
                 alignItems="flex-start"
-                gap={{ xs: 1, md: 2 }}
               >
-                <Typography variant="h1" color="primary.main">
-                  {title}
-                </Typography>
-                <Typography
-                  variant="subtitle1"
-                  color="common.black"
-                  className="clamp-3"
-                >
-                  {subtitle}
-                </Typography>
+                <Stack gap={{ xs: 1, md: 2 }}>
+                  <Typography variant="h1">{title}</Typography>
+                  <Typography variant="subtitle1" className="clamp-3">
+                    {subtitle}
+                  </Typography>
+                </Stack>
                 <Box flexGrow={1} />
                 {href && (
-                  <Button href={href} variant="outlined">
-                    <Typography
-                      sx={{ typography: { xs: 'caption', md: 'subtitle1' } }}
-                      color="common.black"
-                    >
-                      Learn More
-                    </Typography>
+                  <Button
+                    variant="text"
+                    color="inverted"
+                    endIcon={<ArrowForwardOutlined fontSize="inherit" />}
+                  >
+                    View more
                   </Button>
                 )}
               </Stack>

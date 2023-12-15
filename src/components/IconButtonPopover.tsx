@@ -35,7 +35,7 @@ const InnerIconButtonPopover = (
   };
 
   const rootProps: IconButtonProps = {
-    color: 'primary',
+    color: 'inverted',
     size: 'medium',
     id: name,
     onClick: handleToggle(!el),

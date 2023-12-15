@@ -761,15 +761,15 @@ export const ssrGetUser = {
   usePage: useGetUser,
 };
 
-export async function getServerPageGetAllOrders(
-  options: Omit<Apollo.QueryOptions<Types.GetAllOrdersQueryVariables>, 'query'>,
+export async function getServerPageAllOrders(
+  options: Omit<Apollo.QueryOptions<Types.AllOrdersQueryVariables>, 'query'>,
   ctx: ApolloClientContext,
 ) {
   const apolloClient = getApolloClient(ctx);
 
-  const data = await apolloClient.query<Types.GetAllOrdersQuery>({
+  const data = await apolloClient.query<Types.AllOrdersQuery>({
     ...options,
-    query: Operations.GetAllOrdersDocument,
+    query: Operations.AllOrdersDocument,
   });
 
   const apolloState = apolloClient.cache.extract();
@@ -782,43 +782,89 @@ export async function getServerPageGetAllOrders(
     },
   };
 }
-export const useGetAllOrders = (
+export const useAllOrders = (
   optionsFunc?: (
     router: NextRouter,
-  ) => QueryHookOptions<
-    Types.GetAllOrdersQuery,
-    Types.GetAllOrdersQueryVariables
-  >,
+  ) => QueryHookOptions<Types.AllOrdersQuery, Types.AllOrdersQueryVariables>,
 ) => {
   const router = useRouter();
   const options = optionsFunc ? optionsFunc(router) : {};
-  return useQuery(Operations.GetAllOrdersDocument, options as any);
+  return useQuery(Operations.AllOrdersDocument, options as any);
 };
-export type PageGetAllOrdersComp = React.FC<{
-  data?: Types.GetAllOrdersQuery;
+export type PageAllOrdersComp = React.FC<{
+  data?: Types.AllOrdersQuery;
   error?: Apollo.ApolloError;
 }>;
-export const withPageGetAllOrders =
+export const withPageAllOrders =
   (
     optionsFunc?: (
       router: NextRouter,
-    ) => QueryHookOptions<
-      Types.GetAllOrdersQuery,
-      Types.GetAllOrdersQueryVariables
-    >,
+    ) => QueryHookOptions<Types.AllOrdersQuery, Types.AllOrdersQueryVariables>,
   ) =>
-  (WrappedComponent: PageGetAllOrdersComp): NextPage =>
+  (WrappedComponent: PageAllOrdersComp): NextPage =>
   (props) => {
     const router = useRouter();
     const options = optionsFunc ? optionsFunc(router) : {};
     const { data, error } = useQuery(
-      Operations.GetAllOrdersDocument,
+      Operations.AllOrdersDocument,
       options as any,
     );
     return <WrappedComponent {...props} data={data} error={error} />;
   };
-export const ssrGetAllOrders = {
-  getServerPage: getServerPageGetAllOrders,
-  withPage: withPageGetAllOrders,
-  usePage: useGetAllOrders,
+export const ssrAllOrders = {
+  getServerPage: getServerPageAllOrders,
+  withPage: withPageAllOrders,
+  usePage: useAllOrders,
+};
+export async function getServerPageOrder(
+  options: Omit<Apollo.QueryOptions<Types.OrderQueryVariables>, 'query'>,
+  ctx: ApolloClientContext,
+) {
+  const apolloClient = getApolloClient(ctx);
+
+  const data = await apolloClient.query<Types.OrderQuery>({
+    ...options,
+    query: Operations.OrderDocument,
+  });
+
+  const apolloState = apolloClient.cache.extract();
+
+  return {
+    props: {
+      apolloState,
+      data: data?.data,
+      error: data?.error ?? data?.errors ?? null,
+    },
+  };
+}
+export const useOrder = (
+  optionsFunc?: (
+    router: NextRouter,
+  ) => QueryHookOptions<Types.OrderQuery, Types.OrderQueryVariables>,
+) => {
+  const router = useRouter();
+  const options = optionsFunc ? optionsFunc(router) : {};
+  return useQuery(Operations.OrderDocument, options as any);
+};
+export type PageOrderComp = React.FC<{
+  data?: Types.OrderQuery;
+  error?: Apollo.ApolloError;
+}>;
+export const withPageOrder =
+  (
+    optionsFunc?: (
+      router: NextRouter,
+    ) => QueryHookOptions<Types.OrderQuery, Types.OrderQueryVariables>,
+  ) =>
+  (WrappedComponent: PageOrderComp): NextPage =>
+  (props) => {
+    const router = useRouter();
+    const options = optionsFunc ? optionsFunc(router) : {};
+    const { data, error } = useQuery(Operations.OrderDocument, options as any);
+    return <WrappedComponent {...props} data={data} error={error} />;
+  };
+export const ssrOrder = {
+  getServerPage: getServerPageOrder,
+  withPage: withPageOrder,
+  usePage: useOrder,
 };

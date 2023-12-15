@@ -1,4 +1,4 @@
-import { Cancel, VisibilityOutlined } from '@mui/icons-material';
+import { Cancel, Visibility } from '@mui/icons-material';
 import { Box, IconButton, Skeleton, Stack, Typography } from '@mui/material';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { useState } from 'react';
@@ -45,21 +45,21 @@ export const ProductCard = ({
         height={height}
       >
         <Stack
-          height={48}
-          width="100%"
+          px={0.5}
+          py={0.5}
           justifyContent="center"
           alignItems="flex-end"
+          right={0}
           position="absolute"
           zIndex={2}
         >
           <IconButton
             onClick={() => setShow(!show)}
-            size="medium"
+            size="small"
             color="primary"
           >
             {!show ? (
-              <VisibilityOutlined
-                htmlColor="white"
+              <Visibility
                 fontSize="inherit"
                 sx={{ display: { xs: 'flex', md: 'none' } }}
               />
@@ -120,7 +120,8 @@ export const ProductCard = ({
             height="100%"
             px={{ xs: 1, md: 1.5 }}
             pb={{ xs: 1.5, md: 2 }}
-            bgcolor="primary.light"
+            bgcolor="primary.main"
+            color="primary.contrastText"
             justifyContent="space-between"
             gap={{ xs: 0.5, md: 1 }}
           >
@@ -137,7 +138,8 @@ export const ProductCard = ({
             height="100%"
             pb={{ xs: 1.5, md: 2 }}
             px={{ xs: 1, md: 1.5 }}
-            bgcolor="primary.light"
+            bgcolor="primary.main"
+            color="primary.contrastText"
             justifyContent="space-between"
             gap={{ xs: 1.5, md: 2 }}
           >
@@ -171,7 +173,7 @@ export const ProductCard = ({
                   {variantId && (
                     <CartHandleButtons
                       direction={direction}
-                      color="colored"
+                      color="primary"
                       id={variantId}
                     />
                   )}

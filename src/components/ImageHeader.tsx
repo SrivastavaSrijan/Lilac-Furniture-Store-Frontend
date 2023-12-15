@@ -1,4 +1,4 @@
-import { Stack, Typography } from '@mui/material';
+import { alpha, Container, Stack, Typography } from '@mui/material';
 
 import { generateSizes } from '@/lib';
 
@@ -8,17 +8,15 @@ interface IImageHeaderProps {
   image: string;
   name: string;
   description?: string | null;
-  leadingText?: string | false;
 }
 export const ImageHeader = ({
   image,
   name,
   description,
-  leadingText = 'for the',
 }: IImageHeaderProps) => {
   return (
     <Stack width="100%">
-      <Stack height={{ xs: 256, md: 320 }} position="relative">
+      <Stack height={{ xs: 256, md: 400 }} position="relative">
         <CloudImage
           fill
           src={image}
@@ -31,39 +29,34 @@ export const ImageHeader = ({
         />
         <Stack
           justifyContent="center"
-          alignItems="center"
           position="absolute"
           left="50%"
-          top="50%"
-          width={{ xs: '80%', md: 'initial' }}
-          textAlign="center"
-          px={{ xs: 2, md: 3 }}
-          py={{ xs: 1, md: 4 }}
-          gap={{ xs: 1, md: 1.5 }}
-          bgcolor="primary.light"
-          sx={{ transform: 'translate(-50%, -50%)' }}
+          top={{ xs: 0, md: '20%' }}
+          width="100%"
+          px={{ xs: 0, md: 3 }}
+          py={{ xs: 1, md: 1 }}
+          bgcolor={(theme) => alpha(theme.palette.primary.main, 1)}
+          color="primary.contrastText"
+          sx={{
+            transform: {
+              xs: 'translate(-50%, 0)',
+              md: 'translate(-50%, -20%)',
+            },
+            backdropFilter: 'contrast(150%) blur(1rem)',
+          }}
         >
-          <Typography textAlign="center" variant="h2">
-            {leadingText && (
+          <Container maxWidth="lg">
+            <Stack gap={{ xs: 1, md: 2 }}>
+              <Typography variant="h2">{name}</Typography>
               <Typography
-                fontStyle="italic"
-                variant="h4"
-                component="p"
-                lineHeight={1}
-                fontWeight={300}
+                variant="body1"
+                maxWidth={{ xs: '100%', md: '100ch' }}
+                className="clamp-4"
               >
-                {leadingText}
+                {description}
               </Typography>
-            )}
-            {name}
-          </Typography>
-          <Typography
-            variant="body1"
-            maxWidth={{ xs: '100%', md: '100ch' }}
-            className="clamp-4"
-          >
-            {description}
-          </Typography>
+            </Stack>
+          </Container>
         </Stack>
       </Stack>
     </Stack>

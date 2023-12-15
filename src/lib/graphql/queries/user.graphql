@@ -61,7 +61,7 @@ mutation RedeemUserPasswordResetToken($email: String!, $token: String!, $passwor
     code
   }
 }
-query GetAllOrders {
+query AllOrders {
   authenticatedItem {
     ... on User {
       orders {
@@ -83,5 +83,26 @@ query GetAllOrders {
         charge
       }
     }
+  }
+}
+
+query Order($where: OrderWhereUniqueInput!) {
+  order(where: $where) {
+    items {
+      id
+      price
+      snapshot {
+        id
+        image
+        meta
+        name
+        price
+        slug
+      }
+      quantity
+    }
+    itemsCount
+    total
+    charge
   }
 }

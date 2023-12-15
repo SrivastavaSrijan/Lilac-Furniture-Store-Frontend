@@ -142,18 +142,10 @@ export const CategoryCard = ({ name, id, description }: ICategoryCardProps) => {
         px={{ xs: 1, md: 2 }}
         py={{ xs: 2, md: 2 }}
         gap={{ xs: 0.5, md: 0.75 }}
-        bgcolor="primary.light"
+        bgcolor="primary.main"
+        color="primary.contrastText"
       >
-        <Typography textAlign="center" variant="h5" color="primary.dark">
-          <Typography
-            fontStyle="italic"
-            variant="h6"
-            component="p"
-            lineHeight={1}
-            fontWeight={300}
-          >
-            for the
-          </Typography>{' '}
+        <Typography textAlign="center" variant="h5">
           {name}
         </Typography>
         <Typography variant="body2">
@@ -161,7 +153,7 @@ export const CategoryCard = ({ name, id, description }: ICategoryCardProps) => {
           <Link {...linkProps} passHref>
             <Button
               variant="text"
-              color="primary"
+              color="inverted"
               sx={{ p: 0, minWidth: 0, ml: '1ch', typography: 'body2' }}
               endIcon={<ArrowForwardOutlined fontSize="inherit" />}
             >
@@ -179,7 +171,7 @@ export const CategoryCard = ({ name, id, description }: ICategoryCardProps) => {
           viewport={{
             once: true,
             amount: 'some',
-            margin: inMobile ? '72px' : '80px',
+            margin: inMobile ? '56px' : '64px',
           }}
         >
           {pages.map((productPages, index) => (
@@ -261,15 +253,16 @@ export const CategoryCard = ({ name, id, description }: ICategoryCardProps) => {
                               isExpanded,
                               index,
                             )}px - 50%)`}
-                            bgcolor="primary.light"
+                            bgcolor="primary.main"
+                            color="primary.contrastText"
                             px={{ xs: 0.5, md: 0.5 }}
                           >
                             <IconButton
                               onClick={() => setExpanded(null)}
+                              color="inverted"
                               size="medium"
                               sx={{
                                 p: 0,
-                                color: 'primary.dark',
                                 position: 'absolute',
                                 right: 16,
                                 zIndex: 2,
