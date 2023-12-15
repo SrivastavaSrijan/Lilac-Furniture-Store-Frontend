@@ -151,7 +151,7 @@ export const CategoryCard = ({ name, id, description }: ICategoryCardProps) => {
           <Link {...linkProps} passHref>
             <Button
               variant="text"
-              color="primary"
+              color="secondary"
               sx={{ p: 0, minWidth: 0, ml: '1ch', typography: 'body2' }}
               endIcon={<ArrowForwardOutlined fontSize="inherit" />}
             >
