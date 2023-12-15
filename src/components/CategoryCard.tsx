@@ -142,8 +142,8 @@ export const CategoryCard = ({ name, id, description }: ICategoryCardProps) => {
         px={{ xs: 1, md: 2 }}
         py={{ xs: 2, md: 2 }}
         gap={{ xs: 0.5, md: 0.75 }}
-        bgcolor="primary.light"
-        color="secondary.contrastText"
+        bgcolor="primary.main"
+        color="primary.contrastText"
       >
         <Typography variant="h5">{name}</Typography>
         <Typography variant="body2">
