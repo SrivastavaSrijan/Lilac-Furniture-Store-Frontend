@@ -1035,6 +1035,7 @@ export type Product = {
   lowestPrice?: Maybe<Scalars['Int']['output']>;
   meta?: Maybe<Scalars['JSON']['output']>;
   name?: Maybe<Scalars['String']['output']>;
+  shortDescription?: Maybe<Scalars['String']['output']>;
   slug?: Maybe<Scalars['String']['output']>;
   status?: Maybe<Scalars['String']['output']>;
   style?: Maybe<Scalars['String']['output']>;
@@ -1042,6 +1043,10 @@ export type Product = {
   variant?: Maybe<ProductVariant>;
   variants?: Maybe<Array<ProductVariant>>;
   variantsCount?: Maybe<Scalars['Int']['output']>;
+};
+
+export type ProductShortDescriptionArgs = {
+  length?: Scalars['Int']['input'];
 };
 
 export type ProductVariantArgs = {
@@ -2047,6 +2052,7 @@ export type GetUserQuery = {
         product?: {
           __typename?: 'Product';
           name?: string | null;
+          shortDescription?: string | null;
           id: string;
           image?: {
             __typename?: 'ProductImage';
@@ -3345,6 +3351,7 @@ export const GetUserDocument = gql`
             id
             product {
               name
+              shortDescription
               image {
                 image {
                   publicUrlTransformed

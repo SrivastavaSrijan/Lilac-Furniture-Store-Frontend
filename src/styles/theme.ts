@@ -51,7 +51,7 @@ const themeColors = {
   },
   success: {
     light: '#A9E5BA', // Soft pastel green for success light
-    main: '#5AC18E', // Vibrant green for success main
+    main: '#2A8B5E', // Vibrant green for success main
     dark: '#2A8B5E', // Deep green for success dark
     contrastText: '#000000', // Black for readability
   },

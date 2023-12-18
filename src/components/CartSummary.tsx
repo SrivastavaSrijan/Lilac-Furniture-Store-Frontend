@@ -2,7 +2,6 @@ import {
   Button,
   Container,
   Grid,
-  Skeleton,
   Stack,
   SwipeableDrawer,
   Typography,
@@ -13,12 +12,12 @@ import {
   calculateCartPrice,
   formatMoney,
   generateMockArray,
-  generateSizes,
   useInMobile,
 } from '@/lib';
 import { CommonContext } from '@/lib/providers';
 
-import { CloudImage, Puller } from '.';
+import { Puller } from '.';
+import { CartSummaryElement } from './CartSummaryElement';
 import { Checkout } from './Checkout';
 
 interface ICartSummaryProps {}
@@ -48,7 +47,6 @@ export const CartSummary = (_props: ICartSummaryProps) => {
         PaperProps={{
           sx: {
             maxWidth: { xs: '100%', md: '50%' },
-            maxHeight: { xs: '75%', md: '75%' },
             mx: 'auto',
             borderTopLeftRadius: 16,
             borderTopRightRadius: 16,
@@ -61,132 +59,35 @@ export const CartSummary = (_props: ICartSummaryProps) => {
         </Stack>
       </SwipeableDrawer>
       <Container maxWidth="lg" disableGutters={inMobile}>
-        <Grid container spacing={{ xs: 1, md: 3 }}>
+        <Grid container spacing={{ xs: 3, md: 5 }}>
           <Grid item xs={12} md={8}>
-            <Stack gap={{ xs: 2, md: 3 }}>
-              <Stack
-                bgcolor="primary.main"
-                color="primary.contrastText"
-                py={{ xs: 1.75, md: 2 }}
-                px={{ xs: 2, md: 3 }}
-              >
-                <Grid
-                  container
-                  spacing={{ xs: 3, md: 5 }}
-                  justifyContent={{ xs: 'flex-start', md: 'center' }}
-                  alignItems={{ xs: 'flex-start', md: 'center' }}
-                  textAlign={{ xs: 'left', md: 'center' }}
-                >
-                  <Grid
-                    item
-                    xs={0}
-                    md={3}
-                    display={{ xs: 'none', md: 'initial' }}
-                  ></Grid>
-                  <Grid item xs={3} md={2}>
-                    <Typography fontWeight={500}>Product</Typography>
-                  </Grid>
-                  <Grid item xs={3} md={2}>
-                    <Typography fontWeight={500}>Price</Typography>
-                  </Grid>
-                  <Grid item xs={3} md={2}>
-                    <Typography fontWeight={500}>Quantity</Typography>
-                  </Grid>
-                  <Grid item xs={3} md={2}>
-                    <Typography fontWeight={500}>Sub total</Typography>
-                  </Grid>
-                </Grid>
-              </Stack>
-              <Stack
-                py={{ xs: 1.75, md: 2 }}
-                px={{ xs: 2, md: 3 }}
-                gap={{ xs: 2, md: 3 }}
-              >
-                {updating
-                  ? generateMockArray(1).map((_, index) => (
-                      <Grid
-                        container
-                        spacing={{ xs: 3, md: 5 }}
-                        key={index}
-                        justifyContent={{ xs: 'flex-start', md: 'center' }}
-                        alignItems={{ xs: 'flex-start', md: 'center' }}
-                      >
-                        <Grid
-                          item
-                          xs={0}
-                          md={3}
-                          display={{ xs: 'none', md: 'initial' }}
-                        >
-                          <Skeleton variant="rectangular" height={96} />
-                        </Grid>
-                        <Grid item xs={12} md={9}>
-                          <Skeleton variant="rectangular" />
-                        </Grid>
-                      </Grid>
-                    ))
-                  : cartItems.map(({ id, quantity, variant }) => {
-                      const { product, price } = variant;
-                      const { image } = product ?? {};
-                      const imageUrl =
-                        image?.image?.publicUrlTransformed ?? null;
-
-                      return (
-                        <Grid
-                          container
-                          spacing={{ xs: 3, md: 5 }}
-                          key={id}
-                          justifyContent={{ xs: 'flex-start', md: 'center' }}
-                          alignItems={{ xs: 'flex-start', md: 'center' }}
-                          textAlign={{ xs: 'left', md: 'center' }}
-                        >
-                          <Grid
-                            item
-                            xs={0}
-                            md={3}
-                            display={{ xs: 'none', md: 'initial' }}
-                          >
-                            {imageUrl && (
-                              <Stack
-                                height={{ xs: 0, md: 96 }}
-                                width="100%"
-                                position="relative"
-                              >
-                                <CloudImage
-                                  src={imageUrl}
-                                  fill
-                                  alt={product?.name}
-                                  sizes={generateSizes({ xs: 3, md: 3 })}
-                                  style={{
-                                    aspectRatio: '9 / 16',
-                                    objectFit: 'cover',
-                                  }}
-                                />
-                              </Stack>
-                            )}
-                          </Grid>
-                          <Grid item xs={3} md={2}>
-                            <Typography>{product?.name}</Typography>
-                          </Grid>
-                          <Grid item xs={3} md={2}>
-                            <Typography>{formatMoney(price)}</Typography>
-                          </Grid>
-                          <Grid item xs={3} md={2}>
-                            <Typography>{quantity}</Typography>
-                          </Grid>
-                          <Grid item xs={3} md={2}>
-                            {formatMoney(price * quantity)}
-                          </Grid>
-                        </Grid>
-                      );
-                    })}
-              </Stack>
+            <Stack
+              py={{ xs: 1, md: 2 }}
+              px={{ xs: 1, md: 3 }}
+              gap={{ xs: 3, md: 5 }}
+              bgcolor="primary.light"
+            >
+              {updating
+                ? generateMockArray(3).map((_, index) => (
+                    <CartSummaryElement
+                      divider={index !== 2}
+                      key={index}
+                      id={index?.toString()}
+                    />
+                  ))
+                : cartItems.map((cartItem, index) => (
+                    <CartSummaryElement
+                      divider={index !== cartItems.length - 1}
+                      key={cartItem?.id}
+                      {...cartItem}
+                    />
+                  ))}
             </Stack>
           </Grid>
           <Grid item xs={12} md={4}>
             <Stack
               gap={{ xs: 2, md: 3 }}
-              bgcolor="primary.main"
-              color="primary.contrastText"
+              bgcolor="primary.light"
               py={{ xs: 1.75, md: 2 }}
               px={{ xs: 2, md: 3 }}
               justifyContent="center"
@@ -205,7 +106,7 @@ export const CartSummary = (_props: ICartSummaryProps) => {
                 <Button
                   variant="contained"
                   size="large"
-                  color="secondary"
+                  color="primary"
                   fullWidth
                   onClick={handleCheckout}
                 >

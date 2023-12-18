@@ -16,11 +16,13 @@ interface ICartHandleButtonsProps {
   id: string;
   direction?: 'row' | 'column';
   color?: 'secondary' | 'primary';
+  showHandleButtons?: boolean;
 }
 export const CartHandleButtons = ({
   id,
   direction = 'column',
   color = 'secondary',
+  showHandleButtons = true,
 }: ICartHandleButtonsProps) => {
   const { handleAdd, handleEdit, handleRemove, cartItemId, quantity, loading } =
     useCartActions({ id });
@@ -47,6 +49,7 @@ export const CartHandleButtons = ({
                 color: (theme) => alpha(theme.palette.common.black, 0.56),
               }
             : { bgcolor: `${color}.main`, color: `${color}.contrastText` })}
+          sx={{ button: { maxWidth: 'fit-content' } }}
         >
           <Button
             variant="text"
@@ -85,7 +88,11 @@ export const CartHandleButtons = ({
             startIcon={<Remove fontSize="inherit" />}
           />
         </Stack>
-        <Stack direction="row" gap={0.5}>
+        <Stack
+          direction="row"
+          gap={0.5}
+          display={showHandleButtons ? 'flex' : 'none'}
+        >
           <Button
             variant={color === 'secondary' ? 'contained' : 'text'}
             size="large"
