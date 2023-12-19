@@ -2,6 +2,7 @@ export const NavbarConstants = {
   pages: [
     { title: 'Explore', href: '/explore/1' },
     { title: 'Shop', href: '/shop' },
+    { title: 'About Us', href: '/about-us' },
   ],
   user: ['Profile', 'Log Out'],
 };
@@ -113,6 +114,12 @@ export const AppConfig = {
     },
     orders: {
       path: '/orders',
+      title: 'My Orders - View your existing orders ',
+      description:
+        'Dive into the world of mid-century modern design with Lilac. Explore various furniture categories to find pieces that resonate with your style and enhance your home.',
+    },
+    order: {
+      path: '/orders/[id].tsx',
       title: 'My Orders - View your existing orders ',
       description:
         'Dive into the world of mid-century modern design with Lilac. Explore various furniture categories to find pieces that resonate with your style and enhance your home.',

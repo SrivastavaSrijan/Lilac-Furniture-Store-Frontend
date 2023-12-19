@@ -8,6 +8,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
+import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
 import {
   KeyboardEvent,
@@ -17,7 +18,7 @@ import {
   useState,
 } from 'react';
 
-import { ApolloErrorHandler, MessagesMap } from '.';
+import { ApolloErrorHandler, AppConfig, MessagesMap } from '.';
 import {
   useAddToCartMutation,
   useDeleteCartItemMutation,
@@ -92,6 +93,7 @@ export const useCartActions = ({ id }: ICartActionsHookProps) => {
 
   const { state, dispatch } = useContext(CommonContext);
   const { enqueueSnackbar } = useSnackbar();
+  const router = useRouter();
   const { element: cartEl, update: updateCart, items: cartItems } = state.cart;
   const productInCart = cartItems.find((val) => val.variant.id === id);
   const isProductInCart = !!productInCart;
@@ -106,17 +108,20 @@ export const useCartActions = ({ id }: ICartActionsHookProps) => {
     enqueueSnackbar({ message: MessagesMap.error });
   };
 
-  const handleAdd = (variantId?: string) => async (ev: MouseEvent) => {
-    ev.preventDefault();
-    ev.stopPropagation();
-    if (!variantId) return handleError();
-    const { data: addData } = await handleAddToCart({
-      variables: { id: variantId },
-    });
-    await handleUpdate();
-    if (cartEl && addData) dispatch({ type: 'popover', payload: cartEl });
-    return addData;
-  };
+  const handleAdd =
+    (variantId?: string, openPopover = true) =>
+    async (ev: MouseEvent) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+      if (!variantId) return handleError();
+      const { data: addData } = await handleAddToCart({
+        variables: { id: variantId },
+      });
+      await handleUpdate();
+      if (cartEl && addData && openPopover)
+        dispatch({ type: 'popover', payload: cartEl });
+      return addData;
+    };
 
   const handleRemove =
     (cartItemId: string) => async (ev: MouseEvent | KeyboardEvent) => {
@@ -144,6 +149,11 @@ export const useCartActions = ({ id }: ICartActionsHookProps) => {
       return editData;
     };
 
+  const handleBuy = (variantId: string) => async (ev: MouseEvent) => {
+    await handleAdd(variantId, false)(ev);
+    router.push(AppConfig.pages.cart.path);
+  };
+
   useEffect(() => {
     const error = editError || deleteError || addError;
 
@@ -155,6 +165,7 @@ export const useCartActions = ({ id }: ICartActionsHookProps) => {
 
   return {
     handleAdd,
+    handleBuy,
     handleEdit,
     handleRemove,
     loading,

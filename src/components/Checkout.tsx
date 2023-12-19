@@ -1,18 +1,33 @@
 import { CheckRounded } from '@mui/icons-material';
-import { Button, CircularProgress, Stack, Typography } from '@mui/material';
+import {
+  alpha,
+  ButtonBase,
+  CircularProgress,
+  Stack,
+  Typography,
+} from '@mui/material';
 import {
   AddressElement,
   PaymentElement,
   useElements,
   useStripe,
 } from '@stripe/react-stripe-js';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
 import { FormEvent, useEffect, useState } from 'react';
 
-import { AppConfig, formatMoney, MessagesMap, sleep } from '@/lib';
+import {
+  AppConfig,
+  formatMoney,
+  generateSlideVariants,
+  MessagesMap,
+  sleep,
+  useUser,
+} from '@/lib';
 import {
   PaymentIntentStatus,
+  useAllOrders,
   useConfirmPaymentAndCreateOrderMutation,
   useCreatePaymentIntentMutation,
 } from '@/lib/graphql';
@@ -28,7 +43,9 @@ const InnerCheckout = ({ amount }: ICheckoutProps) => {
   const [errorMessage, setErrorMessage] = useState<unknown | null>(null);
   const [globalLoading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [direction, setDirection] = useState(0);
   const { enqueueSnackbar } = useSnackbar();
+  const { refetch: refetchUser } = useUser();
   const stripe = useStripe();
   const elements = useElements();
   const router = useRouter();
@@ -39,6 +56,7 @@ const InnerCheckout = ({ amount }: ICheckoutProps) => {
     confirmPaymentAndCreateOrder,
     { data: orderData, loading: orderLoading, error: orderError },
   ] = useConfirmPaymentAndCreateOrderMutation();
+  const { refetch: refetchOrders } = useAllOrders();
   const loading = globalLoading || intentLoading || orderLoading;
   const error =
     (errorMessage as string) || !!intentError?.message || orderError?.message;
@@ -78,6 +96,7 @@ const InnerCheckout = ({ amount }: ICheckoutProps) => {
       const { id: paymentIntentId, status: intentStatus } = paymentIntent;
       if (intentStatus === 'succeeded' && paymentIntent) {
         setLoading(false);
+        setDirection(1);
         confirmPaymentAndCreateOrder({
           variables: { paymentIntentId },
         });
@@ -101,105 +120,152 @@ const InnerCheckout = ({ amount }: ICheckoutProps) => {
     }
   }, [enqueueSnackbar, error]);
 
+  useEffect(() => {
+    if (orderData?.confirmPaymentAndCreateOrder) setDirection(-1);
+  }, [orderData]);
+
+  const color = 'primary';
   return (
-    <Stack pt={{ xs: 2, md: 3 }} px={{ xs: 2, md: 3 }} position="relative">
-      {processing && (
-        <Stack
-          sx={(theme) => ({
-            top: 0,
-            justifyContent: 'center',
-            alignItems: 'center',
-            left: 0,
-            height: '100%',
-            width: '100%',
-            gap: 3,
-            bgcolor: 'secondary.main',
-            position: 'absolute',
-            color: 'secondary.contrastText',
-            zIndex: theme.zIndex.drawer + 1,
-          })}
-        >
-          {loading && (
-            <>
-              <CircularProgress color="inherit" size={50} />
-              <Typography variant="body1">
-                Checking the status of your payment...
-              </Typography>{' '}
-            </>
-          )}
-          {!!orderData?.confirmPaymentAndCreateOrder && (
-            <>
-              <Stack
-                direction="row"
-                fontSize="large"
-                gap="1ch"
-                color="success.main"
-                alignItems="center"
-              >
-                <CheckRounded
-                  fontSize="large"
-                  sx={{ border: 2, borderRadius: '50%' }}
-                />
-                <Typography variant="subtitle1" fontWeight={700}>
-                  Payment of {formatMoney(amount)} received!
-                </Typography>
-              </Stack>
-              <Typography variant="subtitle2" color="gray">
-                Order ID - {orderData?.confirmPaymentAndCreateOrder?.order?.id}
-              </Typography>
-              {timerTimestamp && (
-                <Countdown
-                  expiryTimestamp={timerTimestamp}
-                  onExpire={() => {
-                    setTimerTimestamp(null);
-                    router.push(AppConfig.pages.orders.path);
-                  }}
-                  text="Redirecting you in $SECONDS seconds..."
-                />
-              )}
-            </>
-          )}
-        </Stack>
-      )}
+    <Stack px={{ xs: 1, md: 2 }} flex={1}>
+      <Stack gap={{ xs: 0.875, md: 1 }} py={{ xs: 2, md: 2 }} px={1}>
+        <Typography variant="subtitle1" fontWeight={500}>
+          Pay for your order
+        </Typography>
+      </Stack>
 
       <Stack
+        justifyContent="space-between"
         component="form"
         noValidate
-        height={processing ? 300 : '100%'}
         onSubmit={handleSubmit}
-        overflow="auto"
+        position="relative"
+        flex={1}
       >
-        <Stack gap={{ xs: 0.875, md: 1 }} py={{ xs: 1, md: 2 }}>
-          <Typography variant="subtitle1" fontWeight={500}>
-            Pay for your order
-          </Typography>
+        <AnimatePresence mode="popLayout">
+          {processing && (
+            <Stack
+              sx={(theme) => ({
+                top: 0,
+                justifyContent: 'center',
+                alignItems: 'center',
+                left: 0,
+                height: '100%',
+                width: '100%',
+                bgcolor: 'secondary.main',
+                position: 'absolute',
+                color: 'secondary.contrastText',
+                zIndex: theme.zIndex.drawer + 1,
+              })}
+            >
+              <motion.div
+                key={loading ? 1 : -1}
+                variants={generateSlideVariants('x')}
+                custom={direction}
+                initial="initial"
+                animate="in"
+                exit="out"
+                transition={{
+                  x: { type: 'spring', stiffness: 300, damping: 30 },
+                  opacity: { duration: 0.2 },
+                }}
+              >
+                {loading && (
+                  <Stack
+                    justifyContent="center"
+                    alignItems="center"
+                    gap={{ xs: 2, md: 3 }}
+                  >
+                    <CircularProgress color="inherit" size={50} />
+                    <Typography variant="body1">
+                      Checking the status of your payment...
+                    </Typography>
+                  </Stack>
+                )}
+                {!!orderData?.confirmPaymentAndCreateOrder && (
+                  <Stack
+                    justifyContent="center"
+                    alignItems="center"
+                    gap={{ xs: 2, md: 3 }}
+                  >
+                    <Stack
+                      direction="row"
+                      fontSize="large"
+                      gap="1ch"
+                      color="success.main"
+                      alignItems="center"
+                    >
+                      <CheckRounded
+                        fontSize="large"
+                        sx={{ border: 2, borderRadius: '50%' }}
+                      />
+                      <Typography variant="subtitle1" fontWeight={700}>
+                        Payment of {formatMoney(amount)} received!
+                      </Typography>
+                    </Stack>
+                    <Typography variant="subtitle2" color="gray">
+                      Order ID -{' '}
+                      {orderData?.confirmPaymentAndCreateOrder?.order?.id}
+                    </Typography>
+                    {timerTimestamp && (
+                      <Countdown
+                        expiryTimestamp={timerTimestamp}
+                        onExpire={() => {
+                          router
+                            .push({
+                              pathname: AppConfig.pages.order.path.replace(
+                                '[id].tsx',
+                                orderData?.confirmPaymentAndCreateOrder?.order
+                                  ?.id ?? '404',
+                              ),
+                            })
+                            .then(async () => {
+                              refetchOrders();
+                              refetchUser();
+                            });
+                        }}
+                        text="Redirecting you in $SECONDS seconds..."
+                      />
+                    )}
+                  </Stack>
+                )}
+              </motion.div>
+            </Stack>
+          )}
+        </AnimatePresence>
+        <Stack
+          gap={{ xs: 2, md: 3 }}
+          px={1}
+          sx={{ overflowY: 'scroll' }}
+          height="100%"
+          maxHeight="calc(75vh - 128px)"
+        >
+          <AddressElement options={{ mode: 'shipping' }} />
+          <PaymentElement />
         </Stack>
-        <Stack justifyContent="space-between">
-          <Stack py={{ xs: 1, md: 2 }} gap={{ xs: 2, md: 3 }}>
-            <AddressElement options={{ mode: 'shipping' }} />
-            <PaymentElement />
-          </Stack>
+        <ButtonBase type="submit" sx={{ my: { xs: 1, md: 2 } }}>
           <Stack
-            py={{ xs: 1, md: 2 }}
+            mx={{ xs: -2, md: -3 }}
+            {...(submitting
+              ? {
+                  bgcolor: (theme) => alpha(theme.palette.common.black, 0.12),
+                  color: (theme) => alpha(theme.palette.common.black, 0.56),
+                }
+              : { bgcolor: `${color}.main`, color: `${color}.contrastText` })}
+            py={{ xs: 1, md: 1 }}
+            direction="row"
             position="sticky"
             bottom={0}
-            bgcolor="white"
-            direction="row"
             gap={2}
+            width="100%"
             justifyContent="center"
+            alignItems="center"
           >
-            <Button
-              variant="contained"
-              size="large"
-              startIcon={submitting && <CircularProgress size={14} />}
-              disabled={submitting}
-              type="submit"
-              sx={{ width: { xs: 256, md: 343 } }}
-            >
+            {submitting && <CircularProgress size={16} color="inherit" />}
+            <Typography variant="subtitle2">
               Pay {formatMoney(amount)}
-            </Button>
+            </Typography>
           </Stack>
-        </Stack>
+        </ButtonBase>
       </Stack>
     </Stack>
   );

@@ -4,7 +4,7 @@ import { snakeCase } from 'lodash';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
-import { AppConfig, AssetsConfig } from '@/lib';
+import { AppConfig, AssetsConfig, generateSlideVariants } from '@/lib';
 
 import { CloudImage } from '.';
 import { RedeemResetPassword } from './RedeemResetPassword';
@@ -12,25 +12,6 @@ import { RequestPasswordResetLink } from './RequestPasswordResetLink';
 import { SignIn } from './SignIn';
 import { SignUp } from './SignUp';
 import { Welcome } from './Welcome';
-
-const variants = {
-  initial: (direction: number) => {
-    return {
-      x: direction > 0 ? '100%' : '-100%',
-      opacity: 0,
-    };
-  },
-  in: {
-    x: 0,
-    opacity: 1,
-  },
-  out: (direction: number) => {
-    return {
-      x: direction < 0 ? '100%' : '-100%',
-      opacity: 0,
-    };
-  },
-};
 
 export interface IAuthChildProps {
   setCurrentState: (state: AuthState) => void;
@@ -122,7 +103,7 @@ export const Auth = ({ initialState, token, mode = 'dialog' }: IAuthProps) => {
           <motion.div
             key={currentState}
             custom={direction}
-            variants={variants}
+            variants={generateSlideVariants('x')}
             initial="initial"
             animate="in"
             exit="out"

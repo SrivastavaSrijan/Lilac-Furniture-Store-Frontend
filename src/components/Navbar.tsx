@@ -147,11 +147,15 @@ export const Navbar = (_props: INavbarProps) => {
       direction={{ xs: 'column', md: 'row' }}
       gap={{ xs: 1, md: 2 }}
       alignItems="flex-start"
-      color={{ xs: 'inverted.contrastText' }}
+      color={{ xs: 'inverted.contrastText', md: 'primary.contrastText' }}
     >
       {NavbarConstants.pages.map(({ title, href }) => (
         <Link passHref href={href} key={href}>
-          <Button onClick={handleDrawerToggle(false)} sx={{ minWidth: 0 }}>
+          <Button
+            color="inherit"
+            onClick={handleDrawerToggle(false)}
+            sx={{ minWidth: 0 }}
+          >
             <Typography sx={{ typography: { xs: 'subtitle2', md: 'body1' } }}>
               {title}
             </Typography>
@@ -267,9 +271,9 @@ export const Navbar = (_props: INavbarProps) => {
       flexGrow={1}
       alignItems="center"
     >
-      <Box flexGrow={1} />
       {Logo}
-      {/* {Links} */}
+      <Box flexGrow={1} />
+      {Links}
       <Box flexGrow={1} />
       {ActionIcons}
     </Stack>

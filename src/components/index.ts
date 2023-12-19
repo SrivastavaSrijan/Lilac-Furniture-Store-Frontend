@@ -9,6 +9,8 @@ export * from './CloudImage';
 export * from './ErrorBoundary';
 export * from './IconButtonPopover';
 export * from './ImageHeader';
+export * from './OrdersIndex';
+export * from './OrderSummary';
 export * from './Page';
 export * from './ProductCard';
 export * from './ProductFilterBar';

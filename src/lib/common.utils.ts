@@ -114,3 +114,22 @@ export const SizeOptionMap: Record<any, string> = {
   Large: 'L',
   'Extra Large': 'XL',
 };
+
+export const generateSlideVariants = (direction: 'x' | 'y') => ({
+  initial: (translate: number) => {
+    return {
+      [direction]: translate > 0 ? '100%' : '-100%',
+      opacity: 0,
+    };
+  },
+  in: {
+    [direction]: 0,
+    opacity: 1,
+  },
+  out: (translate: number) => {
+    return {
+      [direction]: translate < 0 ? '100%' : '-100%',
+      opacity: 0,
+    };
+  },
+});

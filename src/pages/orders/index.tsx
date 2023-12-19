@@ -1,9 +1,9 @@
 import { Container, Stack, Typography } from '@mui/material';
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import { GetServerSideProps } from 'next';
 
-import { SEO } from '@/components';
+import { OrdersIndex, SEO } from '@/components';
 import { AppConfig, withApollo } from '@/lib';
-import { ssrAllOrders } from '@/lib/graphql';
+import { PageAllOrdersComp, ssrAllOrders } from '@/lib/graphql';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { props } = await ssrAllOrders.getServerPage({}, ctx);
@@ -12,31 +12,27 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
-const Orders = ({
-  data,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Orders: PageAllOrdersComp = ({ data }) => {
   const { title, description } = AppConfig.pages.orders ?? {};
 
   return (
     <Stack>
       <SEO title={title} description={description} />
       <Stack
+        bgcolor="primary.main"
+        color="primary.contrastText"
         justifyContent="center"
-        alignItems="center"
-        textAlign="center"
-        px={{ xs: 2, md: 3 }}
-        py={{ xs: 1, md: 4 }}
+        px={{ xs: 0, md: 3 }}
+        py={{ xs: 1, md: 1 }}
         gap={{ xs: 1, md: 1.5 }}
       >
-        <Typography textAlign="center" variant="h2">
-          My Orders
-        </Typography>
+        <Container maxWidth="lg">
+          <Typography variant="h2">Orders</Typography>
+        </Container>
       </Stack>
-      <Container maxWidth="lg">
-        <Stack gap={{ xs: 6, md: 8 }} py={{ xs: 6, md: 8 }}>
-          {JSON.stringify(data?.authenticatedItem?.orders, null, 2)}
-        </Stack>
-      </Container>
+      <Stack gap={{ xs: 6, md: 8 }} py={{ xs: 0, md: 8 }}>
+        <OrdersIndex orderItems={data?.authenticatedItem?.orders ?? []} />
+      </Stack>
     </Stack>
   );
 };

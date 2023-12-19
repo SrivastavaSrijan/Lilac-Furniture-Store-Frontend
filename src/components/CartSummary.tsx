@@ -47,13 +47,15 @@ export const CartSummary = (_props: ICartSummaryProps) => {
         PaperProps={{
           sx: {
             maxWidth: { xs: '100%', md: '50%' },
+            height: { xs: '75vh', md: '75vh' },
+            overflow: 'hidden',
             mx: 'auto',
             borderTopLeftRadius: 16,
             borderTopRightRadius: 16,
           },
         }}
       >
-        <Stack gap={{ xs: 3, md: 5 }}>
+        <Stack gap={{ xs: 3, md: 5 }} flex={1}>
           <Puller />
           {totalAmount && <Checkout amount={totalAmount} />}
         </Stack>
@@ -67,6 +69,11 @@ export const CartSummary = (_props: ICartSummaryProps) => {
               gap={{ xs: 3, md: 5 }}
               bgcolor="primary.light"
             >
+              {!updating && !cartItems.length && (
+                <Typography py={2} variant="caption">
+                  Your cart is empty
+                </Typography>
+              )}
               {updating
                 ? generateMockArray(3).map((_, index) => (
                     <CartSummaryElement
@@ -93,13 +100,14 @@ export const CartSummary = (_props: ICartSummaryProps) => {
               justifyContent="center"
               alignItems="center"
             >
-              <Typography variant="h4">Summary</Typography>
+              <Typography variant="h5">Summary</Typography>
               <Grid container justifyContent="center">
                 <Grid item xs={6} md={6}>
                   <Typography>Total</Typography>
                 </Grid>
                 <Grid item xs={6} md={6} textAlign="right">
-                  {formatMoney(calculateCartPrice(cartItems))}
+                  {formatMoney(calculateCartPrice(cartItems)) ??
+                    formatMoney('0')}
                 </Grid>
               </Grid>
               <Stack direction="row" width="100%">
@@ -108,6 +116,7 @@ export const CartSummary = (_props: ICartSummaryProps) => {
                   size="large"
                   color="primary"
                   fullWidth
+                  disabled={updating || !cartItems.length}
                   onClick={handleCheckout}
                 >
                   Checkout

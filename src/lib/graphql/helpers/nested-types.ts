@@ -5,6 +5,7 @@
 import { GraphQLNestedProperty } from '@/lib';
 
 import {
+  AllOrdersQuery,
   GetUserQuery,
   HomePageQuery,
   PaginatedProductsQuery,
@@ -29,4 +30,9 @@ export type ICategory = GraphQLNestedProperty<HomePageQuery, 'categories'>;
 export type ICartItem = GraphQLNestedProperty<
   NonNullable<GetUserQuery['authenticatedItem']>,
   'cart'
+>;
+
+export type IOrderItem = GraphQLNestedProperty<
+  NonNullable<AllOrdersQuery['authenticatedItem']>,
+  'orders'
 >;

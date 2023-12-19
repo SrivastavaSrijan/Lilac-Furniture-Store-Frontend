@@ -32,6 +32,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean };
   Int: { input: number; output: number };
   Float: { input: number; output: number };
+  CalendarDay: { input: any; output: any };
   DateTime: { input: any; output: any };
   JSON: { input: any; output: any };
   Upload: { input: any; output: any };
@@ -91,6 +92,17 @@ export type BannerWhereInput = {
 
 export type BannerWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+export type CalendarDayFilter = {
+  equals?: InputMaybe<Scalars['CalendarDay']['input']>;
+  gt?: InputMaybe<Scalars['CalendarDay']['input']>;
+  gte?: InputMaybe<Scalars['CalendarDay']['input']>;
+  in?: InputMaybe<Array<Scalars['CalendarDay']['input']>>;
+  lt?: InputMaybe<Scalars['CalendarDay']['input']>;
+  lte?: InputMaybe<Scalars['CalendarDay']['input']>;
+  not?: InputMaybe<CalendarDayFilter>;
+  notIn?: InputMaybe<Array<Scalars['CalendarDay']['input']>>;
 };
 
 export type CartItem = {
@@ -834,6 +846,7 @@ export type NestedStringFilter = {
 export type Order = {
   __typename?: 'Order';
   charge?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['CalendarDay']['output']>;
   id: Scalars['ID']['output'];
   items?: Maybe<Array<OrderItem>>;
   itemsCount?: Maybe<Scalars['Int']['output']>;
@@ -855,6 +868,7 @@ export type OrderItemsCountArgs = {
 
 export type OrderCreateInput = {
   charge?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['CalendarDay']['input']>;
   items?: InputMaybe<OrderItemRelateToManyForCreateInput>;
   total?: InputMaybe<Scalars['Int']['input']>;
   user?: InputMaybe<UserRelateToOneForCreateInput>;
@@ -944,6 +958,7 @@ export type OrderManyRelationFilter = {
 
 export type OrderOrderByInput = {
   charge?: InputMaybe<OrderDirection>;
+  createdAt?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
   total?: InputMaybe<OrderDirection>;
 };
@@ -978,6 +993,7 @@ export type OrderUpdateArgs = {
 
 export type OrderUpdateInput = {
   charge?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['CalendarDay']['input']>;
   items?: InputMaybe<OrderItemRelateToManyForUpdateInput>;
   total?: InputMaybe<Scalars['Int']['input']>;
   user?: InputMaybe<UserRelateToOneForUpdateInput>;
@@ -988,6 +1004,7 @@ export type OrderWhereInput = {
   NOT?: InputMaybe<Array<OrderWhereInput>>;
   OR?: InputMaybe<Array<OrderWhereInput>>;
   charge?: InputMaybe<StringFilter>;
+  createdAt?: InputMaybe<CalendarDayFilter>;
   id?: InputMaybe<IdFilter>;
   items?: InputMaybe<OrderItemManyRelationFilter>;
   total?: InputMaybe<IntFilter>;
@@ -995,6 +1012,7 @@ export type OrderWhereInput = {
 };
 
 export type OrderWhereUniqueInput = {
+  createdAt?: InputMaybe<Scalars['CalendarDay']['input']>;
   id?: InputMaybe<Scalars['ID']['input']>;
 };
 
@@ -1186,7 +1204,6 @@ export type ProductSnapshot = {
   meta?: Maybe<Scalars['JSON']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   price?: Maybe<Scalars['Int']['output']>;
-  slug?: Maybe<Scalars['String']['output']>;
 };
 
 export type ProductSnapshotCreateInput = {
@@ -1194,7 +1211,6 @@ export type ProductSnapshotCreateInput = {
   meta?: InputMaybe<Scalars['JSON']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   price?: InputMaybe<Scalars['Int']['input']>;
-  slug?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ProductSnapshotOrderByInput = {
@@ -1202,7 +1218,6 @@ export type ProductSnapshotOrderByInput = {
   image?: InputMaybe<OrderDirection>;
   name?: InputMaybe<OrderDirection>;
   price?: InputMaybe<OrderDirection>;
-  slug?: InputMaybe<OrderDirection>;
 };
 
 export type ProductSnapshotRelateToOneForCreateInput = {
@@ -1226,7 +1241,6 @@ export type ProductSnapshotUpdateInput = {
   meta?: InputMaybe<Scalars['JSON']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   price?: InputMaybe<Scalars['Int']['input']>;
-  slug?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ProductSnapshotWhereInput = {
@@ -1237,12 +1251,10 @@ export type ProductSnapshotWhereInput = {
   image?: InputMaybe<StringFilter>;
   name?: InputMaybe<StringFilter>;
   price?: InputMaybe<IntFilter>;
-  slug?: InputMaybe<StringFilter>;
 };
 
 export type ProductSnapshotWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
-  slug?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ProductUpdateArgs = {
@@ -2128,6 +2140,8 @@ export type AllOrdersQuery = {
     __typename?: 'User';
     orders?: Array<{
       __typename?: 'Order';
+      id: string;
+      createdAt?: any | null;
       itemsCount?: number | null;
       total?: number | null;
       charge?: string | null;
@@ -2143,7 +2157,6 @@ export type AllOrdersQuery = {
           meta?: any | null;
           name?: string | null;
           price?: number | null;
-          slug?: string | null;
         } | null;
       }> | null;
     }> | null;
@@ -2158,6 +2171,8 @@ export type OrderQuery = {
   __typename?: 'Query';
   order?: {
     __typename?: 'Order';
+    id: string;
+    createdAt?: any | null;
     itemsCount?: number | null;
     total?: number | null;
     charge?: string | null;
@@ -2173,7 +2188,6 @@ export type OrderQuery = {
         meta?: any | null;
         name?: string | null;
         price?: number | null;
-        slug?: string | null;
       } | null;
     }> | null;
   } | null;
@@ -3697,10 +3711,11 @@ export const AllOrdersDocument = gql`
               meta
               name
               price
-              slug
             }
             quantity
           }
+          id
+          createdAt
           itemsCount
           total
           charge
@@ -3784,10 +3799,11 @@ export const OrderDocument = gql`
           meta
           name
           price
-          slug
         }
         quantity
       }
+      id
+      createdAt
       itemsCount
       total
       charge

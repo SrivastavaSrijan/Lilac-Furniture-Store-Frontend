@@ -24,8 +24,15 @@ export const CartHandleButtons = ({
   color = 'secondary',
   showHandleButtons = true,
 }: ICartHandleButtonsProps) => {
-  const { handleAdd, handleEdit, handleRemove, cartItemId, quantity, loading } =
-    useCartActions({ id });
+  const {
+    handleAdd,
+    handleBuy,
+    handleEdit,
+    handleRemove,
+    cartItemId,
+    quantity,
+    loading,
+  } = useCartActions({ id });
   if (quantity && cartItemId) {
     return (
       <Stack
@@ -124,18 +131,17 @@ export const CartHandleButtons = ({
   }
   return (
     <Stack gap={{ xs: 1, md: 1 }} direction={{ xs: direction, md: direction }}>
-      <Link href={AppConfig.pages.cart.path} passHref>
-        <Button
-          size="large"
-          variant="contained"
-          fullWidth
-          color={color}
-          disabled={loading}
-          endIcon={<ArrowForward fontSize="inherit" />}
-        >
-          Buy Now
-        </Button>
-      </Link>
+      <Button
+        size="large"
+        variant="contained"
+        fullWidth
+        color={color}
+        disabled={loading}
+        onClick={handleBuy(id)}
+        endIcon={<ArrowForward fontSize="inherit" />}
+      >
+        Buy Now
+      </Button>
       <Button
         variant="outlined"
         size="large"

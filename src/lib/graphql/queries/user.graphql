@@ -75,10 +75,11 @@ query AllOrders {
             meta
             name
             price
-            slug
           }
           quantity
         }
+        id
+        createdAt
         itemsCount
         total
         charge
@@ -98,10 +99,11 @@ query Order($where: OrderWhereUniqueInput!) {
         meta
         name
         price
-        slug
       }
       quantity
     }
+    id
+    createdAt
     itemsCount
     total
     charge
