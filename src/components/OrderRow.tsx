@@ -8,6 +8,7 @@ import {
   Table,
   TableBody,
   TableCell,
+  tableCellClasses,
   TableHead,
   TableRow,
   Typography,
@@ -37,7 +38,7 @@ export const OrderRow = ({ order, index }: IOrderRowProps) => {
             )}
           </IconButton>
         </TableCell>
-        <TableCell>{index + 1}</TableCell>
+        <TableCell>{index + 1}.</TableCell>
         <TableCell>{order.id}</TableCell>
         <TableCell suppressHydrationWarning>
           {new Date(order.createdAt).toLocaleDateString()}
@@ -60,15 +61,20 @@ export const OrderRow = ({ order, index }: IOrderRowProps) => {
         </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell
+          sx={{
+            paddingBottom: 0,
+            paddingTop: 0,
+            [`& .${tableCellClasses.head}`]: {
+              fontWeight: 700,
+            },
+            [`& .${tableCellClasses.body}`]: { borderBottom: 0 },
+          }}
+          colSpan={6}
+        >
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box m={1}>
-              <Typography
-                variant="body1"
-                fontWeight={700}
-                gutterBottom
-                component="div"
-              >
+              <Typography variant="body1" gutterBottom component="div">
                 Order Items
               </Typography>
               <Table size="small" aria-label="items">

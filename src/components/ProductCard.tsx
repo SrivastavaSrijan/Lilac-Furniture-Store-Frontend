@@ -102,7 +102,9 @@ export const ProductCard = ({
                   name={name}
                   formattedName={`${style} ${type} "${name}"`}
                 />
-                {variantId && <CartHandleButtons id={variantId} />}
+                {variantId && (
+                  <CartHandleButtons id={variantId} direction={direction} />
+                )}
               </Stack>
             </motion.div>
           )}
@@ -188,7 +190,7 @@ export const ProductCard = ({
                   {variantId && (
                     <CartHandleButtons
                       direction={direction}
-                      color="primary"
+                      color="secondary"
                       id={variantId}
                     />
                   )}

@@ -9,6 +9,7 @@ import {
   ShoppingCartOutlined,
 } from '@mui/icons-material';
 import {
+  alpha,
   AppBar,
   Avatar,
   Badge,
@@ -22,6 +23,7 @@ import {
   ListItemIcon,
   ListItemText,
   Skeleton,
+  skeletonClasses,
   Stack,
   SwipeableDrawer,
   Toolbar,
@@ -129,6 +131,10 @@ export const Navbar = (_props: INavbarProps) => {
     dispatch({ type: 'cart-items', payload: cleanedCartItems });
   }, [dispatch, user]);
 
+  useEffect(() => {
+    setDrawer(false);
+  }, [router.asPath]);
+
   const Logo = (
     <Link href={AppConfig.pages.index.path} passHref>
       <Stack
@@ -229,7 +235,15 @@ export const Navbar = (_props: INavbarProps) => {
   );
 
   const ActionIcons = (
-    <Stack direction="row" gap={{ xs: 1, md: 3 }}>
+    <Stack
+      direction="row"
+      gap={{ xs: 1, md: 3 }}
+      sx={(theme) => ({
+        [`& .${skeletonClasses.root}`]: {
+          backgroundColor: alpha(theme.palette.secondary.main, 0.5),
+        },
+      })}
+    >
       <IconButton color="secondary">
         <SearchOutlined fontSize="inherit" />
       </IconButton>

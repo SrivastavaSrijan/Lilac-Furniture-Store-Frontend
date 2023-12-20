@@ -28,7 +28,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 const Orders: PageOrderComp = ({ data }) => {
   const { title, description } = AppConfig.pages.orders ?? {};
-
   return (
     <Stack>
       <SEO title={title} description={description} />
@@ -41,7 +40,7 @@ const Orders: PageOrderComp = ({ data }) => {
         gap={{ xs: 1, md: 1.5 }}
       >
         <Container maxWidth="lg">
-          <Typography variant="h2">Order</Typography>
+          <Typography variant="h2">Order Summary</Typography>
         </Container>
       </Stack>
       <Stack gap={{ xs: 6, md: 8 }} py={{ xs: 0, md: 8 }}>

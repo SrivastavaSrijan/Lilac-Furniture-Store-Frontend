@@ -6,9 +6,8 @@ import {
   RemoveShoppingCartRounded,
 } from '@mui/icons-material';
 import { alpha, Button, buttonClasses, Stack } from '@mui/material';
-import Link from 'next/link';
 
-import { AppConfig, useCartActions } from '@/lib';
+import { useCartActions } from '@/lib';
 
 import { QuantityTextField } from './QuantityTextField';
 
@@ -50,6 +49,7 @@ export const CartHandleButtons = ({
           flexWrap="nowrap"
           height="100%"
           borderRadius={1}
+          width="fit-content"
           {...(loading
             ? {
                 bgcolor: (theme) => alpha(theme.palette.common.black, 0.12),
@@ -96,8 +96,7 @@ export const CartHandleButtons = ({
           />
         </Stack>
         <Stack
-          direction="row"
-          gap={0.5}
+          direction={{ xs: 'column', md: 'row' }}
           display={showHandleButtons ? 'flex' : 'none'}
         >
           <Button
@@ -113,28 +112,15 @@ export const CartHandleButtons = ({
               />
             }
           />
-          <Link href={AppConfig.pages.cart.path} passHref>
-            <Button
-              size="large"
-              variant="text"
-              fullWidth
-              color={color}
-              disabled={loading}
-              endIcon={<ArrowForward fontSize="inherit" />}
-            >
-              Checkout
-            </Button>
-          </Link>
         </Stack>
       </Stack>
     );
   }
   return (
-    <Stack gap={{ xs: 1, md: 1 }} direction={{ xs: direction, md: direction }}>
+    <Stack gap={{ xs: 1, md: 1 }} direction={{ xs: 'column', md: direction }}>
       <Button
         size="large"
         variant="contained"
-        fullWidth
         color={color}
         disabled={loading}
         onClick={handleBuy(id)}

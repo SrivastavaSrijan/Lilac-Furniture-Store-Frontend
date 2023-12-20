@@ -4,7 +4,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "devs": "source $HOME/.nvm/nvm.sh; nvm use;nvm use && clear && next dev -p 7777",
+    "devs": "source $HOME/.nvm/nvm.sh; nvm use;nvm use && clear && next dev -p 80  & local-ssl-proxy --key local.lilac.srijansrivastava.com-key.pem --cert local.lilac.srijansrivastava.com.pem --source 443 --target 80",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
