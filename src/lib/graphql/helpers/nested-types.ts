@@ -11,6 +11,7 @@ import {
   PaginatedProductsQuery,
   ProductBySlugQuery,
   ProductsWhereQuery,
+  SearchProductsQuery,
 } from '.';
 
 export type IPaginatedProduct = GraphQLNestedProperty<
@@ -18,6 +19,7 @@ export type IPaginatedProduct = GraphQLNestedProperty<
   'products'
 >;
 export type IProduct = NonNullable<ProductBySlugQuery['product']>;
+export type ISearchedProducts = NonNullable<SearchProductsQuery['products']>;
 export type IProductX = IPaginatedProduct & {
   variant: Required<IPaginatedProduct['variant']> & { id: string };
 };

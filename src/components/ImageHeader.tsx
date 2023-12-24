@@ -42,7 +42,7 @@ export const ImageHeader = ({
               xs: 'translate(-50%, 0)',
               md: 'translate(-50%, -20%)',
             },
-            backdropFilter: 'contrast(150%) blur(1rem)',
+            backdropFilter: 'contrast(110%) blur(0.125rem)',
           }}
         >
           <Container maxWidth="lg">

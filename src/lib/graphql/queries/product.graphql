@@ -125,3 +125,40 @@ mutation DeleteCartItem($where: CartItemWhereUniqueInput!) {
     id
   }
 }
+
+query SearchProducts($searchTerm: String!, $limit: Int, $offset: Int) {
+  products(
+    where: {
+      OR: [
+        { name: { contains: $searchTerm, mode: insensitive } },
+        { type: { contains: $searchTerm, mode: insensitive } },
+        { style: { contains: $searchTerm, mode: insensitive } },
+        { company: { contains: $searchTerm, mode: insensitive } },
+        { category: { name: { contains: $searchTerm, mode: insensitive } } }
+      ]
+    },
+    take: $limit,
+    skip: $offset
+  ) {
+    id
+    name
+    shortDescription
+    type
+    image {
+      image {
+        publicUrlTransformed
+      }
+    }
+    style
+    company
+    variant {
+      price
+      id
+    }
+    category {
+      id
+      name
+    }
+    # Include other fields as needed
+  }
+}

@@ -29,6 +29,7 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material';
+import { AnimatePresence, motion } from 'framer-motion';
 import { every } from 'lodash';
 import { useModal } from 'mui-modal-provider';
 import Link from 'next/link';
@@ -50,10 +51,12 @@ import { CommonContext } from '@/lib/providers';
 
 import { Auth, IconButtonPopover } from '.';
 import { CartPopover } from './CartPopover';
+import { Search } from './Search';
 
 interface INavbarProps {}
 export const Navbar = (_props: INavbarProps) => {
   const [openDrawer, setDrawer] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
   const { showModal } = useModal();
   const { user, loading, refetch, updating } = useUser();
   const router = useRouter();
@@ -244,9 +247,7 @@ export const Navbar = (_props: INavbarProps) => {
         },
       })}
     >
-      <IconButton color="secondary">
-        <SearchOutlined fontSize="inherit" />
-      </IconButton>
+      <Search />
       {Cart}
       {(() => {
         if (loading)
@@ -303,6 +304,12 @@ export const Navbar = (_props: INavbarProps) => {
       {Logo}
       <Box flexGrow={1} />
       <Stack gap={2} direction="row">
+        <IconButton
+          onClick={() => setShowSearch(!showSearch)}
+          color="secondary"
+        >
+          <SearchOutlined />
+        </IconButton>
         {Cart}
         <IconButton
           color="secondary"
@@ -395,6 +402,24 @@ export const Navbar = (_props: INavbarProps) => {
           {MobileNavbar}
           {DesktopNavbar}
         </Toolbar>
+        <AnimatePresence mode="wait">
+          {showSearch && (
+            <motion.div
+              initial={{ scale: 0.99, opacity: 0, height: 0 }}
+              exit={{ scale: 0.5, opacity: 0, height: 0 }}
+              animate={{ scale: 1, opacity: 1, height: 'initial' }}
+              transition={{
+                scale: { type: 'spring', stiffness: 300, damping: 30 },
+                opacity: { duration: 0.2 },
+                height: { type: 'spring', duration: 0.2 },
+              }}
+            >
+              <Toolbar>
+                <Search />
+              </Toolbar>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </Container>
     </AppBar>
   );

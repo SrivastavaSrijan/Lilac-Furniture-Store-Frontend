@@ -1012,7 +1012,6 @@ export type OrderWhereInput = {
 };
 
 export type OrderWhereUniqueInput = {
-  createdAt?: InputMaybe<Scalars['CalendarDay']['input']>;
   id?: InputMaybe<Scalars['ID']['input']>;
 };
 
@@ -2040,6 +2039,42 @@ export type DeleteCartItemMutationVariables = Exact<{
 export type DeleteCartItemMutation = {
   __typename?: 'Mutation';
   deleteCartItem?: { __typename?: 'CartItem'; id: string } | null;
+};
+
+export type SearchProductsQueryVariables = Exact<{
+  searchTerm: Scalars['String']['input'];
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type SearchProductsQuery = {
+  __typename?: 'Query';
+  products?: Array<{
+    __typename?: 'Product';
+    id: string;
+    name?: string | null;
+    shortDescription?: string | null;
+    type?: string | null;
+    style?: string | null;
+    company?: string | null;
+    image?: {
+      __typename?: 'ProductImage';
+      image?: {
+        __typename?: 'CloudinaryImage_File';
+        publicUrlTransformed?: string | null;
+      } | null;
+    } | null;
+    variant?: {
+      __typename?: 'ProductVariant';
+      price?: number | null;
+      id: string;
+    } | null;
+    category?: {
+      __typename?: 'Category';
+      id: string;
+      name?: string | null;
+    } | null;
+  }> | null;
 };
 
 export type GetUserQueryVariables = Exact<{
@@ -3350,6 +3385,111 @@ export type DeleteCartItemMutationResult =
 export type DeleteCartItemMutationOptions = Apollo.BaseMutationOptions<
   DeleteCartItemMutation,
   DeleteCartItemMutationVariables
+>;
+export const SearchProductsDocument = gql`
+  query SearchProducts($searchTerm: String!, $limit: Int, $offset: Int) {
+    products(
+      where: {
+        OR: [
+          { name: { contains: $searchTerm, mode: insensitive } }
+          { type: { contains: $searchTerm, mode: insensitive } }
+          { style: { contains: $searchTerm, mode: insensitive } }
+          { company: { contains: $searchTerm, mode: insensitive } }
+          { category: { name: { contains: $searchTerm, mode: insensitive } } }
+        ]
+      }
+      take: $limit
+      skip: $offset
+    ) {
+      id
+      name
+      shortDescription
+      type
+      image {
+        image {
+          publicUrlTransformed
+        }
+      }
+      style
+      company
+      variant {
+        price
+        id
+      }
+      category {
+        id
+        name
+      }
+    }
+  }
+`;
+
+/**
+ * __useSearchProductsQuery__
+ *
+ * To run a query within a React component, call `useSearchProductsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchProductsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchProductsQuery({
+ *   variables: {
+ *      searchTerm: // value for 'searchTerm'
+ *      limit: // value for 'limit'
+ *      offset: // value for 'offset'
+ *   },
+ * });
+ */
+export function useSearchProductsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    SearchProductsQuery,
+    SearchProductsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<SearchProductsQuery, SearchProductsQueryVariables>(
+    SearchProductsDocument,
+    options as any,
+  );
+}
+export function useSearchProductsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    SearchProductsQuery,
+    SearchProductsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<SearchProductsQuery, SearchProductsQueryVariables>(
+    SearchProductsDocument,
+    options as any,
+  );
+}
+export function useSearchProductsSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    SearchProductsQuery,
+    SearchProductsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    SearchProductsQuery,
+    SearchProductsQueryVariables
+  >(SearchProductsDocument, options as any);
+}
+export type SearchProductsQueryHookResult = ReturnType<
+  typeof useSearchProductsQuery
+>;
+export type SearchProductsLazyQueryHookResult = ReturnType<
+  typeof useSearchProductsLazyQuery
+>;
+export type SearchProductsSuspenseQueryHookResult = ReturnType<
+  typeof useSearchProductsSuspenseQuery
+>;
+export type SearchProductsQueryResult = Apollo.QueryResult<
+  SearchProductsQuery,
+  SearchProductsQueryVariables
 >;
 export const GetUserDocument = gql`
   query GetUser($orderBy: [CartItemOrderByInput!] = [{ id: asc }]) {

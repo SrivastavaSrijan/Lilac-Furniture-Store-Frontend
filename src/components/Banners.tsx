@@ -1,12 +1,12 @@
 import { ArrowForwardOutlined } from '@mui/icons-material';
-import { Box, Button, Stack, Typography } from '@mui/material';
+import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 
 import { HomePageQuery } from '@/lib/graphql';
 
 import { Carousel, CloudImage } from '.';
 
-const BannerHeight = { xs: 300, md: 700 };
-const BoxWidth = { xs: 320, md: 500 };
+const BannerHeight = { xs: 300, md: 'calc(100vh - 64px)' };
+const BoxWidth = { xs: '100%', md: 700 };
 
 interface IBannersProps extends Pick<HomePageQuery, 'banners'> {}
 export const Banners = ({ banners }: IBannersProps) => {
@@ -17,44 +17,23 @@ export const Banners = ({ banners }: IBannersProps) => {
         const { title, subtitle, image, href } = banner;
         const { publicUrlTransformed: bannerImage = null } = image ?? {};
         return (
-          <Stack key={banner.id} position="relative">
-            {bannerImage && (
-              <Box position="relative" width="100%" height={BannerHeight}>
-                <CloudImage
-                  fill
-                  src={bannerImage}
-                  sizes="100vw"
-                  quality={70}
-                  priority={index === 0}
-                  alt={banner?.title ?? 'Image'}
-                  style={{ objectFit: 'cover' }}
-                />
-              </Box>
-            )}
-            <Stack
-              sx={{
-                bgcolor: 'primary.main',
-                color: 'primary.contrastText',
-                position: 'absolute',
-                top: { xs: '50%', md: '30%' },
-                left: { xs: '50%', md: '90%' },
-                transform: {
-                  xs: 'translate(-50%, -50%)',
-                  md: 'translate(-90%, -30%)',
-                },
-              }}
-              py={{ xs: 2, md: 3 }}
-              px={{ xs: 2, md: 2 }}
-              width={BoxWidth}
-            >
+          <Grid container key={banner.id}>
+            <Grid item xs={12} md="auto">
               <Stack
+                bgcolor="primary.main"
+                color="primary.contrastText"
+                maxWidth={BoxWidth}
                 height="100%"
-                justifyContent="flex-start"
+                justifyContent="center"
                 alignItems="flex-start"
+                py={{ xs: 2, md: 3 }}
+                px={{ xs: 3, md: 5 }}
               >
                 <Stack gap={{ xs: 1, md: 2 }}>
-                  <Typography variant="h1">{title}</Typography>
-                  <Typography variant="subtitle1" className="clamp-3">
+                  <Typography sx={{ typography: { xs: 'h1', md: 'poster' } }}>
+                    {title}
+                  </Typography>
+                  <Typography variant="body1" className="clamp-3">
                     {subtitle}
                   </Typography>
                 </Stack>
@@ -70,8 +49,22 @@ export const Banners = ({ banners }: IBannersProps) => {
                   </Button>
                 )}
               </Stack>
-            </Stack>
-          </Stack>
+            </Grid>
+            <Grid item xs={12} md>
+              {bannerImage && (
+                <Box position="relative" width="100%" height={BannerHeight}>
+                  <CloudImage
+                    fill
+                    src={bannerImage}
+                    sizes="50vw"
+                    priority={index === 0}
+                    alt={banner?.title ?? 'Image'}
+                    style={{ objectFit: 'cover' }}
+                  />
+                </Box>
+              )}
+            </Grid>
+          </Grid>
         );
       })}
     </Carousel>

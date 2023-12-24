@@ -37,7 +37,7 @@ export const Welcome = (_props: IWelcomeProps) => {
     >
       <AnimatedCheckmark progress={progress} />
 
-      <AuthHeader title={`Welcome!`} subtitle={`${user?.email}`} />
+      <AuthHeader title={`Welcome!`} subtitle={`${user?.email || ''}`} />
     </Stack>
   );
 };

@@ -8,6 +8,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
+import { debounce } from 'lodash';
 import { useRouter } from 'next/router';
 import { useSnackbar } from 'notistack';
 import {
@@ -15,6 +16,8 @@ import {
   MouseEvent,
   useContext,
   useEffect,
+  useMemo,
+  useRef,
   useState,
 } from 'react';
 
@@ -172,4 +175,22 @@ export const useCartActions = ({ id }: ICartActionsHookProps) => {
     quantity: isProductInCart ? productInCart?.quantity ?? 0 : 0,
     cartItemId: isProductInCart ? productInCart?.id ?? null : null,
   };
+};
+
+export const useDebounce = (callback: Function, wait: number) => {
+  const ref = useRef<Function | null>();
+
+  useEffect(() => {
+    ref.current = callback;
+  }, [callback]);
+
+  const debouncedCallback = useMemo(() => {
+    const func = (args: any) => {
+      ref.current?.(args);
+    };
+
+    return debounce(func, wait);
+  }, [wait]);
+
+  return debouncedCallback;
 };

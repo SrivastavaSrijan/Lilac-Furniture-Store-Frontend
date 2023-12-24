@@ -78,6 +78,11 @@ const THEME = {
       textTransform: 'none' as const,
       lineHeight: 1.5,
     },
+    poster: {
+      fontSize: '6rem',
+      lineHeight: 1, // Tight for large headings
+      fontFamily: TEXT_SECONDARY,
+    },
     h1: {
       fontSize: '4rem',
       lineHeight: 1.1, // Tight for large headings
@@ -138,6 +143,11 @@ const THEME = {
     caption: {
       fontSize: '0.75rem',
       lineHeight: 1.6, // Most generous to ensure legibility at small sizes
+      fontFamily: TEXT_PRIMARY,
+    },
+    overline: {
+      fontSize: '0.625rem',
+      lineHeight: 1.7, // Most generous to ensure legibility at small sizes
       fontFamily: TEXT_PRIMARY,
     },
   },

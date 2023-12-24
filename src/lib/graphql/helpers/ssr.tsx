@@ -705,6 +705,70 @@ export const ssrProductsWhere = {
   usePage: useProductsWhere,
 };
 
+export async function getServerPageSearchProducts(
+  options: Omit<
+    Apollo.QueryOptions<Types.SearchProductsQueryVariables>,
+    'query'
+  >,
+  ctx: ApolloClientContext,
+) {
+  const apolloClient = getApolloClient(ctx);
+
+  const data = await apolloClient.query<Types.SearchProductsQuery>({
+    ...options,
+    query: Operations.SearchProductsDocument,
+  });
+
+  const apolloState = apolloClient.cache.extract();
+
+  return {
+    props: {
+      apolloState,
+      data: data?.data,
+      error: data?.error ?? data?.errors ?? null,
+    },
+  };
+}
+export const useSearchProducts = (
+  optionsFunc?: (
+    router: NextRouter,
+  ) => QueryHookOptions<
+    Types.SearchProductsQuery,
+    Types.SearchProductsQueryVariables
+  >,
+) => {
+  const router = useRouter();
+  const options = optionsFunc ? optionsFunc(router) : {};
+  return useQuery(Operations.SearchProductsDocument, options as any);
+};
+export type PageSearchProductsComp = React.FC<{
+  data?: Types.SearchProductsQuery;
+  error?: Apollo.ApolloError;
+}>;
+export const withPageSearchProducts =
+  (
+    optionsFunc?: (
+      router: NextRouter,
+    ) => QueryHookOptions<
+      Types.SearchProductsQuery,
+      Types.SearchProductsQueryVariables
+    >,
+  ) =>
+  (WrappedComponent: PageSearchProductsComp): NextPage =>
+  (props) => {
+    const router = useRouter();
+    const options = optionsFunc ? optionsFunc(router) : {};
+    const { data, error } = useQuery(
+      Operations.SearchProductsDocument,
+      options as any,
+    );
+    return <WrappedComponent {...props} data={data} error={error} />;
+  };
+export const ssrSearchProducts = {
+  getServerPage: getServerPageSearchProducts,
+  withPage: withPageSearchProducts,
+  usePage: useSearchProducts,
+};
 export async function getServerPageGetUser(
   options: Omit<Apollo.QueryOptions<Types.GetUserQueryVariables>, 'query'>,
   ctx: ApolloClientContext,

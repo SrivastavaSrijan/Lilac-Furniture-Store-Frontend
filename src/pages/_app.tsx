@@ -72,7 +72,7 @@ export default function MyApp(props: IMyAppProps) {
               >
                 <ModalProvider>
                   <CommonProvider>
-                    <AnimatePresence initial={false}>
+                    <AnimatePresence>
                       <Page>
                         <Box
                           className={poppinsClassName}
