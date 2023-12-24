@@ -247,7 +247,9 @@ export const Navbar = (_props: INavbarProps) => {
         },
       })}
     >
-      <Search />
+      <IconButton onClick={() => setShowSearch(!showSearch)} color="secondary">
+        <SearchOutlined />
+      </IconButton>
       {Cart}
       {(() => {
         if (loading)
@@ -402,25 +404,29 @@ export const Navbar = (_props: INavbarProps) => {
           {MobileNavbar}
           {DesktopNavbar}
         </Toolbar>
-        <AnimatePresence mode="wait">
-          {showSearch && (
-            <motion.div
-              initial={{ scale: 0.99, opacity: 0, height: 0 }}
-              exit={{ scale: 0.5, opacity: 0, height: 0 }}
-              animate={{ scale: 1, opacity: 1, height: 'initial' }}
-              transition={{
-                scale: { type: 'spring', stiffness: 300, damping: 30 },
-                opacity: { duration: 0.2 },
-                height: { type: 'spring', duration: 0.2 },
-              }}
-            >
-              <Toolbar>
-                <Search />
-              </Toolbar>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </Container>
+      <AnimatePresence mode="wait">
+        {showSearch && (
+          <motion.div
+            initial={{ scale: 0.99, opacity: 0, height: 0 }}
+            exit={{ scale: 0.99, opacity: 0, height: 0 }}
+            animate={{ scale: 1, opacity: 1, height: 'initial' }}
+            transition={{
+              scale: { type: 'spring', stiffness: 300, damping: 30 },
+              opacity: { duration: 0.2 },
+              height: { type: 'spring', duration: 0.2 },
+            }}
+          >
+            <Container maxWidth="lg">
+              <Stack width="100%" alignItems="flex-end" pb={1}>
+                <Stack maxWidth={(theme) => theme.breakpoints.values.sm}>
+                  <Search />
+                </Stack>
+              </Stack>
+            </Container>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </AppBar>
   );
 };

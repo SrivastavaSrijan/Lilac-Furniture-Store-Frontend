@@ -133,7 +133,7 @@ export const Search = (_props: ISearchProps) => {
           paper: {
             sx: (theme) => ({
               mt: 1,
-              width: { xs: '100%', md: 343 },
+              width: { xs: '100%', md: theme.breakpoints.values.sm },
               borderRadius: 0,
               maxHeight: 400,
               bgcolor: lighten(theme.palette.secondary.main, 0.2),
@@ -143,7 +143,7 @@ export const Search = (_props: ISearchProps) => {
       >
         <Stack gap={{ xs: 0.5, md: 1 }} flex={1} p={{ xs: 1, md: 1 }}>
           {!fetching && !data?.products?.length && (
-            <Typography py={2} variant="caption" color="primary.contrastText">
+            <Typography py={2} variant="caption" color="secondary.contrastText">
               No results found
             </Typography>
           )}

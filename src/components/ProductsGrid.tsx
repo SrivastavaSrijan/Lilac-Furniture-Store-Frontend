@@ -31,12 +31,12 @@ import { ProductCard } from './ProductCard';
 
 const item = {
   hidden: {
-    x: 50, // start 50 pixels to the right
+    y: 50, // start 50 pixels to the right
     opacity: 0, // fully transparent
     scale: 0.95, // slightly smaller
   },
   visible: {
-    x: 0, // move to final position
+    y: 0, // move to final position
     opacity: 1, // fully visible
     scale: 1, // scale to normal size
   },
@@ -216,15 +216,8 @@ export const ProductsGrid = ({
     (product: IPaginatedProduct | null, index) => {
       const xsWidth = view === 'card' ? 12 : 6;
       const mdWidth = view === 'card' ? 12 : 3;
-      const itemsPerRow = inMobile ? 12 / xsWidth : 12 / mdWidth;
-      const rowIndex = Math.floor(index / itemsPerRow);
-      const positionInRow = index % itemsPerRow;
-
-      // Base delay for each row + additional stagger for each card in the row
-      const delay = rowIndex * 0.12 + positionInRow * 0.1;
-
       return (
-        <Grid item key={product?.id ?? index} xs={xsWidth} md={mdWidth}>
+        <Grid item key={index} xs={xsWidth} md={mdWidth}>
           {product ? (
             <motion.div
               variants={item}
@@ -240,7 +233,6 @@ export const ProductsGrid = ({
                 type: 'spring',
                 damping: 15,
                 stiffness: 100,
-                delay,
               }}
               style={{ position: 'relative', zIndex: 1 }}
             >
