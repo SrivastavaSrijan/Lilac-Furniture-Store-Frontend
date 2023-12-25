@@ -419,7 +419,13 @@ export const Navbar = (_props: INavbarProps) => {
           >
             <Container maxWidth="lg">
               <Stack width="100%" alignItems="flex-end" pb={1}>
-                <Stack maxWidth={(theme) => theme.breakpoints.values.sm}>
+                <Stack
+                  width={{ xs: '100%', md: 'initial' }}
+                  maxWidth={(theme) => ({
+                    xs: '100%',
+                    md: theme.breakpoints.values.sm,
+                  })}
+                >
                   <Search />
                 </Stack>
               </Stack>

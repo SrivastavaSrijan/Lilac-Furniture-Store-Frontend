@@ -10,6 +10,8 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import match from 'autosuggest-highlight/match';
+import parse from 'autosuggest-highlight/parse';
 import { kebabCase } from 'lodash';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
@@ -70,6 +72,28 @@ export const Search = (_props: ISearchProps) => {
       setSearchTerm('EMPTY');
       inputRef?.current?.blur();
     });
+  };
+
+  const renderHighlightedText = (text: string | null | undefined) => {
+    if (!text) return <></>;
+    const matches = match(text, searchTerm);
+    const parts = parse(text, matches);
+
+    return parts.map((part, index) => (
+      <Typography
+        component="span"
+        sx={{
+          ...(part.highlight && {
+            color: 'primary.main',
+            px: '0.25ch',
+            bgcolor: 'primary.light',
+          }),
+        }}
+        key={index}
+      >
+        {part.text}
+      </Typography>
+    ));
   };
 
   const open = Boolean(anchorEl) && !!search;
@@ -215,10 +239,10 @@ export const Search = (_props: ISearchProps) => {
                       ) : (
                         <Stack textAlign="left">
                           <Typography variant="body1" fontWeight={600}>
-                            {name}
+                            {renderHighlightedText(name)}
                           </Typography>
                           <Typography fontWeight={300} variant="caption">
-                            by {company}
+                            by {renderHighlightedText(company)}
                           </Typography>
                           <Typography fontWeight={300} variant="caption">
                             <Typography
@@ -226,10 +250,10 @@ export const Search = (_props: ISearchProps) => {
                               variant="body2"
                               fontWeight={500}
                             >
-                              {type}
+                              {renderHighlightedText(type)}
                               {', '}
                             </Typography>
-                            {style}
+                            {renderHighlightedText(style)}
                           </Typography>
                           <Typography variant="body2">
                             {formatMoney(price)}

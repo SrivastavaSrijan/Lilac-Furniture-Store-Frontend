@@ -769,6 +769,70 @@ export const ssrSearchProducts = {
   withPage: withPageSearchProducts,
   usePage: useSearchProducts,
 };
+export async function getServerPageProductDescriptors(
+  options: Omit<
+    Apollo.QueryOptions<Types.ProductDescriptorsQueryVariables>,
+    'query'
+  >,
+  ctx: ApolloClientContext,
+) {
+  const apolloClient = getApolloClient(ctx);
+
+  const data = await apolloClient.query<Types.ProductDescriptorsQuery>({
+    ...options,
+    query: Operations.ProductDescriptorsDocument,
+  });
+
+  const apolloState = apolloClient.cache.extract();
+
+  return {
+    props: {
+      apolloState,
+      data: data?.data,
+      error: data?.error ?? data?.errors ?? null,
+    },
+  };
+}
+export const useProductDescriptors = (
+  optionsFunc?: (
+    router: NextRouter,
+  ) => QueryHookOptions<
+    Types.ProductDescriptorsQuery,
+    Types.ProductDescriptorsQueryVariables
+  >,
+) => {
+  const router = useRouter();
+  const options = optionsFunc ? optionsFunc(router) : {};
+  return useQuery(Operations.ProductDescriptorsDocument, options as any);
+};
+export type PageProductDescriptorsComp = React.FC<{
+  data?: Types.ProductDescriptorsQuery;
+  error?: Apollo.ApolloError;
+}>;
+export const withPageProductDescriptors =
+  (
+    optionsFunc?: (
+      router: NextRouter,
+    ) => QueryHookOptions<
+      Types.ProductDescriptorsQuery,
+      Types.ProductDescriptorsQueryVariables
+    >,
+  ) =>
+  (WrappedComponent: PageProductDescriptorsComp): NextPage =>
+  (props) => {
+    const router = useRouter();
+    const options = optionsFunc ? optionsFunc(router) : {};
+    const { data, error } = useQuery(
+      Operations.ProductDescriptorsDocument,
+      options as any,
+    );
+    return <WrappedComponent {...props} data={data} error={error} />;
+  };
+export const ssrProductDescriptors = {
+  getServerPage: getServerPageProductDescriptors,
+  withPage: withPageProductDescriptors,
+  usePage: useProductDescriptors,
+};
 export async function getServerPageGetUser(
   options: Omit<Apollo.QueryOptions<Types.GetUserQueryVariables>, 'query'>,
   ctx: ApolloClientContext,

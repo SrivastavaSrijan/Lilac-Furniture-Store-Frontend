@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 
 import { useInMobile } from '@/lib';
 
+import { Footer } from './Footer';
 import { Navbar } from './Navbar';
 
 const spring = {
@@ -31,6 +32,7 @@ export const Page = ({ children }: IPageProps) => {
       >
         {children}
       </motion.div>
+      <Footer />
     </Stack>
   );
 };

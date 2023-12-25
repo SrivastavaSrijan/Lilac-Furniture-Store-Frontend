@@ -78,6 +78,12 @@ export const AppConfig = {
       description:
         'Dive into the world of mid-century modern design with Lilac. Explore various furniture categories to find pieces that resonate with your style and enhance your home.',
     },
+    search: {
+      path: '/search',
+      title: 'Shop at Lilac - Find Your Perfect Mid-Century Modern Piece',
+      description:
+        'Browse our extensive selection of mid-century modern furniture at Lilac. Discover unique, elegant pieces that elevate your living space with style and sophistication.',
+    },
     shop: {
       path: '/shop',
       title: 'Shop at Lilac - Find Your Perfect Mid-Century Modern Piece',

@@ -112,7 +112,7 @@ const THEME = {
       fontFamily: TEXT_SECONDARY,
     },
     h6: {
-      fontSize: '1rem',
+      fontSize: '1.25rem',
       lineHeight: 1.4, // Standard for text
       fontFamily: TEXT_SECONDARY,
     },

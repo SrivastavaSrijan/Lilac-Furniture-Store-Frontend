@@ -17,5 +17,6 @@ export * from './ProductFilterBar';
 export * from './ProductIndex';
 export * from './ProductsGrid';
 export * from './RelatedProducts';
+export * from './SearchGrid';
 export * from './SEO';
 export * from './StyledComponents';

@@ -134,7 +134,6 @@ query SearchProducts($searchTerm: String!, $limit: Int, $offset: Int) {
         { type: { contains: $searchTerm, mode: insensitive } },
         { style: { contains: $searchTerm, mode: insensitive } },
         { company: { contains: $searchTerm, mode: insensitive } },
-        { category: { name: { contains: $searchTerm, mode: insensitive } } }
       ]
     },
     take: $limit,
@@ -160,5 +159,17 @@ query SearchProducts($searchTerm: String!, $limit: Int, $offset: Int) {
       name
     }
     # Include other fields as needed
+  }
+}
+
+query ProductDescriptors($take: Int, $skip: Int) {
+  getAllProductDescriptors(take: $take, skip: $skip) {
+    companies
+    styles
+    types
+  }
+  categories(take: $take, skip: $skip) {
+    name
+    slug
   }
 }

@@ -1099,6 +1099,13 @@ export type ProductCreateInput = {
   variants?: InputMaybe<ProductVariantRelateToManyForCreateInput>;
 };
 
+export type ProductDescriptor = {
+  __typename?: 'ProductDescriptor';
+  companies?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  styles?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  types?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+};
+
 export type ProductImage = {
   __typename?: 'ProductImage';
   alt?: Maybe<Scalars['String']['output']>;
@@ -1404,6 +1411,8 @@ export type Query = {
   categories?: Maybe<Array<Category>>;
   categoriesCount?: Maybe<Scalars['Int']['output']>;
   category?: Maybe<Category>;
+  /**  Get the distinct over all Products  */
+  getAllProductDescriptors?: Maybe<ProductDescriptor>;
   /**  Get price range over a ProductVariant  */
   getPriceRange?: Maybe<MinMax>;
   keystone: KeystoneMeta;
@@ -1477,6 +1486,12 @@ export type QueryCategoriesCountArgs = {
 
 export type QueryCategoryArgs = {
   where: CategoryWhereUniqueInput;
+};
+
+export type QueryGetAllProductDescriptorsArgs = {
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: InputMaybe<ProductWhereInput>;
 };
 
 export type QueryGetPriceRangeArgs = {
@@ -2074,6 +2089,26 @@ export type SearchProductsQuery = {
       id: string;
       name?: string | null;
     } | null;
+  }> | null;
+};
+
+export type ProductDescriptorsQueryVariables = Exact<{
+  take?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type ProductDescriptorsQuery = {
+  __typename?: 'Query';
+  getAllProductDescriptors?: {
+    __typename?: 'ProductDescriptor';
+    companies?: Array<string | null> | null;
+    styles?: Array<string | null> | null;
+    types?: Array<string | null> | null;
+  } | null;
+  categories?: Array<{
+    __typename?: 'Category';
+    name?: string | null;
+    slug?: string | null;
   }> | null;
 };
 
@@ -3395,7 +3430,6 @@ export const SearchProductsDocument = gql`
           { type: { contains: $searchTerm, mode: insensitive } }
           { style: { contains: $searchTerm, mode: insensitive } }
           { company: { contains: $searchTerm, mode: insensitive } }
-          { category: { name: { contains: $searchTerm, mode: insensitive } } }
         ]
       }
       take: $limit
@@ -3490,6 +3524,86 @@ export type SearchProductsSuspenseQueryHookResult = ReturnType<
 export type SearchProductsQueryResult = Apollo.QueryResult<
   SearchProductsQuery,
   SearchProductsQueryVariables
+>;
+export const ProductDescriptorsDocument = gql`
+  query ProductDescriptors($take: Int, $skip: Int) {
+    getAllProductDescriptors(take: $take, skip: $skip) {
+      companies
+      styles
+      types
+    }
+    categories(take: $take, skip: $skip) {
+      name
+      slug
+    }
+  }
+`;
+
+/**
+ * __useProductDescriptorsQuery__
+ *
+ * To run a query within a React component, call `useProductDescriptorsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProductDescriptorsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProductDescriptorsQuery({
+ *   variables: {
+ *      take: // value for 'take'
+ *      skip: // value for 'skip'
+ *   },
+ * });
+ */
+export function useProductDescriptorsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    ProductDescriptorsQuery,
+    ProductDescriptorsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    ProductDescriptorsQuery,
+    ProductDescriptorsQueryVariables
+  >(ProductDescriptorsDocument, options as any);
+}
+export function useProductDescriptorsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ProductDescriptorsQuery,
+    ProductDescriptorsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    ProductDescriptorsQuery,
+    ProductDescriptorsQueryVariables
+  >(ProductDescriptorsDocument, options as any);
+}
+export function useProductDescriptorsSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    ProductDescriptorsQuery,
+    ProductDescriptorsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    ProductDescriptorsQuery,
+    ProductDescriptorsQueryVariables
+  >(ProductDescriptorsDocument, options as any);
+}
+export type ProductDescriptorsQueryHookResult = ReturnType<
+  typeof useProductDescriptorsQuery
+>;
+export type ProductDescriptorsLazyQueryHookResult = ReturnType<
+  typeof useProductDescriptorsLazyQuery
+>;
+export type ProductDescriptorsSuspenseQueryHookResult = ReturnType<
+  typeof useProductDescriptorsSuspenseQuery
+>;
+export type ProductDescriptorsQueryResult = Apollo.QueryResult<
+  ProductDescriptorsQuery,
+  ProductDescriptorsQueryVariables
 >;
 export const GetUserDocument = gql`
   query GetUser($orderBy: [CartItemOrderByInput!] = [{ id: asc }]) {
