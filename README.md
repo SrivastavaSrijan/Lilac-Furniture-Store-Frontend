@@ -1,4 +1,6 @@
-## LILAC - Mid Centuary Modern Furniture Store
+# LILAC - Mid Centuary Modern Furniture Store
+## Front-end Implementation using Next.js, Apollo, MUI and Framer Motion
+
 Discover timeless elegance and modern comfort at Lilac, your destination for mid-century modern furniture. Explore a curated collection of beautifully crafted pieces that blend pastel sophistication with a touch of nostalgia. Redefine your living spaces with our exquisite designs. Welcome to Lilac, where classic meets contemporary.
 
 ### Features and Technologies 🛠️
