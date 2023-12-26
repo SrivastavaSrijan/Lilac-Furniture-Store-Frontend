@@ -1,40 +1,53 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## LILAC - Mid Centuary Modern Furniture Store
+Discover timeless elegance and modern comfort at Lilac, your destination for mid-century modern furniture. Explore a curated collection of beautifully crafted pieces that blend pastel sophistication with a touch of nostalgia. Redefine your living spaces with our exquisite designs. Welcome to Lilac, where classic meets contemporary.
 
-## Getting Started
+### Features and Technologies 🛠️
 
-First, run the development server:
+- **Responsive Navbar and Dynamic Search** 🔍
+  - Adaptive design for various screen sizes.
+  - Real-time feedback and optimized query handling with GraphQL.
+
+- **Interactive Product Grid with Advanced Filters** 📊
+  - User-friendly grid layout with Material-UI components.
+  - Efficient sorting and filtering capabilities using Apollo Client.
+
+- **Detailed Product Cards and Expandable Category Grid** 📋
+  - Interactive elements for variant selection.
+  - Masonry-style layout for category browsing with Framer Motion animations.
+
+- **Comprehensive Cart Management** 🛒
+  - Intuitive UI for cart interactions.
+  - Real-time synchronization with backend updates.
+
+- **Engaging Hero/Banner Section** 🎠
+  - Auto-scrolling carousel for promotional content using `react-swipeable-views`.
+
+- **Secure Payment Processing Module** 💳
+  - Seamless Stripe integration for transactions.
+  - Visual feedback for transaction status with Framer Motion animations.
+
+- **Detailed Order Display** 📝
+  - Comprehensive post-purchase order information display.
+
+- **Robust Authentication System** 🔐
+  - Multiple states handling from sign-in to password reset.
+
+- **Dynamic Footer with Product Grouping** 📚
+  - Enhanced navigation and user engagement.
+
+### Tech Stack
+
+- React
+- Next.js
+- Material-UI
+- Apollo Client
+- Framer Motion
+- Stripe
+
+### Getting Started 🚀
+
+To start the project locally:
 
 ```bash
-npm run dev
-# or
+yarn
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
