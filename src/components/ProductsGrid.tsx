@@ -122,9 +122,7 @@ export const ProductsGrid = ({
       refetchSortVariables?: PaginatedProductsQueryVariables['orderBy'],
     ) => {
       const defaultQuery: PaginatedProductsQueryVariables['where'] = {
-        variants: {
-          every: { price: { gte: minPrice, lte: maxPrice } },
-        },
+        lowestPrice: { gte: minPrice, lte: maxPrice },
       };
       const isClear =
         Object.keys(refetchWhereVariables ?? {}).length < 1 ||
@@ -142,15 +140,16 @@ export const ProductsGrid = ({
       }
       setIsFetchingMore(false);
     };
-    if (!config.applied) {
-      handleRefetch({});
-      return;
-    }
-
     let refetchQuery: PaginatedProductsQueryVariables['where'] = {
       ...variables?.where,
     };
-    let refetchSortQuery: PaginatedProductsQueryVariables['orderBy'];
+    let refetchSortQuery: PaginatedProductsQueryVariables['orderBy'] = {
+      id: OrderDirection.Asc,
+    };
+    if (!config.applied) {
+      handleRefetch({}, refetchSortQuery);
+      return;
+    }
     if (config.sort !== 'featured') {
       if (config.sort === 'name') {
         refetchSortQuery = {
@@ -167,9 +166,7 @@ export const ProductsGrid = ({
       if (selectedMax && selectedMin)
         refetchQuery = {
           ...refetchQuery,
-          variants: {
-            every: { price: { gte: selectedMin, lte: selectedMax } },
-          },
+          lowestPrice: { gte: selectedMin, lte: selectedMax },
         };
     }
     if (config.category.length >= 1) {

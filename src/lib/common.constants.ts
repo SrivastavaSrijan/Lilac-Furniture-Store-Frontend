@@ -1,10 +1,10 @@
 export const NavbarConstants = {
   pages: [
+    { title: 'Home', href: '/' },
     { title: 'Explore', href: '/explore/1' },
     { title: 'Shop', href: '/shop' },
-    { title: 'About Us', href: '/about-us' },
   ],
-  user: ['Profile', 'Log Out'],
+  user: ['Log Out'],
 };
 
 export const AssetsConfig = {

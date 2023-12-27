@@ -1,5 +1,4 @@
 import {
-  AccountCircleOutlined,
   Login as LoginIcon,
   LogoutOutlined,
   Menu as MenuIcon,
@@ -194,14 +193,14 @@ export const Navbar = (_props: INavbarProps) => {
       {HiUser}
       <Divider flexItem variant="middle" />
       <List component="nav" disablePadding>
-        <Link passHref href="/profile">
+        {/* <Link passHref href="/profile">
           <ListItemButton>
             <ListItemIcon>
               <AccountCircleOutlined color="primary" />
             </ListItemIcon>
             <ListItemText primary="Profile" color="common.black" />
           </ListItemButton>
-        </Link>
+        </Link> */}
         <Link passHref href="/orders">
           <ListItemButton>
             <ListItemIcon>

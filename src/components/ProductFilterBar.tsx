@@ -220,11 +220,7 @@ export const ProductFilterBar = ({
                       !minPrice ||
                       categoriesLoading ||
                       loading ? (
-                        <Stack
-                          bgcolor="primary.main"
-                          color="primary.contrastText"
-                          minHeight={{ xs: 196, md: 196 }}
-                        >
+                        <Stack minHeight={{ xs: 196, md: 196 }}>
                           <Skeleton width={196} height={28} />
                           <Skeleton width={196} height={48} />
                           <Skeleton width={128} height={28} />
@@ -266,9 +262,9 @@ export const ProductFilterBar = ({
                             <Typography variant="body2" fontWeight={500}>
                               Filter by Category
                             </Typography>
-                            <FormControl variant="standard" size="small">
+                            <FormControl variant="outlined" size="small">
                               <InputLabel id="category-localConfig-label">
-                                Category
+                                Select categories
                               </InputLabel>
                               <Select<string[]>
                                 size="small"
@@ -278,7 +274,7 @@ export const ProductFilterBar = ({
                                 disabled={loading}
                                 value={localConfig.category}
                                 onChange={handleCategoryChange}
-                                label="Category"
+                                label="Select categories"
                                 sx={{
                                   [`.${filledInputClasses.input}`]: {
                                     fontSize: 14,
