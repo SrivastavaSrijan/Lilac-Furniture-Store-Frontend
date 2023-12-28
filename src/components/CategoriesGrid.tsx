@@ -22,8 +22,12 @@ export const CategoriesGrid = ({
           alignItems="center"
           textAlign="center"
         >
-          <Typography variant="h4">{title}</Typography>
-          <Typography variant="body1">{subtitle}</Typography>
+          <Typography variant="h4" component="h2">
+            {title}
+          </Typography>
+          <Typography variant="body1" component="h3">
+            {subtitle}
+          </Typography>
         </Stack>
       )}
       <Grid container spacing={{ xs: 5, md: 5 }}>

@@ -17,7 +17,7 @@ export const Banners = ({ banners }: IBannersProps) => {
         const { title, subtitle, image, href } = banner;
         const { publicUrlTransformed: bannerImage = null } = image ?? {};
         return (
-          <Grid container key={banner.id}>
+          <Grid container key={banner.id} data-testid="banners">
             <Grid item xs={12} md="auto">
               <Stack
                 bgcolor="primary.main"
@@ -30,10 +30,13 @@ export const Banners = ({ banners }: IBannersProps) => {
                 px={{ xs: 3, md: 5 }}
               >
                 <Stack gap={{ xs: 1, md: 2 }}>
-                  <Typography sx={{ typography: { xs: 'h1', md: 'poster' } }}>
+                  <Typography
+                    sx={{ typography: { xs: 'h1', md: 'poster' } }}
+                    component="h1"
+                  >
                     {title}
                   </Typography>
-                  <Typography variant="body1" className="clamp-3">
+                  <Typography variant="body1" className="clamp-3" component="p">
                     {subtitle}
                   </Typography>
                 </Stack>

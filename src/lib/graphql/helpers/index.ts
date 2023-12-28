@@ -1,3 +1,6 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable no-prototype-builtins */
+/* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable import/no-duplicates */
 /* eslint-disable react/display-name */
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -4120,3 +4123,4886 @@ export type OrderQueryResult = Apollo.QueryResult<
   OrderQuery,
   OrderQueryVariables
 >;
+
+export const aBanner = (
+  overrides?: Partial<Banner>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): Banner => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('Banner');
+  return {
+    head:
+      overrides && overrides.hasOwnProperty('head') ? overrides.head! : 'modi',
+    href:
+      overrides && overrides.hasOwnProperty('href')
+        ? overrides.href!
+        : 'tenetur',
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : 'bd6e67fc-41e2-45a6-8899-0262d2d95387',
+    image:
+      overrides && overrides.hasOwnProperty('image')
+        ? overrides.image!
+        : relationshipsToOmit.has('CloudinaryImage_File')
+          ? ({} as CloudinaryImage_File)
+          : aCloudinaryImage_File({}, relationshipsToOmit),
+    subtitle:
+      overrides && overrides.hasOwnProperty('subtitle')
+        ? overrides.subtitle!
+        : 'possimus',
+    title:
+      overrides && overrides.hasOwnProperty('title')
+        ? overrides.title!
+        : 'omnis',
+  };
+};
+
+export const aBannerCreateInput = (
+  overrides?: Partial<BannerCreateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): BannerCreateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('BannerCreateInput');
+  return {
+    head:
+      overrides && overrides.hasOwnProperty('head')
+        ? overrides.head!
+        : 'quibusdam',
+    href:
+      overrides && overrides.hasOwnProperty('href')
+        ? overrides.href!
+        : 'dolorem',
+    image:
+      overrides && overrides.hasOwnProperty('image')
+        ? overrides.image!
+        : 'rerum',
+    subtitle:
+      overrides && overrides.hasOwnProperty('subtitle')
+        ? overrides.subtitle!
+        : 'veritatis',
+    title:
+      overrides && overrides.hasOwnProperty('title')
+        ? overrides.title!
+        : 'vero',
+  };
+};
+
+export const aBannerOrderByInput = (
+  overrides?: Partial<BannerOrderByInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): BannerOrderByInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('BannerOrderByInput');
+  return {
+    head:
+      overrides && overrides.hasOwnProperty('head')
+        ? overrides.head!
+        : OrderDirection.Asc,
+    href:
+      overrides && overrides.hasOwnProperty('href')
+        ? overrides.href!
+        : OrderDirection.Asc,
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : OrderDirection.Asc,
+    subtitle:
+      overrides && overrides.hasOwnProperty('subtitle')
+        ? overrides.subtitle!
+        : OrderDirection.Asc,
+    title:
+      overrides && overrides.hasOwnProperty('title')
+        ? overrides.title!
+        : OrderDirection.Asc,
+  };
+};
+
+export const aBannerUpdateArgs = (
+  overrides?: Partial<BannerUpdateArgs>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): BannerUpdateArgs => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('BannerUpdateArgs');
+  return {
+    data:
+      overrides && overrides.hasOwnProperty('data')
+        ? overrides.data!
+        : relationshipsToOmit.has('BannerUpdateInput')
+          ? ({} as BannerUpdateInput)
+          : aBannerUpdateInput({}, relationshipsToOmit),
+    where:
+      overrides && overrides.hasOwnProperty('where')
+        ? overrides.where!
+        : relationshipsToOmit.has('BannerWhereUniqueInput')
+          ? ({} as BannerWhereUniqueInput)
+          : aBannerWhereUniqueInput({}, relationshipsToOmit),
+  };
+};
+
+export const aBannerUpdateInput = (
+  overrides?: Partial<BannerUpdateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): BannerUpdateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('BannerUpdateInput');
+  return {
+    head:
+      overrides && overrides.hasOwnProperty('head')
+        ? overrides.head!
+        : 'quisquam',
+    href:
+      overrides && overrides.hasOwnProperty('href')
+        ? overrides.href!
+        : 'pariatur',
+    image:
+      overrides && overrides.hasOwnProperty('image')
+        ? overrides.image!
+        : 'esse',
+    subtitle:
+      overrides && overrides.hasOwnProperty('subtitle')
+        ? overrides.subtitle!
+        : 'et',
+    title:
+      overrides && overrides.hasOwnProperty('title')
+        ? overrides.title!
+        : 'odio',
+  };
+};
+
+export const aBannerWhereInput = (
+  overrides?: Partial<BannerWhereInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): BannerWhereInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('BannerWhereInput');
+  return {
+    AND:
+      overrides && overrides.hasOwnProperty('AND')
+        ? overrides.AND!
+        : [
+            relationshipsToOmit.has('BannerWhereInput')
+              ? ({} as BannerWhereInput)
+              : aBannerWhereInput({}, relationshipsToOmit),
+          ],
+    NOT:
+      overrides && overrides.hasOwnProperty('NOT')
+        ? overrides.NOT!
+        : [
+            relationshipsToOmit.has('BannerWhereInput')
+              ? ({} as BannerWhereInput)
+              : aBannerWhereInput({}, relationshipsToOmit),
+          ],
+    OR:
+      overrides && overrides.hasOwnProperty('OR')
+        ? overrides.OR!
+        : [
+            relationshipsToOmit.has('BannerWhereInput')
+              ? ({} as BannerWhereInput)
+              : aBannerWhereInput({}, relationshipsToOmit),
+          ],
+    head:
+      overrides && overrides.hasOwnProperty('head')
+        ? overrides.head!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+    href:
+      overrides && overrides.hasOwnProperty('href')
+        ? overrides.href!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : relationshipsToOmit.has('IdFilter')
+          ? ({} as IdFilter)
+          : anIdFilter({}, relationshipsToOmit),
+    subtitle:
+      overrides && overrides.hasOwnProperty('subtitle')
+        ? overrides.subtitle!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+    title:
+      overrides && overrides.hasOwnProperty('title')
+        ? overrides.title!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+  };
+};
+
+export const aBannerWhereUniqueInput = (
+  overrides?: Partial<BannerWhereUniqueInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): BannerWhereUniqueInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('BannerWhereUniqueInput');
+  return {
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : '1d92b4b9-6acd-45bd-8332-14ceba713e85',
+  };
+};
+
+export const aCalendarDayFilter = (
+  overrides?: Partial<CalendarDayFilter>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CalendarDayFilter => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CalendarDayFilter');
+  return {
+    equals:
+      overrides && overrides.hasOwnProperty('equals')
+        ? overrides.equals!
+        : 'nesciunt',
+    gt: overrides && overrides.hasOwnProperty('gt') ? overrides.gt! : 'error',
+    gte:
+      overrides && overrides.hasOwnProperty('gte') ? overrides.gte! : 'nihil',
+    in: overrides && overrides.hasOwnProperty('in') ? overrides.in! : ['et'],
+    lt: overrides && overrides.hasOwnProperty('lt') ? overrides.lt! : 'at',
+    lte:
+      overrides && overrides.hasOwnProperty('lte') ? overrides.lte! : 'aliquam',
+    not:
+      overrides && overrides.hasOwnProperty('not')
+        ? overrides.not!
+        : relationshipsToOmit.has('CalendarDayFilter')
+          ? ({} as CalendarDayFilter)
+          : aCalendarDayFilter({}, relationshipsToOmit),
+    notIn:
+      overrides && overrides.hasOwnProperty('notIn')
+        ? overrides.notIn!
+        : ['magni'],
+  };
+};
+
+export const aCartItem = (
+  overrides?: Partial<CartItem>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CartItem => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CartItem');
+  return {
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : 'c0a6e20d-ac48-4d0f-b244-16be13b393de',
+    quantity:
+      overrides && overrides.hasOwnProperty('quantity')
+        ? overrides.quantity!
+        : 8788,
+    user:
+      overrides && overrides.hasOwnProperty('user')
+        ? overrides.user!
+        : relationshipsToOmit.has('User')
+          ? ({} as User)
+          : aUser({}, relationshipsToOmit),
+    variant:
+      overrides && overrides.hasOwnProperty('variant')
+        ? overrides.variant!
+        : relationshipsToOmit.has('ProductVariant')
+          ? ({} as ProductVariant)
+          : aProductVariant({}, relationshipsToOmit),
+  };
+};
+
+export const aCartItemCreateInput = (
+  overrides?: Partial<CartItemCreateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CartItemCreateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CartItemCreateInput');
+  return {
+    quantity:
+      overrides && overrides.hasOwnProperty('quantity')
+        ? overrides.quantity!
+        : 5569,
+    user:
+      overrides && overrides.hasOwnProperty('user')
+        ? overrides.user!
+        : relationshipsToOmit.has('UserRelateToOneForCreateInput')
+          ? ({} as UserRelateToOneForCreateInput)
+          : aUserRelateToOneForCreateInput({}, relationshipsToOmit),
+    variant:
+      overrides && overrides.hasOwnProperty('variant')
+        ? overrides.variant!
+        : relationshipsToOmit.has('ProductVariantRelateToOneForCreateInput')
+          ? ({} as ProductVariantRelateToOneForCreateInput)
+          : aProductVariantRelateToOneForCreateInput({}, relationshipsToOmit),
+  };
+};
+
+export const aCartItemManyRelationFilter = (
+  overrides?: Partial<CartItemManyRelationFilter>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CartItemManyRelationFilter => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CartItemManyRelationFilter');
+  return {
+    every:
+      overrides && overrides.hasOwnProperty('every')
+        ? overrides.every!
+        : relationshipsToOmit.has('CartItemWhereInput')
+          ? ({} as CartItemWhereInput)
+          : aCartItemWhereInput({}, relationshipsToOmit),
+    none:
+      overrides && overrides.hasOwnProperty('none')
+        ? overrides.none!
+        : relationshipsToOmit.has('CartItemWhereInput')
+          ? ({} as CartItemWhereInput)
+          : aCartItemWhereInput({}, relationshipsToOmit),
+    some:
+      overrides && overrides.hasOwnProperty('some')
+        ? overrides.some!
+        : relationshipsToOmit.has('CartItemWhereInput')
+          ? ({} as CartItemWhereInput)
+          : aCartItemWhereInput({}, relationshipsToOmit),
+  };
+};
+
+export const aCartItemOrderByInput = (
+  overrides?: Partial<CartItemOrderByInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CartItemOrderByInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CartItemOrderByInput');
+  return {
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : OrderDirection.Asc,
+    quantity:
+      overrides && overrides.hasOwnProperty('quantity')
+        ? overrides.quantity!
+        : OrderDirection.Asc,
+  };
+};
+
+export const aCartItemRelateToManyForCreateInput = (
+  overrides?: Partial<CartItemRelateToManyForCreateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CartItemRelateToManyForCreateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CartItemRelateToManyForCreateInput');
+  return {
+    connect:
+      overrides && overrides.hasOwnProperty('connect')
+        ? overrides.connect!
+        : [
+            relationshipsToOmit.has('CartItemWhereUniqueInput')
+              ? ({} as CartItemWhereUniqueInput)
+              : aCartItemWhereUniqueInput({}, relationshipsToOmit),
+          ],
+    create:
+      overrides && overrides.hasOwnProperty('create')
+        ? overrides.create!
+        : [
+            relationshipsToOmit.has('CartItemCreateInput')
+              ? ({} as CartItemCreateInput)
+              : aCartItemCreateInput({}, relationshipsToOmit),
+          ],
+  };
+};
+
+export const aCartItemRelateToManyForUpdateInput = (
+  overrides?: Partial<CartItemRelateToManyForUpdateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CartItemRelateToManyForUpdateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CartItemRelateToManyForUpdateInput');
+  return {
+    connect:
+      overrides && overrides.hasOwnProperty('connect')
+        ? overrides.connect!
+        : [
+            relationshipsToOmit.has('CartItemWhereUniqueInput')
+              ? ({} as CartItemWhereUniqueInput)
+              : aCartItemWhereUniqueInput({}, relationshipsToOmit),
+          ],
+    create:
+      overrides && overrides.hasOwnProperty('create')
+        ? overrides.create!
+        : [
+            relationshipsToOmit.has('CartItemCreateInput')
+              ? ({} as CartItemCreateInput)
+              : aCartItemCreateInput({}, relationshipsToOmit),
+          ],
+    disconnect:
+      overrides && overrides.hasOwnProperty('disconnect')
+        ? overrides.disconnect!
+        : [
+            relationshipsToOmit.has('CartItemWhereUniqueInput')
+              ? ({} as CartItemWhereUniqueInput)
+              : aCartItemWhereUniqueInput({}, relationshipsToOmit),
+          ],
+    set:
+      overrides && overrides.hasOwnProperty('set')
+        ? overrides.set!
+        : [
+            relationshipsToOmit.has('CartItemWhereUniqueInput')
+              ? ({} as CartItemWhereUniqueInput)
+              : aCartItemWhereUniqueInput({}, relationshipsToOmit),
+          ],
+  };
+};
+
+export const aCartItemUpdateArgs = (
+  overrides?: Partial<CartItemUpdateArgs>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CartItemUpdateArgs => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CartItemUpdateArgs');
+  return {
+    data:
+      overrides && overrides.hasOwnProperty('data')
+        ? overrides.data!
+        : relationshipsToOmit.has('CartItemUpdateInput')
+          ? ({} as CartItemUpdateInput)
+          : aCartItemUpdateInput({}, relationshipsToOmit),
+    where:
+      overrides && overrides.hasOwnProperty('where')
+        ? overrides.where!
+        : relationshipsToOmit.has('CartItemWhereUniqueInput')
+          ? ({} as CartItemWhereUniqueInput)
+          : aCartItemWhereUniqueInput({}, relationshipsToOmit),
+  };
+};
+
+export const aCartItemUpdateInput = (
+  overrides?: Partial<CartItemUpdateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CartItemUpdateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CartItemUpdateInput');
+  return {
+    quantity:
+      overrides && overrides.hasOwnProperty('quantity')
+        ? overrides.quantity!
+        : 5897,
+    user:
+      overrides && overrides.hasOwnProperty('user')
+        ? overrides.user!
+        : relationshipsToOmit.has('UserRelateToOneForUpdateInput')
+          ? ({} as UserRelateToOneForUpdateInput)
+          : aUserRelateToOneForUpdateInput({}, relationshipsToOmit),
+    variant:
+      overrides && overrides.hasOwnProperty('variant')
+        ? overrides.variant!
+        : relationshipsToOmit.has('ProductVariantRelateToOneForUpdateInput')
+          ? ({} as ProductVariantRelateToOneForUpdateInput)
+          : aProductVariantRelateToOneForUpdateInput({}, relationshipsToOmit),
+  };
+};
+
+export const aCartItemWhereInput = (
+  overrides?: Partial<CartItemWhereInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CartItemWhereInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CartItemWhereInput');
+  return {
+    AND:
+      overrides && overrides.hasOwnProperty('AND')
+        ? overrides.AND!
+        : [
+            relationshipsToOmit.has('CartItemWhereInput')
+              ? ({} as CartItemWhereInput)
+              : aCartItemWhereInput({}, relationshipsToOmit),
+          ],
+    NOT:
+      overrides && overrides.hasOwnProperty('NOT')
+        ? overrides.NOT!
+        : [
+            relationshipsToOmit.has('CartItemWhereInput')
+              ? ({} as CartItemWhereInput)
+              : aCartItemWhereInput({}, relationshipsToOmit),
+          ],
+    OR:
+      overrides && overrides.hasOwnProperty('OR')
+        ? overrides.OR!
+        : [
+            relationshipsToOmit.has('CartItemWhereInput')
+              ? ({} as CartItemWhereInput)
+              : aCartItemWhereInput({}, relationshipsToOmit),
+          ],
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : relationshipsToOmit.has('IdFilter')
+          ? ({} as IdFilter)
+          : anIdFilter({}, relationshipsToOmit),
+    quantity:
+      overrides && overrides.hasOwnProperty('quantity')
+        ? overrides.quantity!
+        : relationshipsToOmit.has('IntFilter')
+          ? ({} as IntFilter)
+          : anIntFilter({}, relationshipsToOmit),
+    user:
+      overrides && overrides.hasOwnProperty('user')
+        ? overrides.user!
+        : relationshipsToOmit.has('UserWhereInput')
+          ? ({} as UserWhereInput)
+          : aUserWhereInput({}, relationshipsToOmit),
+    variant:
+      overrides && overrides.hasOwnProperty('variant')
+        ? overrides.variant!
+        : relationshipsToOmit.has('ProductVariantWhereInput')
+          ? ({} as ProductVariantWhereInput)
+          : aProductVariantWhereInput({}, relationshipsToOmit),
+  };
+};
+
+export const aCartItemWhereUniqueInput = (
+  overrides?: Partial<CartItemWhereUniqueInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CartItemWhereUniqueInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CartItemWhereUniqueInput');
+  return {
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : '1f72deca-5c54-4a0e-93a0-99d8672cd3ad',
+  };
+};
+
+export const aCategory = (
+  overrides?: Partial<Category>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): Category => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('Category');
+  return {
+    description:
+      overrides && overrides.hasOwnProperty('description')
+        ? overrides.description!
+        : 'voluptatibus',
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : '0121e50d-386e-403c-a8a7-2e59fbbef7e7',
+    image:
+      overrides && overrides.hasOwnProperty('image')
+        ? overrides.image!
+        : relationshipsToOmit.has('CloudinaryImage_File')
+          ? ({} as CloudinaryImage_File)
+          : aCloudinaryImage_File({}, relationshipsToOmit),
+    name:
+      overrides && overrides.hasOwnProperty('name') ? overrides.name! : 'eos',
+    products:
+      overrides && overrides.hasOwnProperty('products')
+        ? overrides.products!
+        : [
+            relationshipsToOmit.has('Product')
+              ? ({} as Product)
+              : aProduct({}, relationshipsToOmit),
+          ],
+    productsCount:
+      overrides && overrides.hasOwnProperty('productsCount')
+        ? overrides.productsCount!
+        : 7829,
+    slug:
+      overrides && overrides.hasOwnProperty('slug') ? overrides.slug! : 'rem',
+  };
+};
+
+export const aCategoryCreateInput = (
+  overrides?: Partial<CategoryCreateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CategoryCreateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CategoryCreateInput');
+  return {
+    description:
+      overrides && overrides.hasOwnProperty('description')
+        ? overrides.description!
+        : 'accusantium',
+    image:
+      overrides && overrides.hasOwnProperty('image')
+        ? overrides.image!
+        : 'tenetur',
+    name:
+      overrides && overrides.hasOwnProperty('name')
+        ? overrides.name!
+        : 'corrupti',
+    products:
+      overrides && overrides.hasOwnProperty('products')
+        ? overrides.products!
+        : relationshipsToOmit.has('ProductRelateToManyForCreateInput')
+          ? ({} as ProductRelateToManyForCreateInput)
+          : aProductRelateToManyForCreateInput({}, relationshipsToOmit),
+    slug:
+      overrides && overrides.hasOwnProperty('slug') ? overrides.slug! : 'cum',
+  };
+};
+
+export const aCategoryOrderByInput = (
+  overrides?: Partial<CategoryOrderByInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CategoryOrderByInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CategoryOrderByInput');
+  return {
+    description:
+      overrides && overrides.hasOwnProperty('description')
+        ? overrides.description!
+        : OrderDirection.Asc,
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : OrderDirection.Asc,
+    name:
+      overrides && overrides.hasOwnProperty('name')
+        ? overrides.name!
+        : OrderDirection.Asc,
+    slug:
+      overrides && overrides.hasOwnProperty('slug')
+        ? overrides.slug!
+        : OrderDirection.Asc,
+  };
+};
+
+export const aCategoryRelateToOneForCreateInput = (
+  overrides?: Partial<CategoryRelateToOneForCreateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CategoryRelateToOneForCreateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CategoryRelateToOneForCreateInput');
+  return {
+    connect:
+      overrides && overrides.hasOwnProperty('connect')
+        ? overrides.connect!
+        : relationshipsToOmit.has('CategoryWhereUniqueInput')
+          ? ({} as CategoryWhereUniqueInput)
+          : aCategoryWhereUniqueInput({}, relationshipsToOmit),
+    create:
+      overrides && overrides.hasOwnProperty('create')
+        ? overrides.create!
+        : relationshipsToOmit.has('CategoryCreateInput')
+          ? ({} as CategoryCreateInput)
+          : aCategoryCreateInput({}, relationshipsToOmit),
+  };
+};
+
+export const aCategoryRelateToOneForUpdateInput = (
+  overrides?: Partial<CategoryRelateToOneForUpdateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CategoryRelateToOneForUpdateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CategoryRelateToOneForUpdateInput');
+  return {
+    connect:
+      overrides && overrides.hasOwnProperty('connect')
+        ? overrides.connect!
+        : relationshipsToOmit.has('CategoryWhereUniqueInput')
+          ? ({} as CategoryWhereUniqueInput)
+          : aCategoryWhereUniqueInput({}, relationshipsToOmit),
+    create:
+      overrides && overrides.hasOwnProperty('create')
+        ? overrides.create!
+        : relationshipsToOmit.has('CategoryCreateInput')
+          ? ({} as CategoryCreateInput)
+          : aCategoryCreateInput({}, relationshipsToOmit),
+    disconnect:
+      overrides && overrides.hasOwnProperty('disconnect')
+        ? overrides.disconnect!
+        : true,
+  };
+};
+
+export const aCategoryUpdateArgs = (
+  overrides?: Partial<CategoryUpdateArgs>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CategoryUpdateArgs => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CategoryUpdateArgs');
+  return {
+    data:
+      overrides && overrides.hasOwnProperty('data')
+        ? overrides.data!
+        : relationshipsToOmit.has('CategoryUpdateInput')
+          ? ({} as CategoryUpdateInput)
+          : aCategoryUpdateInput({}, relationshipsToOmit),
+    where:
+      overrides && overrides.hasOwnProperty('where')
+        ? overrides.where!
+        : relationshipsToOmit.has('CategoryWhereUniqueInput')
+          ? ({} as CategoryWhereUniqueInput)
+          : aCategoryWhereUniqueInput({}, relationshipsToOmit),
+  };
+};
+
+export const aCategoryUpdateInput = (
+  overrides?: Partial<CategoryUpdateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CategoryUpdateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CategoryUpdateInput');
+  return {
+    description:
+      overrides && overrides.hasOwnProperty('description')
+        ? overrides.description!
+        : 'eum',
+    image:
+      overrides && overrides.hasOwnProperty('image') ? overrides.image! : 'id',
+    name:
+      overrides && overrides.hasOwnProperty('name') ? overrides.name! : 'velit',
+    products:
+      overrides && overrides.hasOwnProperty('products')
+        ? overrides.products!
+        : relationshipsToOmit.has('ProductRelateToManyForUpdateInput')
+          ? ({} as ProductRelateToManyForUpdateInput)
+          : aProductRelateToManyForUpdateInput({}, relationshipsToOmit),
+    slug:
+      overrides && overrides.hasOwnProperty('slug')
+        ? overrides.slug!
+        : 'dolores',
+  };
+};
+
+export const aCategoryWhereInput = (
+  overrides?: Partial<CategoryWhereInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CategoryWhereInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CategoryWhereInput');
+  return {
+    AND:
+      overrides && overrides.hasOwnProperty('AND')
+        ? overrides.AND!
+        : [
+            relationshipsToOmit.has('CategoryWhereInput')
+              ? ({} as CategoryWhereInput)
+              : aCategoryWhereInput({}, relationshipsToOmit),
+          ],
+    NOT:
+      overrides && overrides.hasOwnProperty('NOT')
+        ? overrides.NOT!
+        : [
+            relationshipsToOmit.has('CategoryWhereInput')
+              ? ({} as CategoryWhereInput)
+              : aCategoryWhereInput({}, relationshipsToOmit),
+          ],
+    OR:
+      overrides && overrides.hasOwnProperty('OR')
+        ? overrides.OR!
+        : [
+            relationshipsToOmit.has('CategoryWhereInput')
+              ? ({} as CategoryWhereInput)
+              : aCategoryWhereInput({}, relationshipsToOmit),
+          ],
+    description:
+      overrides && overrides.hasOwnProperty('description')
+        ? overrides.description!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : relationshipsToOmit.has('IdFilter')
+          ? ({} as IdFilter)
+          : anIdFilter({}, relationshipsToOmit),
+    name:
+      overrides && overrides.hasOwnProperty('name')
+        ? overrides.name!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+    products:
+      overrides && overrides.hasOwnProperty('products')
+        ? overrides.products!
+        : relationshipsToOmit.has('ProductManyRelationFilter')
+          ? ({} as ProductManyRelationFilter)
+          : aProductManyRelationFilter({}, relationshipsToOmit),
+    slug:
+      overrides && overrides.hasOwnProperty('slug')
+        ? overrides.slug!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+  };
+};
+
+export const aCategoryWhereUniqueInput = (
+  overrides?: Partial<CategoryWhereUniqueInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CategoryWhereUniqueInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CategoryWhereUniqueInput');
+  return {
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : '68c96e59-1534-4f3c-b123-f06b13b1b57b',
+    slug:
+      overrides && overrides.hasOwnProperty('slug') ? overrides.slug! : 'ipsam',
+  };
+};
+
+export const aCloudinaryImageFormat = (
+  overrides?: Partial<CloudinaryImageFormat>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CloudinaryImageFormat => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CloudinaryImageFormat');
+  return {
+    angle:
+      overrides && overrides.hasOwnProperty('angle') ? overrides.angle! : 'quo',
+    aspect_ratio:
+      overrides && overrides.hasOwnProperty('aspect_ratio')
+        ? overrides.aspect_ratio!
+        : 'qui',
+    background:
+      overrides && overrides.hasOwnProperty('background')
+        ? overrides.background!
+        : 'laudantium',
+    border:
+      overrides && overrides.hasOwnProperty('border')
+        ? overrides.border!
+        : 'numquam',
+    color:
+      overrides && overrides.hasOwnProperty('color')
+        ? overrides.color!
+        : 'facere',
+    color_space:
+      overrides && overrides.hasOwnProperty('color_space')
+        ? overrides.color_space!
+        : 'dolorum',
+    crop:
+      overrides && overrides.hasOwnProperty('crop') ? overrides.crop! : 'quia',
+    default_image:
+      overrides && overrides.hasOwnProperty('default_image')
+        ? overrides.default_image!
+        : 'aperiam',
+    delay:
+      overrides && overrides.hasOwnProperty('delay') ? overrides.delay! : 'aut',
+    density:
+      overrides && overrides.hasOwnProperty('density')
+        ? overrides.density!
+        : 'voluptates',
+    dpr:
+      overrides && overrides.hasOwnProperty('dpr')
+        ? overrides.dpr!
+        : 'accusantium',
+    effect:
+      overrides && overrides.hasOwnProperty('effect')
+        ? overrides.effect!
+        : 'impedit',
+    fetch_format:
+      overrides && overrides.hasOwnProperty('fetch_format')
+        ? overrides.fetch_format!
+        : 'voluptate',
+    flags:
+      overrides && overrides.hasOwnProperty('flags')
+        ? overrides.flags!
+        : 'error',
+    format:
+      overrides && overrides.hasOwnProperty('format')
+        ? overrides.format!
+        : 'placeat',
+    gravity:
+      overrides && overrides.hasOwnProperty('gravity')
+        ? overrides.gravity!
+        : 'ducimus',
+    height:
+      overrides && overrides.hasOwnProperty('height')
+        ? overrides.height!
+        : 'inventore',
+    opacity:
+      overrides && overrides.hasOwnProperty('opacity')
+        ? overrides.opacity!
+        : 'doloribus',
+    overlay:
+      overrides && overrides.hasOwnProperty('overlay')
+        ? overrides.overlay!
+        : 'impedit',
+    page:
+      overrides && overrides.hasOwnProperty('page') ? overrides.page! : 'sunt',
+    prettyName:
+      overrides && overrides.hasOwnProperty('prettyName')
+        ? overrides.prettyName!
+        : 'officia',
+    quality:
+      overrides && overrides.hasOwnProperty('quality')
+        ? overrides.quality!
+        : 'officia',
+    radius:
+      overrides && overrides.hasOwnProperty('radius')
+        ? overrides.radius!
+        : 'tempore',
+    transformation:
+      overrides && overrides.hasOwnProperty('transformation')
+        ? overrides.transformation!
+        : 'accusamus',
+    underlay:
+      overrides && overrides.hasOwnProperty('underlay')
+        ? overrides.underlay!
+        : 'molestiae',
+    width:
+      overrides && overrides.hasOwnProperty('width')
+        ? overrides.width!
+        : 'officiis',
+    x: overrides && overrides.hasOwnProperty('x') ? overrides.x! : 'velit',
+    y: overrides && overrides.hasOwnProperty('y') ? overrides.y! : 'corrupti',
+    zoom:
+      overrides && overrides.hasOwnProperty('zoom') ? overrides.zoom! : 'omnis',
+  };
+};
+
+export const aCloudinaryImage_File = (
+  overrides?: Partial<CloudinaryImage_File>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CloudinaryImage_File => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CloudinaryImage_File');
+  return {
+    encoding:
+      overrides && overrides.hasOwnProperty('encoding')
+        ? overrides.encoding!
+        : 'et',
+    filename:
+      overrides && overrides.hasOwnProperty('filename')
+        ? overrides.filename!
+        : 'animi',
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : '6c664b4c-76cd-40b4-951b-b1b851f8d1c0',
+    mimetype:
+      overrides && overrides.hasOwnProperty('mimetype')
+        ? overrides.mimetype!
+        : 'iste',
+    originalFilename:
+      overrides && overrides.hasOwnProperty('originalFilename')
+        ? overrides.originalFilename!
+        : 'eveniet',
+    publicUrl:
+      overrides && overrides.hasOwnProperty('publicUrl')
+        ? overrides.publicUrl!
+        : 'suscipit',
+    publicUrlTransformed:
+      overrides && overrides.hasOwnProperty('publicUrlTransformed')
+        ? overrides.publicUrlTransformed!
+        : 'sit',
+  };
+};
+
+export const aConfirmPaymentAndCreateOrderResult = (
+  overrides?: Partial<ConfirmPaymentAndCreateOrderResult>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ConfirmPaymentAndCreateOrderResult => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ConfirmPaymentAndCreateOrderResult');
+  return {
+    client_secret:
+      overrides && overrides.hasOwnProperty('client_secret')
+        ? overrides.client_secret!
+        : 'vel',
+    id: overrides && overrides.hasOwnProperty('id') ? overrides.id! : 'et',
+    order:
+      overrides && overrides.hasOwnProperty('order')
+        ? overrides.order!
+        : relationshipsToOmit.has('Order')
+          ? ({} as Order)
+          : anOrder({}, relationshipsToOmit),
+    status:
+      overrides && overrides.hasOwnProperty('status')
+        ? overrides.status!
+        : PaymentIntentStatus.Canceled,
+  };
+};
+
+export const aCreateInitialUserInput = (
+  overrides?: Partial<CreateInitialUserInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CreateInitialUserInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CreateInitialUserInput');
+  return {
+    email:
+      overrides && overrides.hasOwnProperty('email') ? overrides.email! : 'qui',
+    name:
+      overrides && overrides.hasOwnProperty('name')
+        ? overrides.name!
+        : 'perspiciatis',
+    password:
+      overrides && overrides.hasOwnProperty('password')
+        ? overrides.password!
+        : 'ea',
+  };
+};
+
+export const aCreatePaymentIntentResult = (
+  overrides?: Partial<CreatePaymentIntentResult>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CreatePaymentIntentResult => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CreatePaymentIntentResult');
+  return {
+    client_secret:
+      overrides && overrides.hasOwnProperty('client_secret')
+        ? overrides.client_secret!
+        : 'minus',
+    id: overrides && overrides.hasOwnProperty('id') ? overrides.id! : 'rerum',
+    status:
+      overrides && overrides.hasOwnProperty('status')
+        ? overrides.status!
+        : PaymentIntentStatus.Canceled,
+  };
+};
+
+export const aDateTimeNullableFilter = (
+  overrides?: Partial<DateTimeNullableFilter>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): DateTimeNullableFilter => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('DateTimeNullableFilter');
+  return {
+    equals:
+      overrides && overrides.hasOwnProperty('equals')
+        ? overrides.equals!
+        : 'inventore',
+    gt:
+      overrides && overrides.hasOwnProperty('gt')
+        ? overrides.gt!
+        : 'cupiditate',
+    gte: overrides && overrides.hasOwnProperty('gte') ? overrides.gte! : 'id',
+    in: overrides && overrides.hasOwnProperty('in') ? overrides.in! : ['qui'],
+    lt:
+      overrides && overrides.hasOwnProperty('lt') ? overrides.lt! : 'mollitia',
+    lte:
+      overrides && overrides.hasOwnProperty('lte') ? overrides.lte! : 'magni',
+    not:
+      overrides && overrides.hasOwnProperty('not')
+        ? overrides.not!
+        : relationshipsToOmit.has('DateTimeNullableFilter')
+          ? ({} as DateTimeNullableFilter)
+          : aDateTimeNullableFilter({}, relationshipsToOmit),
+    notIn:
+      overrides && overrides.hasOwnProperty('notIn')
+        ? overrides.notIn!
+        : ['enim'],
+  };
+};
+
+export const anIdFilter = (
+  overrides?: Partial<IdFilter>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): IdFilter => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('IdFilter');
+  return {
+    equals:
+      overrides && overrides.hasOwnProperty('equals')
+        ? overrides.equals!
+        : '18ebb630-9955-4fb0-b34a-c5e1ef7fc7c8',
+    gt:
+      overrides && overrides.hasOwnProperty('gt')
+        ? overrides.gt!
+        : '0a9518c8-9e1a-4285-8f45-60d6950bb005',
+    gte:
+      overrides && overrides.hasOwnProperty('gte')
+        ? overrides.gte!
+        : '24a9c4ff-254b-45f1-92bd-02ea0ea3f04b',
+    in:
+      overrides && overrides.hasOwnProperty('in')
+        ? overrides.in!
+        : ['7fe718b5-aa68-4388-8ade-7507e321ec5f'],
+    lt:
+      overrides && overrides.hasOwnProperty('lt')
+        ? overrides.lt!
+        : '9a21195d-48f4-4ad3-962f-e6992bfa7079',
+    lte:
+      overrides && overrides.hasOwnProperty('lte')
+        ? overrides.lte!
+        : 'a2113bfa-1c76-4474-9758-295d33850dfd',
+    not:
+      overrides && overrides.hasOwnProperty('not')
+        ? overrides.not!
+        : relationshipsToOmit.has('IdFilter')
+          ? ({} as IdFilter)
+          : anIdFilter({}, relationshipsToOmit),
+    notIn:
+      overrides && overrides.hasOwnProperty('notIn')
+        ? overrides.notIn!
+        : ['96f5425b-a22b-41a1-aaf9-9fe4540b6f25'],
+  };
+};
+
+export const anIntFilter = (
+  overrides?: Partial<IntFilter>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): IntFilter => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('IntFilter');
+  return {
+    equals:
+      overrides && overrides.hasOwnProperty('equals')
+        ? overrides.equals!
+        : 7948,
+    gt: overrides && overrides.hasOwnProperty('gt') ? overrides.gt! : 2833,
+    gte: overrides && overrides.hasOwnProperty('gte') ? overrides.gte! : 492,
+    in: overrides && overrides.hasOwnProperty('in') ? overrides.in! : [8490],
+    lt: overrides && overrides.hasOwnProperty('lt') ? overrides.lt! : 8311,
+    lte: overrides && overrides.hasOwnProperty('lte') ? overrides.lte! : 6047,
+    not:
+      overrides && overrides.hasOwnProperty('not')
+        ? overrides.not!
+        : relationshipsToOmit.has('IntFilter')
+          ? ({} as IntFilter)
+          : anIntFilter({}, relationshipsToOmit),
+    notIn:
+      overrides && overrides.hasOwnProperty('notIn')
+        ? overrides.notIn!
+        : [8093],
+  };
+};
+
+export const aKeystoneAdminMeta = (
+  overrides?: Partial<KeystoneAdminMeta>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): KeystoneAdminMeta => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('KeystoneAdminMeta');
+  return {
+    list:
+      overrides && overrides.hasOwnProperty('list')
+        ? overrides.list!
+        : relationshipsToOmit.has('KeystoneAdminUiListMeta')
+          ? ({} as KeystoneAdminUiListMeta)
+          : aKeystoneAdminUiListMeta({}, relationshipsToOmit),
+    lists:
+      overrides && overrides.hasOwnProperty('lists')
+        ? overrides.lists!
+        : [
+            relationshipsToOmit.has('KeystoneAdminUiListMeta')
+              ? ({} as KeystoneAdminUiListMeta)
+              : aKeystoneAdminUiListMeta({}, relationshipsToOmit),
+          ],
+  };
+};
+
+export const aKeystoneAdminUiFieldGroupMeta = (
+  overrides?: Partial<KeystoneAdminUiFieldGroupMeta>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): KeystoneAdminUiFieldGroupMeta => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('KeystoneAdminUiFieldGroupMeta');
+  return {
+    description:
+      overrides && overrides.hasOwnProperty('description')
+        ? overrides.description!
+        : 'minus',
+    fields:
+      overrides && overrides.hasOwnProperty('fields')
+        ? overrides.fields!
+        : [
+            relationshipsToOmit.has('KeystoneAdminUiFieldMeta')
+              ? ({} as KeystoneAdminUiFieldMeta)
+              : aKeystoneAdminUiFieldMeta({}, relationshipsToOmit),
+          ],
+    label:
+      overrides && overrides.hasOwnProperty('label')
+        ? overrides.label!
+        : 'consequatur',
+  };
+};
+
+export const aKeystoneAdminUiFieldMeta = (
+  overrides?: Partial<KeystoneAdminUiFieldMeta>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): KeystoneAdminUiFieldMeta => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('KeystoneAdminUiFieldMeta');
+  return {
+    createView:
+      overrides && overrides.hasOwnProperty('createView')
+        ? overrides.createView!
+        : relationshipsToOmit.has('KeystoneAdminUiFieldMetaCreateView')
+          ? ({} as KeystoneAdminUiFieldMetaCreateView)
+          : aKeystoneAdminUiFieldMetaCreateView({}, relationshipsToOmit),
+    customViewsIndex:
+      overrides && overrides.hasOwnProperty('customViewsIndex')
+        ? overrides.customViewsIndex!
+        : 8198,
+    description:
+      overrides && overrides.hasOwnProperty('description')
+        ? overrides.description!
+        : 'corporis',
+    fieldMeta:
+      overrides && overrides.hasOwnProperty('fieldMeta')
+        ? overrides.fieldMeta!
+        : 'maxime',
+    isFilterable:
+      overrides && overrides.hasOwnProperty('isFilterable')
+        ? overrides.isFilterable!
+        : false,
+    isNonNull:
+      overrides && overrides.hasOwnProperty('isNonNull')
+        ? overrides.isNonNull!
+        : [KeystoneAdminUiFieldMetaIsNonNull.Create],
+    isOrderable:
+      overrides && overrides.hasOwnProperty('isOrderable')
+        ? overrides.isOrderable!
+        : false,
+    itemView:
+      overrides && overrides.hasOwnProperty('itemView')
+        ? overrides.itemView!
+        : relationshipsToOmit.has('KeystoneAdminUiFieldMetaItemView')
+          ? ({} as KeystoneAdminUiFieldMetaItemView)
+          : aKeystoneAdminUiFieldMetaItemView({}, relationshipsToOmit),
+    label:
+      overrides && overrides.hasOwnProperty('label') ? overrides.label! : 'qui',
+    listView:
+      overrides && overrides.hasOwnProperty('listView')
+        ? overrides.listView!
+        : relationshipsToOmit.has('KeystoneAdminUiFieldMetaListView')
+          ? ({} as KeystoneAdminUiFieldMetaListView)
+          : aKeystoneAdminUiFieldMetaListView({}, relationshipsToOmit),
+    path:
+      overrides && overrides.hasOwnProperty('path') ? overrides.path! : 'quis',
+    search:
+      overrides && overrides.hasOwnProperty('search')
+        ? overrides.search!
+        : QueryMode.Default,
+    viewsIndex:
+      overrides && overrides.hasOwnProperty('viewsIndex')
+        ? overrides.viewsIndex!
+        : 4895,
+  };
+};
+
+export const aKeystoneAdminUiFieldMetaCreateView = (
+  overrides?: Partial<KeystoneAdminUiFieldMetaCreateView>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): KeystoneAdminUiFieldMetaCreateView => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('KeystoneAdminUiFieldMetaCreateView');
+  return {
+    fieldMode:
+      overrides && overrides.hasOwnProperty('fieldMode')
+        ? overrides.fieldMode!
+        : KeystoneAdminUiFieldMetaCreateViewFieldMode.Edit,
+  };
+};
+
+export const aKeystoneAdminUiFieldMetaItemView = (
+  overrides?: Partial<KeystoneAdminUiFieldMetaItemView>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): KeystoneAdminUiFieldMetaItemView => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('KeystoneAdminUiFieldMetaItemView');
+  return {
+    fieldMode:
+      overrides && overrides.hasOwnProperty('fieldMode')
+        ? overrides.fieldMode!
+        : KeystoneAdminUiFieldMetaItemViewFieldMode.Edit,
+    fieldPosition:
+      overrides && overrides.hasOwnProperty('fieldPosition')
+        ? overrides.fieldPosition!
+        : KeystoneAdminUiFieldMetaItemViewFieldPosition.Form,
+  };
+};
+
+export const aKeystoneAdminUiFieldMetaListView = (
+  overrides?: Partial<KeystoneAdminUiFieldMetaListView>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): KeystoneAdminUiFieldMetaListView => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('KeystoneAdminUiFieldMetaListView');
+  return {
+    fieldMode:
+      overrides && overrides.hasOwnProperty('fieldMode')
+        ? overrides.fieldMode!
+        : KeystoneAdminUiFieldMetaListViewFieldMode.Hidden,
+  };
+};
+
+export const aKeystoneAdminUiListMeta = (
+  overrides?: Partial<KeystoneAdminUiListMeta>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): KeystoneAdminUiListMeta => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('KeystoneAdminUiListMeta');
+  return {
+    description:
+      overrides && overrides.hasOwnProperty('description')
+        ? overrides.description!
+        : 'quo',
+    fields:
+      overrides && overrides.hasOwnProperty('fields')
+        ? overrides.fields!
+        : [
+            relationshipsToOmit.has('KeystoneAdminUiFieldMeta')
+              ? ({} as KeystoneAdminUiFieldMeta)
+              : aKeystoneAdminUiFieldMeta({}, relationshipsToOmit),
+          ],
+    groups:
+      overrides && overrides.hasOwnProperty('groups')
+        ? overrides.groups!
+        : [
+            relationshipsToOmit.has('KeystoneAdminUiFieldGroupMeta')
+              ? ({} as KeystoneAdminUiFieldGroupMeta)
+              : aKeystoneAdminUiFieldGroupMeta({}, relationshipsToOmit),
+          ],
+    hideCreate:
+      overrides && overrides.hasOwnProperty('hideCreate')
+        ? overrides.hideCreate!
+        : false,
+    hideDelete:
+      overrides && overrides.hasOwnProperty('hideDelete')
+        ? overrides.hideDelete!
+        : false,
+    initialColumns:
+      overrides && overrides.hasOwnProperty('initialColumns')
+        ? overrides.initialColumns!
+        : ['necessitatibus'],
+    initialSort:
+      overrides && overrides.hasOwnProperty('initialSort')
+        ? overrides.initialSort!
+        : relationshipsToOmit.has('KeystoneAdminUiSort')
+          ? ({} as KeystoneAdminUiSort)
+          : aKeystoneAdminUiSort({}, relationshipsToOmit),
+    isHidden:
+      overrides && overrides.hasOwnProperty('isHidden')
+        ? overrides.isHidden!
+        : true,
+    isSingleton:
+      overrides && overrides.hasOwnProperty('isSingleton')
+        ? overrides.isSingleton!
+        : false,
+    itemQueryName:
+      overrides && overrides.hasOwnProperty('itemQueryName')
+        ? overrides.itemQueryName!
+        : 'nesciunt',
+    key:
+      overrides && overrides.hasOwnProperty('key') ? overrides.key! : 'dolor',
+    label:
+      overrides && overrides.hasOwnProperty('label')
+        ? overrides.label!
+        : 'eveniet',
+    labelField:
+      overrides && overrides.hasOwnProperty('labelField')
+        ? overrides.labelField!
+        : 'unde',
+    listQueryName:
+      overrides && overrides.hasOwnProperty('listQueryName')
+        ? overrides.listQueryName!
+        : 'aut',
+    pageSize:
+      overrides && overrides.hasOwnProperty('pageSize')
+        ? overrides.pageSize!
+        : 5946,
+    path:
+      overrides && overrides.hasOwnProperty('path') ? overrides.path! : 'quia',
+    plural:
+      overrides && overrides.hasOwnProperty('plural')
+        ? overrides.plural!
+        : 'laborum',
+    singular:
+      overrides && overrides.hasOwnProperty('singular')
+        ? overrides.singular!
+        : 'temporibus',
+  };
+};
+
+export const aKeystoneAdminUiSort = (
+  overrides?: Partial<KeystoneAdminUiSort>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): KeystoneAdminUiSort => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('KeystoneAdminUiSort');
+  return {
+    direction:
+      overrides && overrides.hasOwnProperty('direction')
+        ? overrides.direction!
+        : KeystoneAdminUiSortDirection.Asc,
+    field:
+      overrides && overrides.hasOwnProperty('field')
+        ? overrides.field!
+        : 'tempore',
+  };
+};
+
+export const aKeystoneMeta = (
+  overrides?: Partial<KeystoneMeta>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): KeystoneMeta => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('KeystoneMeta');
+  return {
+    adminMeta:
+      overrides && overrides.hasOwnProperty('adminMeta')
+        ? overrides.adminMeta!
+        : relationshipsToOmit.has('KeystoneAdminMeta')
+          ? ({} as KeystoneAdminMeta)
+          : aKeystoneAdminMeta({}, relationshipsToOmit),
+  };
+};
+
+export const aMinMax = (
+  overrides?: Partial<MinMax>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): MinMax => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('MinMax');
+  return {
+    max: overrides && overrides.hasOwnProperty('max') ? overrides.max! : 2.78,
+    min: overrides && overrides.hasOwnProperty('min') ? overrides.min! : 9.48,
+  };
+};
+
+export const aMutation = (
+  overrides?: Partial<Mutation>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): Mutation => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('Mutation');
+  return {
+    addToCart:
+      overrides && overrides.hasOwnProperty('addToCart')
+        ? overrides.addToCart!
+        : relationshipsToOmit.has('CartItem')
+          ? ({} as CartItem)
+          : aCartItem({}, relationshipsToOmit),
+    authenticateUserWithPassword:
+      overrides && overrides.hasOwnProperty('authenticateUserWithPassword')
+        ? overrides.authenticateUserWithPassword!
+        : relationshipsToOmit.has('UserAuthenticationWithPasswordFailure')
+          ? ({} as UserAuthenticationWithPasswordFailure)
+          : aUserAuthenticationWithPasswordFailure({}, relationshipsToOmit),
+    confirmPaymentAndCreateOrder:
+      overrides && overrides.hasOwnProperty('confirmPaymentAndCreateOrder')
+        ? overrides.confirmPaymentAndCreateOrder!
+        : relationshipsToOmit.has('ConfirmPaymentAndCreateOrderResult')
+          ? ({} as ConfirmPaymentAndCreateOrderResult)
+          : aConfirmPaymentAndCreateOrderResult({}, relationshipsToOmit),
+    createBanner:
+      overrides && overrides.hasOwnProperty('createBanner')
+        ? overrides.createBanner!
+        : relationshipsToOmit.has('Banner')
+          ? ({} as Banner)
+          : aBanner({}, relationshipsToOmit),
+    createBanners:
+      overrides && overrides.hasOwnProperty('createBanners')
+        ? overrides.createBanners!
+        : [
+            relationshipsToOmit.has('Banner')
+              ? ({} as Banner)
+              : aBanner({}, relationshipsToOmit),
+          ],
+    createCartItem:
+      overrides && overrides.hasOwnProperty('createCartItem')
+        ? overrides.createCartItem!
+        : relationshipsToOmit.has('CartItem')
+          ? ({} as CartItem)
+          : aCartItem({}, relationshipsToOmit),
+    createCartItems:
+      overrides && overrides.hasOwnProperty('createCartItems')
+        ? overrides.createCartItems!
+        : [
+            relationshipsToOmit.has('CartItem')
+              ? ({} as CartItem)
+              : aCartItem({}, relationshipsToOmit),
+          ],
+    createCategories:
+      overrides && overrides.hasOwnProperty('createCategories')
+        ? overrides.createCategories!
+        : [
+            relationshipsToOmit.has('Category')
+              ? ({} as Category)
+              : aCategory({}, relationshipsToOmit),
+          ],
+    createCategory:
+      overrides && overrides.hasOwnProperty('createCategory')
+        ? overrides.createCategory!
+        : relationshipsToOmit.has('Category')
+          ? ({} as Category)
+          : aCategory({}, relationshipsToOmit),
+    createInitialUser:
+      overrides && overrides.hasOwnProperty('createInitialUser')
+        ? overrides.createInitialUser!
+        : relationshipsToOmit.has('UserAuthenticationWithPasswordSuccess')
+          ? ({} as UserAuthenticationWithPasswordSuccess)
+          : aUserAuthenticationWithPasswordSuccess({}, relationshipsToOmit),
+    createOrder:
+      overrides && overrides.hasOwnProperty('createOrder')
+        ? overrides.createOrder!
+        : relationshipsToOmit.has('Order')
+          ? ({} as Order)
+          : anOrder({}, relationshipsToOmit),
+    createOrderItem:
+      overrides && overrides.hasOwnProperty('createOrderItem')
+        ? overrides.createOrderItem!
+        : relationshipsToOmit.has('OrderItem')
+          ? ({} as OrderItem)
+          : anOrderItem({}, relationshipsToOmit),
+    createOrderItems:
+      overrides && overrides.hasOwnProperty('createOrderItems')
+        ? overrides.createOrderItems!
+        : [
+            relationshipsToOmit.has('OrderItem')
+              ? ({} as OrderItem)
+              : anOrderItem({}, relationshipsToOmit),
+          ],
+    createOrders:
+      overrides && overrides.hasOwnProperty('createOrders')
+        ? overrides.createOrders!
+        : [
+            relationshipsToOmit.has('Order')
+              ? ({} as Order)
+              : anOrder({}, relationshipsToOmit),
+          ],
+    createPaymentIntent:
+      overrides && overrides.hasOwnProperty('createPaymentIntent')
+        ? overrides.createPaymentIntent!
+        : relationshipsToOmit.has('CreatePaymentIntentResult')
+          ? ({} as CreatePaymentIntentResult)
+          : aCreatePaymentIntentResult({}, relationshipsToOmit),
+    createProduct:
+      overrides && overrides.hasOwnProperty('createProduct')
+        ? overrides.createProduct!
+        : relationshipsToOmit.has('Product')
+          ? ({} as Product)
+          : aProduct({}, relationshipsToOmit),
+    createProductImage:
+      overrides && overrides.hasOwnProperty('createProductImage')
+        ? overrides.createProductImage!
+        : relationshipsToOmit.has('ProductImage')
+          ? ({} as ProductImage)
+          : aProductImage({}, relationshipsToOmit),
+    createProductImages:
+      overrides && overrides.hasOwnProperty('createProductImages')
+        ? overrides.createProductImages!
+        : [
+            relationshipsToOmit.has('ProductImage')
+              ? ({} as ProductImage)
+              : aProductImage({}, relationshipsToOmit),
+          ],
+    createProductSnapshot:
+      overrides && overrides.hasOwnProperty('createProductSnapshot')
+        ? overrides.createProductSnapshot!
+        : relationshipsToOmit.has('ProductSnapshot')
+          ? ({} as ProductSnapshot)
+          : aProductSnapshot({}, relationshipsToOmit),
+    createProductSnapshots:
+      overrides && overrides.hasOwnProperty('createProductSnapshots')
+        ? overrides.createProductSnapshots!
+        : [
+            relationshipsToOmit.has('ProductSnapshot')
+              ? ({} as ProductSnapshot)
+              : aProductSnapshot({}, relationshipsToOmit),
+          ],
+    createProductVariant:
+      overrides && overrides.hasOwnProperty('createProductVariant')
+        ? overrides.createProductVariant!
+        : relationshipsToOmit.has('ProductVariant')
+          ? ({} as ProductVariant)
+          : aProductVariant({}, relationshipsToOmit),
+    createProductVariants:
+      overrides && overrides.hasOwnProperty('createProductVariants')
+        ? overrides.createProductVariants!
+        : [
+            relationshipsToOmit.has('ProductVariant')
+              ? ({} as ProductVariant)
+              : aProductVariant({}, relationshipsToOmit),
+          ],
+    createProducts:
+      overrides && overrides.hasOwnProperty('createProducts')
+        ? overrides.createProducts!
+        : [
+            relationshipsToOmit.has('Product')
+              ? ({} as Product)
+              : aProduct({}, relationshipsToOmit),
+          ],
+    createUser:
+      overrides && overrides.hasOwnProperty('createUser')
+        ? overrides.createUser!
+        : relationshipsToOmit.has('User')
+          ? ({} as User)
+          : aUser({}, relationshipsToOmit),
+    createUsers:
+      overrides && overrides.hasOwnProperty('createUsers')
+        ? overrides.createUsers!
+        : [
+            relationshipsToOmit.has('User')
+              ? ({} as User)
+              : aUser({}, relationshipsToOmit),
+          ],
+    deleteBanner:
+      overrides && overrides.hasOwnProperty('deleteBanner')
+        ? overrides.deleteBanner!
+        : relationshipsToOmit.has('Banner')
+          ? ({} as Banner)
+          : aBanner({}, relationshipsToOmit),
+    deleteBanners:
+      overrides && overrides.hasOwnProperty('deleteBanners')
+        ? overrides.deleteBanners!
+        : [
+            relationshipsToOmit.has('Banner')
+              ? ({} as Banner)
+              : aBanner({}, relationshipsToOmit),
+          ],
+    deleteCartItem:
+      overrides && overrides.hasOwnProperty('deleteCartItem')
+        ? overrides.deleteCartItem!
+        : relationshipsToOmit.has('CartItem')
+          ? ({} as CartItem)
+          : aCartItem({}, relationshipsToOmit),
+    deleteCartItems:
+      overrides && overrides.hasOwnProperty('deleteCartItems')
+        ? overrides.deleteCartItems!
+        : [
+            relationshipsToOmit.has('CartItem')
+              ? ({} as CartItem)
+              : aCartItem({}, relationshipsToOmit),
+          ],
+    deleteCategories:
+      overrides && overrides.hasOwnProperty('deleteCategories')
+        ? overrides.deleteCategories!
+        : [
+            relationshipsToOmit.has('Category')
+              ? ({} as Category)
+              : aCategory({}, relationshipsToOmit),
+          ],
+    deleteCategory:
+      overrides && overrides.hasOwnProperty('deleteCategory')
+        ? overrides.deleteCategory!
+        : relationshipsToOmit.has('Category')
+          ? ({} as Category)
+          : aCategory({}, relationshipsToOmit),
+    deleteOrder:
+      overrides && overrides.hasOwnProperty('deleteOrder')
+        ? overrides.deleteOrder!
+        : relationshipsToOmit.has('Order')
+          ? ({} as Order)
+          : anOrder({}, relationshipsToOmit),
+    deleteOrderItem:
+      overrides && overrides.hasOwnProperty('deleteOrderItem')
+        ? overrides.deleteOrderItem!
+        : relationshipsToOmit.has('OrderItem')
+          ? ({} as OrderItem)
+          : anOrderItem({}, relationshipsToOmit),
+    deleteOrderItems:
+      overrides && overrides.hasOwnProperty('deleteOrderItems')
+        ? overrides.deleteOrderItems!
+        : [
+            relationshipsToOmit.has('OrderItem')
+              ? ({} as OrderItem)
+              : anOrderItem({}, relationshipsToOmit),
+          ],
+    deleteOrders:
+      overrides && overrides.hasOwnProperty('deleteOrders')
+        ? overrides.deleteOrders!
+        : [
+            relationshipsToOmit.has('Order')
+              ? ({} as Order)
+              : anOrder({}, relationshipsToOmit),
+          ],
+    deleteProduct:
+      overrides && overrides.hasOwnProperty('deleteProduct')
+        ? overrides.deleteProduct!
+        : relationshipsToOmit.has('Product')
+          ? ({} as Product)
+          : aProduct({}, relationshipsToOmit),
+    deleteProductImage:
+      overrides && overrides.hasOwnProperty('deleteProductImage')
+        ? overrides.deleteProductImage!
+        : relationshipsToOmit.has('ProductImage')
+          ? ({} as ProductImage)
+          : aProductImage({}, relationshipsToOmit),
+    deleteProductImages:
+      overrides && overrides.hasOwnProperty('deleteProductImages')
+        ? overrides.deleteProductImages!
+        : [
+            relationshipsToOmit.has('ProductImage')
+              ? ({} as ProductImage)
+              : aProductImage({}, relationshipsToOmit),
+          ],
+    deleteProductSnapshot:
+      overrides && overrides.hasOwnProperty('deleteProductSnapshot')
+        ? overrides.deleteProductSnapshot!
+        : relationshipsToOmit.has('ProductSnapshot')
+          ? ({} as ProductSnapshot)
+          : aProductSnapshot({}, relationshipsToOmit),
+    deleteProductSnapshots:
+      overrides && overrides.hasOwnProperty('deleteProductSnapshots')
+        ? overrides.deleteProductSnapshots!
+        : [
+            relationshipsToOmit.has('ProductSnapshot')
+              ? ({} as ProductSnapshot)
+              : aProductSnapshot({}, relationshipsToOmit),
+          ],
+    deleteProductVariant:
+      overrides && overrides.hasOwnProperty('deleteProductVariant')
+        ? overrides.deleteProductVariant!
+        : relationshipsToOmit.has('ProductVariant')
+          ? ({} as ProductVariant)
+          : aProductVariant({}, relationshipsToOmit),
+    deleteProductVariants:
+      overrides && overrides.hasOwnProperty('deleteProductVariants')
+        ? overrides.deleteProductVariants!
+        : [
+            relationshipsToOmit.has('ProductVariant')
+              ? ({} as ProductVariant)
+              : aProductVariant({}, relationshipsToOmit),
+          ],
+    deleteProducts:
+      overrides && overrides.hasOwnProperty('deleteProducts')
+        ? overrides.deleteProducts!
+        : [
+            relationshipsToOmit.has('Product')
+              ? ({} as Product)
+              : aProduct({}, relationshipsToOmit),
+          ],
+    deleteUser:
+      overrides && overrides.hasOwnProperty('deleteUser')
+        ? overrides.deleteUser!
+        : relationshipsToOmit.has('User')
+          ? ({} as User)
+          : aUser({}, relationshipsToOmit),
+    deleteUsers:
+      overrides && overrides.hasOwnProperty('deleteUsers')
+        ? overrides.deleteUsers!
+        : [
+            relationshipsToOmit.has('User')
+              ? ({} as User)
+              : aUser({}, relationshipsToOmit),
+          ],
+    endSession:
+      overrides && overrides.hasOwnProperty('endSession')
+        ? overrides.endSession!
+        : true,
+    redeemUserPasswordResetToken:
+      overrides && overrides.hasOwnProperty('redeemUserPasswordResetToken')
+        ? overrides.redeemUserPasswordResetToken!
+        : relationshipsToOmit.has('RedeemUserPasswordResetTokenResult')
+          ? ({} as RedeemUserPasswordResetTokenResult)
+          : aRedeemUserPasswordResetTokenResult({}, relationshipsToOmit),
+    sendUserPasswordResetLink:
+      overrides && overrides.hasOwnProperty('sendUserPasswordResetLink')
+        ? overrides.sendUserPasswordResetLink!
+        : true,
+    updateBanner:
+      overrides && overrides.hasOwnProperty('updateBanner')
+        ? overrides.updateBanner!
+        : relationshipsToOmit.has('Banner')
+          ? ({} as Banner)
+          : aBanner({}, relationshipsToOmit),
+    updateBanners:
+      overrides && overrides.hasOwnProperty('updateBanners')
+        ? overrides.updateBanners!
+        : [
+            relationshipsToOmit.has('Banner')
+              ? ({} as Banner)
+              : aBanner({}, relationshipsToOmit),
+          ],
+    updateCartItem:
+      overrides && overrides.hasOwnProperty('updateCartItem')
+        ? overrides.updateCartItem!
+        : relationshipsToOmit.has('CartItem')
+          ? ({} as CartItem)
+          : aCartItem({}, relationshipsToOmit),
+    updateCartItems:
+      overrides && overrides.hasOwnProperty('updateCartItems')
+        ? overrides.updateCartItems!
+        : [
+            relationshipsToOmit.has('CartItem')
+              ? ({} as CartItem)
+              : aCartItem({}, relationshipsToOmit),
+          ],
+    updateCategories:
+      overrides && overrides.hasOwnProperty('updateCategories')
+        ? overrides.updateCategories!
+        : [
+            relationshipsToOmit.has('Category')
+              ? ({} as Category)
+              : aCategory({}, relationshipsToOmit),
+          ],
+    updateCategory:
+      overrides && overrides.hasOwnProperty('updateCategory')
+        ? overrides.updateCategory!
+        : relationshipsToOmit.has('Category')
+          ? ({} as Category)
+          : aCategory({}, relationshipsToOmit),
+    updateOrder:
+      overrides && overrides.hasOwnProperty('updateOrder')
+        ? overrides.updateOrder!
+        : relationshipsToOmit.has('Order')
+          ? ({} as Order)
+          : anOrder({}, relationshipsToOmit),
+    updateOrderItem:
+      overrides && overrides.hasOwnProperty('updateOrderItem')
+        ? overrides.updateOrderItem!
+        : relationshipsToOmit.has('OrderItem')
+          ? ({} as OrderItem)
+          : anOrderItem({}, relationshipsToOmit),
+    updateOrderItems:
+      overrides && overrides.hasOwnProperty('updateOrderItems')
+        ? overrides.updateOrderItems!
+        : [
+            relationshipsToOmit.has('OrderItem')
+              ? ({} as OrderItem)
+              : anOrderItem({}, relationshipsToOmit),
+          ],
+    updateOrders:
+      overrides && overrides.hasOwnProperty('updateOrders')
+        ? overrides.updateOrders!
+        : [
+            relationshipsToOmit.has('Order')
+              ? ({} as Order)
+              : anOrder({}, relationshipsToOmit),
+          ],
+    updateProduct:
+      overrides && overrides.hasOwnProperty('updateProduct')
+        ? overrides.updateProduct!
+        : relationshipsToOmit.has('Product')
+          ? ({} as Product)
+          : aProduct({}, relationshipsToOmit),
+    updateProductImage:
+      overrides && overrides.hasOwnProperty('updateProductImage')
+        ? overrides.updateProductImage!
+        : relationshipsToOmit.has('ProductImage')
+          ? ({} as ProductImage)
+          : aProductImage({}, relationshipsToOmit),
+    updateProductImages:
+      overrides && overrides.hasOwnProperty('updateProductImages')
+        ? overrides.updateProductImages!
+        : [
+            relationshipsToOmit.has('ProductImage')
+              ? ({} as ProductImage)
+              : aProductImage({}, relationshipsToOmit),
+          ],
+    updateProductSnapshot:
+      overrides && overrides.hasOwnProperty('updateProductSnapshot')
+        ? overrides.updateProductSnapshot!
+        : relationshipsToOmit.has('ProductSnapshot')
+          ? ({} as ProductSnapshot)
+          : aProductSnapshot({}, relationshipsToOmit),
+    updateProductSnapshots:
+      overrides && overrides.hasOwnProperty('updateProductSnapshots')
+        ? overrides.updateProductSnapshots!
+        : [
+            relationshipsToOmit.has('ProductSnapshot')
+              ? ({} as ProductSnapshot)
+              : aProductSnapshot({}, relationshipsToOmit),
+          ],
+    updateProductVariant:
+      overrides && overrides.hasOwnProperty('updateProductVariant')
+        ? overrides.updateProductVariant!
+        : relationshipsToOmit.has('ProductVariant')
+          ? ({} as ProductVariant)
+          : aProductVariant({}, relationshipsToOmit),
+    updateProductVariants:
+      overrides && overrides.hasOwnProperty('updateProductVariants')
+        ? overrides.updateProductVariants!
+        : [
+            relationshipsToOmit.has('ProductVariant')
+              ? ({} as ProductVariant)
+              : aProductVariant({}, relationshipsToOmit),
+          ],
+    updateProducts:
+      overrides && overrides.hasOwnProperty('updateProducts')
+        ? overrides.updateProducts!
+        : [
+            relationshipsToOmit.has('Product')
+              ? ({} as Product)
+              : aProduct({}, relationshipsToOmit),
+          ],
+    updateUser:
+      overrides && overrides.hasOwnProperty('updateUser')
+        ? overrides.updateUser!
+        : relationshipsToOmit.has('User')
+          ? ({} as User)
+          : aUser({}, relationshipsToOmit),
+    updateUsers:
+      overrides && overrides.hasOwnProperty('updateUsers')
+        ? overrides.updateUsers!
+        : [
+            relationshipsToOmit.has('User')
+              ? ({} as User)
+              : aUser({}, relationshipsToOmit),
+          ],
+  };
+};
+
+export const aNestedStringFilter = (
+  overrides?: Partial<NestedStringFilter>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): NestedStringFilter => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('NestedStringFilter');
+  return {
+    contains:
+      overrides && overrides.hasOwnProperty('contains')
+        ? overrides.contains!
+        : 'voluptas',
+    endsWith:
+      overrides && overrides.hasOwnProperty('endsWith')
+        ? overrides.endsWith!
+        : 'qui',
+    equals:
+      overrides && overrides.hasOwnProperty('equals')
+        ? overrides.equals!
+        : 'accusamus',
+    gt: overrides && overrides.hasOwnProperty('gt') ? overrides.gt! : 'velit',
+    gte:
+      overrides && overrides.hasOwnProperty('gte') ? overrides.gte! : 'vitae',
+    in: overrides && overrides.hasOwnProperty('in') ? overrides.in! : ['quas'],
+    lt: overrides && overrides.hasOwnProperty('lt') ? overrides.lt! : 'id',
+    lte:
+      overrides && overrides.hasOwnProperty('lte')
+        ? overrides.lte!
+        : 'voluptatem',
+    not:
+      overrides && overrides.hasOwnProperty('not')
+        ? overrides.not!
+        : relationshipsToOmit.has('NestedStringFilter')
+          ? ({} as NestedStringFilter)
+          : aNestedStringFilter({}, relationshipsToOmit),
+    notIn:
+      overrides && overrides.hasOwnProperty('notIn')
+        ? overrides.notIn!
+        : ['debitis'],
+    startsWith:
+      overrides && overrides.hasOwnProperty('startsWith')
+        ? overrides.startsWith!
+        : 'molestiae',
+  };
+};
+
+export const anOrder = (
+  overrides?: Partial<Order>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): Order => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('Order');
+  return {
+    charge:
+      overrides && overrides.hasOwnProperty('charge')
+        ? overrides.charge!
+        : 'et',
+    createdAt:
+      overrides && overrides.hasOwnProperty('createdAt')
+        ? overrides.createdAt!
+        : 'ea',
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : '9614fc2f-1dc8-4b20-94e9-ff966e8bfd93',
+    items:
+      overrides && overrides.hasOwnProperty('items')
+        ? overrides.items!
+        : [
+            relationshipsToOmit.has('OrderItem')
+              ? ({} as OrderItem)
+              : anOrderItem({}, relationshipsToOmit),
+          ],
+    itemsCount:
+      overrides && overrides.hasOwnProperty('itemsCount')
+        ? overrides.itemsCount!
+        : 1981,
+    total:
+      overrides && overrides.hasOwnProperty('total') ? overrides.total! : 393,
+    user:
+      overrides && overrides.hasOwnProperty('user')
+        ? overrides.user!
+        : relationshipsToOmit.has('User')
+          ? ({} as User)
+          : aUser({}, relationshipsToOmit),
+  };
+};
+
+export const anOrderCreateInput = (
+  overrides?: Partial<OrderCreateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): OrderCreateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('OrderCreateInput');
+  return {
+    charge:
+      overrides && overrides.hasOwnProperty('charge')
+        ? overrides.charge!
+        : 'earum',
+    createdAt:
+      overrides && overrides.hasOwnProperty('createdAt')
+        ? overrides.createdAt!
+        : 'ut',
+    items:
+      overrides && overrides.hasOwnProperty('items')
+        ? overrides.items!
+        : relationshipsToOmit.has('OrderItemRelateToManyForCreateInput')
+          ? ({} as OrderItemRelateToManyForCreateInput)
+          : anOrderItemRelateToManyForCreateInput({}, relationshipsToOmit),
+    total:
+      overrides && overrides.hasOwnProperty('total') ? overrides.total! : 8615,
+    user:
+      overrides && overrides.hasOwnProperty('user')
+        ? overrides.user!
+        : relationshipsToOmit.has('UserRelateToOneForCreateInput')
+          ? ({} as UserRelateToOneForCreateInput)
+          : aUserRelateToOneForCreateInput({}, relationshipsToOmit),
+  };
+};
+
+export const anOrderItem = (
+  overrides?: Partial<OrderItem>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): OrderItem => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('OrderItem');
+  return {
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : '90667681-1bcc-4bc5-81c6-a0f296aa1a9b',
+    order:
+      overrides && overrides.hasOwnProperty('order')
+        ? overrides.order!
+        : relationshipsToOmit.has('Order')
+          ? ({} as Order)
+          : anOrder({}, relationshipsToOmit),
+    price:
+      overrides && overrides.hasOwnProperty('price') ? overrides.price! : 3357,
+    quantity:
+      overrides && overrides.hasOwnProperty('quantity')
+        ? overrides.quantity!
+        : 4143,
+    snapshot:
+      overrides && overrides.hasOwnProperty('snapshot')
+        ? overrides.snapshot!
+        : relationshipsToOmit.has('ProductSnapshot')
+          ? ({} as ProductSnapshot)
+          : aProductSnapshot({}, relationshipsToOmit),
+    variant:
+      overrides && overrides.hasOwnProperty('variant')
+        ? overrides.variant!
+        : relationshipsToOmit.has('ProductVariant')
+          ? ({} as ProductVariant)
+          : aProductVariant({}, relationshipsToOmit),
+  };
+};
+
+export const anOrderItemCreateInput = (
+  overrides?: Partial<OrderItemCreateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): OrderItemCreateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('OrderItemCreateInput');
+  return {
+    order:
+      overrides && overrides.hasOwnProperty('order')
+        ? overrides.order!
+        : relationshipsToOmit.has('OrderRelateToOneForCreateInput')
+          ? ({} as OrderRelateToOneForCreateInput)
+          : anOrderRelateToOneForCreateInput({}, relationshipsToOmit),
+    price:
+      overrides && overrides.hasOwnProperty('price') ? overrides.price! : 8415,
+    quantity:
+      overrides && overrides.hasOwnProperty('quantity')
+        ? overrides.quantity!
+        : 8397,
+    snapshot:
+      overrides && overrides.hasOwnProperty('snapshot')
+        ? overrides.snapshot!
+        : relationshipsToOmit.has('ProductSnapshotRelateToOneForCreateInput')
+          ? ({} as ProductSnapshotRelateToOneForCreateInput)
+          : aProductSnapshotRelateToOneForCreateInput({}, relationshipsToOmit),
+    variant:
+      overrides && overrides.hasOwnProperty('variant')
+        ? overrides.variant!
+        : relationshipsToOmit.has('ProductVariantRelateToOneForCreateInput')
+          ? ({} as ProductVariantRelateToOneForCreateInput)
+          : aProductVariantRelateToOneForCreateInput({}, relationshipsToOmit),
+  };
+};
+
+export const anOrderItemManyRelationFilter = (
+  overrides?: Partial<OrderItemManyRelationFilter>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): OrderItemManyRelationFilter => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('OrderItemManyRelationFilter');
+  return {
+    every:
+      overrides && overrides.hasOwnProperty('every')
+        ? overrides.every!
+        : relationshipsToOmit.has('OrderItemWhereInput')
+          ? ({} as OrderItemWhereInput)
+          : anOrderItemWhereInput({}, relationshipsToOmit),
+    none:
+      overrides && overrides.hasOwnProperty('none')
+        ? overrides.none!
+        : relationshipsToOmit.has('OrderItemWhereInput')
+          ? ({} as OrderItemWhereInput)
+          : anOrderItemWhereInput({}, relationshipsToOmit),
+    some:
+      overrides && overrides.hasOwnProperty('some')
+        ? overrides.some!
+        : relationshipsToOmit.has('OrderItemWhereInput')
+          ? ({} as OrderItemWhereInput)
+          : anOrderItemWhereInput({}, relationshipsToOmit),
+  };
+};
+
+export const anOrderItemOrderByInput = (
+  overrides?: Partial<OrderItemOrderByInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): OrderItemOrderByInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('OrderItemOrderByInput');
+  return {
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : OrderDirection.Asc,
+    price:
+      overrides && overrides.hasOwnProperty('price')
+        ? overrides.price!
+        : OrderDirection.Asc,
+    quantity:
+      overrides && overrides.hasOwnProperty('quantity')
+        ? overrides.quantity!
+        : OrderDirection.Asc,
+  };
+};
+
+export const anOrderItemRelateToManyForCreateInput = (
+  overrides?: Partial<OrderItemRelateToManyForCreateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): OrderItemRelateToManyForCreateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('OrderItemRelateToManyForCreateInput');
+  return {
+    connect:
+      overrides && overrides.hasOwnProperty('connect')
+        ? overrides.connect!
+        : [
+            relationshipsToOmit.has('OrderItemWhereUniqueInput')
+              ? ({} as OrderItemWhereUniqueInput)
+              : anOrderItemWhereUniqueInput({}, relationshipsToOmit),
+          ],
+    create:
+      overrides && overrides.hasOwnProperty('create')
+        ? overrides.create!
+        : [
+            relationshipsToOmit.has('OrderItemCreateInput')
+              ? ({} as OrderItemCreateInput)
+              : anOrderItemCreateInput({}, relationshipsToOmit),
+          ],
+  };
+};
+
+export const anOrderItemRelateToManyForUpdateInput = (
+  overrides?: Partial<OrderItemRelateToManyForUpdateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): OrderItemRelateToManyForUpdateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('OrderItemRelateToManyForUpdateInput');
+  return {
+    connect:
+      overrides && overrides.hasOwnProperty('connect')
+        ? overrides.connect!
+        : [
+            relationshipsToOmit.has('OrderItemWhereUniqueInput')
+              ? ({} as OrderItemWhereUniqueInput)
+              : anOrderItemWhereUniqueInput({}, relationshipsToOmit),
+          ],
+    create:
+      overrides && overrides.hasOwnProperty('create')
+        ? overrides.create!
+        : [
+            relationshipsToOmit.has('OrderItemCreateInput')
+              ? ({} as OrderItemCreateInput)
+              : anOrderItemCreateInput({}, relationshipsToOmit),
+          ],
+    disconnect:
+      overrides && overrides.hasOwnProperty('disconnect')
+        ? overrides.disconnect!
+        : [
+            relationshipsToOmit.has('OrderItemWhereUniqueInput')
+              ? ({} as OrderItemWhereUniqueInput)
+              : anOrderItemWhereUniqueInput({}, relationshipsToOmit),
+          ],
+    set:
+      overrides && overrides.hasOwnProperty('set')
+        ? overrides.set!
+        : [
+            relationshipsToOmit.has('OrderItemWhereUniqueInput')
+              ? ({} as OrderItemWhereUniqueInput)
+              : anOrderItemWhereUniqueInput({}, relationshipsToOmit),
+          ],
+  };
+};
+
+export const anOrderItemUpdateArgs = (
+  overrides?: Partial<OrderItemUpdateArgs>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): OrderItemUpdateArgs => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('OrderItemUpdateArgs');
+  return {
+    data:
+      overrides && overrides.hasOwnProperty('data')
+        ? overrides.data!
+        : relationshipsToOmit.has('OrderItemUpdateInput')
+          ? ({} as OrderItemUpdateInput)
+          : anOrderItemUpdateInput({}, relationshipsToOmit),
+    where:
+      overrides && overrides.hasOwnProperty('where')
+        ? overrides.where!
+        : relationshipsToOmit.has('OrderItemWhereUniqueInput')
+          ? ({} as OrderItemWhereUniqueInput)
+          : anOrderItemWhereUniqueInput({}, relationshipsToOmit),
+  };
+};
+
+export const anOrderItemUpdateInput = (
+  overrides?: Partial<OrderItemUpdateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): OrderItemUpdateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('OrderItemUpdateInput');
+  return {
+    order:
+      overrides && overrides.hasOwnProperty('order')
+        ? overrides.order!
+        : relationshipsToOmit.has('OrderRelateToOneForUpdateInput')
+          ? ({} as OrderRelateToOneForUpdateInput)
+          : anOrderRelateToOneForUpdateInput({}, relationshipsToOmit),
+    price:
+      overrides && overrides.hasOwnProperty('price') ? overrides.price! : 4512,
+    quantity:
+      overrides && overrides.hasOwnProperty('quantity')
+        ? overrides.quantity!
+        : 7891,
+    snapshot:
+      overrides && overrides.hasOwnProperty('snapshot')
+        ? overrides.snapshot!
+        : relationshipsToOmit.has('ProductSnapshotRelateToOneForUpdateInput')
+          ? ({} as ProductSnapshotRelateToOneForUpdateInput)
+          : aProductSnapshotRelateToOneForUpdateInput({}, relationshipsToOmit),
+    variant:
+      overrides && overrides.hasOwnProperty('variant')
+        ? overrides.variant!
+        : relationshipsToOmit.has('ProductVariantRelateToOneForUpdateInput')
+          ? ({} as ProductVariantRelateToOneForUpdateInput)
+          : aProductVariantRelateToOneForUpdateInput({}, relationshipsToOmit),
+  };
+};
+
+export const anOrderItemWhereInput = (
+  overrides?: Partial<OrderItemWhereInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): OrderItemWhereInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('OrderItemWhereInput');
+  return {
+    AND:
+      overrides && overrides.hasOwnProperty('AND')
+        ? overrides.AND!
+        : [
+            relationshipsToOmit.has('OrderItemWhereInput')
+              ? ({} as OrderItemWhereInput)
+              : anOrderItemWhereInput({}, relationshipsToOmit),
+          ],
+    NOT:
+      overrides && overrides.hasOwnProperty('NOT')
+        ? overrides.NOT!
+        : [
+            relationshipsToOmit.has('OrderItemWhereInput')
+              ? ({} as OrderItemWhereInput)
+              : anOrderItemWhereInput({}, relationshipsToOmit),
+          ],
+    OR:
+      overrides && overrides.hasOwnProperty('OR')
+        ? overrides.OR!
+        : [
+            relationshipsToOmit.has('OrderItemWhereInput')
+              ? ({} as OrderItemWhereInput)
+              : anOrderItemWhereInput({}, relationshipsToOmit),
+          ],
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : relationshipsToOmit.has('IdFilter')
+          ? ({} as IdFilter)
+          : anIdFilter({}, relationshipsToOmit),
+    order:
+      overrides && overrides.hasOwnProperty('order')
+        ? overrides.order!
+        : relationshipsToOmit.has('OrderWhereInput')
+          ? ({} as OrderWhereInput)
+          : anOrderWhereInput({}, relationshipsToOmit),
+    price:
+      overrides && overrides.hasOwnProperty('price')
+        ? overrides.price!
+        : relationshipsToOmit.has('IntFilter')
+          ? ({} as IntFilter)
+          : anIntFilter({}, relationshipsToOmit),
+    quantity:
+      overrides && overrides.hasOwnProperty('quantity')
+        ? overrides.quantity!
+        : relationshipsToOmit.has('IntFilter')
+          ? ({} as IntFilter)
+          : anIntFilter({}, relationshipsToOmit),
+    snapshot:
+      overrides && overrides.hasOwnProperty('snapshot')
+        ? overrides.snapshot!
+        : relationshipsToOmit.has('ProductSnapshotWhereInput')
+          ? ({} as ProductSnapshotWhereInput)
+          : aProductSnapshotWhereInput({}, relationshipsToOmit),
+    variant:
+      overrides && overrides.hasOwnProperty('variant')
+        ? overrides.variant!
+        : relationshipsToOmit.has('ProductVariantWhereInput')
+          ? ({} as ProductVariantWhereInput)
+          : aProductVariantWhereInput({}, relationshipsToOmit),
+  };
+};
+
+export const anOrderItemWhereUniqueInput = (
+  overrides?: Partial<OrderItemWhereUniqueInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): OrderItemWhereUniqueInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('OrderItemWhereUniqueInput');
+  return {
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : '402cc447-686f-423f-a307-a011a23f6d89',
+  };
+};
+
+export const anOrderManyRelationFilter = (
+  overrides?: Partial<OrderManyRelationFilter>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): OrderManyRelationFilter => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('OrderManyRelationFilter');
+  return {
+    every:
+      overrides && overrides.hasOwnProperty('every')
+        ? overrides.every!
+        : relationshipsToOmit.has('OrderWhereInput')
+          ? ({} as OrderWhereInput)
+          : anOrderWhereInput({}, relationshipsToOmit),
+    none:
+      overrides && overrides.hasOwnProperty('none')
+        ? overrides.none!
+        : relationshipsToOmit.has('OrderWhereInput')
+          ? ({} as OrderWhereInput)
+          : anOrderWhereInput({}, relationshipsToOmit),
+    some:
+      overrides && overrides.hasOwnProperty('some')
+        ? overrides.some!
+        : relationshipsToOmit.has('OrderWhereInput')
+          ? ({} as OrderWhereInput)
+          : anOrderWhereInput({}, relationshipsToOmit),
+  };
+};
+
+export const anOrderOrderByInput = (
+  overrides?: Partial<OrderOrderByInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): OrderOrderByInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('OrderOrderByInput');
+  return {
+    charge:
+      overrides && overrides.hasOwnProperty('charge')
+        ? overrides.charge!
+        : OrderDirection.Asc,
+    createdAt:
+      overrides && overrides.hasOwnProperty('createdAt')
+        ? overrides.createdAt!
+        : OrderDirection.Asc,
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : OrderDirection.Asc,
+    total:
+      overrides && overrides.hasOwnProperty('total')
+        ? overrides.total!
+        : OrderDirection.Asc,
+  };
+};
+
+export const anOrderRelateToManyForCreateInput = (
+  overrides?: Partial<OrderRelateToManyForCreateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): OrderRelateToManyForCreateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('OrderRelateToManyForCreateInput');
+  return {
+    connect:
+      overrides && overrides.hasOwnProperty('connect')
+        ? overrides.connect!
+        : [
+            relationshipsToOmit.has('OrderWhereUniqueInput')
+              ? ({} as OrderWhereUniqueInput)
+              : anOrderWhereUniqueInput({}, relationshipsToOmit),
+          ],
+    create:
+      overrides && overrides.hasOwnProperty('create')
+        ? overrides.create!
+        : [
+            relationshipsToOmit.has('OrderCreateInput')
+              ? ({} as OrderCreateInput)
+              : anOrderCreateInput({}, relationshipsToOmit),
+          ],
+  };
+};
+
+export const anOrderRelateToManyForUpdateInput = (
+  overrides?: Partial<OrderRelateToManyForUpdateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): OrderRelateToManyForUpdateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('OrderRelateToManyForUpdateInput');
+  return {
+    connect:
+      overrides && overrides.hasOwnProperty('connect')
+        ? overrides.connect!
+        : [
+            relationshipsToOmit.has('OrderWhereUniqueInput')
+              ? ({} as OrderWhereUniqueInput)
+              : anOrderWhereUniqueInput({}, relationshipsToOmit),
+          ],
+    create:
+      overrides && overrides.hasOwnProperty('create')
+        ? overrides.create!
+        : [
+            relationshipsToOmit.has('OrderCreateInput')
+              ? ({} as OrderCreateInput)
+              : anOrderCreateInput({}, relationshipsToOmit),
+          ],
+    disconnect:
+      overrides && overrides.hasOwnProperty('disconnect')
+        ? overrides.disconnect!
+        : [
+            relationshipsToOmit.has('OrderWhereUniqueInput')
+              ? ({} as OrderWhereUniqueInput)
+              : anOrderWhereUniqueInput({}, relationshipsToOmit),
+          ],
+    set:
+      overrides && overrides.hasOwnProperty('set')
+        ? overrides.set!
+        : [
+            relationshipsToOmit.has('OrderWhereUniqueInput')
+              ? ({} as OrderWhereUniqueInput)
+              : anOrderWhereUniqueInput({}, relationshipsToOmit),
+          ],
+  };
+};
+
+export const anOrderRelateToOneForCreateInput = (
+  overrides?: Partial<OrderRelateToOneForCreateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): OrderRelateToOneForCreateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('OrderRelateToOneForCreateInput');
+  return {
+    connect:
+      overrides && overrides.hasOwnProperty('connect')
+        ? overrides.connect!
+        : relationshipsToOmit.has('OrderWhereUniqueInput')
+          ? ({} as OrderWhereUniqueInput)
+          : anOrderWhereUniqueInput({}, relationshipsToOmit),
+    create:
+      overrides && overrides.hasOwnProperty('create')
+        ? overrides.create!
+        : relationshipsToOmit.has('OrderCreateInput')
+          ? ({} as OrderCreateInput)
+          : anOrderCreateInput({}, relationshipsToOmit),
+  };
+};
+
+export const anOrderRelateToOneForUpdateInput = (
+  overrides?: Partial<OrderRelateToOneForUpdateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): OrderRelateToOneForUpdateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('OrderRelateToOneForUpdateInput');
+  return {
+    connect:
+      overrides && overrides.hasOwnProperty('connect')
+        ? overrides.connect!
+        : relationshipsToOmit.has('OrderWhereUniqueInput')
+          ? ({} as OrderWhereUniqueInput)
+          : anOrderWhereUniqueInput({}, relationshipsToOmit),
+    create:
+      overrides && overrides.hasOwnProperty('create')
+        ? overrides.create!
+        : relationshipsToOmit.has('OrderCreateInput')
+          ? ({} as OrderCreateInput)
+          : anOrderCreateInput({}, relationshipsToOmit),
+    disconnect:
+      overrides && overrides.hasOwnProperty('disconnect')
+        ? overrides.disconnect!
+        : true,
+  };
+};
+
+export const anOrderUpdateArgs = (
+  overrides?: Partial<OrderUpdateArgs>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): OrderUpdateArgs => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('OrderUpdateArgs');
+  return {
+    data:
+      overrides && overrides.hasOwnProperty('data')
+        ? overrides.data!
+        : relationshipsToOmit.has('OrderUpdateInput')
+          ? ({} as OrderUpdateInput)
+          : anOrderUpdateInput({}, relationshipsToOmit),
+    where:
+      overrides && overrides.hasOwnProperty('where')
+        ? overrides.where!
+        : relationshipsToOmit.has('OrderWhereUniqueInput')
+          ? ({} as OrderWhereUniqueInput)
+          : anOrderWhereUniqueInput({}, relationshipsToOmit),
+  };
+};
+
+export const anOrderUpdateInput = (
+  overrides?: Partial<OrderUpdateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): OrderUpdateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('OrderUpdateInput');
+  return {
+    charge:
+      overrides && overrides.hasOwnProperty('charge')
+        ? overrides.charge!
+        : 'iusto',
+    createdAt:
+      overrides && overrides.hasOwnProperty('createdAt')
+        ? overrides.createdAt!
+        : 'autem',
+    items:
+      overrides && overrides.hasOwnProperty('items')
+        ? overrides.items!
+        : relationshipsToOmit.has('OrderItemRelateToManyForUpdateInput')
+          ? ({} as OrderItemRelateToManyForUpdateInput)
+          : anOrderItemRelateToManyForUpdateInput({}, relationshipsToOmit),
+    total:
+      overrides && overrides.hasOwnProperty('total') ? overrides.total! : 5838,
+    user:
+      overrides && overrides.hasOwnProperty('user')
+        ? overrides.user!
+        : relationshipsToOmit.has('UserRelateToOneForUpdateInput')
+          ? ({} as UserRelateToOneForUpdateInput)
+          : aUserRelateToOneForUpdateInput({}, relationshipsToOmit),
+  };
+};
+
+export const anOrderWhereInput = (
+  overrides?: Partial<OrderWhereInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): OrderWhereInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('OrderWhereInput');
+  return {
+    AND:
+      overrides && overrides.hasOwnProperty('AND')
+        ? overrides.AND!
+        : [
+            relationshipsToOmit.has('OrderWhereInput')
+              ? ({} as OrderWhereInput)
+              : anOrderWhereInput({}, relationshipsToOmit),
+          ],
+    NOT:
+      overrides && overrides.hasOwnProperty('NOT')
+        ? overrides.NOT!
+        : [
+            relationshipsToOmit.has('OrderWhereInput')
+              ? ({} as OrderWhereInput)
+              : anOrderWhereInput({}, relationshipsToOmit),
+          ],
+    OR:
+      overrides && overrides.hasOwnProperty('OR')
+        ? overrides.OR!
+        : [
+            relationshipsToOmit.has('OrderWhereInput')
+              ? ({} as OrderWhereInput)
+              : anOrderWhereInput({}, relationshipsToOmit),
+          ],
+    charge:
+      overrides && overrides.hasOwnProperty('charge')
+        ? overrides.charge!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+    createdAt:
+      overrides && overrides.hasOwnProperty('createdAt')
+        ? overrides.createdAt!
+        : relationshipsToOmit.has('CalendarDayFilter')
+          ? ({} as CalendarDayFilter)
+          : aCalendarDayFilter({}, relationshipsToOmit),
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : relationshipsToOmit.has('IdFilter')
+          ? ({} as IdFilter)
+          : anIdFilter({}, relationshipsToOmit),
+    items:
+      overrides && overrides.hasOwnProperty('items')
+        ? overrides.items!
+        : relationshipsToOmit.has('OrderItemManyRelationFilter')
+          ? ({} as OrderItemManyRelationFilter)
+          : anOrderItemManyRelationFilter({}, relationshipsToOmit),
+    total:
+      overrides && overrides.hasOwnProperty('total')
+        ? overrides.total!
+        : relationshipsToOmit.has('IntFilter')
+          ? ({} as IntFilter)
+          : anIntFilter({}, relationshipsToOmit),
+    user:
+      overrides && overrides.hasOwnProperty('user')
+        ? overrides.user!
+        : relationshipsToOmit.has('UserWhereInput')
+          ? ({} as UserWhereInput)
+          : aUserWhereInput({}, relationshipsToOmit),
+  };
+};
+
+export const anOrderWhereUniqueInput = (
+  overrides?: Partial<OrderWhereUniqueInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): OrderWhereUniqueInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('OrderWhereUniqueInput');
+  return {
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : 'cce8b275-3c14-443b-a98b-818f867f1835',
+  };
+};
+
+export const aPasswordFilter = (
+  overrides?: Partial<PasswordFilter>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): PasswordFilter => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('PasswordFilter');
+  return {
+    isSet:
+      overrides && overrides.hasOwnProperty('isSet') ? overrides.isSet! : true,
+  };
+};
+
+export const aPasswordState = (
+  overrides?: Partial<PasswordState>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): PasswordState => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('PasswordState');
+  return {
+    isSet:
+      overrides && overrides.hasOwnProperty('isSet') ? overrides.isSet! : false,
+  };
+};
+
+export const aProduct = (
+  overrides?: Partial<Product>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): Product => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('Product');
+  return {
+    category:
+      overrides && overrides.hasOwnProperty('category')
+        ? overrides.category!
+        : relationshipsToOmit.has('Category')
+          ? ({} as Category)
+          : aCategory({}, relationshipsToOmit),
+    company:
+      overrides && overrides.hasOwnProperty('company')
+        ? overrides.company!
+        : 'sed',
+    defaultVariantId:
+      overrides && overrides.hasOwnProperty('defaultVariantId')
+        ? overrides.defaultVariantId!
+        : 'in',
+    description:
+      overrides && overrides.hasOwnProperty('description')
+        ? overrides.description!
+        : 'qui',
+    highestPrice:
+      overrides && overrides.hasOwnProperty('highestPrice')
+        ? overrides.highestPrice!
+        : 617,
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : '9983bd3e-4f2a-444b-8e81-349ed54ed801',
+    image:
+      overrides && overrides.hasOwnProperty('image')
+        ? overrides.image!
+        : relationshipsToOmit.has('ProductImage')
+          ? ({} as ProductImage)
+          : aProductImage({}, relationshipsToOmit),
+    lowestPrice:
+      overrides && overrides.hasOwnProperty('lowestPrice')
+        ? overrides.lowestPrice!
+        : 1571,
+    meta:
+      overrides && overrides.hasOwnProperty('meta')
+        ? overrides.meta!
+        : 'molestias',
+    name:
+      overrides && overrides.hasOwnProperty('name') ? overrides.name! : 'nihil',
+    shortDescription:
+      overrides && overrides.hasOwnProperty('shortDescription')
+        ? overrides.shortDescription!
+        : 'optio',
+    slug:
+      overrides && overrides.hasOwnProperty('slug')
+        ? overrides.slug!
+        : 'facilis',
+    status:
+      overrides && overrides.hasOwnProperty('status')
+        ? overrides.status!
+        : 'et',
+    style:
+      overrides && overrides.hasOwnProperty('style')
+        ? overrides.style!
+        : 'rerum',
+    type:
+      overrides && overrides.hasOwnProperty('type') ? overrides.type! : 'nulla',
+    variant:
+      overrides && overrides.hasOwnProperty('variant')
+        ? overrides.variant!
+        : relationshipsToOmit.has('ProductVariant')
+          ? ({} as ProductVariant)
+          : aProductVariant({}, relationshipsToOmit),
+    variants:
+      overrides && overrides.hasOwnProperty('variants')
+        ? overrides.variants!
+        : [
+            relationshipsToOmit.has('ProductVariant')
+              ? ({} as ProductVariant)
+              : aProductVariant({}, relationshipsToOmit),
+          ],
+    variantsCount:
+      overrides && overrides.hasOwnProperty('variantsCount')
+        ? overrides.variantsCount!
+        : 1839,
+  };
+};
+
+export const aProductCreateInput = (
+  overrides?: Partial<ProductCreateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductCreateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductCreateInput');
+  return {
+    category:
+      overrides && overrides.hasOwnProperty('category')
+        ? overrides.category!
+        : relationshipsToOmit.has('CategoryRelateToOneForCreateInput')
+          ? ({} as CategoryRelateToOneForCreateInput)
+          : aCategoryRelateToOneForCreateInput({}, relationshipsToOmit),
+    company:
+      overrides && overrides.hasOwnProperty('company')
+        ? overrides.company!
+        : 'unde',
+    defaultVariantId:
+      overrides && overrides.hasOwnProperty('defaultVariantId')
+        ? overrides.defaultVariantId!
+        : 'voluptates',
+    description:
+      overrides && overrides.hasOwnProperty('description')
+        ? overrides.description!
+        : 'commodi',
+    highestPrice:
+      overrides && overrides.hasOwnProperty('highestPrice')
+        ? overrides.highestPrice!
+        : 8427,
+    image:
+      overrides && overrides.hasOwnProperty('image')
+        ? overrides.image!
+        : relationshipsToOmit.has('ProductImageRelateToOneForCreateInput')
+          ? ({} as ProductImageRelateToOneForCreateInput)
+          : aProductImageRelateToOneForCreateInput({}, relationshipsToOmit),
+    lowestPrice:
+      overrides && overrides.hasOwnProperty('lowestPrice')
+        ? overrides.lowestPrice!
+        : 1615,
+    meta:
+      overrides && overrides.hasOwnProperty('meta')
+        ? overrides.meta!
+        : 'voluptate',
+    name:
+      overrides && overrides.hasOwnProperty('name') ? overrides.name! : 'non',
+    slug:
+      overrides && overrides.hasOwnProperty('slug')
+        ? overrides.slug!
+        : 'ducimus',
+    status:
+      overrides && overrides.hasOwnProperty('status')
+        ? overrides.status!
+        : 'qui',
+    style:
+      overrides && overrides.hasOwnProperty('style')
+        ? overrides.style!
+        : 'provident',
+    type:
+      overrides && overrides.hasOwnProperty('type')
+        ? overrides.type!
+        : 'deserunt',
+    variants:
+      overrides && overrides.hasOwnProperty('variants')
+        ? overrides.variants!
+        : relationshipsToOmit.has('ProductVariantRelateToManyForCreateInput')
+          ? ({} as ProductVariantRelateToManyForCreateInput)
+          : aProductVariantRelateToManyForCreateInput({}, relationshipsToOmit),
+  };
+};
+
+export const aProductDescriptor = (
+  overrides?: Partial<ProductDescriptor>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductDescriptor => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductDescriptor');
+  return {
+    companies:
+      overrides && overrides.hasOwnProperty('companies')
+        ? overrides.companies!
+        : ['aut'],
+    styles:
+      overrides && overrides.hasOwnProperty('styles')
+        ? overrides.styles!
+        : ['at'],
+    types:
+      overrides && overrides.hasOwnProperty('types')
+        ? overrides.types!
+        : ['praesentium'],
+  };
+};
+
+export const aProductImage = (
+  overrides?: Partial<ProductImage>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductImage => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductImage');
+  return {
+    alt:
+      overrides && overrides.hasOwnProperty('alt') ? overrides.alt! : 'vitae',
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : '7541b7c5-5e66-445c-bcd4-bd5882a3094d',
+    image:
+      overrides && overrides.hasOwnProperty('image')
+        ? overrides.image!
+        : relationshipsToOmit.has('CloudinaryImage_File')
+          ? ({} as CloudinaryImage_File)
+          : aCloudinaryImage_File({}, relationshipsToOmit),
+    product:
+      overrides && overrides.hasOwnProperty('product')
+        ? overrides.product!
+        : relationshipsToOmit.has('Product')
+          ? ({} as Product)
+          : aProduct({}, relationshipsToOmit),
+  };
+};
+
+export const aProductImageCreateInput = (
+  overrides?: Partial<ProductImageCreateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductImageCreateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductImageCreateInput');
+  return {
+    alt: overrides && overrides.hasOwnProperty('alt') ? overrides.alt! : 'et',
+    image:
+      overrides && overrides.hasOwnProperty('image')
+        ? overrides.image!
+        : 'expedita',
+    product:
+      overrides && overrides.hasOwnProperty('product')
+        ? overrides.product!
+        : relationshipsToOmit.has('ProductRelateToOneForCreateInput')
+          ? ({} as ProductRelateToOneForCreateInput)
+          : aProductRelateToOneForCreateInput({}, relationshipsToOmit),
+  };
+};
+
+export const aProductImageOrderByInput = (
+  overrides?: Partial<ProductImageOrderByInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductImageOrderByInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductImageOrderByInput');
+  return {
+    alt:
+      overrides && overrides.hasOwnProperty('alt')
+        ? overrides.alt!
+        : OrderDirection.Asc,
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : OrderDirection.Asc,
+  };
+};
+
+export const aProductImageRelateToOneForCreateInput = (
+  overrides?: Partial<ProductImageRelateToOneForCreateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductImageRelateToOneForCreateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductImageRelateToOneForCreateInput');
+  return {
+    connect:
+      overrides && overrides.hasOwnProperty('connect')
+        ? overrides.connect!
+        : relationshipsToOmit.has('ProductImageWhereUniqueInput')
+          ? ({} as ProductImageWhereUniqueInput)
+          : aProductImageWhereUniqueInput({}, relationshipsToOmit),
+    create:
+      overrides && overrides.hasOwnProperty('create')
+        ? overrides.create!
+        : relationshipsToOmit.has('ProductImageCreateInput')
+          ? ({} as ProductImageCreateInput)
+          : aProductImageCreateInput({}, relationshipsToOmit),
+  };
+};
+
+export const aProductImageRelateToOneForUpdateInput = (
+  overrides?: Partial<ProductImageRelateToOneForUpdateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductImageRelateToOneForUpdateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductImageRelateToOneForUpdateInput');
+  return {
+    connect:
+      overrides && overrides.hasOwnProperty('connect')
+        ? overrides.connect!
+        : relationshipsToOmit.has('ProductImageWhereUniqueInput')
+          ? ({} as ProductImageWhereUniqueInput)
+          : aProductImageWhereUniqueInput({}, relationshipsToOmit),
+    create:
+      overrides && overrides.hasOwnProperty('create')
+        ? overrides.create!
+        : relationshipsToOmit.has('ProductImageCreateInput')
+          ? ({} as ProductImageCreateInput)
+          : aProductImageCreateInput({}, relationshipsToOmit),
+    disconnect:
+      overrides && overrides.hasOwnProperty('disconnect')
+        ? overrides.disconnect!
+        : true,
+  };
+};
+
+export const aProductImageUpdateArgs = (
+  overrides?: Partial<ProductImageUpdateArgs>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductImageUpdateArgs => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductImageUpdateArgs');
+  return {
+    data:
+      overrides && overrides.hasOwnProperty('data')
+        ? overrides.data!
+        : relationshipsToOmit.has('ProductImageUpdateInput')
+          ? ({} as ProductImageUpdateInput)
+          : aProductImageUpdateInput({}, relationshipsToOmit),
+    where:
+      overrides && overrides.hasOwnProperty('where')
+        ? overrides.where!
+        : relationshipsToOmit.has('ProductImageWhereUniqueInput')
+          ? ({} as ProductImageWhereUniqueInput)
+          : aProductImageWhereUniqueInput({}, relationshipsToOmit),
+  };
+};
+
+export const aProductImageUpdateInput = (
+  overrides?: Partial<ProductImageUpdateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductImageUpdateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductImageUpdateInput');
+  return {
+    alt: overrides && overrides.hasOwnProperty('alt') ? overrides.alt! : 'qui',
+    image:
+      overrides && overrides.hasOwnProperty('image')
+        ? overrides.image!
+        : 'quaerat',
+    product:
+      overrides && overrides.hasOwnProperty('product')
+        ? overrides.product!
+        : relationshipsToOmit.has('ProductRelateToOneForUpdateInput')
+          ? ({} as ProductRelateToOneForUpdateInput)
+          : aProductRelateToOneForUpdateInput({}, relationshipsToOmit),
+  };
+};
+
+export const aProductImageWhereInput = (
+  overrides?: Partial<ProductImageWhereInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductImageWhereInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductImageWhereInput');
+  return {
+    AND:
+      overrides && overrides.hasOwnProperty('AND')
+        ? overrides.AND!
+        : [
+            relationshipsToOmit.has('ProductImageWhereInput')
+              ? ({} as ProductImageWhereInput)
+              : aProductImageWhereInput({}, relationshipsToOmit),
+          ],
+    NOT:
+      overrides && overrides.hasOwnProperty('NOT')
+        ? overrides.NOT!
+        : [
+            relationshipsToOmit.has('ProductImageWhereInput')
+              ? ({} as ProductImageWhereInput)
+              : aProductImageWhereInput({}, relationshipsToOmit),
+          ],
+    OR:
+      overrides && overrides.hasOwnProperty('OR')
+        ? overrides.OR!
+        : [
+            relationshipsToOmit.has('ProductImageWhereInput')
+              ? ({} as ProductImageWhereInput)
+              : aProductImageWhereInput({}, relationshipsToOmit),
+          ],
+    alt:
+      overrides && overrides.hasOwnProperty('alt')
+        ? overrides.alt!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : relationshipsToOmit.has('IdFilter')
+          ? ({} as IdFilter)
+          : anIdFilter({}, relationshipsToOmit),
+    product:
+      overrides && overrides.hasOwnProperty('product')
+        ? overrides.product!
+        : relationshipsToOmit.has('ProductWhereInput')
+          ? ({} as ProductWhereInput)
+          : aProductWhereInput({}, relationshipsToOmit),
+  };
+};
+
+export const aProductImageWhereUniqueInput = (
+  overrides?: Partial<ProductImageWhereUniqueInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductImageWhereUniqueInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductImageWhereUniqueInput');
+  return {
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : '8e1c623c-0c69-4302-adc2-a533f28c44e7',
+  };
+};
+
+export const aProductManyRelationFilter = (
+  overrides?: Partial<ProductManyRelationFilter>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductManyRelationFilter => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductManyRelationFilter');
+  return {
+    every:
+      overrides && overrides.hasOwnProperty('every')
+        ? overrides.every!
+        : relationshipsToOmit.has('ProductWhereInput')
+          ? ({} as ProductWhereInput)
+          : aProductWhereInput({}, relationshipsToOmit),
+    none:
+      overrides && overrides.hasOwnProperty('none')
+        ? overrides.none!
+        : relationshipsToOmit.has('ProductWhereInput')
+          ? ({} as ProductWhereInput)
+          : aProductWhereInput({}, relationshipsToOmit),
+    some:
+      overrides && overrides.hasOwnProperty('some')
+        ? overrides.some!
+        : relationshipsToOmit.has('ProductWhereInput')
+          ? ({} as ProductWhereInput)
+          : aProductWhereInput({}, relationshipsToOmit),
+  };
+};
+
+export const aProductOrderByInput = (
+  overrides?: Partial<ProductOrderByInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductOrderByInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductOrderByInput');
+  return {
+    company:
+      overrides && overrides.hasOwnProperty('company')
+        ? overrides.company!
+        : OrderDirection.Asc,
+    defaultVariantId:
+      overrides && overrides.hasOwnProperty('defaultVariantId')
+        ? overrides.defaultVariantId!
+        : OrderDirection.Asc,
+    description:
+      overrides && overrides.hasOwnProperty('description')
+        ? overrides.description!
+        : OrderDirection.Asc,
+    highestPrice:
+      overrides && overrides.hasOwnProperty('highestPrice')
+        ? overrides.highestPrice!
+        : OrderDirection.Asc,
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : OrderDirection.Asc,
+    lowestPrice:
+      overrides && overrides.hasOwnProperty('lowestPrice')
+        ? overrides.lowestPrice!
+        : OrderDirection.Asc,
+    name:
+      overrides && overrides.hasOwnProperty('name')
+        ? overrides.name!
+        : OrderDirection.Asc,
+    slug:
+      overrides && overrides.hasOwnProperty('slug')
+        ? overrides.slug!
+        : OrderDirection.Asc,
+    status:
+      overrides && overrides.hasOwnProperty('status')
+        ? overrides.status!
+        : OrderDirection.Asc,
+    style:
+      overrides && overrides.hasOwnProperty('style')
+        ? overrides.style!
+        : OrderDirection.Asc,
+    type:
+      overrides && overrides.hasOwnProperty('type')
+        ? overrides.type!
+        : OrderDirection.Asc,
+  };
+};
+
+export const aProductRelateToManyForCreateInput = (
+  overrides?: Partial<ProductRelateToManyForCreateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductRelateToManyForCreateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductRelateToManyForCreateInput');
+  return {
+    connect:
+      overrides && overrides.hasOwnProperty('connect')
+        ? overrides.connect!
+        : [
+            relationshipsToOmit.has('ProductWhereUniqueInput')
+              ? ({} as ProductWhereUniqueInput)
+              : aProductWhereUniqueInput({}, relationshipsToOmit),
+          ],
+    create:
+      overrides && overrides.hasOwnProperty('create')
+        ? overrides.create!
+        : [
+            relationshipsToOmit.has('ProductCreateInput')
+              ? ({} as ProductCreateInput)
+              : aProductCreateInput({}, relationshipsToOmit),
+          ],
+  };
+};
+
+export const aProductRelateToManyForUpdateInput = (
+  overrides?: Partial<ProductRelateToManyForUpdateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductRelateToManyForUpdateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductRelateToManyForUpdateInput');
+  return {
+    connect:
+      overrides && overrides.hasOwnProperty('connect')
+        ? overrides.connect!
+        : [
+            relationshipsToOmit.has('ProductWhereUniqueInput')
+              ? ({} as ProductWhereUniqueInput)
+              : aProductWhereUniqueInput({}, relationshipsToOmit),
+          ],
+    create:
+      overrides && overrides.hasOwnProperty('create')
+        ? overrides.create!
+        : [
+            relationshipsToOmit.has('ProductCreateInput')
+              ? ({} as ProductCreateInput)
+              : aProductCreateInput({}, relationshipsToOmit),
+          ],
+    disconnect:
+      overrides && overrides.hasOwnProperty('disconnect')
+        ? overrides.disconnect!
+        : [
+            relationshipsToOmit.has('ProductWhereUniqueInput')
+              ? ({} as ProductWhereUniqueInput)
+              : aProductWhereUniqueInput({}, relationshipsToOmit),
+          ],
+    set:
+      overrides && overrides.hasOwnProperty('set')
+        ? overrides.set!
+        : [
+            relationshipsToOmit.has('ProductWhereUniqueInput')
+              ? ({} as ProductWhereUniqueInput)
+              : aProductWhereUniqueInput({}, relationshipsToOmit),
+          ],
+  };
+};
+
+export const aProductRelateToOneForCreateInput = (
+  overrides?: Partial<ProductRelateToOneForCreateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductRelateToOneForCreateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductRelateToOneForCreateInput');
+  return {
+    connect:
+      overrides && overrides.hasOwnProperty('connect')
+        ? overrides.connect!
+        : relationshipsToOmit.has('ProductWhereUniqueInput')
+          ? ({} as ProductWhereUniqueInput)
+          : aProductWhereUniqueInput({}, relationshipsToOmit),
+    create:
+      overrides && overrides.hasOwnProperty('create')
+        ? overrides.create!
+        : relationshipsToOmit.has('ProductCreateInput')
+          ? ({} as ProductCreateInput)
+          : aProductCreateInput({}, relationshipsToOmit),
+  };
+};
+
+export const aProductRelateToOneForUpdateInput = (
+  overrides?: Partial<ProductRelateToOneForUpdateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductRelateToOneForUpdateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductRelateToOneForUpdateInput');
+  return {
+    connect:
+      overrides && overrides.hasOwnProperty('connect')
+        ? overrides.connect!
+        : relationshipsToOmit.has('ProductWhereUniqueInput')
+          ? ({} as ProductWhereUniqueInput)
+          : aProductWhereUniqueInput({}, relationshipsToOmit),
+    create:
+      overrides && overrides.hasOwnProperty('create')
+        ? overrides.create!
+        : relationshipsToOmit.has('ProductCreateInput')
+          ? ({} as ProductCreateInput)
+          : aProductCreateInput({}, relationshipsToOmit),
+    disconnect:
+      overrides && overrides.hasOwnProperty('disconnect')
+        ? overrides.disconnect!
+        : true,
+  };
+};
+
+export const aProductSnapshot = (
+  overrides?: Partial<ProductSnapshot>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductSnapshot => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductSnapshot');
+  return {
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : '6577a401-9a66-426f-b06d-8ee7c85f83b6',
+    image:
+      overrides && overrides.hasOwnProperty('image') ? overrides.image! : 'eum',
+    meta:
+      overrides && overrides.hasOwnProperty('meta') ? overrides.meta! : 'fugit',
+    name:
+      overrides && overrides.hasOwnProperty('name')
+        ? overrides.name!
+        : 'officia',
+    price:
+      overrides && overrides.hasOwnProperty('price') ? overrides.price! : 1979,
+  };
+};
+
+export const aProductSnapshotCreateInput = (
+  overrides?: Partial<ProductSnapshotCreateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductSnapshotCreateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductSnapshotCreateInput');
+  return {
+    image:
+      overrides && overrides.hasOwnProperty('image')
+        ? overrides.image!
+        : 'nobis',
+    meta:
+      overrides && overrides.hasOwnProperty('meta') ? overrides.meta! : 'sed',
+    name:
+      overrides && overrides.hasOwnProperty('name')
+        ? overrides.name!
+        : 'ratione',
+    price:
+      overrides && overrides.hasOwnProperty('price') ? overrides.price! : 2397,
+  };
+};
+
+export const aProductSnapshotOrderByInput = (
+  overrides?: Partial<ProductSnapshotOrderByInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductSnapshotOrderByInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductSnapshotOrderByInput');
+  return {
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : OrderDirection.Asc,
+    image:
+      overrides && overrides.hasOwnProperty('image')
+        ? overrides.image!
+        : OrderDirection.Asc,
+    name:
+      overrides && overrides.hasOwnProperty('name')
+        ? overrides.name!
+        : OrderDirection.Asc,
+    price:
+      overrides && overrides.hasOwnProperty('price')
+        ? overrides.price!
+        : OrderDirection.Asc,
+  };
+};
+
+export const aProductSnapshotRelateToOneForCreateInput = (
+  overrides?: Partial<ProductSnapshotRelateToOneForCreateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductSnapshotRelateToOneForCreateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductSnapshotRelateToOneForCreateInput');
+  return {
+    connect:
+      overrides && overrides.hasOwnProperty('connect')
+        ? overrides.connect!
+        : relationshipsToOmit.has('ProductSnapshotWhereUniqueInput')
+          ? ({} as ProductSnapshotWhereUniqueInput)
+          : aProductSnapshotWhereUniqueInput({}, relationshipsToOmit),
+    create:
+      overrides && overrides.hasOwnProperty('create')
+        ? overrides.create!
+        : relationshipsToOmit.has('ProductSnapshotCreateInput')
+          ? ({} as ProductSnapshotCreateInput)
+          : aProductSnapshotCreateInput({}, relationshipsToOmit),
+  };
+};
+
+export const aProductSnapshotRelateToOneForUpdateInput = (
+  overrides?: Partial<ProductSnapshotRelateToOneForUpdateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductSnapshotRelateToOneForUpdateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductSnapshotRelateToOneForUpdateInput');
+  return {
+    connect:
+      overrides && overrides.hasOwnProperty('connect')
+        ? overrides.connect!
+        : relationshipsToOmit.has('ProductSnapshotWhereUniqueInput')
+          ? ({} as ProductSnapshotWhereUniqueInput)
+          : aProductSnapshotWhereUniqueInput({}, relationshipsToOmit),
+    create:
+      overrides && overrides.hasOwnProperty('create')
+        ? overrides.create!
+        : relationshipsToOmit.has('ProductSnapshotCreateInput')
+          ? ({} as ProductSnapshotCreateInput)
+          : aProductSnapshotCreateInput({}, relationshipsToOmit),
+    disconnect:
+      overrides && overrides.hasOwnProperty('disconnect')
+        ? overrides.disconnect!
+        : false,
+  };
+};
+
+export const aProductSnapshotUpdateArgs = (
+  overrides?: Partial<ProductSnapshotUpdateArgs>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductSnapshotUpdateArgs => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductSnapshotUpdateArgs');
+  return {
+    data:
+      overrides && overrides.hasOwnProperty('data')
+        ? overrides.data!
+        : relationshipsToOmit.has('ProductSnapshotUpdateInput')
+          ? ({} as ProductSnapshotUpdateInput)
+          : aProductSnapshotUpdateInput({}, relationshipsToOmit),
+    where:
+      overrides && overrides.hasOwnProperty('where')
+        ? overrides.where!
+        : relationshipsToOmit.has('ProductSnapshotWhereUniqueInput')
+          ? ({} as ProductSnapshotWhereUniqueInput)
+          : aProductSnapshotWhereUniqueInput({}, relationshipsToOmit),
+  };
+};
+
+export const aProductSnapshotUpdateInput = (
+  overrides?: Partial<ProductSnapshotUpdateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductSnapshotUpdateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductSnapshotUpdateInput');
+  return {
+    image:
+      overrides && overrides.hasOwnProperty('image')
+        ? overrides.image!
+        : 'neque',
+    meta:
+      overrides && overrides.hasOwnProperty('meta')
+        ? overrides.meta!
+        : 'voluptas',
+    name:
+      overrides && overrides.hasOwnProperty('name')
+        ? overrides.name!
+        : 'dignissimos',
+    price:
+      overrides && overrides.hasOwnProperty('price') ? overrides.price! : 5592,
+  };
+};
+
+export const aProductSnapshotWhereInput = (
+  overrides?: Partial<ProductSnapshotWhereInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductSnapshotWhereInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductSnapshotWhereInput');
+  return {
+    AND:
+      overrides && overrides.hasOwnProperty('AND')
+        ? overrides.AND!
+        : [
+            relationshipsToOmit.has('ProductSnapshotWhereInput')
+              ? ({} as ProductSnapshotWhereInput)
+              : aProductSnapshotWhereInput({}, relationshipsToOmit),
+          ],
+    NOT:
+      overrides && overrides.hasOwnProperty('NOT')
+        ? overrides.NOT!
+        : [
+            relationshipsToOmit.has('ProductSnapshotWhereInput')
+              ? ({} as ProductSnapshotWhereInput)
+              : aProductSnapshotWhereInput({}, relationshipsToOmit),
+          ],
+    OR:
+      overrides && overrides.hasOwnProperty('OR')
+        ? overrides.OR!
+        : [
+            relationshipsToOmit.has('ProductSnapshotWhereInput')
+              ? ({} as ProductSnapshotWhereInput)
+              : aProductSnapshotWhereInput({}, relationshipsToOmit),
+          ],
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : relationshipsToOmit.has('IdFilter')
+          ? ({} as IdFilter)
+          : anIdFilter({}, relationshipsToOmit),
+    image:
+      overrides && overrides.hasOwnProperty('image')
+        ? overrides.image!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+    name:
+      overrides && overrides.hasOwnProperty('name')
+        ? overrides.name!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+    price:
+      overrides && overrides.hasOwnProperty('price')
+        ? overrides.price!
+        : relationshipsToOmit.has('IntFilter')
+          ? ({} as IntFilter)
+          : anIntFilter({}, relationshipsToOmit),
+  };
+};
+
+export const aProductSnapshotWhereUniqueInput = (
+  overrides?: Partial<ProductSnapshotWhereUniqueInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductSnapshotWhereUniqueInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductSnapshotWhereUniqueInput');
+  return {
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : '22ffdbee-2289-4f9b-8637-28ba731de1ca',
+  };
+};
+
+export const aProductUpdateArgs = (
+  overrides?: Partial<ProductUpdateArgs>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductUpdateArgs => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductUpdateArgs');
+  return {
+    data:
+      overrides && overrides.hasOwnProperty('data')
+        ? overrides.data!
+        : relationshipsToOmit.has('ProductUpdateInput')
+          ? ({} as ProductUpdateInput)
+          : aProductUpdateInput({}, relationshipsToOmit),
+    where:
+      overrides && overrides.hasOwnProperty('where')
+        ? overrides.where!
+        : relationshipsToOmit.has('ProductWhereUniqueInput')
+          ? ({} as ProductWhereUniqueInput)
+          : aProductWhereUniqueInput({}, relationshipsToOmit),
+  };
+};
+
+export const aProductUpdateInput = (
+  overrides?: Partial<ProductUpdateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductUpdateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductUpdateInput');
+  return {
+    category:
+      overrides && overrides.hasOwnProperty('category')
+        ? overrides.category!
+        : relationshipsToOmit.has('CategoryRelateToOneForUpdateInput')
+          ? ({} as CategoryRelateToOneForUpdateInput)
+          : aCategoryRelateToOneForUpdateInput({}, relationshipsToOmit),
+    company:
+      overrides && overrides.hasOwnProperty('company')
+        ? overrides.company!
+        : 'sequi',
+    defaultVariantId:
+      overrides && overrides.hasOwnProperty('defaultVariantId')
+        ? overrides.defaultVariantId!
+        : 'vel',
+    description:
+      overrides && overrides.hasOwnProperty('description')
+        ? overrides.description!
+        : 'veritatis',
+    highestPrice:
+      overrides && overrides.hasOwnProperty('highestPrice')
+        ? overrides.highestPrice!
+        : 9264,
+    image:
+      overrides && overrides.hasOwnProperty('image')
+        ? overrides.image!
+        : relationshipsToOmit.has('ProductImageRelateToOneForUpdateInput')
+          ? ({} as ProductImageRelateToOneForUpdateInput)
+          : aProductImageRelateToOneForUpdateInput({}, relationshipsToOmit),
+    lowestPrice:
+      overrides && overrides.hasOwnProperty('lowestPrice')
+        ? overrides.lowestPrice!
+        : 9989,
+    meta:
+      overrides && overrides.hasOwnProperty('meta')
+        ? overrides.meta!
+        : 'similique',
+    name:
+      overrides && overrides.hasOwnProperty('name')
+        ? overrides.name!
+        : 'dignissimos',
+    slug:
+      overrides && overrides.hasOwnProperty('slug')
+        ? overrides.slug!
+        : 'voluptatem',
+    status:
+      overrides && overrides.hasOwnProperty('status')
+        ? overrides.status!
+        : 'omnis',
+    style:
+      overrides && overrides.hasOwnProperty('style')
+        ? overrides.style!
+        : 'numquam',
+    type:
+      overrides && overrides.hasOwnProperty('type')
+        ? overrides.type!
+        : 'perspiciatis',
+    variants:
+      overrides && overrides.hasOwnProperty('variants')
+        ? overrides.variants!
+        : relationshipsToOmit.has('ProductVariantRelateToManyForUpdateInput')
+          ? ({} as ProductVariantRelateToManyForUpdateInput)
+          : aProductVariantRelateToManyForUpdateInput({}, relationshipsToOmit),
+  };
+};
+
+export const aProductVariant = (
+  overrides?: Partial<ProductVariant>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductVariant => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductVariant');
+  return {
+    color:
+      overrides && overrides.hasOwnProperty('color')
+        ? overrides.color!
+        : 'molestiae',
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : 'dd49ff0e-9e0e-418a-8f2c-b8370e39dc01',
+    material:
+      overrides && overrides.hasOwnProperty('material')
+        ? overrides.material!
+        : 'iusto',
+    price:
+      overrides && overrides.hasOwnProperty('price') ? overrides.price! : 472,
+    product:
+      overrides && overrides.hasOwnProperty('product')
+        ? overrides.product!
+        : relationshipsToOmit.has('Product')
+          ? ({} as Product)
+          : aProduct({}, relationshipsToOmit),
+    size:
+      overrides && overrides.hasOwnProperty('size') ? overrides.size! : 'odit',
+    variant:
+      overrides && overrides.hasOwnProperty('variant')
+        ? overrides.variant!
+        : 'dolor',
+  };
+};
+
+export const aProductVariantCreateInput = (
+  overrides?: Partial<ProductVariantCreateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductVariantCreateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductVariantCreateInput');
+  return {
+    color:
+      overrides && overrides.hasOwnProperty('color')
+        ? overrides.color!
+        : 'suscipit',
+    material:
+      overrides && overrides.hasOwnProperty('material')
+        ? overrides.material!
+        : 'veniam',
+    price:
+      overrides && overrides.hasOwnProperty('price') ? overrides.price! : 7913,
+    product:
+      overrides && overrides.hasOwnProperty('product')
+        ? overrides.product!
+        : relationshipsToOmit.has('ProductRelateToOneForCreateInput')
+          ? ({} as ProductRelateToOneForCreateInput)
+          : aProductRelateToOneForCreateInput({}, relationshipsToOmit),
+    size:
+      overrides && overrides.hasOwnProperty('size') ? overrides.size! : 'totam',
+    variant:
+      overrides && overrides.hasOwnProperty('variant')
+        ? overrides.variant!
+        : 'minus',
+  };
+};
+
+export const aProductVariantManyRelationFilter = (
+  overrides?: Partial<ProductVariantManyRelationFilter>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductVariantManyRelationFilter => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductVariantManyRelationFilter');
+  return {
+    every:
+      overrides && overrides.hasOwnProperty('every')
+        ? overrides.every!
+        : relationshipsToOmit.has('ProductVariantWhereInput')
+          ? ({} as ProductVariantWhereInput)
+          : aProductVariantWhereInput({}, relationshipsToOmit),
+    none:
+      overrides && overrides.hasOwnProperty('none')
+        ? overrides.none!
+        : relationshipsToOmit.has('ProductVariantWhereInput')
+          ? ({} as ProductVariantWhereInput)
+          : aProductVariantWhereInput({}, relationshipsToOmit),
+    some:
+      overrides && overrides.hasOwnProperty('some')
+        ? overrides.some!
+        : relationshipsToOmit.has('ProductVariantWhereInput')
+          ? ({} as ProductVariantWhereInput)
+          : aProductVariantWhereInput({}, relationshipsToOmit),
+  };
+};
+
+export const aProductVariantOrderByInput = (
+  overrides?: Partial<ProductVariantOrderByInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductVariantOrderByInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductVariantOrderByInput');
+  return {
+    color:
+      overrides && overrides.hasOwnProperty('color')
+        ? overrides.color!
+        : OrderDirection.Asc,
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : OrderDirection.Asc,
+    material:
+      overrides && overrides.hasOwnProperty('material')
+        ? overrides.material!
+        : OrderDirection.Asc,
+    price:
+      overrides && overrides.hasOwnProperty('price')
+        ? overrides.price!
+        : OrderDirection.Asc,
+    size:
+      overrides && overrides.hasOwnProperty('size')
+        ? overrides.size!
+        : OrderDirection.Asc,
+    variant:
+      overrides && overrides.hasOwnProperty('variant')
+        ? overrides.variant!
+        : OrderDirection.Asc,
+  };
+};
+
+export const aProductVariantRelateToManyForCreateInput = (
+  overrides?: Partial<ProductVariantRelateToManyForCreateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductVariantRelateToManyForCreateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductVariantRelateToManyForCreateInput');
+  return {
+    connect:
+      overrides && overrides.hasOwnProperty('connect')
+        ? overrides.connect!
+        : [
+            relationshipsToOmit.has('ProductVariantWhereUniqueInput')
+              ? ({} as ProductVariantWhereUniqueInput)
+              : aProductVariantWhereUniqueInput({}, relationshipsToOmit),
+          ],
+    create:
+      overrides && overrides.hasOwnProperty('create')
+        ? overrides.create!
+        : [
+            relationshipsToOmit.has('ProductVariantCreateInput')
+              ? ({} as ProductVariantCreateInput)
+              : aProductVariantCreateInput({}, relationshipsToOmit),
+          ],
+  };
+};
+
+export const aProductVariantRelateToManyForUpdateInput = (
+  overrides?: Partial<ProductVariantRelateToManyForUpdateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductVariantRelateToManyForUpdateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductVariantRelateToManyForUpdateInput');
+  return {
+    connect:
+      overrides && overrides.hasOwnProperty('connect')
+        ? overrides.connect!
+        : [
+            relationshipsToOmit.has('ProductVariantWhereUniqueInput')
+              ? ({} as ProductVariantWhereUniqueInput)
+              : aProductVariantWhereUniqueInput({}, relationshipsToOmit),
+          ],
+    create:
+      overrides && overrides.hasOwnProperty('create')
+        ? overrides.create!
+        : [
+            relationshipsToOmit.has('ProductVariantCreateInput')
+              ? ({} as ProductVariantCreateInput)
+              : aProductVariantCreateInput({}, relationshipsToOmit),
+          ],
+    disconnect:
+      overrides && overrides.hasOwnProperty('disconnect')
+        ? overrides.disconnect!
+        : [
+            relationshipsToOmit.has('ProductVariantWhereUniqueInput')
+              ? ({} as ProductVariantWhereUniqueInput)
+              : aProductVariantWhereUniqueInput({}, relationshipsToOmit),
+          ],
+    set:
+      overrides && overrides.hasOwnProperty('set')
+        ? overrides.set!
+        : [
+            relationshipsToOmit.has('ProductVariantWhereUniqueInput')
+              ? ({} as ProductVariantWhereUniqueInput)
+              : aProductVariantWhereUniqueInput({}, relationshipsToOmit),
+          ],
+  };
+};
+
+export const aProductVariantRelateToOneForCreateInput = (
+  overrides?: Partial<ProductVariantRelateToOneForCreateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductVariantRelateToOneForCreateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductVariantRelateToOneForCreateInput');
+  return {
+    connect:
+      overrides && overrides.hasOwnProperty('connect')
+        ? overrides.connect!
+        : relationshipsToOmit.has('ProductVariantWhereUniqueInput')
+          ? ({} as ProductVariantWhereUniqueInput)
+          : aProductVariantWhereUniqueInput({}, relationshipsToOmit),
+    create:
+      overrides && overrides.hasOwnProperty('create')
+        ? overrides.create!
+        : relationshipsToOmit.has('ProductVariantCreateInput')
+          ? ({} as ProductVariantCreateInput)
+          : aProductVariantCreateInput({}, relationshipsToOmit),
+  };
+};
+
+export const aProductVariantRelateToOneForUpdateInput = (
+  overrides?: Partial<ProductVariantRelateToOneForUpdateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductVariantRelateToOneForUpdateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductVariantRelateToOneForUpdateInput');
+  return {
+    connect:
+      overrides && overrides.hasOwnProperty('connect')
+        ? overrides.connect!
+        : relationshipsToOmit.has('ProductVariantWhereUniqueInput')
+          ? ({} as ProductVariantWhereUniqueInput)
+          : aProductVariantWhereUniqueInput({}, relationshipsToOmit),
+    create:
+      overrides && overrides.hasOwnProperty('create')
+        ? overrides.create!
+        : relationshipsToOmit.has('ProductVariantCreateInput')
+          ? ({} as ProductVariantCreateInput)
+          : aProductVariantCreateInput({}, relationshipsToOmit),
+    disconnect:
+      overrides && overrides.hasOwnProperty('disconnect')
+        ? overrides.disconnect!
+        : true,
+  };
+};
+
+export const aProductVariantUpdateArgs = (
+  overrides?: Partial<ProductVariantUpdateArgs>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductVariantUpdateArgs => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductVariantUpdateArgs');
+  return {
+    data:
+      overrides && overrides.hasOwnProperty('data')
+        ? overrides.data!
+        : relationshipsToOmit.has('ProductVariantUpdateInput')
+          ? ({} as ProductVariantUpdateInput)
+          : aProductVariantUpdateInput({}, relationshipsToOmit),
+    where:
+      overrides && overrides.hasOwnProperty('where')
+        ? overrides.where!
+        : relationshipsToOmit.has('ProductVariantWhereUniqueInput')
+          ? ({} as ProductVariantWhereUniqueInput)
+          : aProductVariantWhereUniqueInput({}, relationshipsToOmit),
+  };
+};
+
+export const aProductVariantUpdateInput = (
+  overrides?: Partial<ProductVariantUpdateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductVariantUpdateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductVariantUpdateInput');
+  return {
+    color:
+      overrides && overrides.hasOwnProperty('color') ? overrides.color! : 'id',
+    material:
+      overrides && overrides.hasOwnProperty('material')
+        ? overrides.material!
+        : 'ut',
+    price:
+      overrides && overrides.hasOwnProperty('price') ? overrides.price! : 9105,
+    product:
+      overrides && overrides.hasOwnProperty('product')
+        ? overrides.product!
+        : relationshipsToOmit.has('ProductRelateToOneForUpdateInput')
+          ? ({} as ProductRelateToOneForUpdateInput)
+          : aProductRelateToOneForUpdateInput({}, relationshipsToOmit),
+    size:
+      overrides && overrides.hasOwnProperty('size')
+        ? overrides.size!
+        : 'ratione',
+    variant:
+      overrides && overrides.hasOwnProperty('variant')
+        ? overrides.variant!
+        : 'aliquam',
+  };
+};
+
+export const aProductVariantWhereInput = (
+  overrides?: Partial<ProductVariantWhereInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductVariantWhereInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductVariantWhereInput');
+  return {
+    AND:
+      overrides && overrides.hasOwnProperty('AND')
+        ? overrides.AND!
+        : [
+            relationshipsToOmit.has('ProductVariantWhereInput')
+              ? ({} as ProductVariantWhereInput)
+              : aProductVariantWhereInput({}, relationshipsToOmit),
+          ],
+    NOT:
+      overrides && overrides.hasOwnProperty('NOT')
+        ? overrides.NOT!
+        : [
+            relationshipsToOmit.has('ProductVariantWhereInput')
+              ? ({} as ProductVariantWhereInput)
+              : aProductVariantWhereInput({}, relationshipsToOmit),
+          ],
+    OR:
+      overrides && overrides.hasOwnProperty('OR')
+        ? overrides.OR!
+        : [
+            relationshipsToOmit.has('ProductVariantWhereInput')
+              ? ({} as ProductVariantWhereInput)
+              : aProductVariantWhereInput({}, relationshipsToOmit),
+          ],
+    color:
+      overrides && overrides.hasOwnProperty('color')
+        ? overrides.color!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : relationshipsToOmit.has('IdFilter')
+          ? ({} as IdFilter)
+          : anIdFilter({}, relationshipsToOmit),
+    material:
+      overrides && overrides.hasOwnProperty('material')
+        ? overrides.material!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+    price:
+      overrides && overrides.hasOwnProperty('price')
+        ? overrides.price!
+        : relationshipsToOmit.has('IntFilter')
+          ? ({} as IntFilter)
+          : anIntFilter({}, relationshipsToOmit),
+    product:
+      overrides && overrides.hasOwnProperty('product')
+        ? overrides.product!
+        : relationshipsToOmit.has('ProductWhereInput')
+          ? ({} as ProductWhereInput)
+          : aProductWhereInput({}, relationshipsToOmit),
+    size:
+      overrides && overrides.hasOwnProperty('size')
+        ? overrides.size!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+    variant:
+      overrides && overrides.hasOwnProperty('variant')
+        ? overrides.variant!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+  };
+};
+
+export const aProductVariantWhereUniqueInput = (
+  overrides?: Partial<ProductVariantWhereUniqueInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductVariantWhereUniqueInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductVariantWhereUniqueInput');
+  return {
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : '7209767c-18ae-4e23-984c-958ed133f711',
+  };
+};
+
+export const aProductWhereInput = (
+  overrides?: Partial<ProductWhereInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductWhereInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductWhereInput');
+  return {
+    AND:
+      overrides && overrides.hasOwnProperty('AND')
+        ? overrides.AND!
+        : [
+            relationshipsToOmit.has('ProductWhereInput')
+              ? ({} as ProductWhereInput)
+              : aProductWhereInput({}, relationshipsToOmit),
+          ],
+    NOT:
+      overrides && overrides.hasOwnProperty('NOT')
+        ? overrides.NOT!
+        : [
+            relationshipsToOmit.has('ProductWhereInput')
+              ? ({} as ProductWhereInput)
+              : aProductWhereInput({}, relationshipsToOmit),
+          ],
+    OR:
+      overrides && overrides.hasOwnProperty('OR')
+        ? overrides.OR!
+        : [
+            relationshipsToOmit.has('ProductWhereInput')
+              ? ({} as ProductWhereInput)
+              : aProductWhereInput({}, relationshipsToOmit),
+          ],
+    category:
+      overrides && overrides.hasOwnProperty('category')
+        ? overrides.category!
+        : relationshipsToOmit.has('CategoryWhereInput')
+          ? ({} as CategoryWhereInput)
+          : aCategoryWhereInput({}, relationshipsToOmit),
+    company:
+      overrides && overrides.hasOwnProperty('company')
+        ? overrides.company!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+    defaultVariantId:
+      overrides && overrides.hasOwnProperty('defaultVariantId')
+        ? overrides.defaultVariantId!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+    description:
+      overrides && overrides.hasOwnProperty('description')
+        ? overrides.description!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+    highestPrice:
+      overrides && overrides.hasOwnProperty('highestPrice')
+        ? overrides.highestPrice!
+        : relationshipsToOmit.has('IntFilter')
+          ? ({} as IntFilter)
+          : anIntFilter({}, relationshipsToOmit),
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : relationshipsToOmit.has('IdFilter')
+          ? ({} as IdFilter)
+          : anIdFilter({}, relationshipsToOmit),
+    image:
+      overrides && overrides.hasOwnProperty('image')
+        ? overrides.image!
+        : relationshipsToOmit.has('ProductImageWhereInput')
+          ? ({} as ProductImageWhereInput)
+          : aProductImageWhereInput({}, relationshipsToOmit),
+    lowestPrice:
+      overrides && overrides.hasOwnProperty('lowestPrice')
+        ? overrides.lowestPrice!
+        : relationshipsToOmit.has('IntFilter')
+          ? ({} as IntFilter)
+          : anIntFilter({}, relationshipsToOmit),
+    name:
+      overrides && overrides.hasOwnProperty('name')
+        ? overrides.name!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+    slug:
+      overrides && overrides.hasOwnProperty('slug')
+        ? overrides.slug!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+    status:
+      overrides && overrides.hasOwnProperty('status')
+        ? overrides.status!
+        : relationshipsToOmit.has('StringNullableFilter')
+          ? ({} as StringNullableFilter)
+          : aStringNullableFilter({}, relationshipsToOmit),
+    style:
+      overrides && overrides.hasOwnProperty('style')
+        ? overrides.style!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+    type:
+      overrides && overrides.hasOwnProperty('type')
+        ? overrides.type!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+    variants:
+      overrides && overrides.hasOwnProperty('variants')
+        ? overrides.variants!
+        : relationshipsToOmit.has('ProductVariantManyRelationFilter')
+          ? ({} as ProductVariantManyRelationFilter)
+          : aProductVariantManyRelationFilter({}, relationshipsToOmit),
+  };
+};
+
+export const aProductWhereUniqueInput = (
+  overrides?: Partial<ProductWhereUniqueInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ProductWhereUniqueInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ProductWhereUniqueInput');
+  return {
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : 'e4cb9b09-b5a9-4340-bb60-f04771096175',
+    slug:
+      overrides && overrides.hasOwnProperty('slug')
+        ? overrides.slug!
+        : 'voluptatibus',
+  };
+};
+
+export const aQuery = (
+  overrides?: Partial<Query>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): Query => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('Query');
+  return {
+    authenticatedItem:
+      overrides && overrides.hasOwnProperty('authenticatedItem')
+        ? overrides.authenticatedItem!
+        : relationshipsToOmit.has('User')
+          ? ({} as User)
+          : aUser({}, relationshipsToOmit),
+    banner:
+      overrides && overrides.hasOwnProperty('banner')
+        ? overrides.banner!
+        : relationshipsToOmit.has('Banner')
+          ? ({} as Banner)
+          : aBanner({}, relationshipsToOmit),
+    banners:
+      overrides && overrides.hasOwnProperty('banners')
+        ? overrides.banners!
+        : [
+            relationshipsToOmit.has('Banner')
+              ? ({} as Banner)
+              : aBanner({}, relationshipsToOmit),
+          ],
+    bannersCount:
+      overrides && overrides.hasOwnProperty('bannersCount')
+        ? overrides.bannersCount!
+        : 760,
+    cartItem:
+      overrides && overrides.hasOwnProperty('cartItem')
+        ? overrides.cartItem!
+        : relationshipsToOmit.has('CartItem')
+          ? ({} as CartItem)
+          : aCartItem({}, relationshipsToOmit),
+    cartItems:
+      overrides && overrides.hasOwnProperty('cartItems')
+        ? overrides.cartItems!
+        : [
+            relationshipsToOmit.has('CartItem')
+              ? ({} as CartItem)
+              : aCartItem({}, relationshipsToOmit),
+          ],
+    cartItemsCount:
+      overrides && overrides.hasOwnProperty('cartItemsCount')
+        ? overrides.cartItemsCount!
+        : 2314,
+    categories:
+      overrides && overrides.hasOwnProperty('categories')
+        ? overrides.categories!
+        : [
+            relationshipsToOmit.has('Category')
+              ? ({} as Category)
+              : aCategory({}, relationshipsToOmit),
+          ],
+    categoriesCount:
+      overrides && overrides.hasOwnProperty('categoriesCount')
+        ? overrides.categoriesCount!
+        : 2503,
+    category:
+      overrides && overrides.hasOwnProperty('category')
+        ? overrides.category!
+        : relationshipsToOmit.has('Category')
+          ? ({} as Category)
+          : aCategory({}, relationshipsToOmit),
+    getAllProductDescriptors:
+      overrides && overrides.hasOwnProperty('getAllProductDescriptors')
+        ? overrides.getAllProductDescriptors!
+        : relationshipsToOmit.has('ProductDescriptor')
+          ? ({} as ProductDescriptor)
+          : aProductDescriptor({}, relationshipsToOmit),
+    getPriceRange:
+      overrides && overrides.hasOwnProperty('getPriceRange')
+        ? overrides.getPriceRange!
+        : relationshipsToOmit.has('MinMax')
+          ? ({} as MinMax)
+          : aMinMax({}, relationshipsToOmit),
+    keystone:
+      overrides && overrides.hasOwnProperty('keystone')
+        ? overrides.keystone!
+        : relationshipsToOmit.has('KeystoneMeta')
+          ? ({} as KeystoneMeta)
+          : aKeystoneMeta({}, relationshipsToOmit),
+    order:
+      overrides && overrides.hasOwnProperty('order')
+        ? overrides.order!
+        : relationshipsToOmit.has('Order')
+          ? ({} as Order)
+          : anOrder({}, relationshipsToOmit),
+    orderItem:
+      overrides && overrides.hasOwnProperty('orderItem')
+        ? overrides.orderItem!
+        : relationshipsToOmit.has('OrderItem')
+          ? ({} as OrderItem)
+          : anOrderItem({}, relationshipsToOmit),
+    orderItems:
+      overrides && overrides.hasOwnProperty('orderItems')
+        ? overrides.orderItems!
+        : [
+            relationshipsToOmit.has('OrderItem')
+              ? ({} as OrderItem)
+              : anOrderItem({}, relationshipsToOmit),
+          ],
+    orderItemsCount:
+      overrides && overrides.hasOwnProperty('orderItemsCount')
+        ? overrides.orderItemsCount!
+        : 6039,
+    orders:
+      overrides && overrides.hasOwnProperty('orders')
+        ? overrides.orders!
+        : [
+            relationshipsToOmit.has('Order')
+              ? ({} as Order)
+              : anOrder({}, relationshipsToOmit),
+          ],
+    ordersCount:
+      overrides && overrides.hasOwnProperty('ordersCount')
+        ? overrides.ordersCount!
+        : 6776,
+    product:
+      overrides && overrides.hasOwnProperty('product')
+        ? overrides.product!
+        : relationshipsToOmit.has('Product')
+          ? ({} as Product)
+          : aProduct({}, relationshipsToOmit),
+    productImage:
+      overrides && overrides.hasOwnProperty('productImage')
+        ? overrides.productImage!
+        : relationshipsToOmit.has('ProductImage')
+          ? ({} as ProductImage)
+          : aProductImage({}, relationshipsToOmit),
+    productImages:
+      overrides && overrides.hasOwnProperty('productImages')
+        ? overrides.productImages!
+        : [
+            relationshipsToOmit.has('ProductImage')
+              ? ({} as ProductImage)
+              : aProductImage({}, relationshipsToOmit),
+          ],
+    productImagesCount:
+      overrides && overrides.hasOwnProperty('productImagesCount')
+        ? overrides.productImagesCount!
+        : 5285,
+    productSnapshot:
+      overrides && overrides.hasOwnProperty('productSnapshot')
+        ? overrides.productSnapshot!
+        : relationshipsToOmit.has('ProductSnapshot')
+          ? ({} as ProductSnapshot)
+          : aProductSnapshot({}, relationshipsToOmit),
+    productSnapshots:
+      overrides && overrides.hasOwnProperty('productSnapshots')
+        ? overrides.productSnapshots!
+        : [
+            relationshipsToOmit.has('ProductSnapshot')
+              ? ({} as ProductSnapshot)
+              : aProductSnapshot({}, relationshipsToOmit),
+          ],
+    productSnapshotsCount:
+      overrides && overrides.hasOwnProperty('productSnapshotsCount')
+        ? overrides.productSnapshotsCount!
+        : 4588,
+    productVariant:
+      overrides && overrides.hasOwnProperty('productVariant')
+        ? overrides.productVariant!
+        : relationshipsToOmit.has('ProductVariant')
+          ? ({} as ProductVariant)
+          : aProductVariant({}, relationshipsToOmit),
+    productVariants:
+      overrides && overrides.hasOwnProperty('productVariants')
+        ? overrides.productVariants!
+        : [
+            relationshipsToOmit.has('ProductVariant')
+              ? ({} as ProductVariant)
+              : aProductVariant({}, relationshipsToOmit),
+          ],
+    productVariantsCount:
+      overrides && overrides.hasOwnProperty('productVariantsCount')
+        ? overrides.productVariantsCount!
+        : 2601,
+    products:
+      overrides && overrides.hasOwnProperty('products')
+        ? overrides.products!
+        : [
+            relationshipsToOmit.has('Product')
+              ? ({} as Product)
+              : aProduct({}, relationshipsToOmit),
+          ],
+    productsCount:
+      overrides && overrides.hasOwnProperty('productsCount')
+        ? overrides.productsCount!
+        : 5072,
+    user:
+      overrides && overrides.hasOwnProperty('user')
+        ? overrides.user!
+        : relationshipsToOmit.has('User')
+          ? ({} as User)
+          : aUser({}, relationshipsToOmit),
+    users:
+      overrides && overrides.hasOwnProperty('users')
+        ? overrides.users!
+        : [
+            relationshipsToOmit.has('User')
+              ? ({} as User)
+              : aUser({}, relationshipsToOmit),
+          ],
+    usersCount:
+      overrides && overrides.hasOwnProperty('usersCount')
+        ? overrides.usersCount!
+        : 5001,
+    validateUserPasswordResetToken:
+      overrides && overrides.hasOwnProperty('validateUserPasswordResetToken')
+        ? overrides.validateUserPasswordResetToken!
+        : relationshipsToOmit.has('ValidateUserPasswordResetTokenResult')
+          ? ({} as ValidateUserPasswordResetTokenResult)
+          : aValidateUserPasswordResetTokenResult({}, relationshipsToOmit),
+  };
+};
+
+export const aRedeemUserPasswordResetTokenResult = (
+  overrides?: Partial<RedeemUserPasswordResetTokenResult>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): RedeemUserPasswordResetTokenResult => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('RedeemUserPasswordResetTokenResult');
+  return {
+    code:
+      overrides && overrides.hasOwnProperty('code')
+        ? overrides.code!
+        : PasswordResetRedemptionErrorCode.Failure,
+    message:
+      overrides && overrides.hasOwnProperty('message')
+        ? overrides.message!
+        : 'asperiores',
+  };
+};
+
+export const aStringFilter = (
+  overrides?: Partial<StringFilter>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): StringFilter => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('StringFilter');
+  return {
+    contains:
+      overrides && overrides.hasOwnProperty('contains')
+        ? overrides.contains!
+        : 'et',
+    endsWith:
+      overrides && overrides.hasOwnProperty('endsWith')
+        ? overrides.endsWith!
+        : 'molestiae',
+    equals:
+      overrides && overrides.hasOwnProperty('equals')
+        ? overrides.equals!
+        : 'quaerat',
+    gt: overrides && overrides.hasOwnProperty('gt') ? overrides.gt! : 'et',
+    gte:
+      overrides && overrides.hasOwnProperty('gte') ? overrides.gte! : 'placeat',
+    in: overrides && overrides.hasOwnProperty('in') ? overrides.in! : ['est'],
+    lt: overrides && overrides.hasOwnProperty('lt') ? overrides.lt! : 'dolorem',
+    lte:
+      overrides && overrides.hasOwnProperty('lte') ? overrides.lte! : 'eaque',
+    mode:
+      overrides && overrides.hasOwnProperty('mode')
+        ? overrides.mode!
+        : QueryMode.Default,
+    not:
+      overrides && overrides.hasOwnProperty('not')
+        ? overrides.not!
+        : relationshipsToOmit.has('NestedStringFilter')
+          ? ({} as NestedStringFilter)
+          : aNestedStringFilter({}, relationshipsToOmit),
+    notIn:
+      overrides && overrides.hasOwnProperty('notIn')
+        ? overrides.notIn!
+        : ['reiciendis'],
+    startsWith:
+      overrides && overrides.hasOwnProperty('startsWith')
+        ? overrides.startsWith!
+        : 'repellendus',
+  };
+};
+
+export const aStringNullableFilter = (
+  overrides?: Partial<StringNullableFilter>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): StringNullableFilter => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('StringNullableFilter');
+  return {
+    contains:
+      overrides && overrides.hasOwnProperty('contains')
+        ? overrides.contains!
+        : 'odit',
+    endsWith:
+      overrides && overrides.hasOwnProperty('endsWith')
+        ? overrides.endsWith!
+        : 'laudantium',
+    equals:
+      overrides && overrides.hasOwnProperty('equals')
+        ? overrides.equals!
+        : 'ut',
+    gt: overrides && overrides.hasOwnProperty('gt') ? overrides.gt! : 'aut',
+    gte: overrides && overrides.hasOwnProperty('gte') ? overrides.gte! : 'quia',
+    in: overrides && overrides.hasOwnProperty('in') ? overrides.in! : ['esse'],
+    lt: overrides && overrides.hasOwnProperty('lt') ? overrides.lt! : 'et',
+    lte: overrides && overrides.hasOwnProperty('lte') ? overrides.lte! : 'eos',
+    mode:
+      overrides && overrides.hasOwnProperty('mode')
+        ? overrides.mode!
+        : QueryMode.Default,
+    not:
+      overrides && overrides.hasOwnProperty('not')
+        ? overrides.not!
+        : relationshipsToOmit.has('StringNullableFilter')
+          ? ({} as StringNullableFilter)
+          : aStringNullableFilter({}, relationshipsToOmit),
+    notIn:
+      overrides && overrides.hasOwnProperty('notIn')
+        ? overrides.notIn!
+        : ['ducimus'],
+    startsWith:
+      overrides && overrides.hasOwnProperty('startsWith')
+        ? overrides.startsWith!
+        : 'omnis',
+  };
+};
+
+export const aUser = (
+  overrides?: Partial<User>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): User => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('User');
+  return {
+    cart:
+      overrides && overrides.hasOwnProperty('cart')
+        ? overrides.cart!
+        : [
+            relationshipsToOmit.has('CartItem')
+              ? ({} as CartItem)
+              : aCartItem({}, relationshipsToOmit),
+          ],
+    cartCount:
+      overrides && overrides.hasOwnProperty('cartCount')
+        ? overrides.cartCount!
+        : 6618,
+    email:
+      overrides && overrides.hasOwnProperty('email')
+        ? overrides.email!
+        : 'sunt',
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : 'a5756f00-41a6-422a-8a7d-d13ee6a63750',
+    name:
+      overrides && overrides.hasOwnProperty('name') ? overrides.name! : 'porro',
+    orders:
+      overrides && overrides.hasOwnProperty('orders')
+        ? overrides.orders!
+        : [
+            relationshipsToOmit.has('Order')
+              ? ({} as Order)
+              : anOrder({}, relationshipsToOmit),
+          ],
+    ordersCount:
+      overrides && overrides.hasOwnProperty('ordersCount')
+        ? overrides.ordersCount!
+        : 6461,
+    password:
+      overrides && overrides.hasOwnProperty('password')
+        ? overrides.password!
+        : relationshipsToOmit.has('PasswordState')
+          ? ({} as PasswordState)
+          : aPasswordState({}, relationshipsToOmit),
+    passwordResetIssuedAt:
+      overrides && overrides.hasOwnProperty('passwordResetIssuedAt')
+        ? overrides.passwordResetIssuedAt!
+        : 'omnis',
+    passwordResetRedeemedAt:
+      overrides && overrides.hasOwnProperty('passwordResetRedeemedAt')
+        ? overrides.passwordResetRedeemedAt!
+        : 'quidem',
+    passwordResetToken:
+      overrides && overrides.hasOwnProperty('passwordResetToken')
+        ? overrides.passwordResetToken!
+        : relationshipsToOmit.has('PasswordState')
+          ? ({} as PasswordState)
+          : aPasswordState({}, relationshipsToOmit),
+  };
+};
+
+export const aUserAuthenticationWithPasswordFailure = (
+  overrides?: Partial<UserAuthenticationWithPasswordFailure>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): UserAuthenticationWithPasswordFailure => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('UserAuthenticationWithPasswordFailure');
+  return {
+    message:
+      overrides && overrides.hasOwnProperty('message')
+        ? overrides.message!
+        : 'reiciendis',
+  };
+};
+
+export const aUserAuthenticationWithPasswordSuccess = (
+  overrides?: Partial<UserAuthenticationWithPasswordSuccess>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): UserAuthenticationWithPasswordSuccess => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('UserAuthenticationWithPasswordSuccess');
+  return {
+    item:
+      overrides && overrides.hasOwnProperty('item')
+        ? overrides.item!
+        : relationshipsToOmit.has('User')
+          ? ({} as User)
+          : aUser({}, relationshipsToOmit),
+    sessionToken:
+      overrides && overrides.hasOwnProperty('sessionToken')
+        ? overrides.sessionToken!
+        : 'aut',
+  };
+};
+
+export const aUserCreateInput = (
+  overrides?: Partial<UserCreateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): UserCreateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('UserCreateInput');
+  return {
+    cart:
+      overrides && overrides.hasOwnProperty('cart')
+        ? overrides.cart!
+        : relationshipsToOmit.has('CartItemRelateToManyForCreateInput')
+          ? ({} as CartItemRelateToManyForCreateInput)
+          : aCartItemRelateToManyForCreateInput({}, relationshipsToOmit),
+    email:
+      overrides && overrides.hasOwnProperty('email') ? overrides.email! : 'ut',
+    name:
+      overrides && overrides.hasOwnProperty('name') ? overrides.name! : 'autem',
+    orders:
+      overrides && overrides.hasOwnProperty('orders')
+        ? overrides.orders!
+        : relationshipsToOmit.has('OrderRelateToManyForCreateInput')
+          ? ({} as OrderRelateToManyForCreateInput)
+          : anOrderRelateToManyForCreateInput({}, relationshipsToOmit),
+    password:
+      overrides && overrides.hasOwnProperty('password')
+        ? overrides.password!
+        : 'excepturi',
+    passwordResetIssuedAt:
+      overrides && overrides.hasOwnProperty('passwordResetIssuedAt')
+        ? overrides.passwordResetIssuedAt!
+        : 'ullam',
+    passwordResetRedeemedAt:
+      overrides && overrides.hasOwnProperty('passwordResetRedeemedAt')
+        ? overrides.passwordResetRedeemedAt!
+        : 'placeat',
+    passwordResetToken:
+      overrides && overrides.hasOwnProperty('passwordResetToken')
+        ? overrides.passwordResetToken!
+        : 'sint',
+  };
+};
+
+export const aUserOrderByInput = (
+  overrides?: Partial<UserOrderByInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): UserOrderByInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('UserOrderByInput');
+  return {
+    email:
+      overrides && overrides.hasOwnProperty('email')
+        ? overrides.email!
+        : OrderDirection.Asc,
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : OrderDirection.Asc,
+    name:
+      overrides && overrides.hasOwnProperty('name')
+        ? overrides.name!
+        : OrderDirection.Asc,
+    passwordResetIssuedAt:
+      overrides && overrides.hasOwnProperty('passwordResetIssuedAt')
+        ? overrides.passwordResetIssuedAt!
+        : OrderDirection.Asc,
+    passwordResetRedeemedAt:
+      overrides && overrides.hasOwnProperty('passwordResetRedeemedAt')
+        ? overrides.passwordResetRedeemedAt!
+        : OrderDirection.Asc,
+  };
+};
+
+export const aUserRelateToOneForCreateInput = (
+  overrides?: Partial<UserRelateToOneForCreateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): UserRelateToOneForCreateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('UserRelateToOneForCreateInput');
+  return {
+    connect:
+      overrides && overrides.hasOwnProperty('connect')
+        ? overrides.connect!
+        : relationshipsToOmit.has('UserWhereUniqueInput')
+          ? ({} as UserWhereUniqueInput)
+          : aUserWhereUniqueInput({}, relationshipsToOmit),
+    create:
+      overrides && overrides.hasOwnProperty('create')
+        ? overrides.create!
+        : relationshipsToOmit.has('UserCreateInput')
+          ? ({} as UserCreateInput)
+          : aUserCreateInput({}, relationshipsToOmit),
+  };
+};
+
+export const aUserRelateToOneForUpdateInput = (
+  overrides?: Partial<UserRelateToOneForUpdateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): UserRelateToOneForUpdateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('UserRelateToOneForUpdateInput');
+  return {
+    connect:
+      overrides && overrides.hasOwnProperty('connect')
+        ? overrides.connect!
+        : relationshipsToOmit.has('UserWhereUniqueInput')
+          ? ({} as UserWhereUniqueInput)
+          : aUserWhereUniqueInput({}, relationshipsToOmit),
+    create:
+      overrides && overrides.hasOwnProperty('create')
+        ? overrides.create!
+        : relationshipsToOmit.has('UserCreateInput')
+          ? ({} as UserCreateInput)
+          : aUserCreateInput({}, relationshipsToOmit),
+    disconnect:
+      overrides && overrides.hasOwnProperty('disconnect')
+        ? overrides.disconnect!
+        : true,
+  };
+};
+
+export const aUserUpdateArgs = (
+  overrides?: Partial<UserUpdateArgs>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): UserUpdateArgs => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('UserUpdateArgs');
+  return {
+    data:
+      overrides && overrides.hasOwnProperty('data')
+        ? overrides.data!
+        : relationshipsToOmit.has('UserUpdateInput')
+          ? ({} as UserUpdateInput)
+          : aUserUpdateInput({}, relationshipsToOmit),
+    where:
+      overrides && overrides.hasOwnProperty('where')
+        ? overrides.where!
+        : relationshipsToOmit.has('UserWhereUniqueInput')
+          ? ({} as UserWhereUniqueInput)
+          : aUserWhereUniqueInput({}, relationshipsToOmit),
+  };
+};
+
+export const aUserUpdateInput = (
+  overrides?: Partial<UserUpdateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): UserUpdateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('UserUpdateInput');
+  return {
+    cart:
+      overrides && overrides.hasOwnProperty('cart')
+        ? overrides.cart!
+        : relationshipsToOmit.has('CartItemRelateToManyForUpdateInput')
+          ? ({} as CartItemRelateToManyForUpdateInput)
+          : aCartItemRelateToManyForUpdateInput({}, relationshipsToOmit),
+    email:
+      overrides && overrides.hasOwnProperty('email') ? overrides.email! : 'hic',
+    name:
+      overrides && overrides.hasOwnProperty('name') ? overrides.name! : 'quis',
+    orders:
+      overrides && overrides.hasOwnProperty('orders')
+        ? overrides.orders!
+        : relationshipsToOmit.has('OrderRelateToManyForUpdateInput')
+          ? ({} as OrderRelateToManyForUpdateInput)
+          : anOrderRelateToManyForUpdateInput({}, relationshipsToOmit),
+    password:
+      overrides && overrides.hasOwnProperty('password')
+        ? overrides.password!
+        : 'inventore',
+    passwordResetIssuedAt:
+      overrides && overrides.hasOwnProperty('passwordResetIssuedAt')
+        ? overrides.passwordResetIssuedAt!
+        : 'voluptas',
+    passwordResetRedeemedAt:
+      overrides && overrides.hasOwnProperty('passwordResetRedeemedAt')
+        ? overrides.passwordResetRedeemedAt!
+        : 'ut',
+    passwordResetToken:
+      overrides && overrides.hasOwnProperty('passwordResetToken')
+        ? overrides.passwordResetToken!
+        : 'doloribus',
+  };
+};
+
+export const aUserWhereInput = (
+  overrides?: Partial<UserWhereInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): UserWhereInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('UserWhereInput');
+  return {
+    AND:
+      overrides && overrides.hasOwnProperty('AND')
+        ? overrides.AND!
+        : [
+            relationshipsToOmit.has('UserWhereInput')
+              ? ({} as UserWhereInput)
+              : aUserWhereInput({}, relationshipsToOmit),
+          ],
+    NOT:
+      overrides && overrides.hasOwnProperty('NOT')
+        ? overrides.NOT!
+        : [
+            relationshipsToOmit.has('UserWhereInput')
+              ? ({} as UserWhereInput)
+              : aUserWhereInput({}, relationshipsToOmit),
+          ],
+    OR:
+      overrides && overrides.hasOwnProperty('OR')
+        ? overrides.OR!
+        : [
+            relationshipsToOmit.has('UserWhereInput')
+              ? ({} as UserWhereInput)
+              : aUserWhereInput({}, relationshipsToOmit),
+          ],
+    cart:
+      overrides && overrides.hasOwnProperty('cart')
+        ? overrides.cart!
+        : relationshipsToOmit.has('CartItemManyRelationFilter')
+          ? ({} as CartItemManyRelationFilter)
+          : aCartItemManyRelationFilter({}, relationshipsToOmit),
+    email:
+      overrides && overrides.hasOwnProperty('email')
+        ? overrides.email!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : relationshipsToOmit.has('IdFilter')
+          ? ({} as IdFilter)
+          : anIdFilter({}, relationshipsToOmit),
+    name:
+      overrides && overrides.hasOwnProperty('name')
+        ? overrides.name!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+    orders:
+      overrides && overrides.hasOwnProperty('orders')
+        ? overrides.orders!
+        : relationshipsToOmit.has('OrderManyRelationFilter')
+          ? ({} as OrderManyRelationFilter)
+          : anOrderManyRelationFilter({}, relationshipsToOmit),
+    password:
+      overrides && overrides.hasOwnProperty('password')
+        ? overrides.password!
+        : relationshipsToOmit.has('PasswordFilter')
+          ? ({} as PasswordFilter)
+          : aPasswordFilter({}, relationshipsToOmit),
+    passwordResetIssuedAt:
+      overrides && overrides.hasOwnProperty('passwordResetIssuedAt')
+        ? overrides.passwordResetIssuedAt!
+        : relationshipsToOmit.has('DateTimeNullableFilter')
+          ? ({} as DateTimeNullableFilter)
+          : aDateTimeNullableFilter({}, relationshipsToOmit),
+    passwordResetRedeemedAt:
+      overrides && overrides.hasOwnProperty('passwordResetRedeemedAt')
+        ? overrides.passwordResetRedeemedAt!
+        : relationshipsToOmit.has('DateTimeNullableFilter')
+          ? ({} as DateTimeNullableFilter)
+          : aDateTimeNullableFilter({}, relationshipsToOmit),
+    passwordResetToken:
+      overrides && overrides.hasOwnProperty('passwordResetToken')
+        ? overrides.passwordResetToken!
+        : relationshipsToOmit.has('PasswordFilter')
+          ? ({} as PasswordFilter)
+          : aPasswordFilter({}, relationshipsToOmit),
+  };
+};
+
+export const aUserWhereUniqueInput = (
+  overrides?: Partial<UserWhereUniqueInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): UserWhereUniqueInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('UserWhereUniqueInput');
+  return {
+    email:
+      overrides && overrides.hasOwnProperty('email')
+        ? overrides.email!
+        : 'sunt',
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : 'f29341a0-1f1a-4713-a463-49cb3eab5601',
+  };
+};
+
+export const aValidateUserPasswordResetTokenResult = (
+  overrides?: Partial<ValidateUserPasswordResetTokenResult>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ValidateUserPasswordResetTokenResult => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ValidateUserPasswordResetTokenResult');
+  return {
+    code:
+      overrides && overrides.hasOwnProperty('code')
+        ? overrides.code!
+        : PasswordResetRedemptionErrorCode.Failure,
+    message:
+      overrides && overrides.hasOwnProperty('message')
+        ? overrides.message!
+        : 'nobis',
+  };
+};

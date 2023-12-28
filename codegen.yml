@@ -1,5 +1,5 @@
 overwrite: true
-schema: "http://localhost:3000/api/graphql"
+schema: "https://cms.lilac.srijansrivastava.com/api/graphql"
 documents: "src/lib/graphql/**/*.graphql"
 generates:
   src/lib/graphql/helpers/index.ts:
@@ -7,9 +7,11 @@ generates:
       - "typescript"
       - "typescript-operations"
       - "typescript-react-apollo"
+      - "typescript-mock-data"
     config:
       reactApolloVersion: 3
       documentMode: graphQLTag
+      terminateCircularRelationships: true
   src/lib/graphql/helpers/ssr.tsx:
     config:
       documentMode: external

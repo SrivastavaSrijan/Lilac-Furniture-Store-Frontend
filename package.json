@@ -9,9 +9,11 @@
     "start": "next start",
     "lint": "next lint",
     "codegen": "graphql-codegen --config codegen.yml",
-    "postcodegen": "next lint --fix; node post-codegen.js  && next lint --fix && clear",
+    "postcodegen": "next lint --fix; node post-codegen.js && next lint --fix && clear",
     "watch:graphql": "chokidar 'src/lib/graphql/**/*.graphql' -c 'npm run codegen'",
-    "dev": "concurrently \"yarn devs\" \"yarn watch:graphql\""
+    "dev": "concurrently \"yarn devs\" \"yarn watch:graphql\"",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@apollo/client": "^3.8.6",
@@ -26,6 +28,7 @@
     "@stripe/stripe-js": "^2.2.1",
     "apollo-upload-client": "^18.0.1",
     "autosuggest-highlight": "^3.3.4",
+    "cross-fetch": "^4.0.0",
     "deepmerge": "^4.3.1",
     "framer-motion": "^10.16.4",
     "glob": "^10.3.10",
@@ -35,6 +38,7 @@
     "nanoid": "^5.0.2",
     "next": "14.0.1",
     "next-cloudinary": "^5.3.0",
+    "next-router-mock": "^0.9.11",
     "next-seo": "^6.4.0",
     "notistack": "^3.0.1",
     "nprogress": "^0.2.0",
@@ -54,7 +58,10 @@
     "@graphql-codegen/import-types-preset": "^3.0.0",
     "@graphql-codegen/typescript-operations": "^4.0.1",
     "@graphql-codegen/typescript-react-apollo": "^4.1.0",
+    "@testing-library/jest-dom": "^6.1.6",
+    "@testing-library/react": "^14.1.2",
     "@types/autosuggest-highlight": "^3.2.3",
+    "@types/jest": "^29.5.11",
     "@types/lodash": "^4.14.200",
     "@types/node": "^20",
     "@types/nprogress": "^0.2.3",
@@ -69,7 +76,11 @@
     "eslint": "^8",
     "eslint-config-nextjs-nos": "^1.0.5",
     "graphql-codegen-apollo-next-ssr": "^1.7.4",
+    "graphql-codegen-typescript-mock-data": "^3.7.1",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "prettier": "^3.0.3",
-    "typescript": "^5"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.0-dev.20231228"
   }
 }

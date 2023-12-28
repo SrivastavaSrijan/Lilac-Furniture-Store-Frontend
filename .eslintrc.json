@@ -1,1 +1,6 @@
-{ "extends": "eslint-config-nextjs-nos" }
+{
+  "extends": "eslint-config-nextjs-nos",
+  "env": {
+    "jest": true
+  }
+}

@@ -1,4 +1,6 @@
 /* eslint-disable no-console */
+import 'cross-fetch/polyfill';
+
 import {
   ApolloClient,
   ApolloLink,

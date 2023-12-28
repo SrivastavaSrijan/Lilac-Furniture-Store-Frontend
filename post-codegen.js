@@ -12,24 +12,30 @@ const modifyFile = (filePath) => {
     let modifiedData = data;
 
     // Add ESLint disable comments
-    if (
-      !modifiedData.includes(
-        "/* eslint-disable @typescript-eslint/naming-convention */",
-      )
-    ) {
-      modifiedData = `/* eslint-disable @typescript-eslint/naming-convention */\n${modifiedData}`;
-    }
-    if (!modifiedData.includes("/* eslint-disable react/display-name */")) {
-      modifiedData = `/* eslint-disable react/display-name */\n${modifiedData}`;
-    }
-    if (!modifiedData.includes("/* eslint-disable import/no-duplicates */")) {
-      modifiedData = `/* eslint-disable import/no-duplicates */\n${modifiedData}`;
+    const eslintRules = [
+      "@typescript-eslint/naming-convention",
+      "react/display-name",
+      "import/no-duplicates",
+      "@typescript-eslint/no-use-before-define",
+      "no-prototype-builtins",
+      "no-nested-ternary",
+    ];
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const rule of eslintRules) {
+      if (!modifiedData.includes(`/* eslint-disable ${rule} */`)) {
+        modifiedData = `/* eslint-disable ${rule} */\n${modifiedData}`;
+      }
     }
 
     // Change all ', options);' to ', options as any);'
     modifiedData = modifiedData.replace(
       /Document,\s?(\n.*)?options/gm,
       "Document, options as any",
+    );
+    modifiedData = modifiedData.replace(
+      /CloudinaryImageFile/gm,
+      "CloudinaryImage_File",
     );
 
     // Write the modified content back to the file

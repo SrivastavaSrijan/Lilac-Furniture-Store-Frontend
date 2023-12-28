@@ -42,3 +42,4 @@ const Home: PageHomeComp = ({ data }) => {
 export default withApollo(
   ssrHome.withPage(() => ({ variables: { take: 4, skip: 4 } }))(Home),
 );
+export { Home };
