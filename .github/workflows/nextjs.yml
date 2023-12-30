@@ -6,9 +6,8 @@ on:
   pull_request:
     branches: [main]
 env:
-  NEXT_PUBLIC_GRAPHQL_ENDPOINT: ${{ secrets.NEXT_PUBLIC_GRAPHQL_ENDPOINT }}
-  NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: ${{ secrets.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }}
-  NEXT_PUBLIC_STRIPE_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_KEY }}
+  NEXT_PUBLIC_GRAPHQL_ENDPOINT: "https://cms.lilac.srijansrivastava.com/api/graphql"
+  NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: "daprs0abn"
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -24,16 +23,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "yarn"
       - run: yarn install --frozen-lockfile
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v3
-        id: yarn-cache
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
       - name: Test Application
         run: yarn test
       - name: Build Application
