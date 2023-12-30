@@ -25,6 +25,4 @@ jobs:
       - run: yarn build
       - run: yarn test
 env:
-  GRAPHQL_ENDPOINT: ${{ secrets.NEXT_PUBLIC_GRAPHQL_ENDPOINT }}
-  STRIPE_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_KEY }}
-  CLOUDINARY_CLOUD_NAME: ${{ secrets.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }}
+  NEXT_PUBLIC_GRAPHQL_ENDPOINT: "https://cms.lilac.srijansrivastava.com/api/graphql"
