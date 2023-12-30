@@ -1,7 +1,7 @@
 import { Banners } from "@/components";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { mockBanners } from "../src/lib/graphql/mocks";
+import { mockBanners } from "@/lib/graphql/mocks";
 
 describe("Banners Component", () => {
   it("renders banners with generated data", () => {

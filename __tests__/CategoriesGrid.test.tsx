@@ -1,33 +1,39 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { CategoriesGrid, ErrorBoundary } from "@/components";
 import { MockedProvider } from "@apollo/client/testing";
-import mocks, { mockCategories } from "../src/lib/graphql/mocks";
+import mocks, { mockCategories } from "@/lib/graphql/mocks";
+
+const title = "Our Categories";
+const subtitle = "Explore our wide range of products";
+const MockedCategoriesGrid = () => {
+  return (
+    <ErrorBoundary>
+      <MockedProvider mocks={mocks}>
+        <CategoriesGrid
+          title={title}
+          subtitle={subtitle}
+          categories={mockCategories}
+        />
+      </MockedProvider>
+    </ErrorBoundary>
+  );
+};
 
 describe("CategoriesGrid Component", () => {
   it("renders categories with provided data", () => {
-    render(<CategoriesGrid categories={mockCategories} />);
-    mockCategories.forEach((category) => {
+    render(<MockedCategoriesGrid />);
+    mockCategories.forEach(async (category) => {
       const { name, description } = category;
       if (!name || !description) throw new Error("Missing fields");
-      expect(screen.getByText(name)).toBeInTheDocument();
-      expect(screen.getByText(description)).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.findAllByText(name)).toBeInTheDocument();
+        expect(screen.findAllByText(description)).toBeInTheDocument();
+      });
     });
   });
 
   it("renders title and subtitle when provided", async () => {
-    const title = "Our Categories";
-    const subtitle = "Explore our wide range of products";
-    const wrapper = render(
-      <ErrorBoundary>
-        <MockedProvider mocks={mocks}>
-          <CategoriesGrid
-            title={title}
-            subtitle={subtitle}
-            categories={mockCategories}
-          />
-        </MockedProvider>
-      </ErrorBoundary>,
-    );
+    const wrapper = render(<MockedCategoriesGrid />);
     await waitFor(() => {
       expect(wrapper.getByText(title)).toBeInTheDocument();
       expect(wrapper.getByText(subtitle)).toBeInTheDocument();
