@@ -2,5 +2,16 @@
   "extends": "eslint-config-nextjs-nos",
   "env": {
     "jest": true
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "__tests__/**/*.ts",
+        "__tests__/**/*.tsx"
+      ],
+      "rules": {
+        "import/extensions": "off"
+      }
+    }
+  ]
 }

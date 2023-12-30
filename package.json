@@ -8,11 +8,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "codegen": "graphql-codegen --config codegen.yml",
+    "codegen": "graphql-codegen --config codegen.ts",
     "postcodegen": "next lint --fix; node post-codegen.js && next lint --fix && clear",
     "watch:graphql": "chokidar 'src/lib/graphql/**/*.graphql' -c 'npm run codegen'",
     "dev": "concurrently \"yarn devs\" \"yarn watch:graphql\"",
-    "test": "jest",
+    "test": "jest --silent",
     "test:watch": "jest --watch"
   },
   "dependencies": {
@@ -21,6 +21,8 @@
     "@emotion/react": "^11.11.1",
     "@emotion/server": "^11.11.0",
     "@emotion/styled": "^11.11.0",
+    "@faker-js/faker": "^8.3.1",
+    "@graphql-codegen/cli": "^5.0.0",
     "@hookform/resolvers": "^3.3.2",
     "@mui/icons-material": "^5.14.16",
     "@mui/material": "^5.14.16",
@@ -54,7 +56,6 @@
     "yup-password": "^0.2.2"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/import-types-preset": "^3.0.0",
     "@graphql-codegen/typescript-operations": "^4.0.1",
     "@graphql-codegen/typescript-react-apollo": "^4.1.0",

@@ -37,7 +37,16 @@ const modifyFile = (filePath) => {
       /CloudinaryImageFile/gm,
       "CloudinaryImage_File",
     );
-
+    if (!modifiedData.includes("getApolloClient"))
+      modifiedData = `
+    import { getApolloClient } from '../apollo'\n${modifiedData}`;
+    modifiedData = modifiedData.replace(
+      /const defaultOptions = {} as const;/gm,
+      `
+      const apolloClient = getApolloClient();
+      const defaultOptions = { client: apolloClient } as const
+      `,
+    );
     // Write the modified content back to the file
     fs.writeFile(filePath, modifiedData, "utf8", (writeErr) => {
       if (writeErr) {

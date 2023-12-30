@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable import/no-duplicates */
