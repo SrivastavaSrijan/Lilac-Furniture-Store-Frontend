@@ -628,6 +628,8 @@ export type Mutation = {
   createProductVariant?: Maybe<ProductVariant>;
   createProductVariants?: Maybe<Array<Maybe<ProductVariant>>>;
   createProducts?: Maybe<Array<Maybe<Product>>>;
+  createReview?: Maybe<Review>;
+  createReviews?: Maybe<Array<Maybe<Review>>>;
   createUser?: Maybe<User>;
   createUsers?: Maybe<Array<Maybe<User>>>;
   deleteBanner?: Maybe<Banner>;
@@ -650,6 +652,8 @@ export type Mutation = {
   deleteProductVariant?: Maybe<ProductVariant>;
   deleteProductVariants?: Maybe<Array<Maybe<ProductVariant>>>;
   deleteProducts?: Maybe<Array<Maybe<Product>>>;
+  deleteReview?: Maybe<Review>;
+  deleteReviews?: Maybe<Array<Maybe<Review>>>;
   deleteUser?: Maybe<User>;
   deleteUsers?: Maybe<Array<Maybe<User>>>;
   endSession: Scalars['Boolean']['output'];
@@ -675,6 +679,8 @@ export type Mutation = {
   updateProductVariant?: Maybe<ProductVariant>;
   updateProductVariants?: Maybe<Array<Maybe<ProductVariant>>>;
   updateProducts?: Maybe<Array<Maybe<Product>>>;
+  updateReview?: Maybe<Review>;
+  updateReviews?: Maybe<Array<Maybe<Review>>>;
   updateUser?: Maybe<User>;
   updateUsers?: Maybe<Array<Maybe<User>>>;
   /**  Validate a coupon against a user  */
@@ -783,6 +789,14 @@ export type MutationCreateProductsArgs = {
   data: Array<ProductCreateInput>;
 };
 
+export type MutationCreateReviewArgs = {
+  data: ReviewCreateInput;
+};
+
+export type MutationCreateReviewsArgs = {
+  data: Array<ReviewCreateInput>;
+};
+
 export type MutationCreateUserArgs = {
   data: UserCreateInput;
 };
@@ -869,6 +883,14 @@ export type MutationDeleteProductVariantsArgs = {
 
 export type MutationDeleteProductsArgs = {
   where: Array<ProductWhereUniqueInput>;
+};
+
+export type MutationDeleteReviewArgs = {
+  where: ReviewWhereUniqueInput;
+};
+
+export type MutationDeleteReviewsArgs = {
+  where: Array<ReviewWhereUniqueInput>;
 };
 
 export type MutationDeleteUserArgs = {
@@ -977,6 +999,15 @@ export type MutationUpdateProductVariantsArgs = {
 
 export type MutationUpdateProductsArgs = {
   data: Array<ProductUpdateArgs>;
+};
+
+export type MutationUpdateReviewArgs = {
+  data: ReviewUpdateInput;
+  where: ReviewWhereUniqueInput;
+};
+
+export type MutationUpdateReviewsArgs = {
+  data: Array<ReviewUpdateArgs>;
 };
 
 export type MutationUpdateUserArgs = {
@@ -1220,6 +1251,8 @@ export type Product = {
   lowestPrice?: Maybe<Scalars['Int']['output']>;
   meta?: Maybe<Scalars['JSON']['output']>;
   name?: Maybe<Scalars['String']['output']>;
+  reviews?: Maybe<Array<Review>>;
+  reviewsCount?: Maybe<Scalars['Int']['output']>;
   shortDescription?: Maybe<Scalars['String']['output']>;
   slug?: Maybe<Scalars['String']['output']>;
   status?: Maybe<Scalars['String']['output']>;
@@ -1228,6 +1261,18 @@ export type Product = {
   variant?: Maybe<ProductVariant>;
   variants?: Maybe<Array<ProductVariant>>;
   variantsCount?: Maybe<Scalars['Int']['output']>;
+};
+
+export type ProductReviewsArgs = {
+  cursor?: InputMaybe<ReviewWhereUniqueInput>;
+  orderBy?: Array<ReviewOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: ReviewWhereInput;
+};
+
+export type ProductReviewsCountArgs = {
+  where?: ReviewWhereInput;
 };
 
 export type ProductShortDescriptionArgs = {
@@ -1260,6 +1305,7 @@ export type ProductCreateInput = {
   lowestPrice?: InputMaybe<Scalars['Int']['input']>;
   meta?: InputMaybe<Scalars['JSON']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  reviews?: InputMaybe<ReviewRelateToManyForCreateInput>;
   slug?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
   style?: InputMaybe<Scalars['String']['input']>;
@@ -1446,6 +1492,7 @@ export type ProductUpdateInput = {
   lowestPrice?: InputMaybe<Scalars['Int']['input']>;
   meta?: InputMaybe<Scalars['JSON']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  reviews?: InputMaybe<ReviewRelateToManyForUpdateInput>;
   slug?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
   style?: InputMaybe<Scalars['String']['input']>;
@@ -1555,6 +1602,7 @@ export type ProductWhereInput = {
   image?: InputMaybe<ProductImageWhereInput>;
   lowestPrice?: InputMaybe<IntFilter>;
   name?: InputMaybe<StringFilter>;
+  reviews?: InputMaybe<ReviewManyRelationFilter>;
   slug?: InputMaybe<StringFilter>;
   status?: InputMaybe<StringNullableFilter>;
   style?: InputMaybe<StringFilter>;
@@ -1605,6 +1653,9 @@ export type Query = {
   productVariantsCount?: Maybe<Scalars['Int']['output']>;
   products?: Maybe<Array<Product>>;
   productsCount?: Maybe<Scalars['Int']['output']>;
+  review?: Maybe<Review>;
+  reviews?: Maybe<Array<Review>>;
+  reviewsCount?: Maybe<Scalars['Int']['output']>;
   user?: Maybe<User>;
   users?: Maybe<Array<User>>;
   usersCount?: Maybe<Scalars['Int']['output']>;
@@ -1781,6 +1832,22 @@ export type QueryProductsCountArgs = {
   where?: ProductWhereInput;
 };
 
+export type QueryReviewArgs = {
+  where: ReviewWhereUniqueInput;
+};
+
+export type QueryReviewsArgs = {
+  cursor?: InputMaybe<ReviewWhereUniqueInput>;
+  orderBy?: Array<ReviewOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: ReviewWhereInput;
+};
+
+export type QueryReviewsCountArgs = {
+  where?: ReviewWhereInput;
+};
+
 export type QueryUserArgs = {
   where: UserWhereUniqueInput;
 };
@@ -1811,6 +1878,79 @@ export type RedeemUserPasswordResetTokenResult = {
   __typename?: 'RedeemUserPasswordResetTokenResult';
   code: PasswordResetRedemptionErrorCode;
   message: Scalars['String']['output'];
+};
+
+export type Review = {
+  __typename?: 'Review';
+  author?: Maybe<Scalars['String']['output']>;
+  content?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['ID']['output'];
+  product?: Maybe<Product>;
+  rating?: Maybe<Scalars['Float']['output']>;
+};
+
+export type ReviewCreateInput = {
+  author?: InputMaybe<Scalars['String']['input']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  product?: InputMaybe<ProductRelateToOneForCreateInput>;
+  rating?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type ReviewManyRelationFilter = {
+  every?: InputMaybe<ReviewWhereInput>;
+  none?: InputMaybe<ReviewWhereInput>;
+  some?: InputMaybe<ReviewWhereInput>;
+};
+
+export type ReviewOrderByInput = {
+  author?: InputMaybe<OrderDirection>;
+  content?: InputMaybe<OrderDirection>;
+  createdAt?: InputMaybe<OrderDirection>;
+  id?: InputMaybe<OrderDirection>;
+  rating?: InputMaybe<OrderDirection>;
+};
+
+export type ReviewRelateToManyForCreateInput = {
+  connect?: InputMaybe<Array<ReviewWhereUniqueInput>>;
+  create?: InputMaybe<Array<ReviewCreateInput>>;
+};
+
+export type ReviewRelateToManyForUpdateInput = {
+  connect?: InputMaybe<Array<ReviewWhereUniqueInput>>;
+  create?: InputMaybe<Array<ReviewCreateInput>>;
+  disconnect?: InputMaybe<Array<ReviewWhereUniqueInput>>;
+  set?: InputMaybe<Array<ReviewWhereUniqueInput>>;
+};
+
+export type ReviewUpdateArgs = {
+  data: ReviewUpdateInput;
+  where: ReviewWhereUniqueInput;
+};
+
+export type ReviewUpdateInput = {
+  author?: InputMaybe<Scalars['String']['input']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  product?: InputMaybe<ProductRelateToOneForUpdateInput>;
+  rating?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type ReviewWhereInput = {
+  AND?: InputMaybe<Array<ReviewWhereInput>>;
+  NOT?: InputMaybe<Array<ReviewWhereInput>>;
+  OR?: InputMaybe<Array<ReviewWhereInput>>;
+  author?: InputMaybe<StringFilter>;
+  content?: InputMaybe<StringFilter>;
+  createdAt?: InputMaybe<DateTimeNullableFilter>;
+  id?: InputMaybe<IdFilter>;
+  product?: InputMaybe<ProductWhereInput>;
+  rating?: InputMaybe<FloatFilter>;
+};
+
+export type ReviewWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type StringFilter = {
@@ -2139,6 +2279,26 @@ export type ProductBySlugQuery = {
       price?: number | null;
       size?: string | null;
       variant?: string | null;
+    }> | null;
+  } | null;
+};
+
+export type ProductReviewsBySlugQueryVariables = Exact<{
+  where: ProductWhereUniqueInput;
+  orderBy: Array<ReviewOrderByInput> | ReviewOrderByInput;
+}>;
+
+export type ProductReviewsBySlugQuery = {
+  __typename?: 'Query';
+  product?: {
+    __typename?: 'Product';
+    reviews?: Array<{
+      __typename?: 'Review';
+      author?: string | null;
+      id: string;
+      content?: string | null;
+      createdAt?: any | null;
+      rating?: number | null;
     }> | null;
   } | null;
 };
@@ -2733,6 +2893,16 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   QueryMode: QueryMode;
   RedeemUserPasswordResetTokenResult: ResolverTypeWrapper<RedeemUserPasswordResetTokenResult>;
+  Review: ResolverTypeWrapper<Review>;
+  ReviewCreateInput: ReviewCreateInput;
+  ReviewManyRelationFilter: ReviewManyRelationFilter;
+  ReviewOrderByInput: ReviewOrderByInput;
+  ReviewRelateToManyForCreateInput: ReviewRelateToManyForCreateInput;
+  ReviewRelateToManyForUpdateInput: ReviewRelateToManyForUpdateInput;
+  ReviewUpdateArgs: ReviewUpdateArgs;
+  ReviewUpdateInput: ReviewUpdateInput;
+  ReviewWhereInput: ReviewWhereInput;
+  ReviewWhereUniqueInput: ReviewWhereUniqueInput;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   StringFilter: StringFilter;
   StringNullableFilter: StringNullableFilter;
@@ -2891,6 +3061,16 @@ export type ResolversParentTypes = {
   ProductWhereUniqueInput: ProductWhereUniqueInput;
   Query: {};
   RedeemUserPasswordResetTokenResult: RedeemUserPasswordResetTokenResult;
+  Review: Review;
+  ReviewCreateInput: ReviewCreateInput;
+  ReviewManyRelationFilter: ReviewManyRelationFilter;
+  ReviewOrderByInput: ReviewOrderByInput;
+  ReviewRelateToManyForCreateInput: ReviewRelateToManyForCreateInput;
+  ReviewRelateToManyForUpdateInput: ReviewRelateToManyForUpdateInput;
+  ReviewUpdateArgs: ReviewUpdateArgs;
+  ReviewUpdateInput: ReviewUpdateInput;
+  ReviewWhereInput: ReviewWhereInput;
+  ReviewWhereUniqueInput: ReviewWhereUniqueInput;
   String: Scalars['String']['output'];
   StringFilter: StringFilter;
   StringNullableFilter: StringNullableFilter;
@@ -3487,6 +3667,18 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationCreateProductsArgs, 'data'>
   >;
+  createReview?: Resolver<
+    Maybe<ResolversTypes['Review']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateReviewArgs, 'data'>
+  >;
+  createReviews?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['Review']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateReviewsArgs, 'data'>
+  >;
   createUser?: Resolver<
     Maybe<ResolversTypes['User']>,
     ParentType,
@@ -3618,6 +3810,18 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<MutationDeleteProductsArgs, 'where'>
+  >;
+  deleteReview?: Resolver<
+    Maybe<ResolversTypes['Review']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteReviewArgs, 'where'>
+  >;
+  deleteReviews?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['Review']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteReviewsArgs, 'where'>
   >;
   deleteUser?: Resolver<
     Maybe<ResolversTypes['User']>,
@@ -3767,6 +3971,18 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationUpdateProductsArgs, 'data'>
   >;
+  updateReview?: Resolver<
+    Maybe<ResolversTypes['Review']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateReviewArgs, 'data' | 'where'>
+  >;
+  updateReviews?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['Review']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateReviewsArgs, 'data'>
+  >;
   updateUser?: Resolver<
     Maybe<ResolversTypes['User']>,
     ParentType,
@@ -3883,6 +4099,18 @@ export type ProductResolvers<
   lowestPrice?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   meta?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  reviews?: Resolver<
+    Maybe<Array<ResolversTypes['Review']>>,
+    ParentType,
+    ContextType,
+    RequireFields<ProductReviewsArgs, 'orderBy' | 'skip' | 'where'>
+  >;
+  reviewsCount?: Resolver<
+    Maybe<ResolversTypes['Int']>,
+    ParentType,
+    ContextType,
+    RequireFields<ProductReviewsCountArgs, 'where'>
+  >;
   shortDescription?: Resolver<
     Maybe<ResolversTypes['String']>,
     ParentType,
@@ -4184,6 +4412,24 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QueryProductsCountArgs, 'where'>
   >;
+  review?: Resolver<
+    Maybe<ResolversTypes['Review']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryReviewArgs, 'where'>
+  >;
+  reviews?: Resolver<
+    Maybe<Array<ResolversTypes['Review']>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryReviewsArgs, 'orderBy' | 'skip' | 'where'>
+  >;
+  reviewsCount?: Resolver<
+    Maybe<ResolversTypes['Int']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryReviewsCountArgs, 'where'>
+  >;
   user?: Resolver<
     Maybe<ResolversTypes['User']>,
     ParentType,
@@ -4221,6 +4467,24 @@ export type RedeemUserPasswordResetTokenResultResolvers<
     ContextType
   >;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ReviewResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Review'] = ResolversParentTypes['Review'],
+> = {
+  author?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  content?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<
+    Maybe<ResolversTypes['DateTime']>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  product?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType>;
+  rating?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -4374,6 +4638,7 @@ export type Resolvers<ContextType = any> = {
   ProductVariant?: ProductVariantResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   RedeemUserPasswordResetTokenResult?: RedeemUserPasswordResetTokenResultResolvers<ContextType>;
+  Review?: ReviewResolvers<ContextType>;
   Upload?: GraphQLScalarType;
   User?: UserResolvers<ContextType>;
   UserAuthenticationWithPasswordFailure?: UserAuthenticationWithPasswordFailureResolvers<ContextType>;
@@ -5101,6 +5366,89 @@ export type ProductBySlugSuspenseQueryHookResult = ReturnType<
 export type ProductBySlugQueryResult = Apollo.QueryResult<
   ProductBySlugQuery,
   ProductBySlugQueryVariables
+>;
+export const ProductReviewsBySlugDocument = gql`
+  query ProductReviewsBySlug(
+    $where: ProductWhereUniqueInput!
+    $orderBy: [ReviewOrderByInput!]!
+  ) {
+    product(where: $where) {
+      reviews(orderBy: $orderBy) {
+        author
+        id
+        content
+        createdAt
+        rating
+      }
+    }
+  }
+`;
+
+/**
+ * __useProductReviewsBySlugQuery__
+ *
+ * To run a query within a React component, call `useProductReviewsBySlugQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProductReviewsBySlugQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProductReviewsBySlugQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *      orderBy: // value for 'orderBy'
+ *   },
+ * });
+ */
+export function useProductReviewsBySlugQuery(
+  baseOptions: ApolloReactHooks.QueryHookOptions<
+    ProductReviewsBySlugQuery,
+    ProductReviewsBySlugQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useQuery<
+    ProductReviewsBySlugQuery,
+    ProductReviewsBySlugQueryVariables
+  >(ProductReviewsBySlugDocument, options as any);
+}
+export function useProductReviewsBySlugLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    ProductReviewsBySlugQuery,
+    ProductReviewsBySlugQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useLazyQuery<
+    ProductReviewsBySlugQuery,
+    ProductReviewsBySlugQueryVariables
+  >(ProductReviewsBySlugDocument, options as any);
+}
+export function useProductReviewsBySlugSuspenseQuery(
+  baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<
+    ProductReviewsBySlugQuery,
+    ProductReviewsBySlugQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useSuspenseQuery<
+    ProductReviewsBySlugQuery,
+    ProductReviewsBySlugQueryVariables
+  >(ProductReviewsBySlugDocument, options as any);
+}
+export type ProductReviewsBySlugQueryHookResult = ReturnType<
+  typeof useProductReviewsBySlugQuery
+>;
+export type ProductReviewsBySlugLazyQueryHookResult = ReturnType<
+  typeof useProductReviewsBySlugLazyQuery
+>;
+export type ProductReviewsBySlugSuspenseQueryHookResult = ReturnType<
+  typeof useProductReviewsBySlugSuspenseQuery
+>;
+export type ProductReviewsBySlugQueryResult = Apollo.QueryResult<
+  ProductReviewsBySlugQuery,
+  ProductReviewsBySlugQueryVariables
 >;
 export const GetPriceRangeDocument = gql`
   query GetPriceRange {
@@ -8329,6 +8677,20 @@ export const aMutation = (
               ? ({} as Product)
               : aProduct({}, relationshipsToOmit),
           ],
+    createReview:
+      overrides && overrides.hasOwnProperty('createReview')
+        ? overrides.createReview!
+        : relationshipsToOmit.has('Review')
+          ? ({} as Review)
+          : aReview({}, relationshipsToOmit),
+    createReviews:
+      overrides && overrides.hasOwnProperty('createReviews')
+        ? overrides.createReviews!
+        : [
+            relationshipsToOmit.has('Review')
+              ? ({} as Review)
+              : aReview({}, relationshipsToOmit),
+          ],
     createUser:
       overrides && overrides.hasOwnProperty('createUser')
         ? overrides.createUser!
@@ -8482,6 +8844,20 @@ export const aMutation = (
             relationshipsToOmit.has('Product')
               ? ({} as Product)
               : aProduct({}, relationshipsToOmit),
+          ],
+    deleteReview:
+      overrides && overrides.hasOwnProperty('deleteReview')
+        ? overrides.deleteReview!
+        : relationshipsToOmit.has('Review')
+          ? ({} as Review)
+          : aReview({}, relationshipsToOmit),
+    deleteReviews:
+      overrides && overrides.hasOwnProperty('deleteReviews')
+        ? overrides.deleteReviews!
+        : [
+            relationshipsToOmit.has('Review')
+              ? ({} as Review)
+              : aReview({}, relationshipsToOmit),
           ],
     deleteUser:
       overrides && overrides.hasOwnProperty('deleteUser')
@@ -8650,6 +9026,20 @@ export const aMutation = (
             relationshipsToOmit.has('Product')
               ? ({} as Product)
               : aProduct({}, relationshipsToOmit),
+          ],
+    updateReview:
+      overrides && overrides.hasOwnProperty('updateReview')
+        ? overrides.updateReview!
+        : relationshipsToOmit.has('Review')
+          ? ({} as Review)
+          : aReview({}, relationshipsToOmit),
+    updateReviews:
+      overrides && overrides.hasOwnProperty('updateReviews')
+        ? overrides.updateReviews!
+        : [
+            relationshipsToOmit.has('Review')
+              ? ({} as Review)
+              : aReview({}, relationshipsToOmit),
           ],
     updateUser:
       overrides && overrides.hasOwnProperty('updateUser')
@@ -9526,6 +9916,18 @@ export const aProduct = (
         : 'molestias',
     name:
       overrides && overrides.hasOwnProperty('name') ? overrides.name! : 'nihil',
+    reviews:
+      overrides && overrides.hasOwnProperty('reviews')
+        ? overrides.reviews!
+        : [
+            relationshipsToOmit.has('Review')
+              ? ({} as Review)
+              : aReview({}, relationshipsToOmit),
+          ],
+    reviewsCount:
+      overrides && overrides.hasOwnProperty('reviewsCount')
+        ? overrides.reviewsCount!
+        : 4051,
     shortDescription:
       overrides && overrides.hasOwnProperty('shortDescription')
         ? overrides.shortDescription!
@@ -9610,6 +10012,12 @@ export const aProductCreateInput = (
         : 'voluptate',
     name:
       overrides && overrides.hasOwnProperty('name') ? overrides.name! : 'non',
+    reviews:
+      overrides && overrides.hasOwnProperty('reviews')
+        ? overrides.reviews!
+        : relationshipsToOmit.has('ReviewRelateToManyForCreateInput')
+          ? ({} as ReviewRelateToManyForCreateInput)
+          : aReviewRelateToManyForCreateInput({}, relationshipsToOmit),
     slug:
       overrides && overrides.hasOwnProperty('slug')
         ? overrides.slug!
@@ -10386,6 +10794,12 @@ export const aProductUpdateInput = (
       overrides && overrides.hasOwnProperty('name')
         ? overrides.name!
         : 'dignissimos',
+    reviews:
+      overrides && overrides.hasOwnProperty('reviews')
+        ? overrides.reviews!
+        : relationshipsToOmit.has('ReviewRelateToManyForUpdateInput')
+          ? ({} as ReviewRelateToManyForUpdateInput)
+          : aReviewRelateToManyForUpdateInput({}, relationshipsToOmit),
     slug:
       overrides && overrides.hasOwnProperty('slug')
         ? overrides.slug!
@@ -10886,6 +11300,12 @@ export const aProductWhereInput = (
         : relationshipsToOmit.has('StringFilter')
           ? ({} as StringFilter)
           : aStringFilter({}, relationshipsToOmit),
+    reviews:
+      overrides && overrides.hasOwnProperty('reviews')
+        ? overrides.reviews!
+        : relationshipsToOmit.has('ReviewManyRelationFilter')
+          ? ({} as ReviewManyRelationFilter)
+          : aReviewManyRelationFilter({}, relationshipsToOmit),
     slug:
       overrides && overrides.hasOwnProperty('slug')
         ? overrides.slug!
@@ -11148,6 +11568,24 @@ export const aQuery = (
       overrides && overrides.hasOwnProperty('productsCount')
         ? overrides.productsCount!
         : 5072,
+    review:
+      overrides && overrides.hasOwnProperty('review')
+        ? overrides.review!
+        : relationshipsToOmit.has('Review')
+          ? ({} as Review)
+          : aReview({}, relationshipsToOmit),
+    reviews:
+      overrides && overrides.hasOwnProperty('reviews')
+        ? overrides.reviews!
+        : [
+            relationshipsToOmit.has('Review')
+              ? ({} as Review)
+              : aReview({}, relationshipsToOmit),
+          ],
+    reviewsCount:
+      overrides && overrides.hasOwnProperty('reviewsCount')
+        ? overrides.reviewsCount!
+        : 1748,
     user:
       overrides && overrides.hasOwnProperty('user')
         ? overrides.user!
@@ -11190,6 +11628,336 @@ export const aRedeemUserPasswordResetTokenResult = (
       overrides && overrides.hasOwnProperty('message')
         ? overrides.message!
         : 'asperiores',
+  };
+};
+
+export const aReview = (
+  overrides?: Partial<Review>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): Review => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('Review');
+  return {
+    author:
+      overrides && overrides.hasOwnProperty('author')
+        ? overrides.author!
+        : 'non',
+    content:
+      overrides && overrides.hasOwnProperty('content')
+        ? overrides.content!
+        : 'dolor',
+    createdAt:
+      overrides && overrides.hasOwnProperty('createdAt')
+        ? overrides.createdAt!
+        : 'asperiores',
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : 'bbedcd4f-3478-4690-8a08-00f5fc32a204',
+    product:
+      overrides && overrides.hasOwnProperty('product')
+        ? overrides.product!
+        : relationshipsToOmit.has('Product')
+          ? ({} as Product)
+          : aProduct({}, relationshipsToOmit),
+    rating:
+      overrides && overrides.hasOwnProperty('rating') ? overrides.rating! : 2.8,
+  };
+};
+
+export const aReviewCreateInput = (
+  overrides?: Partial<ReviewCreateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ReviewCreateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ReviewCreateInput');
+  return {
+    author:
+      overrides && overrides.hasOwnProperty('author')
+        ? overrides.author!
+        : 'est',
+    content:
+      overrides && overrides.hasOwnProperty('content')
+        ? overrides.content!
+        : 'et',
+    createdAt:
+      overrides && overrides.hasOwnProperty('createdAt')
+        ? overrides.createdAt!
+        : 'qui',
+    product:
+      overrides && overrides.hasOwnProperty('product')
+        ? overrides.product!
+        : relationshipsToOmit.has('ProductRelateToOneForCreateInput')
+          ? ({} as ProductRelateToOneForCreateInput)
+          : aProductRelateToOneForCreateInput({}, relationshipsToOmit),
+    rating:
+      overrides && overrides.hasOwnProperty('rating')
+        ? overrides.rating!
+        : 9.13,
+  };
+};
+
+export const aReviewManyRelationFilter = (
+  overrides?: Partial<ReviewManyRelationFilter>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ReviewManyRelationFilter => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ReviewManyRelationFilter');
+  return {
+    every:
+      overrides && overrides.hasOwnProperty('every')
+        ? overrides.every!
+        : relationshipsToOmit.has('ReviewWhereInput')
+          ? ({} as ReviewWhereInput)
+          : aReviewWhereInput({}, relationshipsToOmit),
+    none:
+      overrides && overrides.hasOwnProperty('none')
+        ? overrides.none!
+        : relationshipsToOmit.has('ReviewWhereInput')
+          ? ({} as ReviewWhereInput)
+          : aReviewWhereInput({}, relationshipsToOmit),
+    some:
+      overrides && overrides.hasOwnProperty('some')
+        ? overrides.some!
+        : relationshipsToOmit.has('ReviewWhereInput')
+          ? ({} as ReviewWhereInput)
+          : aReviewWhereInput({}, relationshipsToOmit),
+  };
+};
+
+export const aReviewOrderByInput = (
+  overrides?: Partial<ReviewOrderByInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ReviewOrderByInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ReviewOrderByInput');
+  return {
+    author:
+      overrides && overrides.hasOwnProperty('author')
+        ? overrides.author!
+        : OrderDirection.Asc,
+    content:
+      overrides && overrides.hasOwnProperty('content')
+        ? overrides.content!
+        : OrderDirection.Asc,
+    createdAt:
+      overrides && overrides.hasOwnProperty('createdAt')
+        ? overrides.createdAt!
+        : OrderDirection.Asc,
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : OrderDirection.Asc,
+    rating:
+      overrides && overrides.hasOwnProperty('rating')
+        ? overrides.rating!
+        : OrderDirection.Asc,
+  };
+};
+
+export const aReviewRelateToManyForCreateInput = (
+  overrides?: Partial<ReviewRelateToManyForCreateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ReviewRelateToManyForCreateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ReviewRelateToManyForCreateInput');
+  return {
+    connect:
+      overrides && overrides.hasOwnProperty('connect')
+        ? overrides.connect!
+        : [
+            relationshipsToOmit.has('ReviewWhereUniqueInput')
+              ? ({} as ReviewWhereUniqueInput)
+              : aReviewWhereUniqueInput({}, relationshipsToOmit),
+          ],
+    create:
+      overrides && overrides.hasOwnProperty('create')
+        ? overrides.create!
+        : [
+            relationshipsToOmit.has('ReviewCreateInput')
+              ? ({} as ReviewCreateInput)
+              : aReviewCreateInput({}, relationshipsToOmit),
+          ],
+  };
+};
+
+export const aReviewRelateToManyForUpdateInput = (
+  overrides?: Partial<ReviewRelateToManyForUpdateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ReviewRelateToManyForUpdateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ReviewRelateToManyForUpdateInput');
+  return {
+    connect:
+      overrides && overrides.hasOwnProperty('connect')
+        ? overrides.connect!
+        : [
+            relationshipsToOmit.has('ReviewWhereUniqueInput')
+              ? ({} as ReviewWhereUniqueInput)
+              : aReviewWhereUniqueInput({}, relationshipsToOmit),
+          ],
+    create:
+      overrides && overrides.hasOwnProperty('create')
+        ? overrides.create!
+        : [
+            relationshipsToOmit.has('ReviewCreateInput')
+              ? ({} as ReviewCreateInput)
+              : aReviewCreateInput({}, relationshipsToOmit),
+          ],
+    disconnect:
+      overrides && overrides.hasOwnProperty('disconnect')
+        ? overrides.disconnect!
+        : [
+            relationshipsToOmit.has('ReviewWhereUniqueInput')
+              ? ({} as ReviewWhereUniqueInput)
+              : aReviewWhereUniqueInput({}, relationshipsToOmit),
+          ],
+    set:
+      overrides && overrides.hasOwnProperty('set')
+        ? overrides.set!
+        : [
+            relationshipsToOmit.has('ReviewWhereUniqueInput')
+              ? ({} as ReviewWhereUniqueInput)
+              : aReviewWhereUniqueInput({}, relationshipsToOmit),
+          ],
+  };
+};
+
+export const aReviewUpdateArgs = (
+  overrides?: Partial<ReviewUpdateArgs>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ReviewUpdateArgs => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ReviewUpdateArgs');
+  return {
+    data:
+      overrides && overrides.hasOwnProperty('data')
+        ? overrides.data!
+        : relationshipsToOmit.has('ReviewUpdateInput')
+          ? ({} as ReviewUpdateInput)
+          : aReviewUpdateInput({}, relationshipsToOmit),
+    where:
+      overrides && overrides.hasOwnProperty('where')
+        ? overrides.where!
+        : relationshipsToOmit.has('ReviewWhereUniqueInput')
+          ? ({} as ReviewWhereUniqueInput)
+          : aReviewWhereUniqueInput({}, relationshipsToOmit),
+  };
+};
+
+export const aReviewUpdateInput = (
+  overrides?: Partial<ReviewUpdateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ReviewUpdateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ReviewUpdateInput');
+  return {
+    author:
+      overrides && overrides.hasOwnProperty('author')
+        ? overrides.author!
+        : 'consequatur',
+    content:
+      overrides && overrides.hasOwnProperty('content')
+        ? overrides.content!
+        : 'nihil',
+    createdAt:
+      overrides && overrides.hasOwnProperty('createdAt')
+        ? overrides.createdAt!
+        : 'et',
+    product:
+      overrides && overrides.hasOwnProperty('product')
+        ? overrides.product!
+        : relationshipsToOmit.has('ProductRelateToOneForUpdateInput')
+          ? ({} as ProductRelateToOneForUpdateInput)
+          : aProductRelateToOneForUpdateInput({}, relationshipsToOmit),
+    rating:
+      overrides && overrides.hasOwnProperty('rating')
+        ? overrides.rating!
+        : 2.06,
+  };
+};
+
+export const aReviewWhereInput = (
+  overrides?: Partial<ReviewWhereInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ReviewWhereInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ReviewWhereInput');
+  return {
+    AND:
+      overrides && overrides.hasOwnProperty('AND')
+        ? overrides.AND!
+        : [
+            relationshipsToOmit.has('ReviewWhereInput')
+              ? ({} as ReviewWhereInput)
+              : aReviewWhereInput({}, relationshipsToOmit),
+          ],
+    NOT:
+      overrides && overrides.hasOwnProperty('NOT')
+        ? overrides.NOT!
+        : [
+            relationshipsToOmit.has('ReviewWhereInput')
+              ? ({} as ReviewWhereInput)
+              : aReviewWhereInput({}, relationshipsToOmit),
+          ],
+    OR:
+      overrides && overrides.hasOwnProperty('OR')
+        ? overrides.OR!
+        : [
+            relationshipsToOmit.has('ReviewWhereInput')
+              ? ({} as ReviewWhereInput)
+              : aReviewWhereInput({}, relationshipsToOmit),
+          ],
+    author:
+      overrides && overrides.hasOwnProperty('author')
+        ? overrides.author!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+    content:
+      overrides && overrides.hasOwnProperty('content')
+        ? overrides.content!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+    createdAt:
+      overrides && overrides.hasOwnProperty('createdAt')
+        ? overrides.createdAt!
+        : relationshipsToOmit.has('DateTimeNullableFilter')
+          ? ({} as DateTimeNullableFilter)
+          : aDateTimeNullableFilter({}, relationshipsToOmit),
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : relationshipsToOmit.has('IdFilter')
+          ? ({} as IdFilter)
+          : anIdFilter({}, relationshipsToOmit),
+    product:
+      overrides && overrides.hasOwnProperty('product')
+        ? overrides.product!
+        : relationshipsToOmit.has('ProductWhereInput')
+          ? ({} as ProductWhereInput)
+          : aProductWhereInput({}, relationshipsToOmit),
+    rating:
+      overrides && overrides.hasOwnProperty('rating')
+        ? overrides.rating!
+        : relationshipsToOmit.has('FloatFilter')
+          ? ({} as FloatFilter)
+          : aFloatFilter({}, relationshipsToOmit),
+  };
+};
+
+export const aReviewWhereUniqueInput = (
+  overrides?: Partial<ReviewWhereUniqueInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ReviewWhereUniqueInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ReviewWhereUniqueInput');
+  return {
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : '0855edf6-4aa9-4029-8c29-5b036cca2758',
   };
 };
 

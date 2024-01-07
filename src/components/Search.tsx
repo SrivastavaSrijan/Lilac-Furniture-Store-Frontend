@@ -128,6 +128,7 @@ export const Search = (_props: ISearchProps) => {
         }
         variant="filled"
         color="secondary"
+        autoFocus
         size="small"
         placeholder="e.g. Chair, Vintage, Modern, etc."
         InputProps={{

@@ -451,6 +451,70 @@ export const ssrProductBySlug = {
   withPage: withPageProductBySlug,
   usePage: useProductBySlug,
 };
+export async function getServerPageProductReviewsBySlug(
+  options: Omit<
+    Apollo.QueryOptions<Types.ProductReviewsBySlugQueryVariables>,
+    'query'
+  >,
+  ctx: ApolloClientContext,
+) {
+  const apolloClient = getApolloClient(ctx);
+
+  const data = await apolloClient.query<Types.ProductReviewsBySlugQuery>({
+    ...options,
+    query: Operations.ProductReviewsBySlugDocument,
+  });
+
+  const apolloState = apolloClient.cache.extract();
+
+  return {
+    props: {
+      apolloState,
+      data: data?.data,
+      error: data?.error ?? data?.errors ?? null,
+    },
+  };
+}
+export const useProductReviewsBySlug = (
+  optionsFunc?: (
+    router: NextRouter,
+  ) => QueryHookOptions<
+    Types.ProductReviewsBySlugQuery,
+    Types.ProductReviewsBySlugQueryVariables
+  >,
+) => {
+  const router = useRouter();
+  const options = optionsFunc ? optionsFunc(router) : {};
+  return useQuery(Operations.ProductReviewsBySlugDocument, options as any);
+};
+export type PageProductReviewsBySlugComp = React.FC<{
+  data?: Types.ProductReviewsBySlugQuery;
+  error?: Apollo.ApolloError;
+}>;
+export const withPageProductReviewsBySlug =
+  (
+    optionsFunc?: (
+      router: NextRouter,
+    ) => QueryHookOptions<
+      Types.ProductReviewsBySlugQuery,
+      Types.ProductReviewsBySlugQueryVariables
+    >,
+  ) =>
+  (WrappedComponent: PageProductReviewsBySlugComp): NextPage =>
+  (props) => {
+    const router = useRouter();
+    const options = optionsFunc ? optionsFunc(router) : {};
+    const { data, error } = useQuery(
+      Operations.ProductReviewsBySlugDocument,
+      options as any,
+    );
+    return <WrappedComponent {...props} data={data} error={error} />;
+  };
+export const ssrProductReviewsBySlug = {
+  getServerPage: getServerPageProductReviewsBySlug,
+  withPage: withPageProductReviewsBySlug,
+  usePage: useProductReviewsBySlug,
+};
 export async function getServerPageGetPriceRange(
   options: Omit<
     Apollo.QueryOptions<Types.GetPriceRangeQueryVariables>,

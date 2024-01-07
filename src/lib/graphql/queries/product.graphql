@@ -52,6 +52,18 @@ query ProductBySlug($where: ProductWhereUniqueInput!) {
   }
 }
 
+query ProductReviewsBySlug($where: ProductWhereUniqueInput!, $orderBy: [ReviewOrderByInput!]!) {
+  product(where: $where) {
+    reviews(orderBy: $orderBy) {
+      author 
+      id
+      content
+      createdAt
+      rating
+    }
+  }
+}
+
 query GetPriceRange {
    getPriceRange {
     max

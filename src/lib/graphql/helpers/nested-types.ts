@@ -13,6 +13,7 @@ import {
   HomePageQuery,
   PaginatedProductsQuery,
   ProductBySlugQuery,
+  ProductReviewsBySlugQuery,
   ProductsWhereQuery,
   SearchProductsQuery,
 } from '.';
@@ -22,6 +23,9 @@ export type IPaginatedProduct = GraphQLNestedProperty<
   'products'
 >;
 export type IProduct = NonNullable<ProductBySlugQuery['product']>;
+export type IReview = NonNullable<
+  NonNullable<ProductReviewsBySlugQuery['product']>['reviews']
+>[0];
 export type ISearchedProducts = NonNullable<SearchProductsQuery['products']>;
 export type IProductX = IPaginatedProduct & {
   variant: Required<IPaginatedProduct['variant']> & { id: string };

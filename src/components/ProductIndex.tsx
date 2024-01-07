@@ -27,6 +27,7 @@ import { CommonContext } from '@/lib/providers';
 import { CloudImage, RelatedProducts } from '.';
 import { CartHandleButtons } from './CartHandleButtons';
 import { ProductInterestButtons } from './ProductInterestButtons';
+import { Reviews } from './Reviews';
 
 type VariantTypes = 'size' | 'color' | 'material';
 interface IProductIndexProps extends IProduct {}
@@ -36,6 +37,7 @@ export const ProductIndex = ({
   style,
   type,
   variants,
+  slug,
   description,
   image,
 }: IProductIndexProps) => {
@@ -340,6 +342,17 @@ export const ProductIndex = ({
           </Stack>
         </Grid>
       </Grid>
+      {slug && (
+        <>
+          <Container maxWidth="lg">
+            <Reviews
+              title="Reviews"
+              subtitle="Id irure nulla ut nostrud Lorem occaecat. Lorem culpa id non quis mollit veniam voluptate d uis anim laboris officia sint excepteur."
+              slug={slug}
+            />
+          </Container>
+        </>
+      )}
       {type && style && (
         <>
           <Container maxWidth="lg">
