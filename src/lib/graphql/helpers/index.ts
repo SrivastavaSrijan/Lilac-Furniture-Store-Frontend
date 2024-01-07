@@ -7,6 +7,11 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 import * as ApolloReactHooks from '@apollo/client';
+import {
+  GraphQLResolveInfo,
+  GraphQLScalarType,
+  GraphQLScalarTypeConfig,
+} from 'graphql';
 
 import { getApolloClient } from '../apollo';
 
@@ -30,6 +35,9 @@ export type Incremental<T> =
   | {
       [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
     };
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & {
+  [P in K]-?: NonNullable<T[P]>;
+};
 
 const apolloClient = getApolloClient();
 const defaultOptions = { client: apolloClient } as const;
@@ -101,6 +109,11 @@ export type BannerWhereInput = {
 
 export type BannerWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+export type BooleanFilter = {
+  equals?: InputMaybe<Scalars['Boolean']['input']>;
+  not?: InputMaybe<BooleanFilter>;
 };
 
 export type CalendarDayFilter = {
@@ -314,6 +327,83 @@ export type ConfirmPaymentAndCreateOrderResult = {
   status: PaymentIntentStatus;
 };
 
+export type Coupon = {
+  __typename?: 'Coupon';
+  code?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  discountType?: Maybe<Scalars['String']['output']>;
+  discountValue?: Maybe<Scalars['Float']['output']>;
+  id: Scalars['ID']['output'];
+  isActive?: Maybe<Scalars['Boolean']['output']>;
+  minimumPurchaseAmount?: Maybe<Scalars['Int']['output']>;
+  usageLimit?: Maybe<Scalars['Int']['output']>;
+  validFrom?: Maybe<Scalars['DateTime']['output']>;
+  validUntil?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type CouponCreateInput = {
+  code?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  discountType?: InputMaybe<Scalars['String']['input']>;
+  discountValue?: InputMaybe<Scalars['Float']['input']>;
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+  minimumPurchaseAmount?: InputMaybe<Scalars['Int']['input']>;
+  usageLimit?: InputMaybe<Scalars['Int']['input']>;
+  validFrom?: InputMaybe<Scalars['DateTime']['input']>;
+  validUntil?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type CouponOrderByInput = {
+  code?: InputMaybe<OrderDirection>;
+  description?: InputMaybe<OrderDirection>;
+  discountType?: InputMaybe<OrderDirection>;
+  discountValue?: InputMaybe<OrderDirection>;
+  id?: InputMaybe<OrderDirection>;
+  isActive?: InputMaybe<OrderDirection>;
+  minimumPurchaseAmount?: InputMaybe<OrderDirection>;
+  usageLimit?: InputMaybe<OrderDirection>;
+  validFrom?: InputMaybe<OrderDirection>;
+  validUntil?: InputMaybe<OrderDirection>;
+};
+
+export type CouponUpdateArgs = {
+  data: CouponUpdateInput;
+  where: CouponWhereUniqueInput;
+};
+
+export type CouponUpdateInput = {
+  code?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  discountType?: InputMaybe<Scalars['String']['input']>;
+  discountValue?: InputMaybe<Scalars['Float']['input']>;
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+  minimumPurchaseAmount?: InputMaybe<Scalars['Int']['input']>;
+  usageLimit?: InputMaybe<Scalars['Int']['input']>;
+  validFrom?: InputMaybe<Scalars['DateTime']['input']>;
+  validUntil?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type CouponWhereInput = {
+  AND?: InputMaybe<Array<CouponWhereInput>>;
+  NOT?: InputMaybe<Array<CouponWhereInput>>;
+  OR?: InputMaybe<Array<CouponWhereInput>>;
+  code?: InputMaybe<StringFilter>;
+  description?: InputMaybe<StringFilter>;
+  discountType?: InputMaybe<StringFilter>;
+  discountValue?: InputMaybe<FloatFilter>;
+  id?: InputMaybe<IdFilter>;
+  isActive?: InputMaybe<BooleanFilter>;
+  minimumPurchaseAmount?: InputMaybe<IntFilter>;
+  usageLimit?: InputMaybe<IntFilter>;
+  validFrom?: InputMaybe<DateTimeFilter>;
+  validUntil?: InputMaybe<DateTimeFilter>;
+};
+
+export type CouponWhereUniqueInput = {
+  code?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
 export type CreateInitialUserInput = {
   email?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -327,6 +417,17 @@ export type CreatePaymentIntentResult = {
   status: PaymentIntentStatus;
 };
 
+export type DateTimeFilter = {
+  equals?: InputMaybe<Scalars['DateTime']['input']>;
+  gt?: InputMaybe<Scalars['DateTime']['input']>;
+  gte?: InputMaybe<Scalars['DateTime']['input']>;
+  in?: InputMaybe<Array<Scalars['DateTime']['input']>>;
+  lt?: InputMaybe<Scalars['DateTime']['input']>;
+  lte?: InputMaybe<Scalars['DateTime']['input']>;
+  not?: InputMaybe<DateTimeFilter>;
+  notIn?: InputMaybe<Array<Scalars['DateTime']['input']>>;
+};
+
 export type DateTimeNullableFilter = {
   equals?: InputMaybe<Scalars['DateTime']['input']>;
   gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -336,6 +437,17 @@ export type DateTimeNullableFilter = {
   lte?: InputMaybe<Scalars['DateTime']['input']>;
   not?: InputMaybe<DateTimeNullableFilter>;
   notIn?: InputMaybe<Array<Scalars['DateTime']['input']>>;
+};
+
+export type FloatFilter = {
+  equals?: InputMaybe<Scalars['Float']['input']>;
+  gt?: InputMaybe<Scalars['Float']['input']>;
+  gte?: InputMaybe<Scalars['Float']['input']>;
+  in?: InputMaybe<Array<Scalars['Float']['input']>>;
+  lt?: InputMaybe<Scalars['Float']['input']>;
+  lte?: InputMaybe<Scalars['Float']['input']>;
+  not?: InputMaybe<FloatFilter>;
+  notIn?: InputMaybe<Array<Scalars['Float']['input']>>;
 };
 
 export type IdFilter = {
@@ -499,6 +611,8 @@ export type Mutation = {
   createCartItems?: Maybe<Array<Maybe<CartItem>>>;
   createCategories?: Maybe<Array<Maybe<Category>>>;
   createCategory?: Maybe<Category>;
+  createCoupon?: Maybe<Coupon>;
+  createCoupons?: Maybe<Array<Maybe<Coupon>>>;
   createInitialUser: UserAuthenticationWithPasswordSuccess;
   createOrder?: Maybe<Order>;
   createOrderItem?: Maybe<OrderItem>;
@@ -522,6 +636,8 @@ export type Mutation = {
   deleteCartItems?: Maybe<Array<Maybe<CartItem>>>;
   deleteCategories?: Maybe<Array<Maybe<Category>>>;
   deleteCategory?: Maybe<Category>;
+  deleteCoupon?: Maybe<Coupon>;
+  deleteCoupons?: Maybe<Array<Maybe<Coupon>>>;
   deleteOrder?: Maybe<Order>;
   deleteOrderItem?: Maybe<OrderItem>;
   deleteOrderItems?: Maybe<Array<Maybe<OrderItem>>>;
@@ -545,6 +661,8 @@ export type Mutation = {
   updateCartItems?: Maybe<Array<Maybe<CartItem>>>;
   updateCategories?: Maybe<Array<Maybe<Category>>>;
   updateCategory?: Maybe<Category>;
+  updateCoupon?: Maybe<Coupon>;
+  updateCoupons?: Maybe<Array<Maybe<Coupon>>>;
   updateOrder?: Maybe<Order>;
   updateOrderItem?: Maybe<OrderItem>;
   updateOrderItems?: Maybe<Array<Maybe<OrderItem>>>;
@@ -559,6 +677,8 @@ export type Mutation = {
   updateProducts?: Maybe<Array<Maybe<Product>>>;
   updateUser?: Maybe<User>;
   updateUsers?: Maybe<Array<Maybe<User>>>;
+  /**  Validate a coupon against a user  */
+  validateCoupon?: Maybe<ValidateCouponResult>;
 };
 
 export type MutationAddToCartArgs = {
@@ -571,6 +691,7 @@ export type MutationAuthenticateUserWithPasswordArgs = {
 };
 
 export type MutationConfirmPaymentAndCreateOrderArgs = {
+  couponCode?: InputMaybe<Scalars['String']['input']>;
   paymentIntentId: Scalars['String']['input'];
 };
 
@@ -598,6 +719,14 @@ export type MutationCreateCategoryArgs = {
   data: CategoryCreateInput;
 };
 
+export type MutationCreateCouponArgs = {
+  data: CouponCreateInput;
+};
+
+export type MutationCreateCouponsArgs = {
+  data: Array<CouponCreateInput>;
+};
+
 export type MutationCreateInitialUserArgs = {
   data: CreateInitialUserInput;
 };
@@ -616,6 +745,10 @@ export type MutationCreateOrderItemsArgs = {
 
 export type MutationCreateOrdersArgs = {
   data: Array<OrderCreateInput>;
+};
+
+export type MutationCreatePaymentIntentArgs = {
+  couponCode?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationCreateProductArgs = {
@@ -680,6 +813,14 @@ export type MutationDeleteCategoriesArgs = {
 
 export type MutationDeleteCategoryArgs = {
   where: CategoryWhereUniqueInput;
+};
+
+export type MutationDeleteCouponArgs = {
+  where: CouponWhereUniqueInput;
+};
+
+export type MutationDeleteCouponsArgs = {
+  where: Array<CouponWhereUniqueInput>;
 };
 
 export type MutationDeleteOrderArgs = {
@@ -775,6 +916,15 @@ export type MutationUpdateCategoryArgs = {
   where: CategoryWhereUniqueInput;
 };
 
+export type MutationUpdateCouponArgs = {
+  data: CouponUpdateInput;
+  where: CouponWhereUniqueInput;
+};
+
+export type MutationUpdateCouponsArgs = {
+  data: Array<CouponUpdateArgs>;
+};
+
 export type MutationUpdateOrderArgs = {
   data: OrderUpdateInput;
   where: OrderWhereUniqueInput;
@@ -838,6 +988,10 @@ export type MutationUpdateUsersArgs = {
   data: Array<UserUpdateArgs>;
 };
 
+export type MutationValidateCouponArgs = {
+  couponCode: Scalars['String']['input'];
+};
+
 export type NestedStringFilter = {
   contains?: InputMaybe<Scalars['String']['input']>;
   endsWith?: InputMaybe<Scalars['String']['input']>;
@@ -855,6 +1009,7 @@ export type NestedStringFilter = {
 export type Order = {
   __typename?: 'Order';
   charge?: Maybe<Scalars['String']['output']>;
+  coupon?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['CalendarDay']['output']>;
   id: Scalars['ID']['output'];
   items?: Maybe<Array<OrderItem>>;
@@ -877,6 +1032,7 @@ export type OrderItemsCountArgs = {
 
 export type OrderCreateInput = {
   charge?: InputMaybe<Scalars['String']['input']>;
+  coupon?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['CalendarDay']['input']>;
   items?: InputMaybe<OrderItemRelateToManyForCreateInput>;
   total?: InputMaybe<Scalars['Int']['input']>;
@@ -967,6 +1123,7 @@ export type OrderManyRelationFilter = {
 
 export type OrderOrderByInput = {
   charge?: InputMaybe<OrderDirection>;
+  coupon?: InputMaybe<OrderDirection>;
   createdAt?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
   total?: InputMaybe<OrderDirection>;
@@ -1002,6 +1159,7 @@ export type OrderUpdateArgs = {
 
 export type OrderUpdateInput = {
   charge?: InputMaybe<Scalars['String']['input']>;
+  coupon?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['CalendarDay']['input']>;
   items?: InputMaybe<OrderItemRelateToManyForUpdateInput>;
   total?: InputMaybe<Scalars['Int']['input']>;
@@ -1013,6 +1171,7 @@ export type OrderWhereInput = {
   NOT?: InputMaybe<Array<OrderWhereInput>>;
   OR?: InputMaybe<Array<OrderWhereInput>>;
   charge?: InputMaybe<StringFilter>;
+  coupon?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<CalendarDayFilter>;
   id?: InputMaybe<IdFilter>;
   items?: InputMaybe<OrderItemManyRelationFilter>;
@@ -1420,6 +1579,9 @@ export type Query = {
   categories?: Maybe<Array<Category>>;
   categoriesCount?: Maybe<Scalars['Int']['output']>;
   category?: Maybe<Category>;
+  coupon?: Maybe<Coupon>;
+  coupons?: Maybe<Array<Coupon>>;
+  couponsCount?: Maybe<Scalars['Int']['output']>;
   /**  Get the distinct over all Products  */
   getAllProductDescriptors?: Maybe<ProductDescriptor>;
   /**  Get price range over a ProductVariant  */
@@ -1495,6 +1657,22 @@ export type QueryCategoriesCountArgs = {
 
 export type QueryCategoryArgs = {
   where: CategoryWhereUniqueInput;
+};
+
+export type QueryCouponArgs = {
+  where: CouponWhereUniqueInput;
+};
+
+export type QueryCouponsArgs = {
+  cursor?: InputMaybe<CouponWhereUniqueInput>;
+  orderBy?: Array<CouponOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: CouponWhereInput;
+};
+
+export type QueryCouponsCountArgs = {
+  where?: CouponWhereInput;
 };
 
 export type QueryGetAllProductDescriptorsArgs = {
@@ -1785,6 +1963,13 @@ export type UserWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
 };
 
+export type ValidateCouponResult = {
+  __typename?: 'ValidateCouponResult';
+  amount: Scalars['Float']['output'];
+  discountedAmount: Scalars['Float']['output'];
+  isValid: Scalars['Boolean']['output'];
+};
+
 export type ValidateUserPasswordResetTokenResult = {
   __typename?: 'ValidateUserPasswordResetTokenResult';
   code: PasswordResetRedemptionErrorCode;
@@ -1841,7 +2026,7 @@ export type CategoryIndexPathQuery = {
 };
 
 export type CreatePaymentIntentMutationVariables = Exact<{
-  [key: string]: never;
+  couponCode?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 export type CreatePaymentIntentMutation = {
@@ -1856,6 +2041,7 @@ export type CreatePaymentIntentMutation = {
 
 export type ConfirmPaymentAndCreateOrderMutationVariables = Exact<{
   paymentIntentId: Scalars['String']['input'];
+  couponCode?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 export type ConfirmPaymentAndCreateOrderMutation = {
@@ -1866,6 +2052,20 @@ export type ConfirmPaymentAndCreateOrderMutation = {
     id?: string | null;
     status: PaymentIntentStatus;
     order?: { __typename?: 'Order'; id: string } | null;
+  } | null;
+};
+
+export type ValidateCouponMutationVariables = Exact<{
+  couponCode: Scalars['String']['input'];
+}>;
+
+export type ValidateCouponMutation = {
+  __typename?: 'Mutation';
+  validateCoupon?: {
+    __typename?: 'ValidateCouponResult';
+    amount: number;
+    isValid: boolean;
+    discountedAmount: number;
   } | null;
 };
 
@@ -2272,6 +2472,1917 @@ export type OrderQuery = {
   } | null;
 };
 
+export type ResolverTypeWrapper<T> = Promise<T> | T;
+
+export type ResolverWithResolve<TResult, TParent, TContext, TArgs> = {
+  resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
+};
+export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> =
+  | ResolverFn<TResult, TParent, TContext, TArgs>
+  | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
+
+export type ResolverFn<TResult, TParent, TContext, TArgs> = (
+  parent: TParent,
+  args: TArgs,
+  context: TContext,
+  info: GraphQLResolveInfo,
+) => Promise<TResult> | TResult;
+
+export type SubscriptionSubscribeFn<TResult, TParent, TContext, TArgs> = (
+  parent: TParent,
+  args: TArgs,
+  context: TContext,
+  info: GraphQLResolveInfo,
+) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>;
+
+export type SubscriptionResolveFn<TResult, TParent, TContext, TArgs> = (
+  parent: TParent,
+  args: TArgs,
+  context: TContext,
+  info: GraphQLResolveInfo,
+) => TResult | Promise<TResult>;
+
+export interface SubscriptionSubscriberObject<
+  TResult,
+  TKey extends string,
+  TParent,
+  TContext,
+  TArgs,
+> {
+  subscribe: SubscriptionSubscribeFn<
+    { [key in TKey]: TResult },
+    TParent,
+    TContext,
+    TArgs
+  >;
+  resolve?: SubscriptionResolveFn<
+    TResult,
+    { [key in TKey]: TResult },
+    TContext,
+    TArgs
+  >;
+}
+
+export interface SubscriptionResolverObject<TResult, TParent, TContext, TArgs> {
+  subscribe: SubscriptionSubscribeFn<any, TParent, TContext, TArgs>;
+  resolve: SubscriptionResolveFn<TResult, any, TContext, TArgs>;
+}
+
+export type SubscriptionObject<
+  TResult,
+  TKey extends string,
+  TParent,
+  TContext,
+  TArgs,
+> =
+  | SubscriptionSubscriberObject<TResult, TKey, TParent, TContext, TArgs>
+  | SubscriptionResolverObject<TResult, TParent, TContext, TArgs>;
+
+export type SubscriptionResolver<
+  TResult,
+  TKey extends string,
+  TParent = {},
+  TContext = {},
+  TArgs = {},
+> =
+  | ((
+      ...args: any[]
+    ) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
+  | SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>;
+
+export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
+  parent: TParent,
+  context: TContext,
+  info: GraphQLResolveInfo,
+) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
+
+export type IsTypeOfResolverFn<T = {}, TContext = {}> = (
+  obj: T,
+  context: TContext,
+  info: GraphQLResolveInfo,
+) => boolean | Promise<boolean>;
+
+export type NextResolverFn<T> = () => Promise<T>;
+
+export type DirectiveResolverFn<
+  TResult = {},
+  TParent = {},
+  TContext = {},
+  TArgs = {},
+> = (
+  next: NextResolverFn<TResult>,
+  parent: TParent,
+  args: TArgs,
+  context: TContext,
+  info: GraphQLResolveInfo,
+) => TResult | Promise<TResult>;
+
+/** Mapping of union types */
+export type ResolversUnionTypes<RefType extends Record<string, unknown>> = {
+  AuthenticatedItem: User;
+  UserAuthenticationWithPasswordResult:
+    | UserAuthenticationWithPasswordFailure
+    | UserAuthenticationWithPasswordSuccess;
+};
+
+/** Mapping between all available schema types and the resolvers types */
+export type ResolversTypes = {
+  AuthenticatedItem: ResolverTypeWrapper<
+    ResolversUnionTypes<ResolversTypes>['AuthenticatedItem']
+  >;
+  Banner: ResolverTypeWrapper<Banner>;
+  BannerCreateInput: BannerCreateInput;
+  BannerOrderByInput: BannerOrderByInput;
+  BannerUpdateArgs: BannerUpdateArgs;
+  BannerUpdateInput: BannerUpdateInput;
+  BannerWhereInput: BannerWhereInput;
+  BannerWhereUniqueInput: BannerWhereUniqueInput;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  BooleanFilter: BooleanFilter;
+  CalendarDay: ResolverTypeWrapper<Scalars['CalendarDay']['output']>;
+  CalendarDayFilter: CalendarDayFilter;
+  CartItem: ResolverTypeWrapper<CartItem>;
+  CartItemCreateInput: CartItemCreateInput;
+  CartItemManyRelationFilter: CartItemManyRelationFilter;
+  CartItemOrderByInput: CartItemOrderByInput;
+  CartItemRelateToManyForCreateInput: CartItemRelateToManyForCreateInput;
+  CartItemRelateToManyForUpdateInput: CartItemRelateToManyForUpdateInput;
+  CartItemUpdateArgs: CartItemUpdateArgs;
+  CartItemUpdateInput: CartItemUpdateInput;
+  CartItemWhereInput: CartItemWhereInput;
+  CartItemWhereUniqueInput: CartItemWhereUniqueInput;
+  Category: ResolverTypeWrapper<Category>;
+  CategoryCreateInput: CategoryCreateInput;
+  CategoryOrderByInput: CategoryOrderByInput;
+  CategoryRelateToOneForCreateInput: CategoryRelateToOneForCreateInput;
+  CategoryRelateToOneForUpdateInput: CategoryRelateToOneForUpdateInput;
+  CategoryUpdateArgs: CategoryUpdateArgs;
+  CategoryUpdateInput: CategoryUpdateInput;
+  CategoryWhereInput: CategoryWhereInput;
+  CategoryWhereUniqueInput: CategoryWhereUniqueInput;
+  CloudinaryImageFormat: CloudinaryImageFormat;
+  CloudinaryImage_File: ResolverTypeWrapper<CloudinaryImage_File>;
+  ConfirmPaymentAndCreateOrderResult: ResolverTypeWrapper<ConfirmPaymentAndCreateOrderResult>;
+  Coupon: ResolverTypeWrapper<Coupon>;
+  CouponCreateInput: CouponCreateInput;
+  CouponOrderByInput: CouponOrderByInput;
+  CouponUpdateArgs: CouponUpdateArgs;
+  CouponUpdateInput: CouponUpdateInput;
+  CouponWhereInput: CouponWhereInput;
+  CouponWhereUniqueInput: CouponWhereUniqueInput;
+  CreateInitialUserInput: CreateInitialUserInput;
+  CreatePaymentIntentResult: ResolverTypeWrapper<CreatePaymentIntentResult>;
+  DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
+  DateTimeFilter: DateTimeFilter;
+  DateTimeNullableFilter: DateTimeNullableFilter;
+  Float: ResolverTypeWrapper<Scalars['Float']['output']>;
+  FloatFilter: FloatFilter;
+  ID: ResolverTypeWrapper<Scalars['ID']['output']>;
+  IDFilter: IdFilter;
+  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
+  IntFilter: IntFilter;
+  JSON: ResolverTypeWrapper<Scalars['JSON']['output']>;
+  KeystoneAdminMeta: ResolverTypeWrapper<KeystoneAdminMeta>;
+  KeystoneAdminUIFieldGroupMeta: ResolverTypeWrapper<KeystoneAdminUiFieldGroupMeta>;
+  KeystoneAdminUIFieldMeta: ResolverTypeWrapper<KeystoneAdminUiFieldMeta>;
+  KeystoneAdminUIFieldMetaCreateView: ResolverTypeWrapper<KeystoneAdminUiFieldMetaCreateView>;
+  KeystoneAdminUIFieldMetaCreateViewFieldMode: KeystoneAdminUiFieldMetaCreateViewFieldMode;
+  KeystoneAdminUIFieldMetaIsNonNull: KeystoneAdminUiFieldMetaIsNonNull;
+  KeystoneAdminUIFieldMetaItemView: ResolverTypeWrapper<KeystoneAdminUiFieldMetaItemView>;
+  KeystoneAdminUIFieldMetaItemViewFieldMode: KeystoneAdminUiFieldMetaItemViewFieldMode;
+  KeystoneAdminUIFieldMetaItemViewFieldPosition: KeystoneAdminUiFieldMetaItemViewFieldPosition;
+  KeystoneAdminUIFieldMetaListView: ResolverTypeWrapper<KeystoneAdminUiFieldMetaListView>;
+  KeystoneAdminUIFieldMetaListViewFieldMode: KeystoneAdminUiFieldMetaListViewFieldMode;
+  KeystoneAdminUIListMeta: ResolverTypeWrapper<KeystoneAdminUiListMeta>;
+  KeystoneAdminUISort: ResolverTypeWrapper<KeystoneAdminUiSort>;
+  KeystoneAdminUISortDirection: KeystoneAdminUiSortDirection;
+  KeystoneMeta: ResolverTypeWrapper<KeystoneMeta>;
+  MinMax: ResolverTypeWrapper<MinMax>;
+  Mutation: ResolverTypeWrapper<{}>;
+  NestedStringFilter: NestedStringFilter;
+  Order: ResolverTypeWrapper<Order>;
+  OrderCreateInput: OrderCreateInput;
+  OrderDirection: OrderDirection;
+  OrderItem: ResolverTypeWrapper<OrderItem>;
+  OrderItemCreateInput: OrderItemCreateInput;
+  OrderItemManyRelationFilter: OrderItemManyRelationFilter;
+  OrderItemOrderByInput: OrderItemOrderByInput;
+  OrderItemRelateToManyForCreateInput: OrderItemRelateToManyForCreateInput;
+  OrderItemRelateToManyForUpdateInput: OrderItemRelateToManyForUpdateInput;
+  OrderItemUpdateArgs: OrderItemUpdateArgs;
+  OrderItemUpdateInput: OrderItemUpdateInput;
+  OrderItemWhereInput: OrderItemWhereInput;
+  OrderItemWhereUniqueInput: OrderItemWhereUniqueInput;
+  OrderManyRelationFilter: OrderManyRelationFilter;
+  OrderOrderByInput: OrderOrderByInput;
+  OrderRelateToManyForCreateInput: OrderRelateToManyForCreateInput;
+  OrderRelateToManyForUpdateInput: OrderRelateToManyForUpdateInput;
+  OrderRelateToOneForCreateInput: OrderRelateToOneForCreateInput;
+  OrderRelateToOneForUpdateInput: OrderRelateToOneForUpdateInput;
+  OrderUpdateArgs: OrderUpdateArgs;
+  OrderUpdateInput: OrderUpdateInput;
+  OrderWhereInput: OrderWhereInput;
+  OrderWhereUniqueInput: OrderWhereUniqueInput;
+  PasswordFilter: PasswordFilter;
+  PasswordResetRedemptionErrorCode: PasswordResetRedemptionErrorCode;
+  PasswordState: ResolverTypeWrapper<PasswordState>;
+  PaymentIntentStatus: PaymentIntentStatus;
+  Product: ResolverTypeWrapper<Product>;
+  ProductCreateInput: ProductCreateInput;
+  ProductDescriptor: ResolverTypeWrapper<ProductDescriptor>;
+  ProductImage: ResolverTypeWrapper<ProductImage>;
+  ProductImageCreateInput: ProductImageCreateInput;
+  ProductImageOrderByInput: ProductImageOrderByInput;
+  ProductImageRelateToOneForCreateInput: ProductImageRelateToOneForCreateInput;
+  ProductImageRelateToOneForUpdateInput: ProductImageRelateToOneForUpdateInput;
+  ProductImageUpdateArgs: ProductImageUpdateArgs;
+  ProductImageUpdateInput: ProductImageUpdateInput;
+  ProductImageWhereInput: ProductImageWhereInput;
+  ProductImageWhereUniqueInput: ProductImageWhereUniqueInput;
+  ProductManyRelationFilter: ProductManyRelationFilter;
+  ProductOrderByInput: ProductOrderByInput;
+  ProductRelateToManyForCreateInput: ProductRelateToManyForCreateInput;
+  ProductRelateToManyForUpdateInput: ProductRelateToManyForUpdateInput;
+  ProductRelateToOneForCreateInput: ProductRelateToOneForCreateInput;
+  ProductRelateToOneForUpdateInput: ProductRelateToOneForUpdateInput;
+  ProductSnapshot: ResolverTypeWrapper<ProductSnapshot>;
+  ProductSnapshotCreateInput: ProductSnapshotCreateInput;
+  ProductSnapshotOrderByInput: ProductSnapshotOrderByInput;
+  ProductSnapshotRelateToOneForCreateInput: ProductSnapshotRelateToOneForCreateInput;
+  ProductSnapshotRelateToOneForUpdateInput: ProductSnapshotRelateToOneForUpdateInput;
+  ProductSnapshotUpdateArgs: ProductSnapshotUpdateArgs;
+  ProductSnapshotUpdateInput: ProductSnapshotUpdateInput;
+  ProductSnapshotWhereInput: ProductSnapshotWhereInput;
+  ProductSnapshotWhereUniqueInput: ProductSnapshotWhereUniqueInput;
+  ProductUpdateArgs: ProductUpdateArgs;
+  ProductUpdateInput: ProductUpdateInput;
+  ProductVariant: ResolverTypeWrapper<ProductVariant>;
+  ProductVariantCreateInput: ProductVariantCreateInput;
+  ProductVariantManyRelationFilter: ProductVariantManyRelationFilter;
+  ProductVariantOrderByInput: ProductVariantOrderByInput;
+  ProductVariantRelateToManyForCreateInput: ProductVariantRelateToManyForCreateInput;
+  ProductVariantRelateToManyForUpdateInput: ProductVariantRelateToManyForUpdateInput;
+  ProductVariantRelateToOneForCreateInput: ProductVariantRelateToOneForCreateInput;
+  ProductVariantRelateToOneForUpdateInput: ProductVariantRelateToOneForUpdateInput;
+  ProductVariantUpdateArgs: ProductVariantUpdateArgs;
+  ProductVariantUpdateInput: ProductVariantUpdateInput;
+  ProductVariantWhereInput: ProductVariantWhereInput;
+  ProductVariantWhereUniqueInput: ProductVariantWhereUniqueInput;
+  ProductWhereInput: ProductWhereInput;
+  ProductWhereUniqueInput: ProductWhereUniqueInput;
+  Query: ResolverTypeWrapper<{}>;
+  QueryMode: QueryMode;
+  RedeemUserPasswordResetTokenResult: ResolverTypeWrapper<RedeemUserPasswordResetTokenResult>;
+  String: ResolverTypeWrapper<Scalars['String']['output']>;
+  StringFilter: StringFilter;
+  StringNullableFilter: StringNullableFilter;
+  Upload: ResolverTypeWrapper<Scalars['Upload']['output']>;
+  User: ResolverTypeWrapper<User>;
+  UserAuthenticationWithPasswordFailure: ResolverTypeWrapper<UserAuthenticationWithPasswordFailure>;
+  UserAuthenticationWithPasswordResult: ResolverTypeWrapper<
+    ResolversUnionTypes<ResolversTypes>['UserAuthenticationWithPasswordResult']
+  >;
+  UserAuthenticationWithPasswordSuccess: ResolverTypeWrapper<UserAuthenticationWithPasswordSuccess>;
+  UserCreateInput: UserCreateInput;
+  UserOrderByInput: UserOrderByInput;
+  UserRelateToOneForCreateInput: UserRelateToOneForCreateInput;
+  UserRelateToOneForUpdateInput: UserRelateToOneForUpdateInput;
+  UserUpdateArgs: UserUpdateArgs;
+  UserUpdateInput: UserUpdateInput;
+  UserWhereInput: UserWhereInput;
+  UserWhereUniqueInput: UserWhereUniqueInput;
+  ValidateCouponResult: ResolverTypeWrapper<ValidateCouponResult>;
+  ValidateUserPasswordResetTokenResult: ResolverTypeWrapper<ValidateUserPasswordResetTokenResult>;
+};
+
+/** Mapping between all available schema types and the resolvers parents */
+export type ResolversParentTypes = {
+  AuthenticatedItem: ResolversUnionTypes<ResolversParentTypes>['AuthenticatedItem'];
+  Banner: Banner;
+  BannerCreateInput: BannerCreateInput;
+  BannerOrderByInput: BannerOrderByInput;
+  BannerUpdateArgs: BannerUpdateArgs;
+  BannerUpdateInput: BannerUpdateInput;
+  BannerWhereInput: BannerWhereInput;
+  BannerWhereUniqueInput: BannerWhereUniqueInput;
+  Boolean: Scalars['Boolean']['output'];
+  BooleanFilter: BooleanFilter;
+  CalendarDay: Scalars['CalendarDay']['output'];
+  CalendarDayFilter: CalendarDayFilter;
+  CartItem: CartItem;
+  CartItemCreateInput: CartItemCreateInput;
+  CartItemManyRelationFilter: CartItemManyRelationFilter;
+  CartItemOrderByInput: CartItemOrderByInput;
+  CartItemRelateToManyForCreateInput: CartItemRelateToManyForCreateInput;
+  CartItemRelateToManyForUpdateInput: CartItemRelateToManyForUpdateInput;
+  CartItemUpdateArgs: CartItemUpdateArgs;
+  CartItemUpdateInput: CartItemUpdateInput;
+  CartItemWhereInput: CartItemWhereInput;
+  CartItemWhereUniqueInput: CartItemWhereUniqueInput;
+  Category: Category;
+  CategoryCreateInput: CategoryCreateInput;
+  CategoryOrderByInput: CategoryOrderByInput;
+  CategoryRelateToOneForCreateInput: CategoryRelateToOneForCreateInput;
+  CategoryRelateToOneForUpdateInput: CategoryRelateToOneForUpdateInput;
+  CategoryUpdateArgs: CategoryUpdateArgs;
+  CategoryUpdateInput: CategoryUpdateInput;
+  CategoryWhereInput: CategoryWhereInput;
+  CategoryWhereUniqueInput: CategoryWhereUniqueInput;
+  CloudinaryImageFormat: CloudinaryImageFormat;
+  CloudinaryImage_File: CloudinaryImage_File;
+  ConfirmPaymentAndCreateOrderResult: ConfirmPaymentAndCreateOrderResult;
+  Coupon: Coupon;
+  CouponCreateInput: CouponCreateInput;
+  CouponOrderByInput: CouponOrderByInput;
+  CouponUpdateArgs: CouponUpdateArgs;
+  CouponUpdateInput: CouponUpdateInput;
+  CouponWhereInput: CouponWhereInput;
+  CouponWhereUniqueInput: CouponWhereUniqueInput;
+  CreateInitialUserInput: CreateInitialUserInput;
+  CreatePaymentIntentResult: CreatePaymentIntentResult;
+  DateTime: Scalars['DateTime']['output'];
+  DateTimeFilter: DateTimeFilter;
+  DateTimeNullableFilter: DateTimeNullableFilter;
+  Float: Scalars['Float']['output'];
+  FloatFilter: FloatFilter;
+  ID: Scalars['ID']['output'];
+  IDFilter: IdFilter;
+  Int: Scalars['Int']['output'];
+  IntFilter: IntFilter;
+  JSON: Scalars['JSON']['output'];
+  KeystoneAdminMeta: KeystoneAdminMeta;
+  KeystoneAdminUIFieldGroupMeta: KeystoneAdminUiFieldGroupMeta;
+  KeystoneAdminUIFieldMeta: KeystoneAdminUiFieldMeta;
+  KeystoneAdminUIFieldMetaCreateView: KeystoneAdminUiFieldMetaCreateView;
+  KeystoneAdminUIFieldMetaItemView: KeystoneAdminUiFieldMetaItemView;
+  KeystoneAdminUIFieldMetaListView: KeystoneAdminUiFieldMetaListView;
+  KeystoneAdminUIListMeta: KeystoneAdminUiListMeta;
+  KeystoneAdminUISort: KeystoneAdminUiSort;
+  KeystoneMeta: KeystoneMeta;
+  MinMax: MinMax;
+  Mutation: {};
+  NestedStringFilter: NestedStringFilter;
+  Order: Order;
+  OrderCreateInput: OrderCreateInput;
+  OrderItem: OrderItem;
+  OrderItemCreateInput: OrderItemCreateInput;
+  OrderItemManyRelationFilter: OrderItemManyRelationFilter;
+  OrderItemOrderByInput: OrderItemOrderByInput;
+  OrderItemRelateToManyForCreateInput: OrderItemRelateToManyForCreateInput;
+  OrderItemRelateToManyForUpdateInput: OrderItemRelateToManyForUpdateInput;
+  OrderItemUpdateArgs: OrderItemUpdateArgs;
+  OrderItemUpdateInput: OrderItemUpdateInput;
+  OrderItemWhereInput: OrderItemWhereInput;
+  OrderItemWhereUniqueInput: OrderItemWhereUniqueInput;
+  OrderManyRelationFilter: OrderManyRelationFilter;
+  OrderOrderByInput: OrderOrderByInput;
+  OrderRelateToManyForCreateInput: OrderRelateToManyForCreateInput;
+  OrderRelateToManyForUpdateInput: OrderRelateToManyForUpdateInput;
+  OrderRelateToOneForCreateInput: OrderRelateToOneForCreateInput;
+  OrderRelateToOneForUpdateInput: OrderRelateToOneForUpdateInput;
+  OrderUpdateArgs: OrderUpdateArgs;
+  OrderUpdateInput: OrderUpdateInput;
+  OrderWhereInput: OrderWhereInput;
+  OrderWhereUniqueInput: OrderWhereUniqueInput;
+  PasswordFilter: PasswordFilter;
+  PasswordState: PasswordState;
+  Product: Product;
+  ProductCreateInput: ProductCreateInput;
+  ProductDescriptor: ProductDescriptor;
+  ProductImage: ProductImage;
+  ProductImageCreateInput: ProductImageCreateInput;
+  ProductImageOrderByInput: ProductImageOrderByInput;
+  ProductImageRelateToOneForCreateInput: ProductImageRelateToOneForCreateInput;
+  ProductImageRelateToOneForUpdateInput: ProductImageRelateToOneForUpdateInput;
+  ProductImageUpdateArgs: ProductImageUpdateArgs;
+  ProductImageUpdateInput: ProductImageUpdateInput;
+  ProductImageWhereInput: ProductImageWhereInput;
+  ProductImageWhereUniqueInput: ProductImageWhereUniqueInput;
+  ProductManyRelationFilter: ProductManyRelationFilter;
+  ProductOrderByInput: ProductOrderByInput;
+  ProductRelateToManyForCreateInput: ProductRelateToManyForCreateInput;
+  ProductRelateToManyForUpdateInput: ProductRelateToManyForUpdateInput;
+  ProductRelateToOneForCreateInput: ProductRelateToOneForCreateInput;
+  ProductRelateToOneForUpdateInput: ProductRelateToOneForUpdateInput;
+  ProductSnapshot: ProductSnapshot;
+  ProductSnapshotCreateInput: ProductSnapshotCreateInput;
+  ProductSnapshotOrderByInput: ProductSnapshotOrderByInput;
+  ProductSnapshotRelateToOneForCreateInput: ProductSnapshotRelateToOneForCreateInput;
+  ProductSnapshotRelateToOneForUpdateInput: ProductSnapshotRelateToOneForUpdateInput;
+  ProductSnapshotUpdateArgs: ProductSnapshotUpdateArgs;
+  ProductSnapshotUpdateInput: ProductSnapshotUpdateInput;
+  ProductSnapshotWhereInput: ProductSnapshotWhereInput;
+  ProductSnapshotWhereUniqueInput: ProductSnapshotWhereUniqueInput;
+  ProductUpdateArgs: ProductUpdateArgs;
+  ProductUpdateInput: ProductUpdateInput;
+  ProductVariant: ProductVariant;
+  ProductVariantCreateInput: ProductVariantCreateInput;
+  ProductVariantManyRelationFilter: ProductVariantManyRelationFilter;
+  ProductVariantOrderByInput: ProductVariantOrderByInput;
+  ProductVariantRelateToManyForCreateInput: ProductVariantRelateToManyForCreateInput;
+  ProductVariantRelateToManyForUpdateInput: ProductVariantRelateToManyForUpdateInput;
+  ProductVariantRelateToOneForCreateInput: ProductVariantRelateToOneForCreateInput;
+  ProductVariantRelateToOneForUpdateInput: ProductVariantRelateToOneForUpdateInput;
+  ProductVariantUpdateArgs: ProductVariantUpdateArgs;
+  ProductVariantUpdateInput: ProductVariantUpdateInput;
+  ProductVariantWhereInput: ProductVariantWhereInput;
+  ProductVariantWhereUniqueInput: ProductVariantWhereUniqueInput;
+  ProductWhereInput: ProductWhereInput;
+  ProductWhereUniqueInput: ProductWhereUniqueInput;
+  Query: {};
+  RedeemUserPasswordResetTokenResult: RedeemUserPasswordResetTokenResult;
+  String: Scalars['String']['output'];
+  StringFilter: StringFilter;
+  StringNullableFilter: StringNullableFilter;
+  Upload: Scalars['Upload']['output'];
+  User: User;
+  UserAuthenticationWithPasswordFailure: UserAuthenticationWithPasswordFailure;
+  UserAuthenticationWithPasswordResult: ResolversUnionTypes<ResolversParentTypes>['UserAuthenticationWithPasswordResult'];
+  UserAuthenticationWithPasswordSuccess: UserAuthenticationWithPasswordSuccess;
+  UserCreateInput: UserCreateInput;
+  UserOrderByInput: UserOrderByInput;
+  UserRelateToOneForCreateInput: UserRelateToOneForCreateInput;
+  UserRelateToOneForUpdateInput: UserRelateToOneForUpdateInput;
+  UserUpdateArgs: UserUpdateArgs;
+  UserUpdateInput: UserUpdateInput;
+  UserWhereInput: UserWhereInput;
+  UserWhereUniqueInput: UserWhereUniqueInput;
+  ValidateCouponResult: ValidateCouponResult;
+  ValidateUserPasswordResetTokenResult: ValidateUserPasswordResetTokenResult;
+};
+
+export type AuthenticatedItemResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['AuthenticatedItem'] = ResolversParentTypes['AuthenticatedItem'],
+> = {
+  __resolveType: TypeResolveFn<'User', ParentType, ContextType>;
+};
+
+export type BannerResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Banner'] = ResolversParentTypes['Banner'],
+> = {
+  head?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  href?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  image?: Resolver<
+    Maybe<ResolversTypes['CloudinaryImage_File']>,
+    ParentType,
+    ContextType
+  >;
+  subtitle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export interface CalendarDayScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['CalendarDay'], any> {
+  name: 'CalendarDay';
+}
+
+export type CartItemResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['CartItem'] = ResolversParentTypes['CartItem'],
+> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  quantity?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  variant?: Resolver<
+    Maybe<ResolversTypes['ProductVariant']>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CategoryResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Category'] = ResolversParentTypes['Category'],
+> = {
+  description?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  image?: Resolver<
+    Maybe<ResolversTypes['CloudinaryImage_File']>,
+    ParentType,
+    ContextType
+  >;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  products?: Resolver<
+    Maybe<Array<ResolversTypes['Product']>>,
+    ParentType,
+    ContextType,
+    RequireFields<CategoryProductsArgs, 'orderBy' | 'skip' | 'where'>
+  >;
+  productsCount?: Resolver<
+    Maybe<ResolversTypes['Int']>,
+    ParentType,
+    ContextType,
+    RequireFields<CategoryProductsCountArgs, 'where'>
+  >;
+  slug?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CloudinaryImage_FileResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['CloudinaryImage_File'] = ResolversParentTypes['CloudinaryImage_File'],
+> = {
+  encoding?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  filename?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  mimetype?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  originalFilename?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
+  publicUrl?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
+  publicUrlTransformed?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType,
+    Partial<CloudinaryImage_FilePublicUrlTransformedArgs>
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ConfirmPaymentAndCreateOrderResultResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['ConfirmPaymentAndCreateOrderResult'] = ResolversParentTypes['ConfirmPaymentAndCreateOrderResult'],
+> = {
+  client_secret?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  order?: Resolver<Maybe<ResolversTypes['Order']>, ParentType, ContextType>;
+  status?: Resolver<
+    ResolversTypes['PaymentIntentStatus'],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CouponResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Coupon'] = ResolversParentTypes['Coupon'],
+> = {
+  code?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  description?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
+  discountType?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
+  discountValue?: Resolver<
+    Maybe<ResolversTypes['Float']>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  isActive?: Resolver<
+    Maybe<ResolversTypes['Boolean']>,
+    ParentType,
+    ContextType
+  >;
+  minimumPurchaseAmount?: Resolver<
+    Maybe<ResolversTypes['Int']>,
+    ParentType,
+    ContextType
+  >;
+  usageLimit?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  validFrom?: Resolver<
+    Maybe<ResolversTypes['DateTime']>,
+    ParentType,
+    ContextType
+  >;
+  validUntil?: Resolver<
+    Maybe<ResolversTypes['DateTime']>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreatePaymentIntentResultResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['CreatePaymentIntentResult'] = ResolversParentTypes['CreatePaymentIntentResult'],
+> = {
+  client_secret?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  status?: Resolver<
+    ResolversTypes['PaymentIntentStatus'],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export interface DateTimeScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
+  name: 'DateTime';
+}
+
+export interface JsonScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
+  name: 'JSON';
+}
+
+export type KeystoneAdminMetaResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['KeystoneAdminMeta'] = ResolversParentTypes['KeystoneAdminMeta'],
+> = {
+  list?: Resolver<
+    Maybe<ResolversTypes['KeystoneAdminUIListMeta']>,
+    ParentType,
+    ContextType,
+    RequireFields<KeystoneAdminMetaListArgs, 'key'>
+  >;
+  lists?: Resolver<
+    Array<ResolversTypes['KeystoneAdminUIListMeta']>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type KeystoneAdminUiFieldGroupMetaResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['KeystoneAdminUIFieldGroupMeta'] = ResolversParentTypes['KeystoneAdminUIFieldGroupMeta'],
+> = {
+  description?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
+  fields?: Resolver<
+    Array<ResolversTypes['KeystoneAdminUIFieldMeta']>,
+    ParentType,
+    ContextType
+  >;
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type KeystoneAdminUiFieldMetaResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['KeystoneAdminUIFieldMeta'] = ResolversParentTypes['KeystoneAdminUIFieldMeta'],
+> = {
+  createView?: Resolver<
+    ResolversTypes['KeystoneAdminUIFieldMetaCreateView'],
+    ParentType,
+    ContextType
+  >;
+  customViewsIndex?: Resolver<
+    Maybe<ResolversTypes['Int']>,
+    ParentType,
+    ContextType
+  >;
+  description?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
+  fieldMeta?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
+  isFilterable?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  isNonNull?: Resolver<
+    Maybe<Array<ResolversTypes['KeystoneAdminUIFieldMetaIsNonNull']>>,
+    ParentType,
+    ContextType
+  >;
+  isOrderable?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  itemView?: Resolver<
+    Maybe<ResolversTypes['KeystoneAdminUIFieldMetaItemView']>,
+    ParentType,
+    ContextType,
+    Partial<KeystoneAdminUiFieldMetaItemViewArgs>
+  >;
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  listView?: Resolver<
+    ResolversTypes['KeystoneAdminUIFieldMetaListView'],
+    ParentType,
+    ContextType
+  >;
+  path?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  search?: Resolver<
+    Maybe<ResolversTypes['QueryMode']>,
+    ParentType,
+    ContextType
+  >;
+  viewsIndex?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type KeystoneAdminUiFieldMetaCreateViewResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['KeystoneAdminUIFieldMetaCreateView'] = ResolversParentTypes['KeystoneAdminUIFieldMetaCreateView'],
+> = {
+  fieldMode?: Resolver<
+    ResolversTypes['KeystoneAdminUIFieldMetaCreateViewFieldMode'],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type KeystoneAdminUiFieldMetaItemViewResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['KeystoneAdminUIFieldMetaItemView'] = ResolversParentTypes['KeystoneAdminUIFieldMetaItemView'],
+> = {
+  fieldMode?: Resolver<
+    Maybe<ResolversTypes['KeystoneAdminUIFieldMetaItemViewFieldMode']>,
+    ParentType,
+    ContextType
+  >;
+  fieldPosition?: Resolver<
+    Maybe<ResolversTypes['KeystoneAdminUIFieldMetaItemViewFieldPosition']>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type KeystoneAdminUiFieldMetaListViewResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['KeystoneAdminUIFieldMetaListView'] = ResolversParentTypes['KeystoneAdminUIFieldMetaListView'],
+> = {
+  fieldMode?: Resolver<
+    ResolversTypes['KeystoneAdminUIFieldMetaListViewFieldMode'],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type KeystoneAdminUiListMetaResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['KeystoneAdminUIListMeta'] = ResolversParentTypes['KeystoneAdminUIListMeta'],
+> = {
+  description?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
+  fields?: Resolver<
+    Array<ResolversTypes['KeystoneAdminUIFieldMeta']>,
+    ParentType,
+    ContextType
+  >;
+  groups?: Resolver<
+    Array<ResolversTypes['KeystoneAdminUIFieldGroupMeta']>,
+    ParentType,
+    ContextType
+  >;
+  hideCreate?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  hideDelete?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  initialColumns?: Resolver<
+    Array<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
+  initialSort?: Resolver<
+    Maybe<ResolversTypes['KeystoneAdminUISort']>,
+    ParentType,
+    ContextType
+  >;
+  isHidden?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  isSingleton?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  itemQueryName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  key?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  labelField?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  listQueryName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  pageSize?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  path?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  plural?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  singular?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type KeystoneAdminUiSortResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['KeystoneAdminUISort'] = ResolversParentTypes['KeystoneAdminUISort'],
+> = {
+  direction?: Resolver<
+    ResolversTypes['KeystoneAdminUISortDirection'],
+    ParentType,
+    ContextType
+  >;
+  field?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type KeystoneMetaResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['KeystoneMeta'] = ResolversParentTypes['KeystoneMeta'],
+> = {
+  adminMeta?: Resolver<
+    ResolversTypes['KeystoneAdminMeta'],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type MinMaxResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['MinMax'] = ResolversParentTypes['MinMax'],
+> = {
+  max?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  min?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type MutationResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation'],
+> = {
+  addToCart?: Resolver<
+    Maybe<ResolversTypes['CartItem']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationAddToCartArgs, 'id'>
+  >;
+  authenticateUserWithPassword?: Resolver<
+    Maybe<ResolversTypes['UserAuthenticationWithPasswordResult']>,
+    ParentType,
+    ContextType,
+    RequireFields<
+      MutationAuthenticateUserWithPasswordArgs,
+      'email' | 'password'
+    >
+  >;
+  confirmPaymentAndCreateOrder?: Resolver<
+    Maybe<ResolversTypes['ConfirmPaymentAndCreateOrderResult']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationConfirmPaymentAndCreateOrderArgs, 'paymentIntentId'>
+  >;
+  createBanner?: Resolver<
+    Maybe<ResolversTypes['Banner']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateBannerArgs, 'data'>
+  >;
+  createBanners?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['Banner']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateBannersArgs, 'data'>
+  >;
+  createCartItem?: Resolver<
+    Maybe<ResolversTypes['CartItem']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateCartItemArgs, 'data'>
+  >;
+  createCartItems?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['CartItem']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateCartItemsArgs, 'data'>
+  >;
+  createCategories?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['Category']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateCategoriesArgs, 'data'>
+  >;
+  createCategory?: Resolver<
+    Maybe<ResolversTypes['Category']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateCategoryArgs, 'data'>
+  >;
+  createCoupon?: Resolver<
+    Maybe<ResolversTypes['Coupon']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateCouponArgs, 'data'>
+  >;
+  createCoupons?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['Coupon']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateCouponsArgs, 'data'>
+  >;
+  createInitialUser?: Resolver<
+    ResolversTypes['UserAuthenticationWithPasswordSuccess'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateInitialUserArgs, 'data'>
+  >;
+  createOrder?: Resolver<
+    Maybe<ResolversTypes['Order']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateOrderArgs, 'data'>
+  >;
+  createOrderItem?: Resolver<
+    Maybe<ResolversTypes['OrderItem']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateOrderItemArgs, 'data'>
+  >;
+  createOrderItems?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['OrderItem']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateOrderItemsArgs, 'data'>
+  >;
+  createOrders?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['Order']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateOrdersArgs, 'data'>
+  >;
+  createPaymentIntent?: Resolver<
+    Maybe<ResolversTypes['CreatePaymentIntentResult']>,
+    ParentType,
+    ContextType,
+    Partial<MutationCreatePaymentIntentArgs>
+  >;
+  createProduct?: Resolver<
+    Maybe<ResolversTypes['Product']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateProductArgs, 'data'>
+  >;
+  createProductImage?: Resolver<
+    Maybe<ResolversTypes['ProductImage']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateProductImageArgs, 'data'>
+  >;
+  createProductImages?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['ProductImage']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateProductImagesArgs, 'data'>
+  >;
+  createProductSnapshot?: Resolver<
+    Maybe<ResolversTypes['ProductSnapshot']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateProductSnapshotArgs, 'data'>
+  >;
+  createProductSnapshots?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['ProductSnapshot']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateProductSnapshotsArgs, 'data'>
+  >;
+  createProductVariant?: Resolver<
+    Maybe<ResolversTypes['ProductVariant']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateProductVariantArgs, 'data'>
+  >;
+  createProductVariants?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['ProductVariant']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateProductVariantsArgs, 'data'>
+  >;
+  createProducts?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['Product']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateProductsArgs, 'data'>
+  >;
+  createUser?: Resolver<
+    Maybe<ResolversTypes['User']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateUserArgs, 'data'>
+  >;
+  createUsers?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['User']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateUsersArgs, 'data'>
+  >;
+  deleteBanner?: Resolver<
+    Maybe<ResolversTypes['Banner']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteBannerArgs, 'where'>
+  >;
+  deleteBanners?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['Banner']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteBannersArgs, 'where'>
+  >;
+  deleteCartItem?: Resolver<
+    Maybe<ResolversTypes['CartItem']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteCartItemArgs, 'where'>
+  >;
+  deleteCartItems?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['CartItem']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteCartItemsArgs, 'where'>
+  >;
+  deleteCategories?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['Category']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteCategoriesArgs, 'where'>
+  >;
+  deleteCategory?: Resolver<
+    Maybe<ResolversTypes['Category']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteCategoryArgs, 'where'>
+  >;
+  deleteCoupon?: Resolver<
+    Maybe<ResolversTypes['Coupon']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteCouponArgs, 'where'>
+  >;
+  deleteCoupons?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['Coupon']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteCouponsArgs, 'where'>
+  >;
+  deleteOrder?: Resolver<
+    Maybe<ResolversTypes['Order']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteOrderArgs, 'where'>
+  >;
+  deleteOrderItem?: Resolver<
+    Maybe<ResolversTypes['OrderItem']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteOrderItemArgs, 'where'>
+  >;
+  deleteOrderItems?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['OrderItem']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteOrderItemsArgs, 'where'>
+  >;
+  deleteOrders?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['Order']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteOrdersArgs, 'where'>
+  >;
+  deleteProduct?: Resolver<
+    Maybe<ResolversTypes['Product']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteProductArgs, 'where'>
+  >;
+  deleteProductImage?: Resolver<
+    Maybe<ResolversTypes['ProductImage']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteProductImageArgs, 'where'>
+  >;
+  deleteProductImages?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['ProductImage']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteProductImagesArgs, 'where'>
+  >;
+  deleteProductSnapshot?: Resolver<
+    Maybe<ResolversTypes['ProductSnapshot']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteProductSnapshotArgs, 'where'>
+  >;
+  deleteProductSnapshots?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['ProductSnapshot']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteProductSnapshotsArgs, 'where'>
+  >;
+  deleteProductVariant?: Resolver<
+    Maybe<ResolversTypes['ProductVariant']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteProductVariantArgs, 'where'>
+  >;
+  deleteProductVariants?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['ProductVariant']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteProductVariantsArgs, 'where'>
+  >;
+  deleteProducts?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['Product']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteProductsArgs, 'where'>
+  >;
+  deleteUser?: Resolver<
+    Maybe<ResolversTypes['User']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteUserArgs, 'where'>
+  >;
+  deleteUsers?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['User']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteUsersArgs, 'where'>
+  >;
+  endSession?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  redeemUserPasswordResetToken?: Resolver<
+    Maybe<ResolversTypes['RedeemUserPasswordResetTokenResult']>,
+    ParentType,
+    ContextType,
+    RequireFields<
+      MutationRedeemUserPasswordResetTokenArgs,
+      'email' | 'password' | 'token'
+    >
+  >;
+  sendUserPasswordResetLink?: Resolver<
+    ResolversTypes['Boolean'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationSendUserPasswordResetLinkArgs, 'email'>
+  >;
+  updateBanner?: Resolver<
+    Maybe<ResolversTypes['Banner']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateBannerArgs, 'data' | 'where'>
+  >;
+  updateBanners?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['Banner']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateBannersArgs, 'data'>
+  >;
+  updateCartItem?: Resolver<
+    Maybe<ResolversTypes['CartItem']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateCartItemArgs, 'data' | 'where'>
+  >;
+  updateCartItems?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['CartItem']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateCartItemsArgs, 'data'>
+  >;
+  updateCategories?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['Category']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateCategoriesArgs, 'data'>
+  >;
+  updateCategory?: Resolver<
+    Maybe<ResolversTypes['Category']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateCategoryArgs, 'data' | 'where'>
+  >;
+  updateCoupon?: Resolver<
+    Maybe<ResolversTypes['Coupon']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateCouponArgs, 'data' | 'where'>
+  >;
+  updateCoupons?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['Coupon']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateCouponsArgs, 'data'>
+  >;
+  updateOrder?: Resolver<
+    Maybe<ResolversTypes['Order']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateOrderArgs, 'data' | 'where'>
+  >;
+  updateOrderItem?: Resolver<
+    Maybe<ResolversTypes['OrderItem']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateOrderItemArgs, 'data' | 'where'>
+  >;
+  updateOrderItems?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['OrderItem']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateOrderItemsArgs, 'data'>
+  >;
+  updateOrders?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['Order']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateOrdersArgs, 'data'>
+  >;
+  updateProduct?: Resolver<
+    Maybe<ResolversTypes['Product']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateProductArgs, 'data' | 'where'>
+  >;
+  updateProductImage?: Resolver<
+    Maybe<ResolversTypes['ProductImage']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateProductImageArgs, 'data' | 'where'>
+  >;
+  updateProductImages?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['ProductImage']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateProductImagesArgs, 'data'>
+  >;
+  updateProductSnapshot?: Resolver<
+    Maybe<ResolversTypes['ProductSnapshot']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateProductSnapshotArgs, 'data' | 'where'>
+  >;
+  updateProductSnapshots?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['ProductSnapshot']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateProductSnapshotsArgs, 'data'>
+  >;
+  updateProductVariant?: Resolver<
+    Maybe<ResolversTypes['ProductVariant']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateProductVariantArgs, 'data' | 'where'>
+  >;
+  updateProductVariants?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['ProductVariant']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateProductVariantsArgs, 'data'>
+  >;
+  updateProducts?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['Product']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateProductsArgs, 'data'>
+  >;
+  updateUser?: Resolver<
+    Maybe<ResolversTypes['User']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateUserArgs, 'data' | 'where'>
+  >;
+  updateUsers?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['User']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateUsersArgs, 'data'>
+  >;
+  validateCoupon?: Resolver<
+    Maybe<ResolversTypes['ValidateCouponResult']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationValidateCouponArgs, 'couponCode'>
+  >;
+};
+
+export type OrderResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Order'] = ResolversParentTypes['Order'],
+> = {
+  charge?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  coupon?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<
+    Maybe<ResolversTypes['CalendarDay']>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  items?: Resolver<
+    Maybe<Array<ResolversTypes['OrderItem']>>,
+    ParentType,
+    ContextType,
+    RequireFields<OrderItemsArgs, 'orderBy' | 'skip' | 'where'>
+  >;
+  itemsCount?: Resolver<
+    Maybe<ResolversTypes['Int']>,
+    ParentType,
+    ContextType,
+    RequireFields<OrderItemsCountArgs, 'where'>
+  >;
+  total?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type OrderItemResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['OrderItem'] = ResolversParentTypes['OrderItem'],
+> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  order?: Resolver<Maybe<ResolversTypes['Order']>, ParentType, ContextType>;
+  price?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  quantity?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  snapshot?: Resolver<
+    Maybe<ResolversTypes['ProductSnapshot']>,
+    ParentType,
+    ContextType
+  >;
+  variant?: Resolver<
+    Maybe<ResolversTypes['ProductVariant']>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PasswordStateResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['PasswordState'] = ResolversParentTypes['PasswordState'],
+> = {
+  isSet?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ProductResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Product'] = ResolversParentTypes['Product'],
+> = {
+  category?: Resolver<
+    Maybe<ResolversTypes['Category']>,
+    ParentType,
+    ContextType
+  >;
+  company?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  defaultVariantId?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
+  description?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
+  highestPrice?: Resolver<
+    Maybe<ResolversTypes['Int']>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  image?: Resolver<
+    Maybe<ResolversTypes['ProductImage']>,
+    ParentType,
+    ContextType
+  >;
+  lowestPrice?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  meta?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  shortDescription?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType,
+    RequireFields<ProductShortDescriptionArgs, 'length'>
+  >;
+  slug?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  status?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  style?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  variant?: Resolver<
+    Maybe<ResolversTypes['ProductVariant']>,
+    ParentType,
+    ContextType,
+    RequireFields<ProductVariantArgs, 'skuId'>
+  >;
+  variants?: Resolver<
+    Maybe<Array<ResolversTypes['ProductVariant']>>,
+    ParentType,
+    ContextType,
+    RequireFields<ProductVariantsArgs, 'orderBy' | 'skip' | 'where'>
+  >;
+  variantsCount?: Resolver<
+    Maybe<ResolversTypes['Int']>,
+    ParentType,
+    ContextType,
+    RequireFields<ProductVariantsCountArgs, 'where'>
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ProductDescriptorResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['ProductDescriptor'] = ResolversParentTypes['ProductDescriptor'],
+> = {
+  companies?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['String']>>>,
+    ParentType,
+    ContextType
+  >;
+  styles?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['String']>>>,
+    ParentType,
+    ContextType
+  >;
+  types?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['String']>>>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ProductImageResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['ProductImage'] = ResolversParentTypes['ProductImage'],
+> = {
+  alt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  image?: Resolver<
+    Maybe<ResolversTypes['CloudinaryImage_File']>,
+    ParentType,
+    ContextType
+  >;
+  product?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ProductSnapshotResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['ProductSnapshot'] = ResolversParentTypes['ProductSnapshot'],
+> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  meta?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  price?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ProductVariantResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['ProductVariant'] = ResolversParentTypes['ProductVariant'],
+> = {
+  color?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  material?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  price?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  product?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType>;
+  size?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  variant?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type QueryResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Query'] = ResolversParentTypes['Query'],
+> = {
+  authenticatedItem?: Resolver<
+    Maybe<ResolversTypes['AuthenticatedItem']>,
+    ParentType,
+    ContextType
+  >;
+  banner?: Resolver<
+    Maybe<ResolversTypes['Banner']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryBannerArgs, 'where'>
+  >;
+  banners?: Resolver<
+    Maybe<Array<ResolversTypes['Banner']>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryBannersArgs, 'orderBy' | 'skip' | 'where'>
+  >;
+  bannersCount?: Resolver<
+    Maybe<ResolversTypes['Int']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryBannersCountArgs, 'where'>
+  >;
+  cartItem?: Resolver<
+    Maybe<ResolversTypes['CartItem']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryCartItemArgs, 'where'>
+  >;
+  cartItems?: Resolver<
+    Maybe<Array<ResolversTypes['CartItem']>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryCartItemsArgs, 'orderBy' | 'skip' | 'where'>
+  >;
+  cartItemsCount?: Resolver<
+    Maybe<ResolversTypes['Int']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryCartItemsCountArgs, 'where'>
+  >;
+  categories?: Resolver<
+    Maybe<Array<ResolversTypes['Category']>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryCategoriesArgs, 'orderBy' | 'skip' | 'where'>
+  >;
+  categoriesCount?: Resolver<
+    Maybe<ResolversTypes['Int']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryCategoriesCountArgs, 'where'>
+  >;
+  category?: Resolver<
+    Maybe<ResolversTypes['Category']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryCategoryArgs, 'where'>
+  >;
+  coupon?: Resolver<
+    Maybe<ResolversTypes['Coupon']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryCouponArgs, 'where'>
+  >;
+  coupons?: Resolver<
+    Maybe<Array<ResolversTypes['Coupon']>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryCouponsArgs, 'orderBy' | 'skip' | 'where'>
+  >;
+  couponsCount?: Resolver<
+    Maybe<ResolversTypes['Int']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryCouponsCountArgs, 'where'>
+  >;
+  getAllProductDescriptors?: Resolver<
+    Maybe<ResolversTypes['ProductDescriptor']>,
+    ParentType,
+    ContextType,
+    Partial<QueryGetAllProductDescriptorsArgs>
+  >;
+  getPriceRange?: Resolver<
+    Maybe<ResolversTypes['MinMax']>,
+    ParentType,
+    ContextType,
+    Partial<QueryGetPriceRangeArgs>
+  >;
+  keystone?: Resolver<ResolversTypes['KeystoneMeta'], ParentType, ContextType>;
+  order?: Resolver<
+    Maybe<ResolversTypes['Order']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryOrderArgs, 'where'>
+  >;
+  orderItem?: Resolver<
+    Maybe<ResolversTypes['OrderItem']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryOrderItemArgs, 'where'>
+  >;
+  orderItems?: Resolver<
+    Maybe<Array<ResolversTypes['OrderItem']>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryOrderItemsArgs, 'orderBy' | 'skip' | 'where'>
+  >;
+  orderItemsCount?: Resolver<
+    Maybe<ResolversTypes['Int']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryOrderItemsCountArgs, 'where'>
+  >;
+  orders?: Resolver<
+    Maybe<Array<ResolversTypes['Order']>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryOrdersArgs, 'orderBy' | 'skip' | 'where'>
+  >;
+  ordersCount?: Resolver<
+    Maybe<ResolversTypes['Int']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryOrdersCountArgs, 'where'>
+  >;
+  product?: Resolver<
+    Maybe<ResolversTypes['Product']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryProductArgs, 'where'>
+  >;
+  productImage?: Resolver<
+    Maybe<ResolversTypes['ProductImage']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryProductImageArgs, 'where'>
+  >;
+  productImages?: Resolver<
+    Maybe<Array<ResolversTypes['ProductImage']>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryProductImagesArgs, 'orderBy' | 'skip' | 'where'>
+  >;
+  productImagesCount?: Resolver<
+    Maybe<ResolversTypes['Int']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryProductImagesCountArgs, 'where'>
+  >;
+  productSnapshot?: Resolver<
+    Maybe<ResolversTypes['ProductSnapshot']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryProductSnapshotArgs, 'where'>
+  >;
+  productSnapshots?: Resolver<
+    Maybe<Array<ResolversTypes['ProductSnapshot']>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryProductSnapshotsArgs, 'orderBy' | 'skip' | 'where'>
+  >;
+  productSnapshotsCount?: Resolver<
+    Maybe<ResolversTypes['Int']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryProductSnapshotsCountArgs, 'where'>
+  >;
+  productVariant?: Resolver<
+    Maybe<ResolversTypes['ProductVariant']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryProductVariantArgs, 'where'>
+  >;
+  productVariants?: Resolver<
+    Maybe<Array<ResolversTypes['ProductVariant']>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryProductVariantsArgs, 'orderBy' | 'skip' | 'where'>
+  >;
+  productVariantsCount?: Resolver<
+    Maybe<ResolversTypes['Int']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryProductVariantsCountArgs, 'where'>
+  >;
+  products?: Resolver<
+    Maybe<Array<ResolversTypes['Product']>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryProductsArgs, 'orderBy' | 'skip' | 'where'>
+  >;
+  productsCount?: Resolver<
+    Maybe<ResolversTypes['Int']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryProductsCountArgs, 'where'>
+  >;
+  user?: Resolver<
+    Maybe<ResolversTypes['User']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryUserArgs, 'where'>
+  >;
+  users?: Resolver<
+    Maybe<Array<ResolversTypes['User']>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryUsersArgs, 'orderBy' | 'skip' | 'where'>
+  >;
+  usersCount?: Resolver<
+    Maybe<ResolversTypes['Int']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryUsersCountArgs, 'where'>
+  >;
+  validateUserPasswordResetToken?: Resolver<
+    Maybe<ResolversTypes['ValidateUserPasswordResetTokenResult']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryValidateUserPasswordResetTokenArgs, 'email' | 'token'>
+  >;
+};
+
+export type RedeemUserPasswordResetTokenResultResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['RedeemUserPasswordResetTokenResult'] = ResolversParentTypes['RedeemUserPasswordResetTokenResult'],
+> = {
+  code?: Resolver<
+    ResolversTypes['PasswordResetRedemptionErrorCode'],
+    ParentType,
+    ContextType
+  >;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export interface UploadScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['Upload'], any> {
+  name: 'Upload';
+}
+
+export type UserResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['User'] = ResolversParentTypes['User'],
+> = {
+  cart?: Resolver<
+    Maybe<Array<ResolversTypes['CartItem']>>,
+    ParentType,
+    ContextType,
+    RequireFields<UserCartArgs, 'orderBy' | 'skip' | 'where'>
+  >;
+  cartCount?: Resolver<
+    Maybe<ResolversTypes['Int']>,
+    ParentType,
+    ContextType,
+    RequireFields<UserCartCountArgs, 'where'>
+  >;
+  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  orders?: Resolver<
+    Maybe<Array<ResolversTypes['Order']>>,
+    ParentType,
+    ContextType,
+    RequireFields<UserOrdersArgs, 'orderBy' | 'skip' | 'where'>
+  >;
+  ordersCount?: Resolver<
+    Maybe<ResolversTypes['Int']>,
+    ParentType,
+    ContextType,
+    RequireFields<UserOrdersCountArgs, 'where'>
+  >;
+  password?: Resolver<
+    Maybe<ResolversTypes['PasswordState']>,
+    ParentType,
+    ContextType
+  >;
+  passwordResetIssuedAt?: Resolver<
+    Maybe<ResolversTypes['DateTime']>,
+    ParentType,
+    ContextType
+  >;
+  passwordResetRedeemedAt?: Resolver<
+    Maybe<ResolversTypes['DateTime']>,
+    ParentType,
+    ContextType
+  >;
+  passwordResetToken?: Resolver<
+    Maybe<ResolversTypes['PasswordState']>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type UserAuthenticationWithPasswordFailureResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['UserAuthenticationWithPasswordFailure'] = ResolversParentTypes['UserAuthenticationWithPasswordFailure'],
+> = {
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type UserAuthenticationWithPasswordResultResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['UserAuthenticationWithPasswordResult'] = ResolversParentTypes['UserAuthenticationWithPasswordResult'],
+> = {
+  __resolveType: TypeResolveFn<
+    | 'UserAuthenticationWithPasswordFailure'
+    | 'UserAuthenticationWithPasswordSuccess',
+    ParentType,
+    ContextType
+  >;
+};
+
+export type UserAuthenticationWithPasswordSuccessResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['UserAuthenticationWithPasswordSuccess'] = ResolversParentTypes['UserAuthenticationWithPasswordSuccess'],
+> = {
+  item?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  sessionToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ValidateCouponResultResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['ValidateCouponResult'] = ResolversParentTypes['ValidateCouponResult'],
+> = {
+  amount?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  discountedAmount?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  isValid?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ValidateUserPasswordResetTokenResultResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['ValidateUserPasswordResetTokenResult'] = ResolversParentTypes['ValidateUserPasswordResetTokenResult'],
+> = {
+  code?: Resolver<
+    ResolversTypes['PasswordResetRedemptionErrorCode'],
+    ParentType,
+    ContextType
+  >;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type Resolvers<ContextType = any> = {
+  AuthenticatedItem?: AuthenticatedItemResolvers<ContextType>;
+  Banner?: BannerResolvers<ContextType>;
+  CalendarDay?: GraphQLScalarType;
+  CartItem?: CartItemResolvers<ContextType>;
+  Category?: CategoryResolvers<ContextType>;
+  CloudinaryImage_File?: CloudinaryImage_FileResolvers<ContextType>;
+  ConfirmPaymentAndCreateOrderResult?: ConfirmPaymentAndCreateOrderResultResolvers<ContextType>;
+  Coupon?: CouponResolvers<ContextType>;
+  CreatePaymentIntentResult?: CreatePaymentIntentResultResolvers<ContextType>;
+  DateTime?: GraphQLScalarType;
+  JSON?: GraphQLScalarType;
+  KeystoneAdminMeta?: KeystoneAdminMetaResolvers<ContextType>;
+  KeystoneAdminUIFieldGroupMeta?: KeystoneAdminUiFieldGroupMetaResolvers<ContextType>;
+  KeystoneAdminUIFieldMeta?: KeystoneAdminUiFieldMetaResolvers<ContextType>;
+  KeystoneAdminUIFieldMetaCreateView?: KeystoneAdminUiFieldMetaCreateViewResolvers<ContextType>;
+  KeystoneAdminUIFieldMetaItemView?: KeystoneAdminUiFieldMetaItemViewResolvers<ContextType>;
+  KeystoneAdminUIFieldMetaListView?: KeystoneAdminUiFieldMetaListViewResolvers<ContextType>;
+  KeystoneAdminUIListMeta?: KeystoneAdminUiListMetaResolvers<ContextType>;
+  KeystoneAdminUISort?: KeystoneAdminUiSortResolvers<ContextType>;
+  KeystoneMeta?: KeystoneMetaResolvers<ContextType>;
+  MinMax?: MinMaxResolvers<ContextType>;
+  Mutation?: MutationResolvers<ContextType>;
+  Order?: OrderResolvers<ContextType>;
+  OrderItem?: OrderItemResolvers<ContextType>;
+  PasswordState?: PasswordStateResolvers<ContextType>;
+  Product?: ProductResolvers<ContextType>;
+  ProductDescriptor?: ProductDescriptorResolvers<ContextType>;
+  ProductImage?: ProductImageResolvers<ContextType>;
+  ProductSnapshot?: ProductSnapshotResolvers<ContextType>;
+  ProductVariant?: ProductVariantResolvers<ContextType>;
+  Query?: QueryResolvers<ContextType>;
+  RedeemUserPasswordResetTokenResult?: RedeemUserPasswordResetTokenResultResolvers<ContextType>;
+  Upload?: GraphQLScalarType;
+  User?: UserResolvers<ContextType>;
+  UserAuthenticationWithPasswordFailure?: UserAuthenticationWithPasswordFailureResolvers<ContextType>;
+  UserAuthenticationWithPasswordResult?: UserAuthenticationWithPasswordResultResolvers<ContextType>;
+  UserAuthenticationWithPasswordSuccess?: UserAuthenticationWithPasswordSuccessResolvers<ContextType>;
+  ValidateCouponResult?: ValidateCouponResultResolvers<ContextType>;
+  ValidateUserPasswordResetTokenResult?: ValidateUserPasswordResetTokenResultResolvers<ContextType>;
+};
+
 export const HomePageDocument = gql`
   query HomePage($take: Int, $cursor: CategoryWhereUniqueInput, $skip: Int!) {
     banners(take: $take, skip: $skip) {
@@ -2504,8 +4615,8 @@ export type CategoryIndexPathQueryResult = Apollo.QueryResult<
   CategoryIndexPathQueryVariables
 >;
 export const CreatePaymentIntentDocument = gql`
-  mutation CreatePaymentIntent {
-    createPaymentIntent {
+  mutation CreatePaymentIntent($couponCode: String) {
+    createPaymentIntent(couponCode: $couponCode) {
       id
       status
       client_secret
@@ -2530,6 +4641,7 @@ export type CreatePaymentIntentMutationFn = Apollo.MutationFunction<
  * @example
  * const [createPaymentIntentMutation, { data, loading, error }] = useCreatePaymentIntentMutation({
  *   variables: {
+ *      couponCode: // value for 'couponCode'
  *   },
  * });
  */
@@ -2555,8 +4667,14 @@ export type CreatePaymentIntentMutationOptions = Apollo.BaseMutationOptions<
   CreatePaymentIntentMutationVariables
 >;
 export const ConfirmPaymentAndCreateOrderDocument = gql`
-  mutation ConfirmPaymentAndCreateOrder($paymentIntentId: String!) {
-    confirmPaymentAndCreateOrder(paymentIntentId: $paymentIntentId) {
+  mutation ConfirmPaymentAndCreateOrder(
+    $paymentIntentId: String!
+    $couponCode: String
+  ) {
+    confirmPaymentAndCreateOrder(
+      paymentIntentId: $paymentIntentId
+      couponCode: $couponCode
+    ) {
       client_secret
       id
       order {
@@ -2585,6 +4703,7 @@ export type ConfirmPaymentAndCreateOrderMutationFn = Apollo.MutationFunction<
  * const [confirmPaymentAndCreateOrderMutation, { data, loading, error }] = useConfirmPaymentAndCreateOrderMutation({
  *   variables: {
  *      paymentIntentId: // value for 'paymentIntentId'
+ *      couponCode: // value for 'couponCode'
  *   },
  * });
  */
@@ -2610,6 +4729,58 @@ export type ConfirmPaymentAndCreateOrderMutationOptions =
     ConfirmPaymentAndCreateOrderMutation,
     ConfirmPaymentAndCreateOrderMutationVariables
   >;
+export const ValidateCouponDocument = gql`
+  mutation ValidateCoupon($couponCode: String!) {
+    validateCoupon(couponCode: $couponCode) {
+      amount
+      isValid
+      discountedAmount
+    }
+  }
+`;
+export type ValidateCouponMutationFn = Apollo.MutationFunction<
+  ValidateCouponMutation,
+  ValidateCouponMutationVariables
+>;
+
+/**
+ * __useValidateCouponMutation__
+ *
+ * To run a mutation, you first call `useValidateCouponMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useValidateCouponMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [validateCouponMutation, { data, loading, error }] = useValidateCouponMutation({
+ *   variables: {
+ *      couponCode: // value for 'couponCode'
+ *   },
+ * });
+ */
+export function useValidateCouponMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    ValidateCouponMutation,
+    ValidateCouponMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useMutation<
+    ValidateCouponMutation,
+    ValidateCouponMutationVariables
+  >(ValidateCouponDocument, options as any);
+}
+export type ValidateCouponMutationHookResult = ReturnType<
+  typeof useValidateCouponMutation
+>;
+export type ValidateCouponMutationResult =
+  Apollo.MutationResult<ValidateCouponMutation>;
+export type ValidateCouponMutationOptions = Apollo.BaseMutationOptions<
+  ValidateCouponMutation,
+  ValidateCouponMutationVariables
+>;
 export const AllCategoriesDocument = gql`
   query AllCategories(
     $if: Boolean = false
@@ -4366,6 +6537,26 @@ export const aBannerWhereUniqueInput = (
   };
 };
 
+export const aBooleanFilter = (
+  overrides?: Partial<BooleanFilter>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): BooleanFilter => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('BooleanFilter');
+  return {
+    equals:
+      overrides && overrides.hasOwnProperty('equals')
+        ? overrides.equals!
+        : true,
+    not:
+      overrides && overrides.hasOwnProperty('not')
+        ? overrides.not!
+        : relationshipsToOmit.has('BooleanFilter')
+          ? ({} as BooleanFilter)
+          : aBooleanFilter({}, relationshipsToOmit),
+  };
+};
+
 export const aCalendarDayFilter = (
   overrides?: Partial<CalendarDayFilter>,
   _relationshipsToOmit: Set<string> = new Set(),
@@ -5134,6 +7325,328 @@ export const aConfirmPaymentAndCreateOrderResult = (
   };
 };
 
+export const aCoupon = (
+  overrides?: Partial<Coupon>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): Coupon => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('Coupon');
+  return {
+    code:
+      overrides && overrides.hasOwnProperty('code') ? overrides.code! : 'vitae',
+    description:
+      overrides && overrides.hasOwnProperty('description')
+        ? overrides.description!
+        : 'et',
+    discountType:
+      overrides && overrides.hasOwnProperty('discountType')
+        ? overrides.discountType!
+        : 'repellat',
+    discountValue:
+      overrides && overrides.hasOwnProperty('discountValue')
+        ? overrides.discountValue!
+        : 6.61,
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : 'eef7ff5f-08eb-4313-b470-452195df68d4',
+    isActive:
+      overrides && overrides.hasOwnProperty('isActive')
+        ? overrides.isActive!
+        : true,
+    minimumPurchaseAmount:
+      overrides && overrides.hasOwnProperty('minimumPurchaseAmount')
+        ? overrides.minimumPurchaseAmount!
+        : 5557,
+    usageLimit:
+      overrides && overrides.hasOwnProperty('usageLimit')
+        ? overrides.usageLimit!
+        : 9961,
+    validFrom:
+      overrides && overrides.hasOwnProperty('validFrom')
+        ? overrides.validFrom!
+        : 'voluptates',
+    validUntil:
+      overrides && overrides.hasOwnProperty('validUntil')
+        ? overrides.validUntil!
+        : 'amet',
+  };
+};
+
+export const aCouponCreateInput = (
+  overrides?: Partial<CouponCreateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CouponCreateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CouponCreateInput');
+  return {
+    code:
+      overrides && overrides.hasOwnProperty('code')
+        ? overrides.code!
+        : 'expedita',
+    description:
+      overrides && overrides.hasOwnProperty('description')
+        ? overrides.description!
+        : 'rerum',
+    discountType:
+      overrides && overrides.hasOwnProperty('discountType')
+        ? overrides.discountType!
+        : 'sunt',
+    discountValue:
+      overrides && overrides.hasOwnProperty('discountValue')
+        ? overrides.discountValue!
+        : 2.45,
+    isActive:
+      overrides && overrides.hasOwnProperty('isActive')
+        ? overrides.isActive!
+        : true,
+    minimumPurchaseAmount:
+      overrides && overrides.hasOwnProperty('minimumPurchaseAmount')
+        ? overrides.minimumPurchaseAmount!
+        : 604,
+    usageLimit:
+      overrides && overrides.hasOwnProperty('usageLimit')
+        ? overrides.usageLimit!
+        : 2466,
+    validFrom:
+      overrides && overrides.hasOwnProperty('validFrom')
+        ? overrides.validFrom!
+        : 'laborum',
+    validUntil:
+      overrides && overrides.hasOwnProperty('validUntil')
+        ? overrides.validUntil!
+        : 'quam',
+  };
+};
+
+export const aCouponOrderByInput = (
+  overrides?: Partial<CouponOrderByInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CouponOrderByInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CouponOrderByInput');
+  return {
+    code:
+      overrides && overrides.hasOwnProperty('code')
+        ? overrides.code!
+        : OrderDirection.Asc,
+    description:
+      overrides && overrides.hasOwnProperty('description')
+        ? overrides.description!
+        : OrderDirection.Asc,
+    discountType:
+      overrides && overrides.hasOwnProperty('discountType')
+        ? overrides.discountType!
+        : OrderDirection.Asc,
+    discountValue:
+      overrides && overrides.hasOwnProperty('discountValue')
+        ? overrides.discountValue!
+        : OrderDirection.Asc,
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : OrderDirection.Asc,
+    isActive:
+      overrides && overrides.hasOwnProperty('isActive')
+        ? overrides.isActive!
+        : OrderDirection.Asc,
+    minimumPurchaseAmount:
+      overrides && overrides.hasOwnProperty('minimumPurchaseAmount')
+        ? overrides.minimumPurchaseAmount!
+        : OrderDirection.Asc,
+    usageLimit:
+      overrides && overrides.hasOwnProperty('usageLimit')
+        ? overrides.usageLimit!
+        : OrderDirection.Asc,
+    validFrom:
+      overrides && overrides.hasOwnProperty('validFrom')
+        ? overrides.validFrom!
+        : OrderDirection.Asc,
+    validUntil:
+      overrides && overrides.hasOwnProperty('validUntil')
+        ? overrides.validUntil!
+        : OrderDirection.Asc,
+  };
+};
+
+export const aCouponUpdateArgs = (
+  overrides?: Partial<CouponUpdateArgs>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CouponUpdateArgs => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CouponUpdateArgs');
+  return {
+    data:
+      overrides && overrides.hasOwnProperty('data')
+        ? overrides.data!
+        : relationshipsToOmit.has('CouponUpdateInput')
+          ? ({} as CouponUpdateInput)
+          : aCouponUpdateInput({}, relationshipsToOmit),
+    where:
+      overrides && overrides.hasOwnProperty('where')
+        ? overrides.where!
+        : relationshipsToOmit.has('CouponWhereUniqueInput')
+          ? ({} as CouponWhereUniqueInput)
+          : aCouponWhereUniqueInput({}, relationshipsToOmit),
+  };
+};
+
+export const aCouponUpdateInput = (
+  overrides?: Partial<CouponUpdateInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CouponUpdateInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CouponUpdateInput');
+  return {
+    code:
+      overrides && overrides.hasOwnProperty('code')
+        ? overrides.code!
+        : 'accusantium',
+    description:
+      overrides && overrides.hasOwnProperty('description')
+        ? overrides.description!
+        : 'ipsum',
+    discountType:
+      overrides && overrides.hasOwnProperty('discountType')
+        ? overrides.discountType!
+        : 'ducimus',
+    discountValue:
+      overrides && overrides.hasOwnProperty('discountValue')
+        ? overrides.discountValue!
+        : 6.67,
+    isActive:
+      overrides && overrides.hasOwnProperty('isActive')
+        ? overrides.isActive!
+        : false,
+    minimumPurchaseAmount:
+      overrides && overrides.hasOwnProperty('minimumPurchaseAmount')
+        ? overrides.minimumPurchaseAmount!
+        : 9664,
+    usageLimit:
+      overrides && overrides.hasOwnProperty('usageLimit')
+        ? overrides.usageLimit!
+        : 9000,
+    validFrom:
+      overrides && overrides.hasOwnProperty('validFrom')
+        ? overrides.validFrom!
+        : 'quod',
+    validUntil:
+      overrides && overrides.hasOwnProperty('validUntil')
+        ? overrides.validUntil!
+        : 'molestiae',
+  };
+};
+
+export const aCouponWhereInput = (
+  overrides?: Partial<CouponWhereInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CouponWhereInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CouponWhereInput');
+  return {
+    AND:
+      overrides && overrides.hasOwnProperty('AND')
+        ? overrides.AND!
+        : [
+            relationshipsToOmit.has('CouponWhereInput')
+              ? ({} as CouponWhereInput)
+              : aCouponWhereInput({}, relationshipsToOmit),
+          ],
+    NOT:
+      overrides && overrides.hasOwnProperty('NOT')
+        ? overrides.NOT!
+        : [
+            relationshipsToOmit.has('CouponWhereInput')
+              ? ({} as CouponWhereInput)
+              : aCouponWhereInput({}, relationshipsToOmit),
+          ],
+    OR:
+      overrides && overrides.hasOwnProperty('OR')
+        ? overrides.OR!
+        : [
+            relationshipsToOmit.has('CouponWhereInput')
+              ? ({} as CouponWhereInput)
+              : aCouponWhereInput({}, relationshipsToOmit),
+          ],
+    code:
+      overrides && overrides.hasOwnProperty('code')
+        ? overrides.code!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+    description:
+      overrides && overrides.hasOwnProperty('description')
+        ? overrides.description!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+    discountType:
+      overrides && overrides.hasOwnProperty('discountType')
+        ? overrides.discountType!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+    discountValue:
+      overrides && overrides.hasOwnProperty('discountValue')
+        ? overrides.discountValue!
+        : relationshipsToOmit.has('FloatFilter')
+          ? ({} as FloatFilter)
+          : aFloatFilter({}, relationshipsToOmit),
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : relationshipsToOmit.has('IdFilter')
+          ? ({} as IdFilter)
+          : anIdFilter({}, relationshipsToOmit),
+    isActive:
+      overrides && overrides.hasOwnProperty('isActive')
+        ? overrides.isActive!
+        : relationshipsToOmit.has('BooleanFilter')
+          ? ({} as BooleanFilter)
+          : aBooleanFilter({}, relationshipsToOmit),
+    minimumPurchaseAmount:
+      overrides && overrides.hasOwnProperty('minimumPurchaseAmount')
+        ? overrides.minimumPurchaseAmount!
+        : relationshipsToOmit.has('IntFilter')
+          ? ({} as IntFilter)
+          : anIntFilter({}, relationshipsToOmit),
+    usageLimit:
+      overrides && overrides.hasOwnProperty('usageLimit')
+        ? overrides.usageLimit!
+        : relationshipsToOmit.has('IntFilter')
+          ? ({} as IntFilter)
+          : anIntFilter({}, relationshipsToOmit),
+    validFrom:
+      overrides && overrides.hasOwnProperty('validFrom')
+        ? overrides.validFrom!
+        : relationshipsToOmit.has('DateTimeFilter')
+          ? ({} as DateTimeFilter)
+          : aDateTimeFilter({}, relationshipsToOmit),
+    validUntil:
+      overrides && overrides.hasOwnProperty('validUntil')
+        ? overrides.validUntil!
+        : relationshipsToOmit.has('DateTimeFilter')
+          ? ({} as DateTimeFilter)
+          : aDateTimeFilter({}, relationshipsToOmit),
+  };
+};
+
+export const aCouponWhereUniqueInput = (
+  overrides?: Partial<CouponWhereUniqueInput>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): CouponWhereUniqueInput => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('CouponWhereUniqueInput');
+  return {
+    code:
+      overrides && overrides.hasOwnProperty('code') ? overrides.code! : 'non',
+    id:
+      overrides && overrides.hasOwnProperty('id')
+        ? overrides.id!
+        : '897b4fd0-696b-452e-a40c-4f678cd0e5c5',
+  };
+};
+
 export const aCreateInitialUserInput = (
   overrides?: Partial<CreateInitialUserInput>,
   _relationshipsToOmit: Set<string> = new Set(),
@@ -5173,6 +7686,42 @@ export const aCreatePaymentIntentResult = (
   };
 };
 
+export const aDateTimeFilter = (
+  overrides?: Partial<DateTimeFilter>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): DateTimeFilter => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('DateTimeFilter');
+  return {
+    equals:
+      overrides && overrides.hasOwnProperty('equals')
+        ? overrides.equals!
+        : 'officia',
+    gt: overrides && overrides.hasOwnProperty('gt') ? overrides.gt! : 'eum',
+    gte:
+      overrides && overrides.hasOwnProperty('gte')
+        ? overrides.gte!
+        : 'accusantium',
+    in:
+      overrides && overrides.hasOwnProperty('in') ? overrides.in! : ['impedit'],
+    lt: overrides && overrides.hasOwnProperty('lt') ? overrides.lt! : 'sit',
+    lte:
+      overrides && overrides.hasOwnProperty('lte')
+        ? overrides.lte!
+        : 'quibusdam',
+    not:
+      overrides && overrides.hasOwnProperty('not')
+        ? overrides.not!
+        : relationshipsToOmit.has('DateTimeFilter')
+          ? ({} as DateTimeFilter)
+          : aDateTimeFilter({}, relationshipsToOmit),
+    notIn:
+      overrides && overrides.hasOwnProperty('notIn')
+        ? overrides.notIn!
+        : ['aut'],
+  };
+};
+
 export const aDateTimeNullableFilter = (
   overrides?: Partial<DateTimeNullableFilter>,
   _relationshipsToOmit: Set<string> = new Set(),
@@ -5204,6 +7753,35 @@ export const aDateTimeNullableFilter = (
       overrides && overrides.hasOwnProperty('notIn')
         ? overrides.notIn!
         : ['enim'],
+  };
+};
+
+export const aFloatFilter = (
+  overrides?: Partial<FloatFilter>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): FloatFilter => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('FloatFilter');
+  return {
+    equals:
+      overrides && overrides.hasOwnProperty('equals')
+        ? overrides.equals!
+        : 5.67,
+    gt: overrides && overrides.hasOwnProperty('gt') ? overrides.gt! : 5.81,
+    gte: overrides && overrides.hasOwnProperty('gte') ? overrides.gte! : 8.02,
+    in: overrides && overrides.hasOwnProperty('in') ? overrides.in! : [6.16],
+    lt: overrides && overrides.hasOwnProperty('lt') ? overrides.lt! : 8.06,
+    lte: overrides && overrides.hasOwnProperty('lte') ? overrides.lte! : 2.07,
+    not:
+      overrides && overrides.hasOwnProperty('not')
+        ? overrides.not!
+        : relationshipsToOmit.has('FloatFilter')
+          ? ({} as FloatFilter)
+          : aFloatFilter({}, relationshipsToOmit),
+    notIn:
+      overrides && overrides.hasOwnProperty('notIn')
+        ? overrides.notIn!
+        : [6.14],
   };
 };
 
@@ -5641,6 +8219,20 @@ export const aMutation = (
         : relationshipsToOmit.has('Category')
           ? ({} as Category)
           : aCategory({}, relationshipsToOmit),
+    createCoupon:
+      overrides && overrides.hasOwnProperty('createCoupon')
+        ? overrides.createCoupon!
+        : relationshipsToOmit.has('Coupon')
+          ? ({} as Coupon)
+          : aCoupon({}, relationshipsToOmit),
+    createCoupons:
+      overrides && overrides.hasOwnProperty('createCoupons')
+        ? overrides.createCoupons!
+        : [
+            relationshipsToOmit.has('Coupon')
+              ? ({} as Coupon)
+              : aCoupon({}, relationshipsToOmit),
+          ],
     createInitialUser:
       overrides && overrides.hasOwnProperty('createInitialUser')
         ? overrides.createInitialUser!
@@ -5793,6 +8385,20 @@ export const aMutation = (
         : relationshipsToOmit.has('Category')
           ? ({} as Category)
           : aCategory({}, relationshipsToOmit),
+    deleteCoupon:
+      overrides && overrides.hasOwnProperty('deleteCoupon')
+        ? overrides.deleteCoupon!
+        : relationshipsToOmit.has('Coupon')
+          ? ({} as Coupon)
+          : aCoupon({}, relationshipsToOmit),
+    deleteCoupons:
+      overrides && overrides.hasOwnProperty('deleteCoupons')
+        ? overrides.deleteCoupons!
+        : [
+            relationshipsToOmit.has('Coupon')
+              ? ({} as Coupon)
+              : aCoupon({}, relationshipsToOmit),
+          ],
     deleteOrder:
       overrides && overrides.hasOwnProperty('deleteOrder')
         ? overrides.deleteOrder!
@@ -5947,6 +8553,20 @@ export const aMutation = (
         : relationshipsToOmit.has('Category')
           ? ({} as Category)
           : aCategory({}, relationshipsToOmit),
+    updateCoupon:
+      overrides && overrides.hasOwnProperty('updateCoupon')
+        ? overrides.updateCoupon!
+        : relationshipsToOmit.has('Coupon')
+          ? ({} as Coupon)
+          : aCoupon({}, relationshipsToOmit),
+    updateCoupons:
+      overrides && overrides.hasOwnProperty('updateCoupons')
+        ? overrides.updateCoupons!
+        : [
+            relationshipsToOmit.has('Coupon')
+              ? ({} as Coupon)
+              : aCoupon({}, relationshipsToOmit),
+          ],
     updateOrder:
       overrides && overrides.hasOwnProperty('updateOrder')
         ? overrides.updateOrder!
@@ -6045,6 +8665,12 @@ export const aMutation = (
               ? ({} as User)
               : aUser({}, relationshipsToOmit),
           ],
+    validateCoupon:
+      overrides && overrides.hasOwnProperty('validateCoupon')
+        ? overrides.validateCoupon!
+        : relationshipsToOmit.has('ValidateCouponResult')
+          ? ({} as ValidateCouponResult)
+          : aValidateCouponResult({}, relationshipsToOmit),
   };
 };
 
@@ -6104,6 +8730,10 @@ export const anOrder = (
       overrides && overrides.hasOwnProperty('charge')
         ? overrides.charge!
         : 'et',
+    coupon:
+      overrides && overrides.hasOwnProperty('coupon')
+        ? overrides.coupon!
+        : 'aliquid',
     createdAt:
       overrides && overrides.hasOwnProperty('createdAt')
         ? overrides.createdAt!
@@ -6146,6 +8776,10 @@ export const anOrderCreateInput = (
       overrides && overrides.hasOwnProperty('charge')
         ? overrides.charge!
         : 'earum',
+    coupon:
+      overrides && overrides.hasOwnProperty('coupon')
+        ? overrides.coupon!
+        : 'in',
     createdAt:
       overrides && overrides.hasOwnProperty('createdAt')
         ? overrides.createdAt!
@@ -6536,6 +9170,10 @@ export const anOrderOrderByInput = (
       overrides && overrides.hasOwnProperty('charge')
         ? overrides.charge!
         : OrderDirection.Asc,
+    coupon:
+      overrides && overrides.hasOwnProperty('coupon')
+        ? overrides.coupon!
+        : OrderDirection.Asc,
     createdAt:
       overrides && overrides.hasOwnProperty('createdAt')
         ? overrides.createdAt!
@@ -6700,6 +9338,10 @@ export const anOrderUpdateInput = (
       overrides && overrides.hasOwnProperty('charge')
         ? overrides.charge!
         : 'iusto',
+    coupon:
+      overrides && overrides.hasOwnProperty('coupon')
+        ? overrides.coupon!
+        : 'nisi',
     createdAt:
       overrides && overrides.hasOwnProperty('createdAt')
         ? overrides.createdAt!
@@ -6755,6 +9397,12 @@ export const anOrderWhereInput = (
     charge:
       overrides && overrides.hasOwnProperty('charge')
         ? overrides.charge!
+        : relationshipsToOmit.has('StringFilter')
+          ? ({} as StringFilter)
+          : aStringFilter({}, relationshipsToOmit),
+    coupon:
+      overrides && overrides.hasOwnProperty('coupon')
+        ? overrides.coupon!
         : relationshipsToOmit.has('StringFilter')
           ? ({} as StringFilter)
           : aStringFilter({}, relationshipsToOmit),
@@ -8356,6 +11004,24 @@ export const aQuery = (
         : relationshipsToOmit.has('Category')
           ? ({} as Category)
           : aCategory({}, relationshipsToOmit),
+    coupon:
+      overrides && overrides.hasOwnProperty('coupon')
+        ? overrides.coupon!
+        : relationshipsToOmit.has('Coupon')
+          ? ({} as Coupon)
+          : aCoupon({}, relationshipsToOmit),
+    coupons:
+      overrides && overrides.hasOwnProperty('coupons')
+        ? overrides.coupons!
+        : [
+            relationshipsToOmit.has('Coupon')
+              ? ({} as Coupon)
+              : aCoupon({}, relationshipsToOmit),
+          ],
+    couponsCount:
+      overrides && overrides.hasOwnProperty('couponsCount')
+        ? overrides.couponsCount!
+        : 9904,
     getAllProductDescriptors:
       overrides && overrides.hasOwnProperty('getAllProductDescriptors')
         ? overrides.getAllProductDescriptors!
@@ -9004,6 +11670,28 @@ export const aUserWhereUniqueInput = (
       overrides && overrides.hasOwnProperty('id')
         ? overrides.id!
         : 'f29341a0-1f1a-4713-a463-49cb3eab5601',
+  };
+};
+
+export const aValidateCouponResult = (
+  overrides?: Partial<ValidateCouponResult>,
+  _relationshipsToOmit: Set<string> = new Set(),
+): ValidateCouponResult => {
+  const relationshipsToOmit: Set<string> = new Set(_relationshipsToOmit);
+  relationshipsToOmit.add('ValidateCouponResult');
+  return {
+    amount:
+      overrides && overrides.hasOwnProperty('amount')
+        ? overrides.amount!
+        : 8.81,
+    discountedAmount:
+      overrides && overrides.hasOwnProperty('discountedAmount')
+        ? overrides.discountedAmount!
+        : 6.15,
+    isValid:
+      overrides && overrides.hasOwnProperty('isValid')
+        ? overrides.isValid!
+        : false,
   };
 };
 

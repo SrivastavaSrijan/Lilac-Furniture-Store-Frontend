@@ -145,6 +145,9 @@ export const MessagesMap = {
   invalid: 'This field is invalid',
   error: 'Something went wrong!',
   success: 'Success!',
+  coupon: {
+    invalid: 'Invalid coupon',
+  },
   user: {
     notFound: `Couldn't find a user with that email/password entered is incorrect`,
     reset: {

@@ -168,7 +168,7 @@ export const OrderSummary = ({
             <Stack justifyContent="space-between" width="100%" direction="row">
               <Typography variant="subtitle2">Paid</Typography>
               <Typography variant="subtitle2">
-                {formatMoney(totalPrice)}
+                {formatMoney(Math.round((totalPrice ?? 0) / 100))}
               </Typography>
             </Stack>
             <Typography variant="body1">Payment ID: {charge}</Typography>

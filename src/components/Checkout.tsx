@@ -37,9 +37,10 @@ import { Countdown } from './Countdown';
 
 interface ICheckoutProps {
   amount: number;
+  couponCode: string | null;
 }
 
-const InnerCheckout = ({ amount }: ICheckoutProps) => {
+const InnerCheckout = ({ amount, couponCode }: ICheckoutProps) => {
   const [errorMessage, setErrorMessage] = useState<unknown | null>(null);
   const [globalLoading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -72,7 +73,7 @@ const InnerCheckout = ({ amount }: ICheckoutProps) => {
       const { error: submitError } = await elements.submit();
       if (submitError)
         throw new Error(submitError?.message ?? MessagesMap.error);
-      const { data } = await createPaymentIntent();
+      const { data } = await createPaymentIntent({ variables: { couponCode } });
       if (!data || !data?.createPaymentIntent)
         throw new Error(MessagesMap.error);
       setSubmitting(true);
@@ -96,10 +97,13 @@ const InnerCheckout = ({ amount }: ICheckoutProps) => {
       const { id: paymentIntentId, status: intentStatus } = paymentIntent;
       if (intentStatus === 'succeeded' && paymentIntent) {
         setLoading(false);
-        setDirection(1);
-        confirmPaymentAndCreateOrder({
-          variables: { paymentIntentId },
+        const { data: orderDataResponse } = await confirmPaymentAndCreateOrder({
+          variables: { paymentIntentId, couponCode },
         });
+        const hasOrderCreated =
+          orderDataResponse?.confirmPaymentAndCreateOrder?.client_secret;
+        if (!hasOrderCreated) throw new Error(MessagesMap?.error);
+        setDirection(1);
         const time = new Date();
         time.setSeconds(time.getSeconds() + 10);
         setTimerTimestamp(time); // 10 sec timer

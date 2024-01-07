@@ -1,19 +1,27 @@
 
-mutation CreatePaymentIntent {
-  createPaymentIntent {
+mutation CreatePaymentIntent($couponCode: String) {
+  createPaymentIntent(couponCode: $couponCode) {
       id
       status
       client_secret
   }
 }
 
-mutation ConfirmPaymentAndCreateOrder($paymentIntentId: String!) {
-  confirmPaymentAndCreateOrder(paymentIntentId: $paymentIntentId) {
+mutation ConfirmPaymentAndCreateOrder($paymentIntentId: String!, $couponCode: String) {
+  confirmPaymentAndCreateOrder(paymentIntentId: $paymentIntentId, couponCode: $couponCode) {
     client_secret
     id
     order {
       id
     }
     status
+  }
+}
+
+mutation ValidateCoupon($couponCode: String!) {
+  validateCoupon(couponCode: $couponCode) {
+    amount
+    isValid
+    discountedAmount
   }
 }

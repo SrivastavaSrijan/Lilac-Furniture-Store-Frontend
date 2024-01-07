@@ -47,12 +47,11 @@ const SignUpSchema = Yup.object({
       : stringRequired()
           .min(
             8,
-            'Password must contain 8 or more characters with at least one of each: uppercase, lowercase, number and a special character',
+            'Password must contain 8 or more characters with at least one of each: uppercase, lowercase, and a number',
           )
           .minLowercase(1, 'Password must contain at least 1 lower case letter')
           .minUppercase(1, 'Password must contain at least 1 upper case letter')
-          .minNumbers(1, 'Password must contain at least 1 number')
-          .minSymbols(1, 'Password must contain at least 1 special character'),
+          .minNumbers(1, 'Password must contain at least 1 number'),
   ),
   confirmPassword: stringRequired().oneOf(
     [Yup.ref('password')],

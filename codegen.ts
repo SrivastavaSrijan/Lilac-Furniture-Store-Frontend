@@ -1,14 +1,18 @@
 import { CodegenConfig } from "@graphql-codegen/cli";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: "https://cms.lilac.srijansrivastava.com/api/graphql",
+  schema: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
   documents: "src/lib/graphql/**/*.graphql",
   generates: {
     "src/lib/graphql/helpers/index.ts": {
       plugins: [
         "typescript",
         "typescript-operations",
+        "typescript-resolvers",
         "typescript-react-apollo",
         "typescript-mock-data",
       ],

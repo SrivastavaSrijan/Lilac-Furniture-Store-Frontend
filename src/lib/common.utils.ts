@@ -13,10 +13,13 @@ export function createEmotionCache() {
   return createCache({ key: 'css' });
 }
 
-export const formatMoney = (str: string | number | undefined | null) =>
+export const formatMoney = (
+  str: string | number | undefined | null,
+  maximumSignificantDigits = 3,
+) =>
   str
     ? `₹${new Intl.NumberFormat('en-IN', {
-        maximumSignificantDigits: 3,
+        maximumSignificantDigits,
       }).format(Number.parseInt(str?.toString(), 10))}`
     : null;
 

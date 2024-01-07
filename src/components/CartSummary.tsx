@@ -1,19 +1,25 @@
+import { Clear, DiscountOutlined } from '@mui/icons-material';
 import {
   Button,
+  CircularProgress,
   Container,
   Grid,
+  IconButton,
   Stack,
   SwipeableDrawer,
+  TextField,
   Typography,
 } from '@mui/material';
-import { useContext, useState } from 'react';
+import { ChangeEvent, MouseEvent, useContext, useState } from 'react';
 
 import {
   calculateCartPrice,
   formatMoney,
   generateMockArray,
+  MessagesMap,
   useInMobile,
 } from '@/lib';
+import { useValidateCouponMutation } from '@/lib/graphql';
 import { CommonContext } from '@/lib/providers';
 
 import { Puller } from '.';
@@ -23,16 +29,67 @@ import { Checkout } from './Checkout';
 interface ICartSummaryProps {}
 export const CartSummary = (_props: ICartSummaryProps) => {
   const [open, setOpen] = useState(false);
+  const [couponValue, setCouponValue] = useState<string | null>(null);
+  const [couponApplied, setCouponApplied] = useState<string | null>(null);
+  const [couponError, setCouponError] = useState<string | null>(null);
+
   const { state } = useContext(CommonContext);
   const { items: cartItems, updating } = state.cart;
   const inMobile = useInMobile();
+  const totalAmount = calculateCartPrice(cartItems);
+
+  const [
+    handleValidateCoupon,
+    {
+      data: couponValidateData,
+      loading: couponValidateLoading,
+      error: couponValidateError,
+    },
+  ] = useValidateCouponMutation();
+  const discountedAmount =
+    couponValidateData?.validateCoupon?.discountedAmount ?? totalAmount;
+
+  const finalAmount = couponApplied
+    ? Math.round(discountedAmount / 100)
+    : totalAmount;
+
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
-  const handleCheckout = () => {
-    toggleDrawer(true)();
+
+  const handleCouponApply =
+    (clear = false, toggle = false) =>
+    async (ev: MouseEvent) => {
+      ev.preventDefault();
+      if (!couponValue) return;
+      if (clear) {
+        setCouponApplied(null);
+        return;
+      }
+      const { data } = await handleValidateCoupon({
+        variables: { couponCode: couponValue },
+      });
+      const { isValid = false } = data?.validateCoupon ?? {};
+
+      if (isValid) {
+        setCouponApplied(couponValue);
+        setCouponError(null);
+        if (toggle) toggleDrawer(true)();
+      }
+      setCouponError(
+        couponValidateError?.message ?? MessagesMap.coupon.invalid,
+      );
+    };
+
+  const handleCouponChange = (ev: ChangeEvent<HTMLInputElement>) => {
+    setCouponValue(ev.target.value);
   };
-  const totalAmount = calculateCartPrice(cartItems);
+
+  const handleCheckout = async (ev: MouseEvent) => {
+    if (couponApplied !== couponValue) {
+      await handleCouponApply(false, true)(ev);
+    } else toggleDrawer(true)();
+  };
 
   return (
     <>
@@ -57,7 +114,9 @@ export const CartSummary = (_props: ICartSummaryProps) => {
       >
         <Stack gap={{ xs: 3, md: 5 }} flex={1}>
           <Puller />
-          {totalAmount && <Checkout amount={totalAmount} />}
+          {finalAmount && (
+            <Checkout amount={finalAmount} couponCode={couponApplied} />
+          )}
         </Stack>
       </SwipeableDrawer>
       <Container maxWidth="lg" disableGutters={inMobile}>
@@ -101,15 +160,118 @@ export const CartSummary = (_props: ICartSummaryProps) => {
               alignItems="center"
             >
               <Typography variant="h5">Summary</Typography>
-              <Grid container justifyContent="center">
-                <Grid item xs={6} md={6}>
-                  <Typography>Total</Typography>
+              <Stack gap={1} width="100%">
+                <Grid container justifyContent="center">
+                  <Grid item xs={6} md={6}>
+                    <Typography fontWeight={couponApplied ? 400 : 500}>
+                      {couponApplied ? 'Sub Total' : 'Total'}
+                    </Typography>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={6}
+                    md={6}
+                    textAlign="right"
+                    fontWeight={couponApplied ? 400 : 500}
+                  >
+                    {formatMoney(totalAmount) ?? formatMoney('0')}
+                  </Grid>
                 </Grid>
-                <Grid item xs={6} md={6} textAlign="right">
-                  {formatMoney(calculateCartPrice(cartItems)) ??
-                    formatMoney('0')}
-                </Grid>
-              </Grid>
+                {couponApplied && (
+                  <>
+                    <Grid container justifyContent="center">
+                      <Grid item xs={6} md={6}>
+                        <Typography variant="body2" color="success.main">
+                          Coupon Applied
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={6} md={6} textAlign="right">
+                        <Typography variant="body2" color="success.main">
+                          {couponApplied}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                    <Grid container justifyContent="center">
+                      <Grid item xs={6} md={6}>
+                        <Typography variant="body2" color="success.main">
+                          Discount
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={6} md={6} textAlign="right">
+                        <Typography variant="body2" color="success.main">
+                          {formatMoney(finalAmount - totalAmount, 10) ??
+                            formatMoney('0')}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                    <Grid container justifyContent="center">
+                      <Grid item xs={6} md={6}>
+                        <Typography fontWeight={500}>Total</Typography>
+                      </Grid>
+                      <Grid
+                        item
+                        xs={6}
+                        md={6}
+                        textAlign="right"
+                        fontWeight={500}
+                      >
+                        {formatMoney(finalAmount) ?? formatMoney('0')}
+                      </Grid>
+                    </Grid>
+                  </>
+                )}
+              </Stack>
+              <TextField
+                helperText={
+                  <Typography
+                    variant="caption"
+                    color={
+                      // eslint-disable-next-line no-nested-ternary
+                      couponApplied
+                        ? 'success.main'
+                        : couponError
+                          ? 'error.main'
+                          : 'secondary.contrastText'
+                    }
+                  >
+                    {couponApplied
+                      ? "Yay, you're getting a discount!"
+                      : couponError ??
+                        'Psst! - Use code "FREE" to test payments'}
+                  </Typography>
+                }
+                onChange={handleCouponChange}
+                size="small"
+                label="Have a coupon?"
+                placeholder="Enter coupon code..."
+                variant="filled"
+                error={!!couponError}
+                fullWidth
+                disabled={!!couponApplied}
+                InputProps={{
+                  endAdornment: couponApplied ? (
+                    <IconButton onClick={handleCouponApply(true)}>
+                      <Clear />
+                    </IconButton>
+                  ) : (
+                    <Button
+                      onClick={handleCouponApply()}
+                      size="small"
+                      color="inherit"
+                      endIcon={
+                        couponValidateLoading ? (
+                          <CircularProgress size={12} />
+                        ) : (
+                          <DiscountOutlined color="inherit" fontSize="small" />
+                        )
+                      }
+                      variant="text"
+                    >
+                      Apply
+                    </Button>
+                  ),
+                }}
+              />
               <Stack direction="row" width="100%">
                 <Button
                   variant="contained"
