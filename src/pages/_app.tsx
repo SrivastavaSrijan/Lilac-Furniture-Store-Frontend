@@ -56,6 +56,7 @@ export default function MyApp(props: IMyAppProps) {
               <CssBaseline />
               <SnackbarProvider
                 maxSnack={2}
+                autoHideDuration={4000}
                 action={(snackbarId) => (
                   <Button
                     variant="text"

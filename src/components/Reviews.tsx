@@ -1,3 +1,4 @@
+import { NetworkStatus } from '@apollo/client';
 import { RateReviewOutlined } from '@mui/icons-material';
 import {
   Button,
@@ -8,8 +9,14 @@ import {
   Typography,
 } from '@mui/material';
 import { chunk } from 'lodash';
+import { useModal } from 'mui-modal-provider';
 
-import { generateMockArray, useApolloErrorHandler, useInMobile } from '@/lib';
+import {
+  asModal,
+  generateMockArray,
+  useApolloErrorHandler,
+  useInMobile,
+} from '@/lib';
 import {
   IReview,
   OrderDirection,
@@ -17,6 +24,7 @@ import {
 } from '@/lib/graphql';
 
 import { Carousel } from '.';
+import { AddReview } from './AddReview';
 
 interface IReviewsProps {
   title: string;
@@ -24,10 +32,23 @@ interface IReviewsProps {
   slug: string;
 }
 export const Reviews = ({ title, subtitle, slug }: IReviewsProps) => {
-  const { data, loading, error } = useProductReviewsBySlugQuery({
-    variables: { where: { slug }, orderBy: { createdAt: OrderDirection.Desc } },
+  const variables = {
+    where: { slug },
+    orderBy: { createdAt: OrderDirection.Desc },
+  };
+  const {
+    data,
+    loading: initialLoading,
+    error,
+    networkStatus,
+    refetch,
+  } = useProductReviewsBySlugQuery({
+    variables,
+    notifyOnNetworkStatusChange: true,
   });
+  const loading = networkStatus === NetworkStatus.refetch || initialLoading;
   useApolloErrorHandler(error);
+  const { showModal } = useModal();
   const inMobile = useInMobile();
   const reviews = data?.product?.reviews ?? [];
   const pages = chunk(
@@ -38,6 +59,19 @@ export const Reviews = ({ title, subtitle, slug }: IReviewsProps) => {
     ? (reviews?.reduce((p, review) => p + (review?.rating ?? 0), 0) ?? 5) /
       reviews.length
     : null;
+
+  const handleAddReview = () => {
+    showModal(
+      asModal(
+        <AddReview slug={slug} refetch={() => refetch(variables)} />,
+        'primary.main',
+      ),
+      {
+        maxWidth: 'sm',
+      },
+      { rootId: 'AddReview' },
+    );
+  };
   return (
     <Stack gap={{ xs: 3, md: 5 }}>
       {title && subtitle && (
@@ -60,21 +94,24 @@ export const Reviews = ({ title, subtitle, slug }: IReviewsProps) => {
         color="secondary.contrastText"
         direction="row"
       >
-        <Stack direction="row" alignItems="center" gap={2}>
-          {averageRating ? (
-            <Stack direction="row" gap={1} alignItems="flex-end">
-              <Rating value={averageRating} readOnly size="large" />
-              <Typography variant="caption">
-                (based on {reviews.length} reviews)
-              </Typography>
-            </Stack>
-          ) : (
-            <Skeleton width="5ch" />
-          )}
-        </Stack>
+        {averageRating ? (
+          <Stack
+            direction={{ xs: 'column', md: 'row' }}
+            gap={{ xs: 0.5, md: 1 }}
+            alignItems="flex-end"
+          >
+            <Rating value={averageRating} readOnly size="large" />
+            <Typography variant="caption">
+              (based on {reviews.length} reviews)
+            </Typography>
+          </Stack>
+        ) : (
+          <Skeleton width="5ch" />
+        )}
         <Stack>
           <Button
             disabled={loading}
+            onClick={handleAddReview}
             startIcon={<RateReviewOutlined />}
             color="primary"
             size="large"

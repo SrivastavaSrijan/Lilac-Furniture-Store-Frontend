@@ -1,5 +1,5 @@
 import { NetworkStatus } from '@apollo/client';
-import { Cancel } from '@mui/icons-material';
+import { Close } from '@mui/icons-material';
 import {
   Box,
   Dialog,
@@ -58,16 +58,16 @@ export const useApolloErrorHandler = (error: unknown) => {
   }, [enqueueSnackbar, error]);
 };
 interface IGenericDialogProps extends DialogProps {}
-export const asModal = (children: JSX.Element) => {
+export const asModal = (children: JSX.Element, color = 'white') => {
   const OuterDialog = ({ onClose, ...props }: IGenericDialogProps) => {
     return (
       <Dialog {...props} fullScreen={useInMobile()}>
-        <Box position="absolute" right={0}>
+        <Box position="absolute" right={24} top={16}>
           <IconButton
             onClick={() => onClose && onClose({}, 'escapeKeyDown')}
-            sx={{ color: 'white' }}
+            sx={{ color, p: 0 }}
           >
-            <Cancel color="inherit" />
+            <Close color="inherit" />
           </IconButton>
         </Box>
         {children}

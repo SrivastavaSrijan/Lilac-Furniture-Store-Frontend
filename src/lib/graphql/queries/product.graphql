@@ -64,6 +64,12 @@ query ProductReviewsBySlug($where: ProductWhereUniqueInput!, $orderBy: [ReviewOr
   }
 }
 
+mutation CreateReview($data: ReviewCreateInput!) {
+  createReview(data: $data) {
+    id
+  }
+}
+
 query GetPriceRange {
    getPriceRange {
     max

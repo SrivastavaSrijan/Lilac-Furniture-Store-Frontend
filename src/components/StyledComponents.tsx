@@ -11,7 +11,7 @@ import { MaterialDesignContent } from 'notistack';
 export const StyledMaterialDesignContent = styled(MaterialDesignContent)(
   () => ({
     '&.notistack-MuiContent': {
-      width: '50vw',
+      width: '25vw',
       '@media only screen and (max-width: 600px)': {
         width: 'initial',
       },

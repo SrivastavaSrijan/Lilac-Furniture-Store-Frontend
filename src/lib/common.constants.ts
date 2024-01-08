@@ -145,6 +145,10 @@ export const MessagesMap = {
   invalid: 'This field is invalid',
   error: 'Something went wrong!',
   success: 'Success!',
+  review: {
+    success: 'Thank you for reviewing this product!',
+    failure: "Couldn't add your review, please try again",
+  },
   coupon: {
     invalid: 'Invalid coupon',
   },

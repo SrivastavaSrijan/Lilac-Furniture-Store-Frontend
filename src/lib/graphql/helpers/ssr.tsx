@@ -515,6 +515,7 @@ export const ssrProductReviewsBySlug = {
   withPage: withPageProductReviewsBySlug,
   usePage: useProductReviewsBySlug,
 };
+
 export async function getServerPageGetPriceRange(
   options: Omit<
     Apollo.QueryOptions<Types.GetPriceRangeQueryVariables>,
